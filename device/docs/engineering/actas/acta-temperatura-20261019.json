@@ -1,0 +1,73 @@
+{
+ "acta": "acta-temperatura-20261019",
+ "version": 7,
+ "loop": "temperature",
+ "date": "2026-10-19",
+ "operator": "José Alejandro Ortega Benavides",
+ "signed_by": "José Alejandro Ortega Benavides",
+ "calibration_id": "ntc-2026-10-09",
+ "plant": {
+  "gain": 32.58,
+  "time_constant_s": 2076.0,
+  "dead_time_s": 44.0,
+  "method": "Primer orden con retardo ajustado al escalón heater-step-2pct-v2 (2 % durante 3 h desde caldera fría, 5.1) con software/commissioning/identify.py step: K por mínimos cuadrados para cada (θ, τ), θ y τ por rejilla con afinado, demanda de la columna u; 5,2 constantes de tiempo cubiertas, RMSE 0,57 °C. Sin cambios desde la v2 (acta-temperatura-20261010b). Evidencia: docs/engineering/evidencias/identificacion-termica-2026-10-10.md"
+ },
+ "tuning": {
+  "lambda_s": 45.0,
+  "filter_time_constant_s": 0.5,
+  "setpoint_rate": 0.5,
+  "output_maximum": 10.0
+ },
+ "fast_start": {
+  "margin_c": 20.0,
+  "activation_band_c": 42.0,
+  "max_boost_s": 70.0,
+  "max_setpoint_c": 93.0,
+  "release_drop_c": 0.2
+ },
+ "feedforward": {
+  "gain": 0.75
+ },
+ "water_reference": {
+  "gain": 0.8063,
+  "offset_c": 9.84,
+  "boiler_minimum_c": 88.6,
+  "boiler_maximum_c": 102.49,
+  "method": "Recta por mínimos cuadrados de la media del chorro entre 5 y 19 s frente al metal filtrado al pulsar, uso a uso, en los 12 usos de la curva del 2026-10-18 (14:16–15:15): NTC-3 fijo en la cavidad del portafiltro sin canastilla, portafiltro montado, agua sola, usos de 20 s cada uno 2 min tras volver a «lista», referencias 88, 92, 96 y 100 °C. agua = 0,8063 · metal + 9,84 °C, rms 0,55 °C, residuo máximo 0,91 °C; metal al pulsar entre 88,60 y 102,49 °C. El firmware la aplica a la referencia de caldera, suponiendo el metal en la referencia al pulsar. Evidencia: docs/engineering/evidencias/temperatura-cierre-2026-10-17.md, «Curva caldera → agua sobre el café» y «Comprobación con la caldera a 99,7 °C»"
+ },
+ "first_use_offset": {
+  "max_offset_c": 4.0,
+  "method": "Subida de la referencia de caldera para la preparación siguiente, pedida por perfil (boilerOffsetC) y retirada por la placa al terminarla; binario de identificación ensayo-primer-uso (8f9aa9e, máximo provisional 4,0 °C). Medido el 2026-10-19 con agua sola, NTC-3 en la cavidad del portafiltro, perfil v15 (agua 92 °C): tras 20 min desde «lista», +3,0 °C deja el primer uso 0,4 °C bajo los usos 2–5 (sim-00000320–324); tras 30 min de reposo, +2,4 / +2,9 / +4,0 °C lo dejan −0,80 / −0,70 / +0,20 °C respecto a la media de los usos 2–5 (sim-00000325–339), con el criterio de 0,5 °C cumplido solo con +4,0. Ganancia del primer uso ~0,66 °C de agua por °C de caldera. La placa aceptó y retiró las cinco subidas; referencia máxima alcanzada 105,90 °C. Evidencia: docs/engineering/evidencias/temperatura-cierre-2026-10-17.md, «Compensación del primer uso»"
+ },
+ "hard_limit": 120.0,
+ "conditions": {
+  "ambient_c": 23.7,
+  "sensor_body_c": 22.97,
+  "mains_v": 123.3,
+  "fill_state": "caldera llena. Condiciones de la identificación de la planta (5.1, 2026-10-10), que no cambia desde la v2. Las corridas del arranque rápido (2026-10-12 y 2026-10-13) se hicieron con la caldera llena, el orificio de vapor abierto con un NTC dentro del agua y sin bomba; ambiente 22,0–24,0 °C; la tensión de red no se midió en ellas",
+  "feedforward_runs": "Prealimentación medida el 2026-10-15 con café (13 g a 38 clics, canastilla presurizada de dos tazas, perfil profile-placa-01 v1, 92 °C, presión por acta-presion-20261012-v1), binario de ensayo ff-075 con 0,75 %/%; depósito 24,8–24,9 °C; ambiente no medido",
+  "water_reference_runs": "Curva medida el 2026-10-18 con perfiles v11–v14 (copias del vigente con solo la temperatura cambiada) y esta misma sintonía (acta v4); NTC-3 con A1 del día +0,80 °C frente a la sonda (ntc-aux-20261014/a1-ntc3-20261018.txt); ambiente y red no medidos; comprobación del 2026-10-18 16:02–16:12 con la v5 cargada (referencia 99,67 °C)"
+ },
+ "acceptance": [
+  {
+   "criterion": "La planta, la sintonía, el filtro, el limitador, el techo del PI, el límite duro, el arranque rápido y la prealimentación son los de la v4, con sus criterios cumplidos",
+   "result": "Sin cambios. Los resultados de cada criterio están en acta-temperatura-20261015.json. La v6 (acta-temperatura-20261018b) cambió water_reference; esta versión la sustituye y solo añade first_use_offset"
+  },
+  {
+   "criterion": "La temperatura que pide el barista es la del agua sobre el café (decisión del operador, 2026-10-18; ADR-009, enmienda del 2026-10-18), y la relación con la caldera predice el agua en la máquina",
+   "result": "La recta de la v5, contra la referencia (agua ≈ 0,92 · referencia + 0,3), no cumplió la comprobación del 2026-10-18 (16:02–16:12, sim-00000260/261/262, referencia 99,67 °C): medias 90,3 / 90,7 / 90,9 °C frente a 92 ± 0,8, porque en la curva el metal quedó 1,7–2,5 °C sobre la referencia a 100 °C y en la comprobación 0,4–1,3. Contra el metal al pulsar, la recta de esta versión predice esos tres usos con residuos de −0,25, −0,28 y −0,33 °C. Con ella, 92 °C de agua piden 101,9 °C de referencia"
+  },
+  {
+   "criterion": "Lo no probado queda declarado",
+   "result": "Metal fuera de 88,60–102,49 °C: no se midió y el firmware rechaza el agua que lo pediría (fuera de 81,28–92,48 °C). Supuesto: el metal está en la referencia al pulsar; en la comprobación del 2026-10-18 quedó 0,4–1,3 °C por encima, lo que subiría el agua 0,3–1,0 °C. Con café la temperatura sobre la pastilla depende de la molienda (a 44 clics el NTC leyó hasta 9 °C menos) y no entra en la recta. Doce usos de un solo día; la comprobación con esta recta está pendiente"
+  },
+  {
+   "criterion": "La subida de caldera del primer uso, dentro del máximo, deja el primer uso tras un reposo a ≤ 0,5 °C de los usos siguientes (criterio fijado por el operador antes de medir, 2026-10-19 18:25)",
+   "result": "Cumple con +4,0 °C tras 30 min de reposo (sim-00000335–339): primer uso 91,97 °C frente a 91,78 °C de media de los usos 2–5, +0,20 °C. Con +2,4 y +2,9 °C tras 30 min no cumple (−0,80 y −0,70 °C). Tras 20 min desde «lista», +3,0 °C deja −0,4 °C (sim-00000320–324)"
+  },
+  {
+   "criterion": "Lo no probado de la compensación queda declarado",
+   "result": "Reposos de más de 30 min con subida: no se midieron con el NTC-3 válido (el uso del reposo de 1 h 25 min, sim-00000340, leyó 129–131 °C tras un salto de conexión del NTC-3 a las 20:41:40). Con la ganancia medida y los déficits sin compensar de 2,8–2,9 °C tras 40 min y 3 h 13 min, 4,0 °C se quedarían ~0,5 °C cortos (inferido). Subidas por encima de 4,0 °C: no se ensayaron y la placa las rechaza (boiler-offset-out-of-range). El valor de la subida lo decide el gemelo de la plataforma; esta acta solo autoriza su máximo"
+  }
+ ]
+}

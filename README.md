@@ -19,7 +19,8 @@ Universidad del Cauca.
 │   ├── tests/host/                     Pruebas de los módulos del firmware en el computador
 │   ├── hardware/easyeda/current/       Proyectos de las tres tarjetas en EasyEDA
 │   ├── hardware/fabrication/           Gerber, esquemáticos y plantillas de fabricación
-│   └── software/                       Contratos de mensajes y modelo de referencia
+│   ├── software/                       Contratos de mensajes y modelo de referencia
+│   └── docs/                           Requisitos, decisiones de diseño (ADR) y actas de puesta en servicio
 ├── apps/web/                           Servidor local: API, interfaz, trabajadores y almacén RDF
 ├── packages/                           Lógica de simulación, semántica, perfiles y estabilidad
 ├── knowledge/ontology/                 Ontología EKO (OWL 2), formas SHACL, consultas y razonador
@@ -110,3 +111,20 @@ declarada en `model-registry-v1.json`. Para regenerarla hace falta OpenModelica:
 ```sh
 cd models/modelica && ./exportar_fmu_adapter_v21.sh
 ```
+
+## Documentación
+
+El código cita el origen de cada decisión y de cada número. Esos documentos están en
+`device/docs/`:
+
+- `requisitos/requisitos_sistema.md`: los requisitos funcionales y no funcionales.
+- `arquitectura/decisiones/`: las decisiones de diseño (ADR) que citan los
+  comentarios del código.
+- `engineering/actas/`: las actas de puesta en servicio de las que salen las plantas
+  y las sintonías compiladas en el firmware; las pruebas comprueban que cada número
+  coincide con su acta.
+- `engineering/evidencias/` y `engineering/protocolo-catacion.md`: los ensayos y el
+  protocolo de catación que citan el modelo, el servidor y la interfaz.
+
+Algunos documentos mencionan informes internos del proyecto que no forman parte de
+este repositorio; esas menciones quedan como texto, sin enlace.

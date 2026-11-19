@@ -9,6 +9,8 @@ contra lo que cerrar el lazo.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import math
 import random
 from pathlib import Path
@@ -30,6 +32,7 @@ from espresso_simulation.board_controller import (
 )
 
 ROOT = Path(__file__).resolve().parents[3]
+ACTAS = ROOT / "device/docs/engineering/actas"
 STEP = 0.1
 THERMAL_PERIOD = PRESSURE_PERIOD_S * THERMAL_DECIMATION
 
@@ -42,6 +45,37 @@ def controller(temperature=101.9, pressure=0.0, setpoint=101.9, pressure_setpoin
     return BoardReplicaController.from_definition(
         setpoint, pressure_setpoint, STEP, temperature, pressure, definition(), **kw
     )
+
+
+@pytest.mark.parametrize(
+    ("loop", "file", "fields"),
+    [
+        ("temperature", "acta-temperatura-20261019.json",
+         ("plant", "tuning", "feedforward", "water_reference")),
+        ("pressure", "acta-presion-20261012.json", ("plant", "tuning", "preinfusion")),
+    ],
+)
+def test_every_number_comes_from_its_acta(loop, file, fields):
+    """Cada parámetro de la definición es el del acta que cita, con su huella."""
+    path = ACTAS / file
+    acta = json.loads(path.read_text(encoding="utf-8"))
+    declared = definition()["configuration"][loop]
+    assert declared["actaSha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
+    assert declared["identifier"] == f"{acta['acta']}-v{acta['version']}"
+    names = {
+        "gain": "gain", "time_constant_s": "timeConstantS", "dead_time_s": "deadTimeS",
+        "lambda_s": "lambdaS", "filter_time_constant_s": "filterTimeConstantS",
+        "setpoint_rate": "setpointRate", "output_maximum": "outputMaximum",
+        "margin_bar": "marginBar", "integral_start_percent": "integralStartPercent",
+        "offset_c": "offsetC", "boiler_minimum_c": "boilerMinimumC",
+        "boiler_maximum_c": "boilerMaximumC",
+    }
+    sections = {"plant": "plant", "tuning": "tuning", "feedforward": "feedforward",
+                "water_reference": "waterReference", "preinfusion": "preinfusion"}
+    for section in fields:
+        for key, value in acta[section].items():
+            if isinstance(value, int | float):
+                assert declared[sections[section]][names.get(key, key)] == value, (section, key)
 
 
 def test_water_reference_is_the_platform_v6_line():
@@ -264,6 +298,22 @@ def test_the_replica_converts_with_the_line_the_preparation_declares(tmp_path):
 def test_board_replica_refuses_a_model_without_the_boiler_channel(tmp_path):
     with pytest.raises(ValueError, match="caldera"):
         replica(tmp_path, quantity="water-temperature")
+
+
+def test_the_v2_definition_cites_the_acta_the_board_runs_since_28_oct():
+    """La 2.0.0 cita el acta de temperatura v12 con su huella; la de presión no cambia."""
+    v2 = load_registered_controller(ROOT, "board-replica", "2.0.0")
+    path = ACTAS / "acta-temperatura-20261028b.json"
+    acta = json.loads(path.read_text(encoding="utf-8"))
+    declared = v2["configuration"]["temperature"]
+    assert declared["actaSha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
+    assert declared["identifier"] == f"{acta['acta']}-v{acta['version']}"
+    assert declared["waterReference"]["gain"] == acta["water_reference"]["gain"]
+    assert declared["waterReference"]["offsetC"] == acta["water_reference"]["offset_c"]
+    for key, name in (("lambda_s", "lambdaS"), ("output_maximum", "outputMaximum")):
+        assert declared["tuning"][name] == acta["tuning"][key]
+    assert declared["feedforward"]["gain"] == acta["feedforward"]["gain"]
+    assert v2["configuration"]["pressure"] == definition()["configuration"]["pressure"]
 
 
 def test_the_replica_uses_the_feedforward_gain_the_preparation_declares(tmp_path):

@@ -1,0 +1,71 @@
+{
+  "acta": "acta-presion-20261012",
+  "version": 1,
+  "loop": "pressure",
+  "date": "2026-10-12",
+  "operator": "José Alejandro Ortega Benavides",
+  "signed_by": "José Alejandro Ortega Benavides",
+  "calibration_id": "presion-2026-10-08 v2",
+  "plant": {
+    "gain": 0.06,
+    "time_constant_s": 0.1,
+    "dead_time_s": 0.1,
+    "method": "Primer orden con retardo ajustado a la escalera de la bomba con café (6.5 y 6.6, 2026-10-11): retardo de 60–100 ms y constante rápida de 40–100 ms entre el 50 y el 75 %, sobre la columna filtrada a 50 ms; K entre las mesetas altas (cota superior). La subida lenta de la pastilla al mojarse no se modela: la corrige la integral y la preinfusión. Evidencia: docs/engineering/evidencias/escalera-con-cafe-2026-10-11.md y sintonia-presion-2026-10-12.md"
+  },
+  "tuning": {
+    "lambda_s": 1.0,
+    "filter_time_constant_s": 0.02,
+    "setpoint_rate": 3.0,
+    "output_maximum": 75.0
+  },
+  "preinfusion": {
+    "margin_bar": 0.5,
+    "filter_time_constant_s": 0.3,
+    "integral_start_percent": 15.0
+  },
+  "hard_limit": 12.0,
+  "conditions": {
+    "ambient_c": 22.3,
+    "sensor_body_c": 92.0,
+    "mains_v": 120.5,
+    "fill_state": "caldera llena, cerrada con el tornillo del orificio de vapor; canastilla presurizada de dos tazas, 14 g por pastilla; ambiente leído con el NTC auxiliar (±2 °C, fuera de su rango calibrado); cuerpo en «lista»"
+  },
+  "acceptance": [
+    {
+      "criterion": "Solo proporcional primero, sin oscilar (ADR-007 § 5, paso 6; 7.2)",
+      "result": "λ = 1 s sin integral, 38 clics: 4,5 bar de media con la bomba en 5–7 %, sin oscilación del lazo; el vaivén de 3,8–5,3 bar a 3,6 Hz es el de los golpes de la bomba"
+    },
+    {
+      "criterion": "Error en régimen ≤ 0,3 bar (7.5)",
+      "result": "media de 14 a 23 s: 8,4–8,5 bar con referencia 8,5 (cuatro extracciones) y 9,0 bar con referencia 9,0"
+    },
+    {
+      "criterion": "Sobrepaso ≤ 1 bar sobre la referencia, presión filtrada (7.5)",
+      "result": "con preinfusión: 8,9; 8,8; 9,0 bar (referencia 8,5) y 9,4 bar (referencia 9,0); máximo 0,4 bar"
+    },
+    {
+      "criterion": "Régimen alcanzado antes de 14 s desde el inicio de la extracción (7.5)",
+      "result": "10–12 s en las cuatro extracciones con preinfusión"
+    },
+    {
+      "criterion": "Validación con varias resistencias de la cama (7.3)",
+      "result": "32, 38 y 44 clics a 8,5 bar y 32 clics a 9,0 bar; bomba en régimen del 40 al 66 %, con el techo en 75 %. La resistencia varió mucho entre pastillas del mismo número (con 44 clics, del 10 al 50 %) y el control la absorbió"
+    },
+    {
+      "criterion": "Filtro de 6.4 (20 ms) confirmado con el lazo cerrado (7.8)",
+      "result": "las cuatro extracciones con preinfusión reguladas sin oscilación con 20 ms"
+    },
+    {
+      "criterion": "El límite duro corta y deja la causa en el registro (7.5)",
+      "result": "2026-10-12, 44 clics sin preinfusión y λ = 2 s: a 12,3 bar la máquina pasó de extraction a alarm por safety-trip, la secuencia quedó abortada y la bomba a 0 % en el mismo ciclo"
+    },
+    {
+      "criterion": "Plazos del control con sensores reales (7.10, parte de presión)",
+      "result": "0 ciclos fuera de plazo en 198 360 (sesión de las pruebas con preinfusión)"
+    },
+    {
+      "criterion": "Lo no probado queda declarado",
+      "result": "referencias por debajo de ~7 bar (la canastilla presurizada no deja pasar el agua bajo su meseta) y por encima de 9 bar (el techo del 75 % podría no alcanzar con camas de poca resistencia); dosis distintas de 14 g"
+    }
+  ]
+}

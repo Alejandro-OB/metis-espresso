@@ -1,0 +1,107 @@
+{
+  "acta": "acta-temperatura-20261028b",
+  "version": 12,
+  "loop": "temperature",
+  "date": "2026-10-28",
+  "operator": "José Alejandro Ortega Benavides",
+  "signed_by": "José Alejandro Ortega Benavides",
+  "calibration_id": "ntc-2026-10-09",
+  "plant": {
+    "gain": 32.58,
+    "time_constant_s": 2076.0,
+    "dead_time_s": 44.0,
+    "method": "Primer orden con retardo ajustado al escalón heater-step-2pct-v2 (2 % durante 3 h desde caldera fría, 5.1) con software/commissioning/identify.py step: K por mínimos cuadrados para cada (θ, τ), θ y τ por rejilla con afinado, demanda de la columna u; 5,2 constantes de tiempo cubiertas, RMSE 0,57 °C. Sin cambios desde la v2 (acta-temperatura-20261010b). Evidencia: docs/engineering/evidencias/identificacion-termica-2026-10-10.md"
+  },
+  "tuning": {
+    "lambda_s": 45.0,
+    "filter_time_constant_s": 0.5,
+    "setpoint_rate": 0.5,
+    "output_maximum": 10.0
+  },
+  "fast_start": {
+    "margin_c": 25.0,
+    "activation_band_c": 42.0,
+    "max_boost_s": 70.0,
+    "max_setpoint_c": 106.0,
+    "release_drop_c": 0.2
+  },
+  "feedforward": {
+    "gain": 0.75
+  },
+  "water_reference": {
+    "gain": 0.9093,
+    "offset_c": -2.39,
+    "boiler_minimum_c": 96.9,
+    "boiler_maximum_c": 104.88,
+    "method": "Recta por mínimos cuadrados de la media del chorro entre 5 y 19 s frente a la referencia de caldera que fijaba la placa, uso a uso, en los usos seguidos del 2026-10-28 pulsados 2 min tras volver a «lista»: los 9 de la curva (referencias 96,9, 101,9 y 103,9 °C; sim-00000446–448, 450–452 y 458–460, agua-portafiltro.md § 10.30) y los 8 de la v11 (referencia 104,88 °C; sim-00000463–466 y 468–471, § 10.31). NTC-3 fijo en la cavidad del portafiltro sin canastilla, portafiltro montado, agua sola, usos de 20 s. agua = 0,9093 · referencia − 2,39 °C, rms 0,51 °C, residuo máximo 1,01 °C. Se toma contra la referencia y no contra el metal porque el metal al pulsar no está en la referencia: tras cada café la caldera se recupera pasándose, y 2 min después de «lista» queda de −0,3 a +1,4 °C sobre ella (media +0,8; § 10.31). Contra el metal la recta acierta (acta v11), pero la placa solo fija la referencia. Quedan fuera los usos con la referencia en 105,9 °C (agua aplanada contra el hervor), los primeros de cada punto y los que llevaron subida (sim-00000462 y 467). Evidencia: models/modelica/Documentacion/agua-portafiltro.md § 10.30–10.32"
+  },
+  "first_use_offset": {
+    "max_offset_c": 4.0,
+    "method": "Subida de la referencia de caldera para la preparación siguiente, pedida por perfil (boilerOffsetC) y retirada por la placa al terminarla; binario de identificación ensayo-primer-uso (8f9aa9e, máximo provisional 4,0 °C). Medido el 2026-10-19 con agua sola, NTC-3 en la cavidad del portafiltro, perfil v15 (agua 92 °C): tras 20 min desde «lista», +3,0 °C deja el primer uso 0,4 °C bajo los usos 2–5 (sim-00000320–324); tras 30 min de reposo, +2,4 / +2,9 / +4,0 °C lo dejan −0,80 / −0,70 / +0,20 °C respecto a la media de los usos 2–5 (sim-00000325–339), con el criterio de 0,5 °C cumplido solo con +4,0. Ganancia del primer uso ~0,66 °C de agua por °C de caldera. La placa aceptó y retiró las cinco subidas; referencia máxima alcanzada 105,90 °C. Evidencia: docs/engineering/evidencias/temperatura-cierre-2026-10-17.md, «Compensación del primer uso» Refuerzo de la prealimentación (ADR-009, enmienda del 2026-10-27): ganancia pedida por perfil (firstUseFeedforwardGain) para la preparación siguiente y retirada por la placa al terminarla. Medido el 2026-10-27 con el binario de ensayo v9-ff1250 (prealimentación 1,25, calentador al 98–99 % durante el café contra el 61–64 % con 0,75), agua sola, NTC-3 en la cavidad del portafiltro, perfil «Default profile» v1, usos de 20 s cada 2 min tras «lista», sostenimiento suspendido. Evidencia: models/modelica/Documentacion/agua-portafiltro.md § 10.25–10.26 (commit 654eb8c)",
+    "max_feedforward_gain": 1.25
+  },
+  "hard_limit": 120.0,
+  "conditions": {
+    "ambient_c": 23.7,
+    "sensor_body_c": 22.97,
+    "mains_v": 123.3,
+    "fill_state": "caldera llena. Condiciones de la identificación de la planta (5.1, 2026-10-10), que no cambia desde la v2. Las corridas del arranque rápido (2026-10-12 y 2026-10-13) se hicieron con la caldera llena, el orificio de vapor abierto con un NTC dentro del agua y sin bomba; ambiente 22,0–24,0 °C; la tensión de red no se midió en ellas",
+    "feedforward_runs": "Prealimentación medida el 2026-10-15 con café (13 g a 38 clics, canastilla presurizada de dos tazas, perfil profile-placa-01 v1, 92 °C, presión por acta-presion-20261012-v1), binario de ensayo ff-075 con 0,75 %/%; depósito 24,8–24,9 °C; ambiente no medido",
+    "water_reference_runs": "Curva y usos seguidos del 2026-10-28 con los firmware v10-refuerzo (curva) y v11-recta-b (usos de la v11), esta misma sintonía (acta v10), sostenimiento suspendido en la curva y activo en la v11; NTC-3 comprobado ese día en agua hirviendo (94,53–94,73 °C, § 10.29); ambiente y red no medidos",
+    "first_use_feedforward_runs": "Bloques del 2026-10-27, 16:57–21:16 local, sim-00000389–418: cuatro de 25 min en orden sin, con, con, sin refuerzo, cada uno tras apagar la máquina 1–2 min; uno de 15 min y uno de 45 min con refuerzo sin apagar; sonda R al aire, cuarto 25–26 °C; ninguna tara"
+  },
+  "acceptance": [
+    {
+      "criterion": "La planta, la sintonía, el filtro, el limitador, el techo del PI, el límite duro, la prealimentación, first_use_offset y fast_start son los de la v11",
+      "result": "Sin cambios. Esta versión solo cambia water_reference: la recta se toma contra la referencia que fija la placa en vez de contra el metal"
+    },
+    {
+      "criterion": "Con la recta de la v11, los usos 3 a 5 seguidos dan 92 ± 0,5 °C de agua con 92 °C pedidos (fijado antes de medir, 2026-10-28 12:31; agua-portafiltro.md § 10.31)",
+      "result": "No cumple: 93,07 °C (sim-00000464–466) y 92,93 °C (sim-00000469–471). La recta contra el metal predice esos usos con residuos de −0,37 a +0,58 °C; lo que falla es el supuesto de que el metal está en la referencia al pulsar: queda de −0,3 a +1,4 °C por encima (media +0,8), por el repunte de la caldera tras cada café"
+    },
+    {
+      "criterion": "La recta del 2026-10-28 va a un acta nueva si cambia respecto de la v6 en más que su rms (fijado antes de medir, 2026-10-28 10:15; agua-portafiltro.md § 10.30)",
+      "result": "Cambia: la v6 queda entre 1,9 y 3,7 °C sobre lo medido, frente a un rms de 0,46 °C"
+    },
+    {
+      "criterion": "La planta, la sintonía, el filtro, el limitador, el techo del PI, el límite duro y la prealimentación son los de la v4; water_reference de la v6; first_use_offset de la v7; fast_start.margin_c de la v8",
+      "result": "Sin cambios. Esta versión solo sube fast_start.max_setpoint_c de 103 a 106 °C, para que el arranque rápido actúe con la subida del primer uso pedida desde el encendido (101,9 + hasta 4,0 °C)"
+    },
+    {
+      "criterion": "La temperatura que pide el barista es la del agua sobre el café (decisión del operador, 2026-10-18; ADR-009, enmienda del 2026-10-18), y la relación con la caldera predice el agua en la máquina",
+      "result": "La recta de la v6 (contra el metal) daba al agua entre 1,9 y 3,7 °C más de lo medido el 2026-10-28; la de la v11 (contra el metal, 0,8819 · metal − 0,49) acierta el agua desde el metal, pero con ella el uso seguido sale a 92,9–93,1 °C porque el metal llega sobre la referencia. Con la recta de esta versión, 92 °C de agua piden 103,81 °C de referencia"
+    },
+    {
+      "criterion": "Lo no probado queda declarado",
+      "result": "Referencias fuera de 96,9–104,88 °C: el firmware rechaza el agua que las pediría (fuera de 85,72–92,97 °C). La recta lleva dentro el repunte tras el café de un solo día, pulsando 2 min tras «lista»: el 2026-10-18 una recta contra la referencia (acta v5) falló al día siguiente porque el repunte cambió de un día a otro, y pulsar justo en «lista» o mucho después da el agua más fría. Diecisiete usos de un solo día; la comprobación de 92 °C con esta recta está pendiente. El modelo del primer uso de la plataforma no se ha recalibrado para ella"
+    },
+    {
+      "criterion": "La subida de caldera del primer uso, dentro del máximo, deja el primer uso tras un reposo a ≤ 0,5 °C de los usos siguientes (criterio fijado por el operador antes de medir, 2026-10-19 18:25)",
+      "result": "Cumple con +4,0 °C tras 30 min de reposo (sim-00000335–339): primer uso 91,97 °C frente a 91,78 °C de media de los usos 2–5, +0,20 °C. Con +2,4 y +2,9 °C tras 30 min no cumple (−0,80 y −0,70 °C). Tras 20 min desde «lista», +3,0 °C deja −0,4 °C (sim-00000320–324)"
+    },
+    {
+      "criterion": "Lo no probado de la compensación queda declarado",
+      "result": "Reposos de más de 30 min con subida: no se midieron con el NTC-3 válido (el uso del reposo de 1 h 25 min, sim-00000340, leyó 129–131 °C tras un salto de conexión del NTC-3 a las 20:41:40). Con la ganancia medida y los déficits sin compensar de 2,8–2,9 °C tras 40 min y 3 h 13 min, 4,0 °C se quedarían ~0,5 °C cortos (inferido). Subidas por encima de 4,0 °C: no se ensayaron y la placa las rechaza (boiler-offset-out-of-range). El valor de la subida lo decide el gemelo de la plataforma; esta acta solo autoriza su máximo"
+    },
+    {
+      "criterion": "Arranque rápido con la referencia de caldera de 101,9 °C, desde frío, fijado antes de medir: (1) tras la primera «lista» no se pierde en 10 min; (2) la caldera no pasa de 102,5 °C; (3) «lista» antes de 15 min 51 s (arranque en frío sin arranque rápido, 2026-10-19)",
+      "result": "Binario arranque-101-d25, 2026-10-21 23:07:58 local, metal a 24,3 °C. (1) Cumple: ninguna «lista» perdida. (2) No cumple tal como se escribió: máximo 102,95 °C, alcanzado en «lista» de 2 a 10 min después con el calentador en 3–4 %; el pico tras el corte del arranque rápido fue 97,91 °C (corte a 76,8 °C tras 53 s al 100 %), 4 °C bajo la referencia, sin «lista» falsa; la subida en «lista» es la oscilación de la espera de la banda de ±2,1 °C (inferido). (3) Cumple: 7 min 49 s. Con δ = 20 °C (2026-10-20) la «lista» llegó falsa a 1 min 15 s y la definitiva a 8 min 30 s. Evidencia: docs/engineering/evidencias/temperatura-cierre-2026-10-17.md, «Arranque rápido con δ = 25 °C desde frío»"
+    },
+    {
+      "criterion": "Arranque rápido con la subida del primer uso pedida desde el encendido (referencia 105,6 °C), desde frío, fijado antes de encender: (1) tras la primera «lista» no se pierde en 10 min; (2) el pico tras el corte queda bajo la referencia; (3) «lista» antes de 15 min 51 s (arranque en frío del 2026-10-19 sin arranque rápido). El umbral de (3) se escribió primero como 11 min 12 s y se corrigió antes de encender: era de la noche anterior, con la máquina no fría",
+      "result": "Binario arranque-106-d25, 2026-10-22 08:50:57 local, metal a 22,7 °C, perfil v20 (v15 con boilerOffsetC 3,7). (1) Cumple: ninguna «lista» perdida. (2) Cumple: pico 101,84 °C, 3,8 °C bajo la referencia, sin «lista» falsa. (3) Cumple: 8 min 5 s. En «lista» el metal llega a 106,80 °C, la oscilación de la espera (banda de ±2,1 °C). Evidencia: docs/engineering/evidencias/temperatura-cierre-2026-10-17.md, «Arranque rápido con la subida del primer uso desde el encendido»"
+    },
+    {
+      "criterion": "La referencia máxima del arranque rápido cubre la referencia de operación con la subida",
+      "result": "106 °C cubre 101,9 °C más la subida de la regla primer-uso-v1 (hasta 3,7 °C, 105,6 °C), probada. La subida máxima del acta, 4,0 °C (105,9 °C), también queda dentro y no se probó: se infiere del pico de 101,8 °C con 105,6 °C. Con la recta de esta versión la referencia de operación es 103,81 °C: con una subida de hasta 2,19 °C queda bajo 106 °C y el arranque rápido actúa; con más, el encendido calienta sin él (heater_fast_start.c:44; inferido del código, no medido)"
+    },
+    {
+      "criterion": "El refuerzo de la prealimentación a 1,25 deja el déficit del primer uso tras 25 min (media 5–19 s de los usos 3 a 5 menos la del uso 1) 2,0 °C o más por debajo del que deja la ganancia de 0,75 (criterio fijado antes de medir, 2026-10-27 16:55; agua-portafiltro.md § 10.26)",
+      "result": "Cumple: 0,02 y 0,09 °C con refuerzo (sim-00000394–403) frente a 3,35 y 3,14 °C sin él (sim-00000389–393 y 414–418), media 0,06 frente a 3,25 °C, 3,19 °C de diferencia, con la caldera a 101,8–102,0 °C al pulsar el uso 1 en los cuatro bloques"
+    },
+    {
+      "criterion": "Lo no probado del refuerzo queda declarado",
+      "result": "Con el mismo refuerzo, el primer uso queda −0,28 °C tras 15 min (sim-00000404–408) y 0,90 °C tras 45 min (sim-00000409–413); un bloque por reposo. No se probó tras menos de 15 min, tras más de 45 min, tras un arranque en frío ni combinado con la subida de caldera. Con el refuerzo en todos los usos, la caldera llega a 104,9–107,7 °C un minuto después de cada uno (bajo el límite duro de 120 °C) y los usos 3 a 5 salen unos 0,7–1,0 °C más fríos que sin él, porque la caldera llega más baja al pulsarlos; por eso la placa lo aplica a una sola preparación. Ganancias distintas de 1,25 no se ensayaron. El valor y el café en que se pide lo decide el gemelo de la plataforma; esta acta solo autoriza su máximo"
+    }
+  ]
+}
