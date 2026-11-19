@@ -72,6 +72,9 @@ class ProfileTrackingController:
 CONTROLLER_DEFINITIONS: dict[tuple[str, str], str] = {
     ("profile-tracking", "1.0.0"): "models/modelica/controllers/profile-tracking-v1.json",
     ("board-replica", "1.0.0"): "models/modelica/controllers/board-replica-v1.json",
+    # La 1.0.0 cita el acta v7; desde el 28-oct la placa corre la v12 (9-nov-2026).
+    # Se conserva para reproducir las comparaciones ya guardadas con ella.
+    ("board-replica", "2.0.0"): "models/modelica/controllers/board-replica-v2.json",
 }
 
 

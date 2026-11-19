@@ -81,3 +81,7 @@ docs/monografia/**/*-blx.bib
 
 # Salida de compilar.sh de la monografía
 docs/monografia/compilado/
+docs/articulo/compilado/
+
+# Salida de las pruebas de anfitrión
+device/tests/build/

@@ -102,6 +102,14 @@ def run_simulation(
                 key: conditions["waterReference"][key]
                 for key in ("gain", "offsetC", "boilerMinimumC", "boilerMaximumC")
             }
+        # La ganancia de la compensación durante la extracción también es la del
+        # café: la subida del primer uso la cambia para esa sola preparación
+        # (`note_first_use_offset`, extraction_runtime.c), y la de la definición
+        # es la de uso continuo. Sin declararla, vale la del acta.
+        gain = conditions.get("feedforwardGainApplied")
+        if isinstance(gain, int | float) and not isinstance(gain, bool) and gain > 0:
+            controller_definition = deepcopy(controller_definition)
+            controller_definition["configuration"]["temperature"]["feedforward"]["gain"] = float(gain)
         reference_c = boiler_setpoint_c(
             controller_definition,
             targets["temperatureC"],

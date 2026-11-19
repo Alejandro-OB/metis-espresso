@@ -41,6 +41,27 @@
  *   ruta propia. El techo que recibe es el que el guardián ya admitió.
  * - **No conoce el reloj, la bomba ni el PI.** Recibe la presión, la referencia
  *   y el techo, y devuelve qué hacer.
+ *
+ * ## Dos formas de arrancar el PI
+ *
+ * Con la integral fija del acta, el relevo es un salto: la bomba viene del
+ * techo y el PI empieza desde la integral de arranque, porque su referencia
+ * interna parte de la medida y el proporcional vale casi cero en el primer
+ * paso. Con el 15 % de la v12 el mando bajó de 75 a 40–49 % y la presión cayó a
+ * 6,59–6,72 bar durante unos 2 s en las nueve extracciones de banco del
+ * 2026-11-06, y a 6,1–6,7 bar en la catación del 2026-11-04. Subir la integral
+ * fija al 40 % solo movió el problema: el mínimo subió a 7,37–7,78 bar, pero con
+ * la molienda más fina la presión llegó a 10,09 bar. Ningún valor fijo sirve
+ * para las dos moliendas, porque el mando en régimen depende de la pastilla.
+ *
+ * Arrancar desde el techo es la transferencia sin salto: la integral toma el
+ * mando que la bomba ya traía, y el PI lo baja desde ahí hasta lo que pida la
+ * pastilla, que en régimen quedó en 62–70 % a 45 y a 50 clics. Lo elige el
+ * acta; el cero del enumerado es la integral fija, el comportamiento de las
+ * plantas ya firmadas, para que una planta que no lo declara no cambie.
+ *
+ * La protección de la presión atrapada vale en los dos modos: si al relevo la
+ * presión ya llegó a la referencia, la integral arranca en cero.
  */
 
 #include <stdbool.h>
@@ -52,9 +73,17 @@ typedef enum {
     PRESSURE_PREINFUSION_REGULATING,
 } pressure_preinfusion_phase_t;
 
+typedef enum {
+    /* El cero es el arranque de las plantas firmadas: la integral del acta. */
+    PRESSURE_PREINFUSION_START_FIXED = 0,
+    /* Desde el techo que traía la bomba: el relevo sin salto (2026-11-06). */
+    PRESSURE_PREINFUSION_START_CEILING,
+} pressure_preinfusion_start_t;
+
 typedef struct {
     float handover_margin_bar;      /* el PI entra en P ≥ referencia − margen */
     float integral_start_percent;   /* la integral con que arranca el PI */
+    pressure_preinfusion_start_t start;
 } pressure_preinfusion_parameters_t;
 
 typedef struct {
@@ -77,7 +106,8 @@ typedef struct {
 
 /*
  * Devuelve false, y deja el módulo sin configurar, si el margen no es positivo
- * y finito o la integral de arranque no está entre 0 y 100.
+ * y finito, la integral de arranque no está entre 0 y 100 o el modo de arranque
+ * no es uno de los declarados.
  */
 bool pressure_preinfusion_configure(pressure_preinfusion_t *preinfusion,
                                     const pressure_preinfusion_parameters_t *parameters);

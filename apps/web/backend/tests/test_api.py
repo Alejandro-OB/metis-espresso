@@ -2662,6 +2662,61 @@ def test_an_accepted_recommendation_becomes_the_configuration_that_governs(
     assert bajan[derived_id]["temperatureSetpointC"] == 92.0
 
 
+def test_a_derived_configuration_keeps_the_base_specifications(client, barista_headers):
+    """Un ajuste de tiempo deriva un perfil completo, no la vista del contrato.
+
+    El 2026-11-04 el perfil derivado de un ajuste de 25 a 20 s salió sin
+    especificaciones, porque se copiaba de la vista que lleva la preparación,
+    y la ontología rechazó la preparación siguiente (sim-00000578). El derivado
+    tiene que heredar las especificaciones de la base, con la del tiempo
+    movida al valor nuevo, y su familia y versión anterior.
+    """
+    assert client.post(
+        "/api/v1/recommendations/rec-demo-grind-001/decision",
+        json={"status": "accepted"},
+        headers=barista_headers,
+    ).status_code == 200
+    initial = client.get("/api/v1/extractions/ext-20260904-001", headers=barista_headers).json()
+    base = client.get(
+        f"/api/v1/profiles/{initial['profile']['id']}", headers=barista_headers
+    ).json()
+
+    registered = client.post(
+        "/api/v1/learning-episodes/adjustments",
+        json={
+            "initialExtractionId": "ext-20260904-001",
+            "adjustment": {
+                "property": "extraction-time",
+                "previousValue": 25.0,
+                "newValue": 20.0,
+                "unit": "s",
+                "occurredAt": "2026-09-05T14:00:00Z",
+                "rationale": "Acortar para reducir astringencia.",
+                "recommendationId": "rec-demo-grind-001",
+            },
+            "targetOutcome": {"kind": "sensory-defect", "code": "astringencia"},
+        },
+        headers=barista_headers,
+    )
+    assert registered.status_code == 201
+    derived = client.get(
+        f"/api/v1/profiles/{registered.json()['derivedProfileId']}", headers=barista_headers
+    ).json()
+
+    assert derived["maximumTimeMs"] == 20000
+    assert derived["familyId"] == (base.get("familyId") or base["id"])
+    assert derived["previousVersionId"] == base["id"]
+    base_specs = base.get("specifications") or []
+    assert base_specs, "la base de la prueba debe declarar especificaciones"
+    assert len(derived["specifications"]) == len(base_specs)
+    for before, after in zip(base_specs, derived["specifications"], strict=True):
+        assert after["property"] == before["property"]
+        if before["property"] in {"extraction-time", "time"}:
+            assert float(after["maximum"]) == 20.0
+        else:
+            assert after == before
+
+
 def test_a_manual_adjustment_does_not_reach_the_machine(client, barista_headers):
     """Sin recomendación detrás no se deriva nada: faltaría el eslabón que la justifica."""
     registered = client.post(
@@ -2724,6 +2779,12 @@ def test_a_real_coffee_is_linked_as_the_check_of_an_adjustment(client, barista_h
     assert linked.status_code == 200
     assert linked.json()["followUpExtractionId"] == "prep-comprobacion"
     assert linked.json()["status"] == "verification-closed"
+    # Sin series ni agua estimada no se puede saber si cambiaron las condiciones:
+    # queda indeterminado, nunca atribuible (8-nov-2026).
+    attribution = linked.json()["attribution"]
+    assert attribution["status"] == "undetermined"
+    assert attribution["followUpExtractionId"] == "prep-comprobacion"
+    assert {check["condition"] for check in attribution["checks"]} == {"water", "pressure"}
     assert link("prep-comprobacion").status_code == 409
 
 
@@ -3846,3 +3907,23 @@ def test_a_water_pass_is_archived_for_the_barista_but_kept_for_the_admin(client,
                                  json={"extractionId": pass_["id"]}, headers=barista_headers)
     assert recommendation.status_code == 201
     assert recommendation.json()["status"] == "abstained"
+
+
+def test_comparison_summarises_how_much_the_series_varies(client):
+    """La comparación resume la serie: masa, tiempo y agua, sin rellenar lo que falta."""
+    response = client.post(
+        "/api/v1/extractions/compare",
+        json={"ids": ["ext-20260904-001", "ext-20260904-002"], "dimensions": ["preparation"]},
+    )
+    assert response.status_code == 200
+    repeatability = response.json()["repeatability"]
+    metrics = {metric["key"]: metric for metric in repeatability["metrics"]}
+    assert set(metrics) == {"beverageMassG", "durationS", "estimatedWaterC"}
+    for metric in metrics.values():
+        assert metric["count"] + metric["missing"] == 2
+        if metric["count"] < 2:
+            assert metric["range"] is None
+    # Con dos preparaciones no hay desviación estándar: con tan pocas no dice nada.
+    assert all(metric["standardDeviation"] is None for metric in metrics.values())
+    assert metrics["estimatedWaterC"]["bandC"] == 1.0
+    assert isinstance(repeatability["sharedProfile"], bool)

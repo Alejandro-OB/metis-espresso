@@ -220,6 +220,10 @@ class SqlRepository(Repository):
                 condition = condition & (Document.payload["finishedAt"].as_string() < value)
             elif field == "finishedAtFrom":
                 condition = condition & (Document.payload["finishedAt"].as_string() >= value)
+            elif field == "startedAtBefore":
+                # La preparación anterior a otra se busca por su pulsado, no
+                # entre las 50 más recientes del almacén (8-nov-2026).
+                condition = condition & (Document.payload["startedAt"].as_string() < value)
             else:
                 condition = condition & (Document.payload[field].as_string() == value)
         with self.session_factory() as session:

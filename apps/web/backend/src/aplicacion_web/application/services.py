@@ -38,6 +38,7 @@ from espresso_simulation.water_after_rest import (
 )
 from espresso_simulation.water_after_rest import MODEL_VERSION as WATER_TWIN_VERSION
 from espresso_simulation.water_temperature import PAIRING_MARGIN_MS, pair_with_body_sample
+from espresso_stability.attribution import attribution, regime_pressure_bar
 from espresso_stability.conformity import (
     bounds,
     not_evaluable,
@@ -46,11 +47,13 @@ from espresso_stability.conformity import (
 )
 from espresso_stability.indicators import Requested, stability
 from espresso_stability.machine import (
+    WATER_BAND_C,
     body_at_press,
     estimated_water_c,
     machine_stability,
     water_between_preparations,
 )
+from espresso_stability.repeatability import spread
 from espresso_sustainment.first_use import FirstUseDecision
 from rdflib import Graph
 
@@ -135,7 +138,10 @@ SIMULATION_STEP_SECONDS = 0.1
 #: temperatura es la caldera (FMU v2): el de la placa, porque comparar la serie
 #: medida con una gobernada por otro control mezcla el error del modelo con el
 #: de un controlador que no existe (sim-00000342: 7,9 °C y 1,5 bar de RMSE).
-BOARD_REPLICA_CONTROLLER = {"id": "board-replica", "version": "1.0.0"}
+#: La 2.0.0 cita el acta de temperatura v12, la que corre la placa desde el
+#: 28-oct; la 1.0.0 citaba la v7 (9-nov-2026). La recta y la ganancia de la
+#: compensación salen además de cada preparación (`_replicated_extraction`).
+BOARD_REPLICA_CONTROLLER = {"id": "board-replica", "version": "2.0.0"}
 #: El de la planta virtual, para las simulaciones libres y los modelos que no
 #: exponen la caldera (v1).
 PROFILE_TRACKING_CONTROLLER = {"id": "profile-tracking", "version": "1.0.0"}
@@ -161,6 +167,43 @@ _GOVERNING_FIELDS = {
     "pressureSetpointBar": "la referencia de presión",
     "maximumTimeMs": "el tiempo máximo de extracción",
 }
+
+
+_ADJUSTED_SPECIFICATION_PROPERTIES = {
+    "temperatureSetpointC": {"temperature", "water-temperature"},
+    "pressureSetpointBar": {"pressure", "extraction-pressure"},
+    "maximumTimeMs": {"extraction-time", "time"},
+}
+
+
+def _specifications_with_adjustment(
+    specifications: list[dict[str, Any]], field: str, value: Any
+) -> list[dict[str, Any]]:
+    """Las especificaciones de la base con la magnitud ajustada al valor nuevo.
+
+    El campo plano que lee el dispositivo y la especificación que lee la
+    ontología describen la misma magnitud. Si solo cambiara el campo plano, el
+    perfil derivado le diría a la máquina 20 s y a la ontología 25 s. Una
+    especificación objetivo cambia su valor; un intervalo se desplaza con su
+    anchura, porque el ajuste mueve la referencia y no la tolerancia.
+    """
+    properties = _ADJUSTED_SPECIFICATION_PROPERTIES[field]
+    result = []
+    for specification in specifications:
+        updated = deepcopy(specification)
+        if updated.get("property") in properties:
+            if field == "maximumTimeMs":
+                unit = str(updated.get("unit") or "").lower()
+                updated["maximum"] = (
+                    value / 1000 if unit in {"s", "seg", "segundos"} else value
+                )
+            elif updated.get("strategy") == "target":
+                updated["target"] = value
+            elif updated.get("minimum") is not None and updated.get("maximum") is not None:
+                half = (float(updated["maximum"]) - float(updated["minimum"])) / 2
+                updated["minimum"], updated["maximum"] = value - half, value + half
+        result.append(updated)
+    return result
 
 
 def _require_governable(profile: dict[str, Any]) -> None:
@@ -518,6 +561,11 @@ class ApplicationService:
         offset = extraction.get("boilerOffsetAppliedC")
         if isinstance(offset, int | float):
             board_state["boilerOffsetAppliedC"] = float(offset)
+        # La ganancia de la compensación durante la extracción con que la placa
+        # hizo el café: la subida del primer uso la cambia para esa preparación.
+        gain = extraction.get("firstUseFeedforwardGainApplied")
+        if isinstance(gain, int | float) and not isinstance(gain, bool):
+            board_state["feedforwardGainApplied"] = float(gain)
         # La recta con que la placa hizo el café, para que la réplica busque la
         # misma caldera; sin recta que conste, la réplica no tiene referencia.
         line = line_of(extraction)
@@ -2684,19 +2732,46 @@ class ApplicationService:
         return result
 
     def _previous_measured(self, extraction: dict[str, Any]) -> dict[str, Any] | None:
-        """La preparación medida que se pulsó justo antes de esta."""
+        """La preparación anterior en las mismas condiciones, con la que se compara el agua.
+
+        La banda térmica es la diferencia con la preparación anterior **hecha en
+        las mismas condiciones** (monografía, sec:bandas-estabilidad). Hasta el
+        8-nov-2026 esto tomaba la última medida, fuera lo que fuera, y en la
+        catación del 4-nov la anterior de casi cada café era una pasada de agua
+        sin café: la diferencia mezclaba condiciones distintas
+        (`evidencias/catacion-20261104/estabilidad-termica.md`). Ahora la anterior
+        es de la misma máquina, de la misma clase (café o pasada de agua, que es
+        lo que comparan los ensayos del agua) y con la misma temperatura pedida.
+
+        La marca de pasada de agua vive en las revisiones del registro, por eso
+        cada candidata se proyecta antes de mirarla. Solo se buscan las pulsadas
+        antes que esta, en vez de las 50 más recientes del
+        almacén: con eso, una preparación vieja no se quedaba sin anterior.
+        """
         started = extraction.get("startedAt")
         if not started:
             return None
         press = parse_instant(started, "startedAt")
-        earlier = [
-            (parse_instant(item["startedAt"], "startedAt"), item)
-            for item in self.repository.list_documents(
-                "extraction", page_size=50, filters={"source": "measured"}
-            ).items
-            if item.get("startedAt") and item.get("id") != extraction.get("id")
-        ]
-        earlier = [pair for pair in earlier if pair[0] < press]
+        own = self._project_resource("extraction", extraction)
+        water_pass = own.get("purpose") == "water-pass"
+        requested = (own.get("profile") or {}).get("temperatureSetpointC")
+        filters = {"source": "measured", "startedAtBefore": str(started)}
+        if own.get("deviceId"):
+            filters["deviceId"] = str(own["deviceId"])
+        earlier = []
+        for item in self.repository.list_documents("extraction", page_size=50,
+                                                   filters=filters).items:
+            if not item.get("startedAt") or item.get("id") == own.get("id"):
+                continue
+            instant = parse_instant(item["startedAt"], "startedAt")
+            if instant >= press:
+                continue
+            candidate = self._project_resource("extraction", item)
+            if (candidate.get("purpose") == "water-pass") != water_pass:
+                continue
+            if (candidate.get("profile") or {}).get("temperatureSetpointC") != requested:
+                continue
+            earlier.append((instant, candidate))
         return max(earlier, key=lambda pair: pair[0])[1] if earlier else None
 
     def _wait_readings(
@@ -3422,6 +3497,44 @@ class ApplicationService:
             idempotency_key,
         )
 
+    def _repeatability(self, items: list[dict[str, Any]]) -> dict[str, Any]:
+        """Cuánto varían la masa, el tiempo y el agua estimada en la serie comparada.
+
+        La monografía juzga así el perfil final y las cifras salían de un cálculo
+        a mano (8-nov-2026). El agua es la que la plataforma ya estima al pulsar
+        (`machineStability.water`); si las preparaciones usaron rectas de actas
+        distintas no se resume, por la misma razón que no se restan con la
+        anterior: el cambio de acta se confundiría con el del agua. Se declara si
+        comparten perfil y café, pero no se exige: lo decide quien compara.
+        """
+        waters = []
+        for item in items:
+            water = (self._cached_machine_stability(item).get("water") or {})
+            waters.append((water.get("estimatedC"), water.get("method")))
+        methods = {method for value, method in waters if value is not None}
+        water_spread = spread([value for value, _ in waters])
+        water_spread["status"] = "line-changed" if len(methods) > 1 else "estimated"
+        if len(methods) > 1:
+            water_spread.update(minimum=None, maximum=None, range=None, mean=None,
+                                standardDeviation=None)
+        manual = [item.get("manualMeasurements") or {} for item in items]
+        profiles = {(item.get("profile") or {}).get("id") for item in items}
+        coffees = {item.get("coffeeId") for item in items}
+        return {
+            "rule": "repeatability-v1",
+            "sharedProfile": len(profiles) == 1 and None not in profiles,
+            "sharedCoffee": len(coffees) == 1 and None not in coffees,
+            "metrics": [
+                {"key": "beverageMassG", "label": "Masa de bebida", "unit": "g",
+                 **spread([entry.get("beverageMassG") for entry in manual])},
+                {"key": "durationS", "label": "Tiempo de extracción", "unit": "s",
+                 **spread([None if item.get("durationMs") is None
+                           else float(item["durationMs"]) / 1000 for item in items])},
+                {"key": "estimatedWaterC", "label": "Temperatura estimada del agua",
+                 "unit": "°C", "bandC": WATER_BAND_C, **water_spread},
+            ],
+        }
+
     def compare(
         self, identifiers: list[str], dimensions: list[str] | None = None
     ) -> dict[str, Any]:
@@ -3557,6 +3670,7 @@ class ApplicationService:
         adjustment_sequence.sort(key=lambda adjustment: adjustment.get("occurredAt", ""))
         return {
             "items": items,
+            "repeatability": self._repeatability(items),
             "comparedAt": iso_now(),
             "dimensions": selected_dimensions,
             "metrics": metrics,
@@ -3708,27 +3822,48 @@ class ApplicationService:
         if new_value is None:
             return None
 
-        base = profile_contract_view(initial.get("profile") or {})
-        if not base.get("id"):
+        # La base es el perfil guardado, no la copia que lleva la preparación. Esa
+        # copia es la vista del contrato del dispositivo: trae las referencias y
+        # el tiempo, pero no las especificaciones, la familia ni la versión
+        # anterior. Derivar de ella dejó el 2026-11-04 un perfil sin
+        # especificaciones que la ontología rechazó con razón (sim-00000578,
+        # `default-profile-v5-ajuste-f6b5438a`). Sin el perfil guardado no se
+        # deriva: completarlo con valores plausibles afirmaría lo que no consta.
+        base_id = str((initial.get("profile") or {}).get("id") or "")
+        base = self.repository.get_document("profile", base_id) if base_id else None
+        if base is None:
             return None
 
+        unit = str(adjustment.get("unit") or "").lower()
+        in_seconds = unit in {"s", "seg", "segundos"}
         if field == "maximumTimeMs":
             # El ajuste declara el tiempo en segundos y el contrato en milisegundos.
-            unit = str(adjustment.get("unit") or "").lower()
             value: Any = (
-                int(float(new_value) * 1000)
-                if unit in {"s", "seg", "segundos"}
-                else int(float(new_value))
+                int(float(new_value) * 1000) if in_seconds else int(float(new_value))
             )
         else:
             value = float(new_value)
 
         derived_id = f"{base['id']}-ajuste-{uuid4().hex[:8]}"
+        # Lo que describe cómo se activó la base no pasa a la derivada: ella
+        # tiene su propia activación, que pone `activate_profile`.
+        inherited = {
+            key: deepcopy(item)
+            for key, item in base.items()
+            if key
+            not in {"activation", "approvedAt", "approvedBy", "updatedAt", "updatedBy",
+                    "createdAt", "provenance", "derivedFrom"}
+        }
+        inherited["specifications"] = _specifications_with_adjustment(
+            inherited.get("specifications") or [], field, value
+        )
         derived = {
-            **{key: item for key, item in base.items() if item is not None},
+            **inherited,
             "id": derived_id,
             "familyId": base.get("familyId") or base["id"],
             "version": int(base.get("version") or 1) + 1,
+            "previousVersionId": base["id"],
+            "createdAt": iso_now(),
             field: value,
             "status": "approved",
             "derivedFrom": {
@@ -3837,7 +3972,59 @@ class ApplicationService:
                 "system:reasoner", "episode.conclusions", f"episode:{episode['id']}",
                 f"failed: {type(error).__name__}: {error}"[:200], episode["id"],
             )
+        # Aparte del razonador: que él falle no quita saber si el agua o la
+        # presión cambiaron entre las dos preparaciones, ni al revés.
+        try:
+            episode["attribution"] = self._episode_attribution(episode)
+        except Exception as error:  # noqa: BLE001
+            self.repository.audit(
+                "system:attribution", "episode.attribution", f"episode:{episode['id']}",
+                f"failed: {type(error).__name__}: {error}"[:200], episode["id"],
+            )
         return self.repository.upsert_document("episode", episode["id"], episode)
+
+    def _episode_attribution(self, episode: dict[str, Any]) -> dict[str, Any] | None:
+        """Si el resultado del ajuste se le puede atribuir (`espresso_stability.attribution`).
+
+        Compara la preparación inicial con la de comprobación **entre sí**, no
+        cada una con su anterior: en la catación del 4-nov la anterior de cada
+        café era casi siempre una pasada de agua (8-nov-2026). Sin comprobación
+        enlazada no hay nada que juzgar.
+        """
+        if not episode.get("followUpExtractionId"):
+            return None
+        initial = self._attribution_measures(str(episode["initialExtractionId"]))
+        follow_up = self._attribution_measures(str(episode["followUpExtractionId"]))
+        result = attribution(initial, follow_up,
+                             (episode.get("adjustment") or {}).get("property"))
+        result.update(initialExtractionId=initial["extractionId"],
+                      followUpExtractionId=follow_up["extractionId"],
+                      computedAt=iso_now())
+        return result
+
+    def _attribution_measures(self, extraction_id: str) -> dict[str, Any]:
+        """El agua estimada, la presión de régimen, la dosis y la masa de una preparación."""
+        extraction = self.get("extraction", extraction_id)
+        readings, _ = self._wait_readings(
+            extraction, bool(extraction.get("boilerOffsetAppliedC"))
+        )
+        body = (
+            body_at_press(self._series_samples(extraction_id, include_pre_start=True), readings)
+            if extraction.get("source") == "measured" else None
+        )
+        line = metal_line_of(extraction)
+        manual = extraction.get("manualMeasurements") or {}
+        return {
+            "extractionId": extraction_id,
+            "waterC": estimated_water_c(body, line) if line is not None else None,
+            "waterMethod": line.method if line is not None else None,
+            "pressureBar": regime_pressure_bar(
+                self._series_samples(extraction_id),
+                (extraction.get("profile") or {}).get("pressureSetpointBar"),
+            ),
+            "coffeeDoseG": manual.get("coffeeDoseG"),
+            "beverageMassG": manual.get("beverageMassG"),
+        }
 
     def _episode_conclusions(self, episode: dict[str, Any]) -> dict[str, Any]:
         adjustment = episode.get("adjustment") or {}

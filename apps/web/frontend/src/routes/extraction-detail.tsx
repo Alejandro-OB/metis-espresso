@@ -11,6 +11,7 @@ import { contextFromExtraction, contextPayload } from './preparation-context'
 import { PageHeading } from './page-heading'
 import { LiveChart } from './live-chart'
 import { seriesComplete } from './series-state'
+import { waterVsPrevious } from './water-vs-previous'
 import { MoreActions } from './more-actions'
 import { NextCoffee } from './next-coffee'
 import { sensoryAttributeLabel, sensoryAttributes, sensoryDefectLabel, sensoryDefects, sensoryDescriptorGroups, sensoryDescriptorLabel, sensoryDirectionLabel, basicTastes, mouthfeelTextures, sensoryProtocolReference } from './sensory-options'
@@ -176,7 +177,7 @@ function CupSummary({ item, result }: { item: Extraction; result: ExtractionResu
   return <div className={styles.cupSummary}>
     <div className={styles.profileValues}>
       <div><span>Tiempo</span><strong>{duration(item.durationMs)}</strong></div>
-      <div><span>Temperatura media del agua</span><strong>{waterText(result)}</strong>{waterNote(result) ? <small className={styles.meta}>{waterNote(result)}</small> : null}</div>
+      <div><span>Temperatura media del agua</span><strong>{waterText(result)}</strong>{waterNote(result) ? <small className={styles.meta}>{waterNote(result)}</small> : null}{waterVsPrevious(result) ? <small className={styles.meta}>{waterVsPrevious(result)}</small> : null}</div>
       <div><span>Presión</span><strong>{observedText(result, ['extraction-pressure', 'pressure'], 1)}</strong></div>
       <div><span>Dosis</span><strong>{manual.coffeeDoseG != null ? `${formatNumber(manual.coffeeDoseG)} g` : '—'}</strong></div>
       <div><span>Taza</span><strong>{manual.beverageMassG != null ? `${formatNumber(manual.beverageMassG)} g` : '—'}</strong></div>

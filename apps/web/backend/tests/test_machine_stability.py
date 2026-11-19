@@ -223,3 +223,30 @@ def test_the_boiler_at_press_reads_back_as_the_requested_water():
     assert view["objective"]["tolerance"] == pytest.approx(1.0, abs=0.02)
     assert view["estimatedC"] == estimated_water_c(105.72 - 3.7)
     assert boiler["target"] == pytest.approx(boiler_reference_c(92.0) + 3.7, abs=0.01)
+
+
+def test_el_agua_no_se_compara_con_una_pasada_de_agua_ni_con_otra_temperatura(client):
+    """La anterior es la de las mismas condiciones: ni una pasada sin café ni otra temperatura.
+
+    En la catación del 4-nov la anterior de casi cada café era una pasada de agua,
+    y la diferencia mezclaba condiciones distintas.
+    """
+    repository = client.app.state.repository
+    service = client.app.state.service
+    base = PRESS + timedelta(days=3)
+    cafe = _extraction(repository, "cafe-uno", base - timedelta(minutes=30))
+    cafe["finishedAt"] = _text(base - timedelta(minutes=29))
+    repository.upsert_document("extraction", "cafe-uno", cafe)
+    pasada = _extraction(repository, "pasada-agua", base - timedelta(minutes=10))
+    pasada.update(purpose="water-pass", finishedAt=_text(base - timedelta(minutes=9)))
+    repository.upsert_document("extraction", "pasada-agua", pasada)
+    fria = _extraction(repository, "cafe-86", base - timedelta(minutes=5))
+    fria["profile"] = {"temperatureSetpointC": 86.0, "pressureSetpointBar": 8.5}
+    fria["finishedAt"] = _text(base - timedelta(minutes=4))
+    repository.upsert_document("extraction", "cafe-86", fria)
+    actual = _extraction(repository, "cafe-dos", base)
+    assert service._previous_measured(actual)["id"] == "cafe-uno"
+    otra_pasada = _extraction(repository, "pasada-dos", base + timedelta(minutes=1))
+    otra_pasada["purpose"] = "water-pass"
+    repository.upsert_document("extraction", "pasada-dos", otra_pasada)
+    assert service._previous_measured(otra_pasada)["id"] == "pasada-agua"

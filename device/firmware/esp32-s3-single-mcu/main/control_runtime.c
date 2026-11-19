@@ -842,17 +842,23 @@ static bool configure_loop(loop_t *loop, const control_tuning_t *tuning)
 #if !BENCH_LOOP && (PRESSURE_TUNING || (HAVE_COMMISSIONED_PRESSURE && \
                                        defined(COMMISSIONED_PRESSURE_PREINFUSION_MARGIN_BAR)))
 static void configure_preinfusion(float margin_bar, float filter_time_constant_s,
-                                  float integral_start_percent, float sample_period_s,
+                                  float integral_start_percent,
+                                  pressure_preinfusion_start_t start, float sample_period_s,
                                   const char *source)
 {
     const pressure_preinfusion_parameters_t parameters = {
         .handover_margin_bar = margin_bar,
         .integral_start_percent = integral_start_percent,
+        .start = start,
     };
     s_preinfusion_enabled =
         pressure_preinfusion_configure(&s_preinfusion, &parameters) &&
         control_filter_configure(&s_preinfusion_filter, filter_time_constant_s, sample_period_s);
-    if (s_preinfusion_enabled) {
+    if (s_preinfusion_enabled && start == PRESSURE_PREINFUSION_START_CEILING) {
+        ESP_LOGW(TAG, "preinfusión (%s): bomba al techo hasta referencia - %.2f bar (filtro "
+                      "de %.0f ms); el PI arranca desde el techo, sin salto",
+                 source, (double)margin_bar, (double)(filter_time_constant_s * 1000.0F));
+    } else if (s_preinfusion_enabled) {
         ESP_LOGW(TAG, "preinfusión (%s): bomba al techo hasta referencia - %.2f bar (filtro "
                       "de %.0f ms); el PI arranca con la integral en %.0f %%",
                  source, (double)margin_bar, (double)(filter_time_constant_s * 1000.0F),
@@ -901,7 +907,7 @@ esp_err_t control_runtime_start(void)
             (float)CONFIG_CAFE_IDENTIFICATION_PRESSURE_PREINFUSION_MARGIN_MBAR / 1000.0F,
             (float)CONFIG_CAFE_IDENTIFICATION_PRESSURE_PREINFUSION_FILTER_MS / 1000.0F,
             (float)CONFIG_CAFE_IDENTIFICATION_PRESSURE_PREINFUSION_INTEGRAL_PERCENT,
-            pressure.sample_period_s, "ensayo supervisado");
+            PRESSURE_PREINFUSION_START_FIXED, pressure.sample_period_s, "ensayo supervisado");
         (void)identification_tuning_identifier(&s_tuning, s_tuning_identifier,
                                                sizeof(s_tuning_identifier));
     }
@@ -909,9 +915,16 @@ esp_err_t control_runtime_start(void)
     const control_tuning_t pressure = control_tuning_pressure();
 #if !BENCH_LOOP && HAVE_COMMISSIONED_PRESSURE && \
     defined(COMMISSIONED_PRESSURE_PREINFUSION_MARGIN_BAR)
+    /* El acta elige cómo arranca el PI; una planta que no lo declara arranca
+     * desde la integral fija, como todas las firmadas antes del 2026-11-06. */
+#if defined(COMMISSIONED_PRESSURE_PREINFUSION_START_FROM_CEILING)
+    const pressure_preinfusion_start_t preinfusion_start = PRESSURE_PREINFUSION_START_CEILING;
+#else
+    const pressure_preinfusion_start_t preinfusion_start = PRESSURE_PREINFUSION_START_FIXED;
+#endif
     configure_preinfusion(COMMISSIONED_PRESSURE_PREINFUSION_MARGIN_BAR,
                           COMMISSIONED_PRESSURE_PREINFUSION_FILTER_TIME_CONSTANT_S,
-                          COMMISSIONED_PRESSURE_PREINFUSION_INTEGRAL_PERCENT,
+                          COMMISSIONED_PRESSURE_PREINFUSION_INTEGRAL_PERCENT, preinfusion_start,
                           pressure.sample_period_s, COMMISSIONED_PRESSURE_IDENTIFIER);
 #endif
 #endif

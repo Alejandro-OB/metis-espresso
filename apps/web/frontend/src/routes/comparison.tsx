@@ -15,7 +15,9 @@ const dimensionOptions = [
 ] as const
 type Dimension = (typeof dimensionOptions)[number][0]
 interface ComparisonMetric { dimension: Dimension; key: string; label: string; unit: string; values: Array<number | null>; comparisons: Array<{ absolute: number | null; relativePercent: number | null; status: 'equal' | 'different' | 'missing' }> }
-interface ComparisonResponse { items: Extraction[]; dimensions: Dimension[]; metrics: ComparisonMetric[]; series: Array<{ extractionId: string; samples: LiveSample[] }>; adjustmentSequence: Array<{ id: string; property: string; previousValue: number; newValue: number; unit: string; occurredAt?: string; calibrationId?: string }>; sharedCalibrationId?: string | null }
+interface SpreadMetric { key: string; label: string; unit: string; count: number; missing: number; minimum: number | null; maximum: number | null; range: number | null; mean: number | null; standardDeviation: number | null; bandC?: number; status?: 'estimated' | 'line-changed' }
+interface Repeatability { rule: string; sharedProfile: boolean; sharedCoffee: boolean; metrics: SpreadMetric[] }
+interface ComparisonResponse { repeatability?: Repeatability; items: Extraction[]; dimensions: Dimension[]; metrics: ComparisonMetric[]; series: Array<{ extractionId: string; samples: LiveSample[] }>; adjustmentSequence: Array<{ id: string; property: string; previousValue: number; newValue: number; unit: string; occurredAt?: string; calibrationId?: string }>; sharedCalibrationId?: string | null }
 const acceptanceLabels: Record<string, string> = { accepted: 'Aceptada', rejected: 'Rechazada', inconclusive: 'Inconclusa', 'not-recorded': 'Sin evaluar' }
 const palette = ['#9a4f2f', '#27766b', '#8a6a22', '#5e579a']
 const profilePropertyLabels: Record<string, string> = {
@@ -95,6 +97,7 @@ function ComparisonContent({ data, selected }: { data: ComparisonResponse; selec
   return <>
     <div className={styles.profileDetailActions}><Button variant="secondary" icon="download" onPress={download}>Descargar comparación</Button></div>
     {visibleContext.length ? <Surface><h2 className={styles.surfaceTitle}>Condiciones lado a lado</h2><div className={styles.comparisonTable} role="table" aria-label="Condiciones comparadas"><div role="row" className={styles.comparisonHeader}><span role="columnheader">Dato</span>{data.items.map((item, index) => <strong role="columnheader" key={item.id}><i style={{ background: palette[index] }}/><Link to={`/extractions/${item.id}`}>{item.id}</Link></strong>)}</div>{visibleContext.map((row) => { const state = comparisonState(row.values); return <div role="row" className={styles.comparisonRow} key={row.label}><strong role="rowheader">{row.label}<small>{state === 'equal' ? 'Igual' : state === 'different' ? 'Diferente' : 'Hay datos ausentes'}</small></strong>{row.values.map((value, index) => <span role="cell" data-state={value == null ? 'missing' : state} key={`${row.label}-${data.items[index].id}`}>{displayValue(value)}</span>)}</div>})}</div></Surface> : null}
+    {data.repeatability ? <RepeatabilitySurface repeatability={data.repeatability}/> : null}
     {selected.has('preparation') || selected.has('environment') ? <Surface><h2 className={styles.surfaceTitle}>Diferencias numéricas</h2><div className={styles.comparisonTable} role="table" aria-label="Diferencias absolutas y relativas"><div role="row" className={styles.comparisonHeader}><span role="columnheader">Variable</span>{data.items.map((item) => <strong role="columnheader" key={item.id}>{item.id}</strong>)}</div>{data.metrics.map((metric) => <div role="row" className={styles.comparisonRow} key={metric.key}><strong role="rowheader">{metric.label}<small>{metric.unit}</small></strong>{metric.values.map((value, index) => { const difference = metric.comparisons[index]; return <span role="cell" data-state={difference.status} key={`${metric.key}-${data.items[index].id}`}><b>{value == null ? 'Ausente' : formatNumber(value, 2)}</b>{index ? <small>{difference.absolute == null ? 'Sin diferencia calculable' : `Δ ${formatNumber(difference.absolute, 2)} ${metric.unit} · ${difference.relativePercent == null ? 'relativa no calculable' : `${formatNumber(difference.relativePercent, 2)} %`}`}</small> : <small>Referencia</small>}</span>})}</div>)}</div></Surface> : null}
     {selected.has('curves') ? <Surface><h2 className={styles.surfaceTitle}>Curvas sobre tiempo transcurrido</h2><div className={styles.liveCharts}><OverlayChart data={data} field="temperatureC" title="Temperatura" unit="°C"/><OverlayChart data={data} field="pressureBar" title="Presión" unit="bar"/></div></Surface> : null}
     {selected.has('sensory') ? <Surface><h2 className={styles.surfaceTitle}>Evaluación sensorial</h2><div className={styles.sensoryComparison}>{data.items.map((item, index) => <section key={item.id}><h3><i style={{ background: palette[index] }}/>{item.id}</h3><strong>{acceptanceLabels[item.sensoryEvaluation?.acceptance.status ?? 'not-recorded']}</strong>{item.sensoryEvaluation?.descriptorRatings?.map((rating) => <SensoryBar key={rating.descriptor} label={sensoryDescriptorLabel(rating.descriptor)} value={rating.intensity} color={palette[index]}/>)}{item.sensoryEvaluation?.scores.map((score) => <SensoryBar key={`${score.attribute}-${score.dimension}`} label={`${sensoryAttributeLabel(score.attribute)} · ${score.dimension === 'hedonic-liking' ? 'agrado' : 'intensidad'}`} value={score.value} color={palette[index]}/>) ?? <p>Sin evaluación.</p>}<SensoryTerms title="Descriptores" values={item.sensoryEvaluation?.descriptors.map(sensoryDescriptorLabel) ?? []}/><SensoryTerms title="Defectos" values={item.sensoryEvaluation?.defects.map(sensoryDefectLabel) ?? []}/></section>)}</div></Surface> : null}
@@ -163,4 +166,32 @@ function OverlayChart({ data, field, title, unit }: { data: ComparisonResponse; 
     <div className={styles.chartLegend}>{data.items.map((item, index) => <span key={item.id}><i className={styles[`linePattern${index + 1}`]} style={{ borderColor: palette[index] }}/>{item.id}</span>)}</div>
     <details className={styles.chartData}><summary>Datos de la comparación</summary><div className={styles.chartDataTable} role="table" aria-label={`Valores de ${title.toLowerCase()}`}><div role="row"><strong role="columnheader">Preparación</strong><strong role="columnheader">Mínimo</strong><strong role="columnheader">Máximo</strong><strong role="columnheader">Último</strong><strong role="columnheader">Sin datos</strong></div>{summaries.map((summary) => <div role="row" key={summary.id}><span role="rowheader">{summary.id}</span><span role="cell">{valueLabel(summary.minimum)}</span><span role="cell">{valueLabel(summary.maximum)}</span><span role="cell">{valueLabel(summary.latest)}</span><span role="cell">{summary.missing}</span></div>)}</div></details>
   </section>
+}
+
+// Cuánto varía la serie elegida (8-nov-2026): la repetibilidad que la monografía
+// juzga en el perfil final, sin hacer la cuenta a mano. El rango va primero porque
+// con dos a cuatro preparaciones es la cifra que se contrasta con una banda.
+function spreadText(metric: SpreadMetric): string {
+  if (metric.status === 'line-changed') return 'No se resume: las preparaciones usan rectas distintas para estimar el agua'
+  if (metric.range == null) return 'Faltan datos: se necesitan al menos dos preparaciones con este valor'
+  const digits = metric.unit === 'g' || metric.unit === 's' ? 1 : 2
+  const parts = [`Varía ${formatNumber(metric.range, digits)} ${metric.unit}`, `de ${formatNumber(metric.minimum, digits)} a ${formatNumber(metric.maximum, digits)} ${metric.unit}`]
+  if (metric.standardDeviation != null) parts.push(`desviación estándar ${formatNumber(metric.standardDeviation, digits)} ${metric.unit}`)
+  if (metric.bandC != null) parts.push(metric.range <= metric.bandC ? `dentro de la banda de ±${formatNumber(metric.bandC, 1)} °C` : `más que la banda de ±${formatNumber(metric.bandC, 1)} °C`)
+  return parts.join(' · ')
+}
+
+function RepeatabilitySurface({ repeatability }: { repeatability: Repeatability }) {
+  const caveat = !repeatability.sharedProfile || !repeatability.sharedCoffee
+    ? `Estas preparaciones no comparten ${!repeatability.sharedProfile && !repeatability.sharedCoffee ? 'perfil ni café' : !repeatability.sharedProfile ? 'perfil' : 'café'}: la variación incluye esas diferencias.`
+    : null
+  return <Surface><h2 className={styles.surfaceTitle}>Cuánto varía la serie</h2>
+    {caveat ? <p className={styles.meta}>{caveat}</p> : null}
+    <div className={styles.comparisonTable} role="table" aria-label="Variación de la serie">
+      {repeatability.metrics.map((metric) => <div role="row" className={styles.comparisonRow} key={metric.key}>
+        <strong role="rowheader">{metric.label}<small>{metric.key === 'estimatedWaterC' ? 'estimada' : metric.unit}</small></strong>
+        <span role="cell">{spreadText(metric)}{metric.missing ? <small>{metric.missing} sin dato</small> : null}</span>
+      </div>)}
+    </div>
+  </Surface>
 }

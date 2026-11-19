@@ -10,6 +10,7 @@ cc -std=c17 -Wall -Wextra -Werror -pedantic \
   -I"$main_dir" \
   "$main_dir/control_filter.c" \
   "$main_dir/pi_controller.c" \
+  "$main_dir/pressure_preinfusion.c" \
   "$main_dir/heater_recovery_hold.c" \
   "$main_dir/heater_recovery_return.c" \
   "$main_dir/psm_scheduler.c" \

@@ -56,7 +56,9 @@ MACHINE_STABILITY_RULE = "machine-stability-v2"
 THERMAL_BAND_C = 2.1
 PRESSURE_BAND_BAR = 0.18
 AVERAGE_MS = 1_000
-WATER_BAND_C = 0.5
+#: Estabilidad térmica entre preparaciones: el ±1 °C que el barista considera
+#: aceptable (cap. 4 de la monografía).
+WATER_BAND_C = 1.0
 #: Una lectura cubre como máximo esto hasta la siguiente. La telemetría fuera
 #: del café llega cada 15 s; con 60 s caben tres perdidas.
 WAIT_GAP_S = 60.0

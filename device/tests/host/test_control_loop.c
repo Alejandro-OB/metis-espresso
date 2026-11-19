@@ -38,6 +38,7 @@
 #include "heater_recovery_hold.h"
 #include "heater_recovery_return.h"
 #include "pi_controller.h"
+#include "pressure_preinfusion.h"
 #include "psm_scheduler.h"
 
 #define ZERO_CROSS_HZ 120.0F
@@ -122,6 +123,118 @@ static void pressure_loop_run(pressure_loop_t *loop, float setpoint_bar, float s
     for (uint32_t step = 0U; step < steps; step++) {
         (void)pressure_loop_step(loop, setpoint_bar);
     }
+}
+
+/*
+ * Un ciclo con la preinfusión delante, como en `control_runtime`: mientras la
+ * presión no llega a la referencia menos el margen, la bomba va al techo y el
+ * PI se mantiene cebado en la medida; en el relevo arranca desde lo que decida
+ * la preinfusión. Devuelve la salida que llegó al planificador.
+ */
+static float pressure_loop_step_with_preinfusion(pressure_loop_t *loop,
+                                                 pressure_preinfusion_t *preinfusion,
+                                                 float setpoint_bar, float ceiling)
+{
+    const float measured = control_plant_value(&loop->plant);
+    if (measured > loop->maximum) {
+        loop->maximum = measured;
+    }
+    const float filtered = control_filter_push(&loop->filter, measured);
+    const pressure_preinfusion_inputs_t in = {
+        .ceiling_percent = ceiling, .setpoint_bar = setpoint_bar, .pressure_bar = filtered};
+    const pressure_preinfusion_decision_t decision = pressure_preinfusion_step(preinfusion, &in);
+    float output = ceiling;
+    if (decision.hand_over) {
+        pi_controller_reset_with_integral(&loop->controller, filtered,
+                                          decision.integral_start_percent);
+    }
+    if (decision.regulate) {
+        output = pi_controller_update(&loop->controller, setpoint_bar, filtered, 0.0F).output;
+    } else {
+        pi_controller_reset(&loop->controller, filtered);
+    }
+    const uint8_t density = psm_scheduler_quantize(output);
+    loop->opportunity_credit += ZERO_CROSS_HZ * loop->tuning.sample_period_s;
+    uint32_t opportunities = 0U;
+    uint32_t emitted = 0U;
+    while (loop->opportunity_credit >= 1.0F) {
+        loop->opportunity_credit -= 1.0F;
+        opportunities++;
+        if (psm_scheduler_step(&loop->scheduler, density)) {
+            emitted++;
+        }
+    }
+    const float applied = opportunities > 0U
+                              ? 100.0F * (float)emitted / (float)opportunities
+                              : 0.0F;
+    (void)control_plant_step(&loop->plant, applied);
+    return output;
+}
+
+typedef struct {
+    float dip;           /* mínimo desde el relevo hasta 3 s después */
+    float settled_mean;  /* media de los últimos 2 s */
+    float maximum;
+} handover_run_t;
+
+static handover_run_t run_handover(pressure_preinfusion_start_t start)
+{
+    pressure_loop_t loop;
+    pressure_loop_init(&loop);
+    /* El techo del acta de presión; con esta planta de banco sostiene 6,75 bar,
+     * así que la presión llega al relevo y el PI tiene que bajar el mando hasta
+     * unos dos tercios, como la pastilla del banco del 2026-11-06. */
+    const pressure_preinfusion_parameters_t parameters = {
+        .handover_margin_bar = 0.5F, .integral_start_percent = 15.0F, .start = start};
+    pressure_preinfusion_t preinfusion;
+    assert(pressure_preinfusion_configure(&preinfusion, &parameters));
+    handover_run_t run = {.dip = INFINITY};
+    const float setpoint = 6.0F;
+    const uint32_t steps = (uint32_t)(12.0F / loop.tuning.sample_period_s);
+    float handed_over_at = -1.0F;
+    float settled_sum = 0.0F;
+    uint32_t settled_count = 0U;
+    for (uint32_t step = 0U; step < steps; step++) {
+        const float t = (float)step * loop.tuning.sample_period_s;
+        (void)pressure_loop_step_with_preinfusion(&loop, &preinfusion, setpoint, 75.0F);
+        const float pressure = control_plant_value(&loop.plant);
+        if (handed_over_at < 0.0F &&
+            pressure_preinfusion_phase(&preinfusion) == PRESSURE_PREINFUSION_REGULATING) {
+            handed_over_at = t;
+        }
+        if (handed_over_at >= 0.0F && t <= handed_over_at + 3.0F && pressure < run.dip) {
+            run.dip = pressure;
+        }
+        if (t >= 10.0F) {
+            settled_sum += pressure;
+            settled_count++;
+        }
+    }
+    assert(handed_over_at >= 0.0F);
+    run.settled_mean = settled_sum / (float)settled_count;
+    run.maximum = loop.maximum;
+    return run;
+}
+
+/*
+ * El relevo de la preinfusión al PI, con la cuantización de la red dentro.
+ *
+ * Con la integral fija, el mando baja del techo al 15 % en el relevo y la
+ * presión se cae por debajo del umbral de relevo, que es la caída de 2 s del
+ * banco del 2026-11-06. Arrancando desde el techo, la cadena entera —filtro,
+ * PI, planificador, bomba discreta— pasa sin esa caída y sigue regulando.
+ */
+static void test_the_ceiling_start_hands_over_without_the_dip(void)
+{
+    const handover_run_t fixed = run_handover(PRESSURE_PREINFUSION_START_FIXED);
+    const handover_run_t ceiling = run_handover(PRESSURE_PREINFUSION_START_CEILING);
+    assert(fixed.dip < 5.0F);
+    assert(ceiling.dip > fixed.dip + 0.5F);
+    assert(ceiling.dip >= 5.3F);
+    assert(close_enough(fixed.settled_mean, 6.0F, 0.15F));
+    assert(close_enough(ceiling.settled_mean, 6.0F, 0.15F));
+    /* Lo más que puede pasarse es lo que el techo sostiene en esta planta. */
+    assert(ceiling.maximum < 6.0F + 1.0F);
 }
 
 /*
@@ -615,6 +728,7 @@ int main(void)
     test_a_setpoint_below_the_measurement_drives_the_output_to_zero();
     test_an_unreachable_setpoint_does_not_wind_up_the_integral();
     test_the_emitted_actuations_match_the_requested_density();
+    test_the_ceiling_start_hands_over_without_the_dip();
     test_the_temperature_loop_reaches_the_setpoint();
     test_the_steady_conduction_matches_what_the_plant_needs();
     test_the_thermal_overshoot_stays_bounded();
@@ -625,6 +739,6 @@ int main(void)
     test_holding_the_integral_removes_the_overshoot_after_a_coffee();
     test_returning_the_integral_lowers_the_overshoot_after_a_coffee();
 #endif
-    printf("test_control_loop: 11 pruebas correctas\n");
+    printf("test_control_loop: 12 pruebas correctas\n");
     return 0;
 }

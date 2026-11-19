@@ -8,6 +8,7 @@ import { FlowStep, FlowSteps } from './flow-steps'
 import { PageHeading } from './page-heading'
 import { preparationMomentLabel } from './preparation-status'
 import { sensoryDefectLabel } from './sensory-options'
+import { attributionHeadline, checkText } from './attribution-text'
 import styles from './routes.module.css'
 
 /* Un ajuste contado como lo vive el barista (24-oct-2026): el café de
@@ -68,6 +69,13 @@ export default function EpisodeDetailRoute() {
         : item.followUpExtractionId
           ? <p>Se responde al catar el café de comprobación. <Link to={`/extractions/${item.followUpExtractionId}`}>Ir a ese café</Link></p>
           : <p className={styles.muted}>Se sabrá después del café de comprobación.</p>}
+      {item.attribution
+        ? <div className={styles.flowResult}>
+          <p><strong>{attributionHeadline[item.attribution.status]}</strong></p>
+          <ul>{item.attribution.checks.map((check) => <li key={check.condition}>{checkText(check)}</li>)}</ul>
+          <span className={styles.meta}>{item.attribution.reported.filter((entry) => entry.initial != null || entry.followUp != null).map((entry) => `${entry.condition === 'coffeeDoseG' ? 'Dosis' : 'Taza'}: ${formatNumber(entry.initial, 1)} → ${formatNumber(entry.followUp, 1)} g`).join(' · ')}</span>
+        </div>
+        : null}
     </Surface>
   </div>
 }

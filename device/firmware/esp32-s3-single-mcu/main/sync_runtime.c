@@ -63,6 +63,20 @@ static uint32_t s_telemetry_sequence;
  * mismo umbral con que el panel de la plataforma avisa de la hora corrida.
  */
 #define SYNC_CLOCK_TOLERANCE_MS UINT64_C(120000)
+/*
+ * Con la cola vacía, cada cuántos intentos de entrega se consulta igualmente la
+ * plataforma. La configuración, y con ella la subida del primer uso, solo llega
+ * en la respuesta a una sincronización; sin registros que entregar la placa no
+ * sincronizaba, y la subida calculada para un reposo llegaba con el registro
+ * del café siguiente, es decir, tarde. Se observó el 2026-11-11: 20 min de
+ * reposo sin ninguna consulta y la subida en +0,00 °C hasta forzar un cambio de
+ * estado. Cuatro intentos de CONFIG_CAFE_SYNC_INTERVAL_MS (15 s por omisión)
+ * dan una consulta por minuto: la regla del primer uso avanza en pasos de 5 min,
+ * así que un minuto de retraso no cambia lo que se pide, y la Raspberry
+ * responde en 0,05–0,13 s.
+ */
+#define SYNC_IDLE_POLL_EVERY 4U
+static uint32_t s_idle_attempts;
 static device_config_t s_config;
 static portMUX_TYPE s_status_lock = portMUX_INITIALIZER_UNLOCKED;
 
@@ -281,6 +295,35 @@ static void synchronise_clock(void)
     free(response);
 }
 
+/*
+ * Sincronización sin mensajes, la misma petición que pide la hora al arrancar,
+ * solo para traer la configuración vigente cuando no hay nada que entregar.
+ * No borra ni confirma nada de la cola. Un fallo solo se anota: la consulta
+ * siguiente lo reintenta y la placa sigue con la configuración que tenía.
+ */
+static void poll_configuration(void)
+{
+    char body[SYNC_TIME_REQUEST_BYTES];
+    if (sync_time_request_build(CONFIG_CAFE_DEVICE_ID, body, sizeof(body), NULL) !=
+        SYNC_BODY_OK) {
+        return;
+    }
+    char *response = calloc(1U, SYNC_RESPONSE_BYTES);
+    if (response == NULL) {
+        return;
+    }
+    int status_code = -1;
+    const esp_err_t result = post_body(body, response, SYNC_RESPONSE_BYTES, &status_code,
+                                       SYNC_DELIVERY_TIMEOUT_MS);
+    if (result != ESP_OK || status_code < 200 || status_code >= 300) {
+        ESP_LOGW(TAG, "Consulta sin registros rechazada: estado=%d error=%s", status_code,
+                 esp_err_to_name(result));
+    } else {
+        apply_proposed_profile(response);
+    }
+    free(response);
+}
+
 static void deliver_pending(void)
 {
     size_t pending = 0U;
@@ -288,8 +331,13 @@ static void deliver_pending(void)
         portENTER_CRITICAL(&s_status_lock);
         s_status.pending = (uint32_t)pending;
         portEXIT_CRITICAL(&s_status_lock);
+        if (++s_idle_attempts >= SYNC_IDLE_POLL_EVERY) {
+            s_idle_attempts = 0U;
+            poll_configuration();
+        }
         return;
     }
+    s_idle_attempts = 0U;
 
     nvs_outbox_item_t *items = calloc(SYNC_MAX_BATCH, sizeof(*items));
     char *body = malloc(SYNC_BODY_BYTES);

@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "1.0",
+  "controllerId": "board-replica",
+  "controllerVersion": "2.0.0",
+  "deterministic": true,
+  "inputs": [
+    "temperatureC",
+    "pressureBar",
+    "boilerSetpointC",
+    "pressureSetpointBar"
+  ],
+  "outputs": [
+    "heaterCommand",
+    "pumpCommand"
+  ],
+  "requires": {
+    "temperatureQuantity": "boiler-body-temperature",
+    "replicates": true
+  },
+  "provenance": {
+    "firmware": "device/firmware/esp32-s3-single-mcu/main/: pi_controller.c, control_tuning.c, control_filter.c, control_runtime.c, pressure_preinfusion.c, heater_feedforward.c, psm_scheduler.c, heater_modulator.c",
+    "temperature": "device/docs/engineering/actas/acta-temperatura-20261028b.json (v12): plant, tuning, feedforward y water_reference; generado en commissioned/temperature_plant.h. La recta y la ganancia de la compensación durante la extracción se toman de cada preparación cuando la declara (waterReference, firstUseFeedforwardGainApplied), porque la subida del primer uso cambia la ganancia de una sola preparación",
+    "pressure": "device/docs/engineering/actas/acta-presion-20261012.json (v1): plant, tuning y preinfusion; generado en commissioned/pressure_plant.h",
+    "temperature.feedforward.riseLimitC": "ready_tolerance_c de process_limits_default (process_supervisor.c), la tolerancia con que heater_feedforward_step corta la aportación; no es del acta",
+    "temperature.initialState.ambientC": "conditions.ambient_c del acta v12, solo cuando la preparación no declara ambiente",
+    "periods": "20 ms la presión y 200 ms la temperatura (control_runtime.c; ADR-007 § 3.3, ADR-009 § 3.6): arquitectura del lazo, fijados en board_controller.py"
+  },
+  "configuration": {
+    "temperature": {
+      "acta": "acta-temperatura-20261028b",
+      "actaVersion": 12,
+      "identifier": "acta-temperatura-20261028b-v12",
+      "actaSha256": "c06aa567e929be4ad7e17d9b22df2fa07ca6a1cfd469d7a689c630fc0e4abf35",
+      "plant": {
+        "gain": 32.58,
+        "timeConstantS": 2076.0,
+        "deadTimeS": 44.0
+      },
+      "tuning": {
+        "lambdaS": 45.0,
+        "filterTimeConstantS": 0.5,
+        "setpointRate": 0.5,
+        "outputMaximum": 10.0
+      },
+      "feedforward": {
+        "gain": 0.75,
+        "riseLimitC": 0.5
+      },
+      "waterReference": {
+        "gain": 0.9093,
+        "offsetC": -2.39,
+        "boilerMinimumC": 96.9,
+        "boilerMaximumC": 104.88
+      },
+      "initialState": {
+        "ambientC": 23.7
+      }
+    },
+    "pressure": {
+      "acta": "acta-presion-20261012",
+      "actaVersion": 1,
+      "identifier": "acta-presion-20261012-v1",
+      "actaSha256": "5531c38045288eebee23fb43b9faf0b269d0327386b90b90c8b9e3e4eb415918",
+      "plant": {
+        "gain": 0.06,
+        "timeConstantS": 0.1,
+        "deadTimeS": 0.1
+      },
+      "tuning": {
+        "lambdaS": 1.0,
+        "filterTimeConstantS": 0.02,
+        "setpointRate": 3.0,
+        "outputMaximum": 75.0
+      },
+      "preinfusion": {
+        "marginBar": 0.5,
+        "filterTimeConstantS": 0.3,
+        "integralStartPercent": 15.0
+      }
+    }
+  },
+  "configurationSha256": "932e28cbcd6ad065e00d22821b0948801f7fa5b3f3e88ad9e0bff61a11035b66"
+}

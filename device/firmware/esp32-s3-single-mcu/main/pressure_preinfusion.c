@@ -18,7 +18,9 @@ bool pressure_preinfusion_configure(pressure_preinfusion_t *preinfusion,
                            isfinite(parameters->handover_margin_bar);
     const bool integral_ok = parameters->integral_start_percent >= 0.0F &&
                              parameters->integral_start_percent <= 100.0F;
-    if (!margin_ok || !integral_ok) {
+    const bool start_ok = parameters->start == PRESSURE_PREINFUSION_START_FIXED ||
+                          parameters->start == PRESSURE_PREINFUSION_START_CEILING;
+    if (!margin_ok || !integral_ok || !start_ok) {
         return false;
     }
     preinfusion->parameters = *parameters;
@@ -60,10 +62,17 @@ pressure_preinfusion_decision_t pressure_preinfusion_step(
      * baja— no hace falta bombear, y precargarla dio un golpe de 0,35 s que
      * subió la presión de 3,3 a 5,9 bar con la referencia en 3 (2026-10-12).
      * El PI arranca entonces en cero y bombea solo cuando la presión baja. */
-    decision.integral_start_percent =
-        inputs->pressure_bar < inputs->setpoint_bar
-            ? preinfusion->parameters.integral_start_percent
-            : 0.0F;
+    if (!(inputs->pressure_bar < inputs->setpoint_bar)) {
+        decision.integral_start_percent = 0.0F;
+    } else if (preinfusion->parameters.start == PRESSURE_PREINFUSION_START_CEILING) {
+        /* Sin salto: la integral es el mando que la bomba ya traía. El techo
+         * llega ya admitido por el guardián; se recorta a 0–100 por si acaso,
+         * y el PI lo vuelve a recortar a su propio rango al arrancar. */
+        const float ceiling = inputs->ceiling_percent;
+        decision.integral_start_percent = ceiling > 100.0F ? 100.0F : ceiling;
+    } else {
+        decision.integral_start_percent = preinfusion->parameters.integral_start_percent;
+    }
     return decision;
 }
 

@@ -117,6 +117,53 @@ static void test_no_integral_start_when_the_pressure_already_reached_the_setpoin
     assert(d.hand_over && d.integral_start_percent == 15.0F);
 }
 
+static void test_the_ceiling_start_takes_the_pump_command_it_finds(void)
+{
+    pressure_preinfusion_parameters_t parameters = k_parameters;
+    parameters.start = PRESSURE_PREINFUSION_START_CEILING;
+    pressure_preinfusion_t preinfusion;
+    assert(pressure_preinfusion_configure(&preinfusion, &parameters));
+    pressure_preinfusion_inputs_t in = inputs(75.0F, 8.5F, 8.2F);
+    pressure_preinfusion_decision_t d = pressure_preinfusion_step(&preinfusion, &in);
+    assert(d.hand_over && d.integral_start_percent == 75.0F);
+
+    /* Es el techo del ciclo, no un número del acta: con otro techo, otro arranque. */
+    assert(pressure_preinfusion_configure(&preinfusion, &parameters));
+    in = inputs(60.0F, 8.5F, 8.2F);
+    d = pressure_preinfusion_step(&preinfusion, &in);
+    assert(d.hand_over && d.integral_start_percent == 60.0F);
+
+    /* La protección de la presión atrapada sigue mandando. */
+    assert(pressure_preinfusion_configure(&preinfusion, &parameters));
+    in = inputs(75.0F, 8.5F, 8.5F);
+    d = pressure_preinfusion_step(&preinfusion, &in);
+    assert(d.hand_over && d.integral_start_percent == 0.0F);
+
+    /* Un techo imposible no pasa de 100. */
+    assert(pressure_preinfusion_configure(&preinfusion, &parameters));
+    in = inputs(250.0F, 8.5F, 8.2F);
+    d = pressure_preinfusion_step(&preinfusion, &in);
+    assert(d.hand_over && d.integral_start_percent == 100.0F);
+}
+
+static void test_the_default_start_is_the_fixed_integral(void)
+{
+    /* Una estructura sin el campo, como las plantas ya firmadas, arranca igual
+     * que antes del modo nuevo. */
+    const pressure_preinfusion_parameters_t parameters = {.handover_margin_bar = 0.5F,
+                                                          .integral_start_percent = 15.0F};
+    assert(parameters.start == PRESSURE_PREINFUSION_START_FIXED);
+    pressure_preinfusion_t preinfusion;
+    assert(pressure_preinfusion_configure(&preinfusion, &parameters));
+    const pressure_preinfusion_inputs_t in = inputs(75.0F, 8.5F, 8.2F);
+    assert(pressure_preinfusion_step(&preinfusion, &in).integral_start_percent == 15.0F);
+
+    /* Un modo que no existe deja el módulo sin configurar. */
+    pressure_preinfusion_parameters_t bad = parameters;
+    bad.start = (pressure_preinfusion_start_t)7;
+    assert(!pressure_preinfusion_configure(&preinfusion, &bad));
+}
+
 /* ---- cafetera de juguete ---- */
 
 #define PLANT_DT_S 0.002F
@@ -161,9 +208,11 @@ static float puck_for(float need)
 typedef struct {
     float peak;
     float settled_mean;
+    float dip;   /* mínimo desde el relevo hasta 4 s después */
 } shot_t;
 
-static shot_t extraction(float need, float wet_volume, bool with_preinfusion)
+static shot_t extraction_with(float need, float wet_volume, bool with_preinfusion,
+                              pressure_preinfusion_start_t start)
 {
     toy_t toy = {.pressure = 3.0F, .puck_resistance = puck_for(need), .wet_volume = wet_volume};
     /* El PI de la sintonía de presión: K = 0,06, τ = θ = 0,1 s, λ = 1 s. */
@@ -177,10 +226,13 @@ static shot_t extraction(float need, float wet_volume, bool with_preinfusion)
     };
     pi_controller_t pi;
     assert(pi_controller_configure(&pi, &parameters));
+    pressure_preinfusion_parameters_t preinfusion_parameters = k_parameters;
+    preinfusion_parameters.start = start;
     pressure_preinfusion_t preinfusion;
-    assert(pressure_preinfusion_configure(&preinfusion, &k_parameters));
+    assert(pressure_preinfusion_configure(&preinfusion, &preinfusion_parameters));
 
-    shot_t shot = {0};
+    shot_t shot = {.dip = INFINITY};
+    float handed_over_at = -1.0F;
     float filtered = toy.pressure;
     float demand = 0.0F;
     float settled_sum = 0.0F;
@@ -196,6 +248,7 @@ static shot_t extraction(float need, float wet_volume, bool with_preinfusion)
             const pressure_preinfusion_decision_t d = pressure_preinfusion_step(&preinfusion, &in);
             if (d.hand_over) {
                 pi_controller_reset_with_integral(&pi, filtered, d.integral_start_percent);
+                handed_over_at = t;
             }
             demand = d.regulate ? pi_controller_update(&pi, 8.5F, filtered, 0.0F).output
                                 : ceiling;
@@ -206,9 +259,13 @@ static shot_t extraction(float need, float wet_volume, bool with_preinfusion)
             }
             demand = pi_controller_update(&pi, 8.5F, filtered, 0.0F).output;
         }
+        const bool after_handover = handed_over_at >= 0.0F && t <= handed_over_at + 4.0F;
         for (int s = 0; s < substeps; ++s) {
             const float p = toy_step(&toy, demand);
             shot.peak = p > shot.peak ? p : shot.peak;
+            if (after_handover && p < shot.dip) {
+                shot.dip = p;
+            }
         }
         if (t >= 19.0F) {
             settled_sum += toy.pressure;
@@ -217,6 +274,11 @@ static shot_t extraction(float need, float wet_volume, bool with_preinfusion)
     }
     shot.settled_mean = settled_sum / (float)settled_count;
     return shot;
+}
+
+static shot_t extraction(float need, float wet_volume, bool with_preinfusion)
+{
+    return extraction_with(need, wet_volume, with_preinfusion, PRESSURE_PREINFUSION_START_FIXED);
 }
 
 static void test_the_toy_reproduces_the_fine_grind_failure(void)
@@ -241,14 +303,53 @@ static void test_preinfusion_keeps_every_grind_and_wetting_below_ten_bar(void)
     }
 }
 
+static void test_the_ceiling_start_removes_the_dip_where_the_puck_needs_most_of_the_pump(void)
+{
+    /* La pastilla del banco del 2026-11-06 pide en régimen un 62–70 %. Con la
+     * integral fija del 15 % el juguete cae a unos 7,3 bar tras el relevo,
+     * como la máquina; arrancando desde el techo no baja de 8 bar. */
+    const float needs[] = {70.0F, 66.0F, 54.0F};
+    const float wettings[] = {1.3F, 2.6F, 5.2F};
+    for (size_t i = 0; i < sizeof(needs) / sizeof(needs[0]); ++i) {
+        for (size_t j = 0; j < sizeof(wettings) / sizeof(wettings[0]); ++j) {
+            const shot_t fixed =
+                extraction_with(needs[i], wettings[j], true, PRESSURE_PREINFUSION_START_FIXED);
+            const shot_t ceiling =
+                extraction_with(needs[i], wettings[j], true, PRESSURE_PREINFUSION_START_CEILING);
+            assert(fixed.dip < 7.6F);
+            assert(ceiling.dip >= 8.0F);
+            assert(ceiling.peak < 9.5F);
+            assert(fabsf(ceiling.settled_mean - 8.5F) < 0.3F);
+        }
+    }
+}
+
+static void test_the_ceiling_start_overshoots_a_puck_that_needs_little(void)
+{
+    /* La otra cara, y la razón de que no sea el modo por omisión: con una
+     * pastilla que pide un 10 % o menos, empezar del techo es casi el fallo
+     * del 2026-10-12 que la preinfusión vino a corregir. La integral fija no
+     * pasa de 9,5 bar. Si esta prueba deja de cumplirse, el juguete cambió y
+     * las conclusiones de arriba hay que volver a mirarlas. */
+    const shot_t fixed = extraction_with(10.0F, 2.6F, true, PRESSURE_PREINFUSION_START_FIXED);
+    const shot_t ceiling =
+        extraction_with(10.0F, 2.6F, true, PRESSURE_PREINFUSION_START_CEILING);
+    assert(fixed.peak < 9.5F);
+    assert(ceiling.peak > 11.0F);
+}
+
 int main(void)
 {
     test_zero_never_regulates();
     test_wets_until_the_pressure_reaches_the_margin_then_hands_over_once();
     test_no_handover_without_a_usable_setpoint_or_measurement();
     test_no_integral_start_when_the_pressure_already_reached_the_setpoint();
+    test_the_ceiling_start_takes_the_pump_command_it_finds();
+    test_the_default_start_is_the_fixed_integral();
     test_the_toy_reproduces_the_fine_grind_failure();
     test_preinfusion_keeps_every_grind_and_wetting_below_ten_bar();
+    test_the_ceiling_start_removes_the_dip_where_the_puck_needs_most_of_the_pump();
+    test_the_ceiling_start_overshoots_a_puck_that_needs_little();
     printf("PASS: preinfusión a presión de extracción\n");
     return 0;
 }

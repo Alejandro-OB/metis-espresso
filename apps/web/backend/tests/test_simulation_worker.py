@@ -152,9 +152,10 @@ def test_replica_mode_derives_conditions_from_the_extraction_and_persists_the_co
     # y la ejecución dice de qué actas salen sus números.
     assert run["controller"]["id"] == "board-replica"
     assert run["controller"]["commissioning"] == [
-        "acta-temperatura-20261019-v7",
+        "acta-temperatura-20261028b-v12",
         "acta-presion-20261012-v1",
     ]
+    assert run["controller"]["version"] == "2.0.0"
 
     def inline_executor(run_, model, store, progress, cancelled, _timeout):
         result = run_simulation(
@@ -192,13 +193,13 @@ def test_replica_mode_derives_conditions_from_the_extraction_and_persists_the_co
     assert comparison["alignment"]["method"] == "linear-interpolation-on-measured-grid"
     assert comparison["alignment"]["minimumCoverageRatio"] == 0.8
     assert comparison["controller"]["id"] == "board-replica"
-    assert comparison["controller"]["version"] == "1.0.0"
+    assert comparison["controller"]["version"] == "2.0.0"
 
     channels = {item["channel"]: item for item in comparison["channels"]}
-    assert channels["temperatureC"]["modelTolerance"] == 2.22
+    assert channels["temperatureC"]["modelTolerance"] == 1.85
     assert channels["temperatureC"]["contributesToVerdict"] is True
     # En la v2 la presión es estable en el registro y vota con su tolerancia.
-    assert channels["pressureBar"]["modelTolerance"] == 0.89
+    assert channels["pressureBar"]["modelTolerance"] == 0.74
     assert channels["pressureBar"]["contributesToVerdict"] is True
 
     # la ficha de resultado la expone junto al resto de la evaluación

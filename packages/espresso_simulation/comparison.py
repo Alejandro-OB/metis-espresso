@@ -21,19 +21,24 @@ ALIGNMENT_METHOD = "linear-interpolation-on-measured-grid"
 CHANNEL_UNITS = {"temperatureC": "Cel", "pressureBar": "bar"}
 
 #: Diferencia máxima admisible entre lo medido y lo simulado, evaluada sobre el
-#: error cuadrático medio. La de temperatura, 2,22 °C, es el RMSE máximo de la
-#: FMU 2.1 en la réplica de la plataforma sobre las preparaciones reservadas de su
-#: ajuste (1,85 °C en sim-00000342, `agua-retenida-2.1.md`,
-#: `agua_retenida/replica-plataforma.txt`) con un 20 %, la misma regla que la de
-#: presión (guion 10.3, aprobado el 22-oct-2026). Sustituye a los 2,5 °C
-#: provisionales, que salían del RMSE de calibración del modelo de partida.
+#: error cuadrático medio: el mayor que tuvo el modelo en su propia comprobación,
+#: sin margen. Un veredicto «fuera» dice entonces que el modelo se equivoca más
+#: de lo que se equivocó cuando se lo validó.
 #:
-#: La de presión, 0,89 bar, sigue la misma regla: el RMSE máximo del modelo
-#: hidráulico 10.4 sobre la curva completa de los 5 cafés de validación (0,74
-#: bar) con un 20 % (`modelo-presion-10.4.md`, 357cf90; decisión del usuario
-#: del 18-oct-2026). Solo vota con un modelo que el registro declare estable en
+#: Temperatura, 1,85 °C: RMSE máximo de la FMU 2.1 en la réplica de la
+#: plataforma sobre las preparaciones reservadas de su ajuste (sim-00000342,
+#: `agua-retenida-2.1.md`, `agua_retenida/replica-plataforma.txt`).
+#: Presión, 0,74 bar: RMSE máximo del modelo hidráulico 10.4 sobre la curva
+#: completa de los 5 cafés de validación (`modelo-presion-10.4.md`, 357cf90).
+#:
+#: Hasta el 19-nov-2026 las dos llevaban un 20 % más (2,22 °C y 0,89 bar), un
+#: margen «provisional» del 14-sep que nunca tuvo razón escrita; se quitó para
+#: que el criterio de la monografía tenga origen (decisión del usuario). Con los
+#: errores de la catación del 4-nov, la presión pasa de 11 a 10 cafés dentro.
+#:
+#: La presión solo vota con un modelo que el registro declare estable en
 #: presión (`channel_limitation`); con la FMU v1 se muestra y no cuenta.
-DEFAULT_MODEL_TOLERANCES: dict[str, float] = {"temperatureC": 2.22, "pressureBar": 0.89}
+DEFAULT_MODEL_TOLERANCES: dict[str, float] = {"temperatureC": 1.85, "pressureBar": 0.74}
 
 #: Fracción mínima de muestras medidas que deben poder compararse para emitir un
 #: juicio sobre el modelo.

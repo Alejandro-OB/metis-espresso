@@ -264,3 +264,18 @@ def test_the_replica_converts_with_the_line_the_preparation_declares(tmp_path):
 def test_board_replica_refuses_a_model_without_the_boiler_channel(tmp_path):
     with pytest.raises(ValueError, match="caldera"):
         replica(tmp_path, quantity="water-temperature")
+
+
+def test_the_replica_uses_the_feedforward_gain_the_preparation_declares(tmp_path):
+    """La subida del primer uso cambia la ganancia de un café: la réplica usa la del café."""
+    base = FileSeriesStore(tmp_path).read(replica(tmp_path).artifact)
+    boosted = FileSeriesStore(tmp_path).read(
+        replica(tmp_path, feedforwardGainApplied=1.25).artifact
+    )
+    assert boosted[0]["commands"]["heaterCommand"] > base[0]["commands"]["heaterCommand"]
+    # Sin un valor válido, la del acta: una ganancia nula o booleana no se toma.
+    same = FileSeriesStore(tmp_path).read(
+        replica(tmp_path, feedforwardGainApplied=True).artifact
+    )
+    assert same[0]["commands"]["heaterCommand"] == base[0]["commands"]["heaterCommand"]
+    assert definition()["configuration"]["temperature"]["feedforward"]["gain"] == 0.75
