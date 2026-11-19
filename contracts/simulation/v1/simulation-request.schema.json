@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/simulation/v1/simulation-request.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "model",
+    "profileId",
+    "controller"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        }
+      }
+    },
+    "profileId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "durationSeconds": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Obligatoria salvo en modo réplica, donde se deriva de la duración de la preparación."
+    },
+    "controller": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "const": "profile-tracking"
+        },
+        "version": {
+          "const": "1.0.0"
+        }
+      }
+    },
+    "replicates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "extractionId"
+      ],
+      "description": "Preparación que la simulación reproduce. Su presencia activa el modo réplica: las condiciones iniciales y la duración se derivan de la preparación y no de la solicitud.",
+      "properties": {
+        "extractionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "modelTolerances": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "temperatureC": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "pressureBar": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        },
+        "minimumCoverageRatio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  }
+}

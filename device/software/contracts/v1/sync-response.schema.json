@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/v1/sync-response.schema.json",
+  "title": "Outbox synchronization response v1",
+  "description": "Lo que la plataforma devuelve al dispositivo tras una entrega. La petición confirma qué se recibió; la respuesta es además la única vía por la que una configuración aceptada por el barista llega a la máquina, que conserva el derecho de validarla y rechazarla.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "acknowledged", "inserted", "duplicates", "profileProposals"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "serverTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Instante de la plataforma al responder. El dispositivo carece de reloj con respaldo y puede usarlo como origen de hora cuando no disponga de otro (ADR-013). Se omite mientras el reloj de la plataforma no está sincronizado (26-oct-2026): el dispositivo la vuelve a pedir en el envío siguiente."
+    },
+    "acknowledged": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {"type": "string", "minLength": 1, "maxLength": 80},
+      "description": "Identificadores admitidos. El dispositivo solo libera de su cola lo que aparece aquí."
+    },
+    "inserted": {"type": "integer", "minimum": 0},
+    "duplicates": {"type": "integer", "minimum": 0},
+    "profileProposals": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {"$ref": "profile.schema.json"},
+      "description": "Configuraciones que el barista aceptó y que esperan validación local. No son órdenes: el dispositivo comprueba límites, identidad y vigencia antes de admitirlas, y puede rechazarlas con causa (ADR-001 § 6)."
+    }
+  }
+}

@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Caso 1 · Diagrama ontológico definitivo</title>
+  <style>
+    :root {
+      --paper: #fffdfa;
+      --ink: #293448;
+      --green: #397947;
+      --blue: #2c72aa;
+      --purple: #70499a;
+      --orange: #d85f2b;
+      --gold: #b97810;
+      --gray: #75808e;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+
+    body {
+      padding: 18px;
+      color: var(--ink);
+      font-family: "DejaVu Sans", "Noto Sans", sans-serif;
+      background: #eeeae3;
+    }
+
+    .sheet {
+      width: min(1600px, 100%);
+      min-width: 1180px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid #d8d2c8;
+      background: var(--paper);
+      box-shadow: 0 12px 34px rgba(51, 42, 34, 0.1);
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(360px, 0.9fr) minmax(640px, 1.1fr);
+      min-height: 126px;
+      align-items: center;
+      gap: 42px;
+      padding: 24px 28px;
+      border-bottom: 1px solid #ddd7ce;
+    }
+
+    .eyebrow {
+      margin: 0 0 6px;
+      color: #c9582b;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: #3f271e;
+      font-family: "DejaVu Serif", "Noto Serif", serif;
+      font-size: 54px;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .context {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin: 0;
+    }
+
+    .context div {
+      min-height: 68px;
+      padding: 11px 15px;
+      border-left: 3px solid #d7b18f;
+      background: #fcfaf6;
+    }
+
+    .context dt {
+      margin-bottom: 6px;
+      color: #c9582b;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .context dd {
+      margin: 0;
+      color: #354155;
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    svg { display: block; width: 100%; height: auto; background: var(--paper); }
+
+    .node rect {
+      stroke-width: 1.8;
+      filter: url(#shadow);
+    }
+
+    .node text {
+      font-size: 13px;
+      font-weight: 680;
+      text-anchor: middle;
+    }
+
+    .node .type { font-size: 12px; font-weight: 560; }
+    .node .category {
+      font-size: 8.5px;
+      font-weight: 820;
+      letter-spacing: 0.8px;
+      opacity: 0.78;
+    }
+    .barista rect { fill: #f1f8f1; stroke: var(--green); }
+    .barista text { fill: #2f683a; }
+    .profile rect { fill: #fff5ec; stroke: #d96331; }
+    .profile text { fill: #b44d24; }
+    .extraction rect, .evidence rect { fill: #f1f8fc; stroke: var(--blue); }
+    .extraction text, .evidence text { fill: #235f88; }
+    .sensory rect, .defect rect { fill: #f7f3fd; stroke: var(--purple); }
+    .sensory text, .defect text { fill: #63438f; }
+    .deviation rect, .diagnosis rect { fill: #fff5ed; stroke: var(--orange); }
+    .deviation text, .diagnosis text { fill: #9e421f; }
+    .explanation rect, .guidance rect { fill: #fff9ee; stroke: var(--gold); stroke-width: 2; }
+    .explanation text, .guidance text { fill: #765318; }
+
+    .edge {
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .domain { stroke: var(--green); marker-end: url(#arrow-green); }
+    .observation { stroke: var(--blue); marker-end: url(#arrow-blue); }
+    .sensory-edge { stroke: var(--purple); marker-end: url(#arrow-purple); }
+    .provenance { stroke: var(--blue); stroke-dasharray: 2 5; marker-end: url(#arrow-blue); }
+    .diagnostic { stroke: var(--orange); stroke-dasharray: 2 5; marker-end: url(#arrow-orange); }
+    .explanation-edge { stroke: var(--gold); marker-end: url(#arrow-gold); }
+
+    .edge-label {
+      font-size: 10.5px;
+      font-weight: 780;
+      text-anchor: middle;
+      paint-order: stroke;
+      stroke: var(--paper);
+      stroke-width: 7px;
+      stroke-linejoin: round;
+    }
+
+    .green-label { fill: #356b40; }
+    .blue-label { fill: #2c6598; }
+    .purple-label { fill: #66438b; }
+    .orange-label { fill: #b94d22; }
+    .gold-label { fill: #8c5d0e; }
+
+    .reasoning-note {
+      fill: var(--gray);
+      font-size: 10px;
+      font-weight: 760;
+      letter-spacing: 0.25px;
+      text-anchor: middle;
+      text-transform: uppercase;
+    }
+
+    footer {
+      display: flex;
+      min-height: 70px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 16px 28px;
+      color: #596477;
+      font-size: 11px;
+      font-weight: 700;
+      background: #faf8f4;
+    }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 28px; }
+    .legend span { display: inline-flex; align-items: center; gap: 9px; }
+    .sample { width: 36px; border-top: 2px solid var(--green); }
+    .sample.provenance-sample { border-color: var(--blue); border-top-style: dotted; }
+    .sample.diagnostic-sample { border-color: var(--orange); border-top-style: dotted; }
+    .sample.explanation-sample { border-color: var(--gold); }
+    footer p { margin: 0; white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <main class="sheet">
+    <header>
+      <div>
+        <p class="eyebrow">Ontología del proceso de extracción de espresso</p>
+        <h1>Caso 1</h1>
+      </div>
+      <dl class="context">
+        <div>
+          <dt>Situación</dt>
+          <dd>Se usó un perfil de extracción y se obtuvo astringencia excesiva.</dd>
+        </div>
+        <div>
+          <dt>Pregunta</dt>
+          <dd>¿Qué falló durante la extracción o qué generó la astringencia?</dd>
+        </div>
+      </dl>
+    </header>
+
+    <svg viewBox="0 0 1600 850" role="img" aria-labelledby="svg-title svg-desc">
+      <title id="svg-title">Caso 1, diagrama ontológico definitivo</title>
+      <desc id="svg-desc">La desviación técnica y el defecto sensorial son evidencias de un diagnóstico, y una explicación justifica dicho diagnóstico.</desc>
+
+      <defs>
+        <filter id="shadow" x="-20%" y="-30%" width="140%" height="170%">
+          <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#293448" flood-opacity="0.08"/>
+        </filter>
+        <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#397947"/></marker>
+        <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2c72aa"/></marker>
+        <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#70499a"/></marker>
+        <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d85f2b"/></marker>
+        <marker id="arrow-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b97810"/></marker>
+      </defs>
+
+      <!-- Relaciones del barista -->
+      <path class="edge domain" d="M 430 125 C 530 100 645 74 715 55"/>
+      <text class="edge-label green-label" x="575" y="88">definedBy</text>
+      <path class="edge domain" d="M 800 125 L 800 75"/>
+      <text class="edge-label green-label" x="850" y="103">performedBy</text>
+      <path class="edge domain" d="M 1080 152 C 990 130 920 86 885 56"/>
+      <text class="edge-label green-label" x="970" y="103">evaluatedBy</text>
+
+      <!-- Recorrido principal -->
+      <path class="edge domain" d="M 690 156 L 460 156"/>
+      <text class="edge-label green-label" x="575" y="145">usesProfile</text>
+      <path class="edge sensory-edge" d="M 910 156 L 1080 156"/>
+      <text class="edge-label purple-label" x="995" y="145">hasSensoryEvaluation</text>
+      <path class="edge observation" d="M 355 192 L 295 280"/>
+      <text class="edge-label blue-label" x="305" y="230">hasParameterSpecification</text>
+      <path class="edge observation" d="M 760 192 L 625 280"/>
+      <text class="edge-label blue-label" x="700" y="230">hasObservation</text>
+      <path class="edge sensory-edge" d="M 1215 197 L 1235 280"/>
+      <text class="edge-label purple-label" x="1275" y="240">hasPerceivedDefect</text>
+
+      <!-- La desviación conserva la procedencia sin enlazarse directamente con la extracción -->
+      <path class="edge provenance" d="M 480 465 C 250 445 210 380 295 354"/>
+      <text class="edge-label blue-label" x="245" y="410">derivedFrom</text>
+      <path class="edge provenance" d="M 640 465 C 780 438 775 380 625 354"/>
+      <text class="edge-label blue-label" x="745" y="410">derivedFrom</text>
+      <text class="reasoning-note" x="560" y="438">Comparación externa: 35 s &gt; 30 s</text>
+
+      <!-- Diagnóstico centrado en el problema -->
+      <path class="edge provenance" d="M 820 511 L 730 511"/>
+      <text class="edge-label blue-label" x="775" y="500">derivedFrom</text>
+      <path class="edge diagnostic" d="M 1150 500 C 1240 470 1270 405 1235 354"/>
+      <text class="edge-label orange-label" x="1250" y="435">isDiagnosisOf</text>
+
+      <!-- Explicación del diagnóstico -->
+      <path class="edge explanation-edge" d="M 890 650 L 985 557"/>
+      <text class="edge-label gold-label" x="965" y="610">explains</text>
+      <path class="edge explanation-edge" d="M 700 688 C 640 655 595 610 560 557"/>
+      <text class="edge-label gold-label" x="630" y="635">hasEvidence</text>
+      <path class="edge explanation-edge" d="M 1080 650 C 1250 610 1440 505 1380 317"/>
+      <text class="edge-label gold-label" x="1360" y="535">hasEvidence</text>
+
+      <!-- Trazabilidad de la desviación y de la explicación -->
+      <path class="edge explanation-edge" d="M 390 511 L 270 511"/>
+      <text class="edge-label gold-label" x="330" y="498">basedOnCriterion</text>
+      <path class="edge explanation-edge" d="M 1100 702 L 1230 702"/>
+      <text class="edge-label gold-label" x="1165" y="691">generatedBy</text>
+
+      <!-- Entidades -->
+      <g class="node barista">
+        <rect x="715" y="15" width="170" height="60" rx="9"/>
+        <text x="800" y="30"><tspan class="category" x="800">ACTOR</tspan><tspan x="800" dy="16">BaristaA</tspan><tspan class="type" x="800" dy="16">Barista</tspan></text>
+      </g>
+
+      <g class="node profile">
+        <rect x="250" y="125" width="210" height="67" rx="9"/>
+        <text x="355" y="141"><tspan class="category" x="355">PERFIL DE EXTRACCIÓN</tspan><tspan x="355" dy="19">perfil_001</tspan><tspan class="type" x="355" dy="18">ExtractionProfile</tspan></text>
+      </g>
+
+      <g class="node extraction">
+        <rect x="690" y="125" width="220" height="67" rx="9"/>
+        <text x="800" y="141"><tspan class="category" x="800">EXTRACCIÓN</tspan><tspan x="800" dy="19">C1Extraction</tspan><tspan class="type" x="800" dy="18">EspressoExtraction</tspan></text>
+      </g>
+
+      <g class="node sensory">
+        <rect x="1080" y="120" width="270" height="77" rx="9"/>
+        <text x="1215" y="138"><tspan class="category" x="1215">EVALUACIÓN SENSORIAL</tspan><tspan x="1215" dy="21">Evaluación sensorial</tspan><tspan class="type" x="1215" dy="19">C1Sensory · SensoryEvaluation</tspan></text>
+      </g>
+
+      <g class="node evidence">
+        <rect x="170" y="280" width="250" height="74" rx="9"/>
+        <text x="295" y="296"><tspan class="category" x="295">ESPECIFICACIÓN DE PARÁMETRO</tspan><tspan x="295" dy="22">Límite del perfil: 30 s</tspan><tspan class="type" x="295" dy="19">SpecTime · maximumValue</tspan></text>
+      </g>
+
+      <g class="node evidence">
+        <rect x="500" y="280" width="250" height="74" rx="9"/>
+        <text x="625" y="296"><tspan class="category" x="625">OBSERVACIÓN</tspan><tspan x="625" dy="22">Tiempo observado: 35 s</tspan><tspan class="type" x="625" dy="19">C1TimeObs · ExtractionTime</tspan></text>
+      </g>
+
+      <g class="node defect">
+        <rect x="1090" y="280" width="290" height="74" rx="9"/>
+        <text x="1235" y="296"><tspan class="category" x="1235">DEFECTO SENSORIAL</tspan><tspan x="1235" dy="22">Astringencia excesiva</tspan><tspan class="type" x="1235" dy="19">ExcessiveAstringency · SensoryDefect</tspan></text>
+      </g>
+
+      <g class="node deviation">
+        <rect x="390" y="465" width="340" height="92" rx="9"/>
+        <text x="560" y="482"><tspan class="category" x="560">DESVIACIÓN TÉCNICA</tspan><tspan x="560" dy="22">Tiempo por encima del perfil</tspan><tspan class="type" x="560" dy="19">TechnicalDeviation · above-profile</tspan><tspan class="type" x="560" dy="18">35 s &gt; máximo de 30 s</tspan></text>
+      </g>
+
+      <g class="node diagnosis">
+        <rect x="820" y="465" width="330" height="92" rx="9"/>
+        <text x="985" y="482"><tspan class="category" x="985">DIAGNÓSTICO</tspan><tspan x="985" dy="22">Incumplimiento del tiempo</tspan><tspan class="type" x="985" dy="19">Diagnosis · probable-diagnosis</tspan><tspan class="type" x="985" dy="18">Diagnóstico de la astringencia</tspan></text>
+      </g>
+
+      <g class="node explanation">
+        <rect x="680" y="650" width="420" height="105" rx="9"/>
+        <text x="890" y="669"><tspan class="category" x="890">EXPLICACIÓN</tspan><tspan x="890" dy="23">35 s &gt; 30 s fue la única anomalía técnica</tspan><tspan class="type" x="890" dy="19">Los demás controles permanecieron dentro del perfil</tspan><tspan class="type" x="890" dy="18">Prioriza el tiempo; no demuestra el mecanismo causal</tspan><tspan class="type" x="890" dy="17">ExplanationAssertion · probable-explanation</tspan></text>
+      </g>
+
+      <g class="node guidance">
+        <rect x="30" y="475" width="240" height="72" rx="9"/>
+        <text x="150" y="491"><tspan class="category" x="150">CRITERIO</tspan><tspan x="150" dy="21">Criterio de conformidad</tspan><tspan class="type" x="150" dy="19">ProfileConformanceCriterion · EvaluationCriterion</tspan></text>
+      </g>
+
+      <g class="node guidance">
+        <rect x="1230" y="665" width="330" height="75" rx="9"/>
+        <text x="1395" y="681"><tspan class="category" x="1395">AGENTE DE RAZONAMIENTO</tspan><tspan x="1395" dy="22">Razonador basado en evidencia</tspan><tspan class="type" x="1395" dy="19">EvidenceBasedReasoner · SoftwareAgent</tspan></text>
+      </g>
+    </svg>
+
+    <footer aria-label="Leyenda">
+      <div class="legend">
+        <span><i class="sample"></i>Relación del dominio</span>
+        <span><i class="sample provenance-sample"></i>Procedencia</span>
+        <span><i class="sample diagnostic-sample"></i>Relación diagnóstica</span>
+        <span><i class="sample explanation-sample"></i>Explicación y procedencia</span>
+      </div>
+      <p>Ontología 3.5.0 · Diagrama definitivo del caso 1</p>
+    </footer>
+  </main>
+</body>
+</html>

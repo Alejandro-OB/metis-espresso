@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/v1/sensory-learning-episode.schema.json",
+  "title": "Sensory learning episode v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "coffeeId", "initialExtractionId", "adjustment", "targetOutcome", "followUpExtractionId", "outcome"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 80},
+    "coffeeId": {"type": "string", "minLength": 1, "maxLength": 80},
+    "initialExtractionId": {"type": "string", "minLength": 1, "maxLength": 80},
+    "followUpExtractionId": {"type": "string", "minLength": 1, "maxLength": 80},
+    "adjustment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "performedBy", "property", "previousValue", "newValue", "unit", "occurredAt"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 80},
+        "performedBy": {"type": "string", "minLength": 1, "maxLength": 120},
+        "property": {"enum": ["water-temperature", "extraction-time", "grind-setting", "coffee-dose", "brew-ratio", "pressure"]},
+        "previousValue": {"type": "number"},
+        "newValue": {"type": "number"},
+        "unit": {"type": "string", "minLength": 1, "maxLength": 40},
+        "occurredAt": {"type": "string", "format": "date-time"},
+        "rationale": {"type": ["string", "null"], "maxLength": 2000}
+      }
+    },
+    "targetOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "code"],
+      "properties": {
+        "kind": {"enum": ["sensory-defect", "observable-property"]},
+        "code": {"type": "string", "minLength": 1, "maxLength": 120}
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "assessedBy", "assessedAt", "rationale"],
+      "properties": {
+        "category": {"enum": ["expected-observed", "insufficient-observed", "adverse-observed", "inconclusive"]},
+        "assessedBy": {"type": "string", "minLength": 1, "maxLength": 120},
+        "assessedAt": {"type": "string", "format": "date-time"},
+        "rationale": {"type": "string", "minLength": 1, "maxLength": 2000}
+      }
+    }
+  }
+}

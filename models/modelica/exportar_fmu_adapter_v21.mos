@@ -1,0 +1,17 @@
+rutaProyecto := getEnvironmentVar("MODELICA_PROJECT_ROOT");
+if rutaProyecto == "" then
+  rutaProyecto := ".";
+end if;
+loadModel(Modelica);
+// El circuito hidráulico tiene una constante de 0,05 s y la FMU se avanza a 0,1 s:
+// con el Euler de paso fijo que trae por omisión la co-simulación, la presión diverge.
+// CVODE, de paso variable dentro de cada paso de comunicación, lo resuelve.
+setCommandLineOptions("--fmiFlags=s:cvode");
+loadFile(rutaProyecto + "/GemeloDigitalPreparacionCafe/package.mo");
+// version es la de FMI (2.0), no la del modelo: la del modelo (2.1.0) va en el registro.
+buildModelFMU(
+  GemeloDigitalPreparacionCafe.FmuAdapterV21,
+  version = "2.0",
+  fmuType = "cs",
+  fileNamePrefix = "FmuAdapterV21");
+getErrorString();

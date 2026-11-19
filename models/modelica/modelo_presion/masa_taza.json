@@ -1,0 +1,24 @@
+{
+  "q_g_s": 2.083968791353473,
+  "t0_s": 10.03355311854347,
+  "goteo_g": 1.7937815886380997,
+  "sigma_g": 6.597036758769877,
+  "dosis_g": 13.0,
+  "valido": {
+    "tiempo_s": [
+      12,
+      27
+    ],
+    "dosis_g": 13.0,
+    "presion_bar": 8.5,
+    "metal_C": [
+      91.4,
+      92.6
+    ],
+    "molienda_clics": [
+      32,
+      44
+    ],
+    "canastilla": "presurizada de dos tazas"
+  }
+}

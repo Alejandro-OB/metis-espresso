@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/simulation/v1/controller.schema.json",
+  "description": "Definición congelada de un controlador de la planta virtual. profile-tracking es el control de seguimiento de la plataforma; board-replica, la réplica del control de la placa con sus actas, la que usa la réplica de una preparación con la FMU v2.",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "controllerId", "controllerVersion", "deterministic", "inputs", "outputs", "configuration", "configurationSha256"],
+      "properties": {
+        "schemaVersion": {"const": "1.0"},
+        "controllerId": {"const": "profile-tracking"},
+        "controllerVersion": {"const": "1.0.0"},
+        "deterministic": {"const": true},
+        "inputs": {"const": ["simulationTimeSeconds", "temperatureC", "pressureBar", "targetTemperatureC", "targetPressureBar"]},
+        "outputs": {"const": ["heaterCommand", "pumpCommand"]},
+        "configuration": {"type": "object"},
+        "configurationSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "controllerId", "controllerVersion", "deterministic", "inputs", "outputs", "requires", "provenance", "configuration", "configurationSha256"],
+      "properties": {
+        "schemaVersion": {"const": "1.0"},
+        "controllerId": {"const": "board-replica"},
+        "controllerVersion": {"const": "1.0.0"},
+        "deterministic": {"const": true},
+        "inputs": {"const": ["temperatureC", "pressureBar", "boilerSetpointC", "pressureSetpointBar"]},
+        "outputs": {"const": ["heaterCommand", "pumpCommand"]},
+        "requires": {"type": "object"},
+        "provenance": {"type": "object"},
+        "configuration": {"type": "object"},
+        "configurationSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  ]
+}

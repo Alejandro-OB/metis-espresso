@@ -1,0 +1,114 @@
+.shell { min-height: 100dvh; }
+.side {
+  position: fixed; z-index: var(--layer-navigation); inset: 0 auto 0 0;
+  width: var(--nav-width); height: 100dvh; padding: 0;
+  overflow: hidden;
+  /* El mismo lenguaje que la pantalla de acceso: la luz entra por arriba,
+     donde está la marca, y el fondo se hunde hacia abajo. Más contenido que
+     allí, porque aquí encima va texto pequeño y el resplandor no puede
+     comerse el contraste de los enlaces. */
+  background:
+    radial-gradient(125% 55% at 0% 0%, color-mix(in srgb, var(--color-accent) 20%, transparent) 0%, transparent 58%),
+    linear-gradient(180deg, var(--color-shell) 0%, var(--color-shell-deep) 100%);
+  box-shadow: 1px 0 0 rgba(255,255,255,.06);
+}
+/* Los anillos de Simulaciones y del acceso, ahora también aquí. */
+.side::after {
+  content: '';
+  position: absolute;
+  inset: auto -7rem -6rem auto;
+  width: 17rem;
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2.5rem color-mix(in srgb, var(--color-accent) 5%, transparent);
+  pointer-events: none;
+}
+.sideInner { position: relative; height: 100%; display: flex; flex-direction: column; padding: 1.15rem .55rem; color: var(--color-on-shell); }
+/* El contorno de foco general es un azul técnico pensado para fondos claros.
+   Sobre el fondo oscuro de la barra lateral se queda en 2,6:1 contra el
+   contorno adyacente, por debajo del 3:1 que pide el criterio de apariencia
+   del foco, y es difícil ver dónde está el teclado. Aquí toma el tono claro. */
+.sideInner :focus-visible { outline-color: var(--color-accent-soft); }
+.brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; margin: 0 .7rem 2.1rem; }
+.brandMark { width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border-radius: 50%; background: var(--color-accent); color: var(--color-shell); }
+.brandText strong { display: block; font-family: var(--font-editorial); font-size: 1.1rem; line-height: 1; }
+.brandText span { color: var(--color-on-shell-muted); font-size: var(--text-micro); letter-spacing: .08em; text-transform: uppercase; }
+.nav { display: grid; gap: .2rem; }
+.navLink { min-height: var(--control-min); display: flex; align-items: center; gap: .75rem; padding: .5rem .85rem; border: 1px solid transparent; border-radius: var(--radius-lg); color: var(--color-on-shell-muted); text-decoration: none; font-size: var(--text-small); transition: transform var(--duration-fast) var(--ease-physical), color var(--duration-fast) var(--ease-physical), background var(--duration-base) var(--ease-physical); }
+.navLink:hover { transform: translateX(.15rem); color: var(--color-on-shell); background: rgba(255,255,255,.09); }
+.active { color: var(--color-on-shell); background: color-mix(in srgb, var(--color-accent) 24%, transparent); border-color: color-mix(in srgb, var(--color-accent) 55%, transparent); font-weight: 600; box-shadow: inset 3px 0 var(--color-accent); }
+.sideFooter { margin-block-start: auto; display: grid; gap: var(--space-4); }
+.authority { color: var(--color-on-shell-faint); font-size: var(--text-micro); line-height: 1.45; }
+/* Hasta 1440 px el contenido arranca justo después de la barra lateral y usa
+   todo el ancho disponible. Por encima, el límite de lectura deja de
+   alcanzarse y el bloque quedaba pegado a la izquierda con una franja muerta a
+   la derecha: en un monitor de 2560 sobraban 664 px. El margen pasa entonces a
+   centrarlo. El `max()` cambia de rama solo, sin consulta de medios, así que
+   no hay salto en ningún ancho intermedio. */
+.main { margin-inline-start: max(calc(var(--nav-width) + var(--space-10)), calc((100% - var(--content-wide)) / 2)); margin-inline-end: var(--space-10); padding: var(--space-10) clamp(var(--space-5), 4vw, var(--space-16)) var(--space-20); max-width: var(--content-wide); }
+/* El estado de conexión y la cuenta flotaban sueltos en la parte alta, sin
+   nada que separase la cáscara de la aplicación del contenido de la página. La
+   línea los convierte en un encabezado: la franja deja de ser un vacío y pasa
+   a ser una banda con función. */
+.top { display: flex; justify-content: flex-end; align-items: center; gap: var(--space-4); padding-block-end: var(--space-5); margin-block-end: var(--space-8); border-block-end: 1px solid var(--color-line); }
+.networkDot { width: .55rem; height: .55rem; border-radius: var(--radius-pill); background: var(--color-success); }
+.offline .networkDot { background: var(--color-danger); }
+.network { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-3); border-radius: var(--radius-pill); background: var(--color-warning-soft); color: var(--color-warning); font-size: var(--text-small); font-weight: 600; }
+.account { display: flex; align-items: center; gap: var(--space-4); }
+.accountLink { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-1) var(--space-2); border-radius: var(--radius-pill); color: var(--color-ink); text-decoration: none; }
+.accountLink:hover { background: var(--color-surface-muted); }
+.avatar { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: var(--radius-pill); background: var(--color-brand-soft); color: var(--color-brand); font-size: var(--text-small); font-weight: 700; letter-spacing: .02em; }
+.accountText { display: grid; line-height: 1.2; }
+.accountText strong { font-size: var(--text-small); font-weight: 600; }
+.accountText small { color: var(--color-ink-muted); font-size: var(--text-micro); }
+.account .logout { min-height: 2.25rem; padding: .4rem .75rem; color: var(--color-ink-muted); font-size: var(--text-small); font-weight: 500; }
+.account .logout:hover { color: var(--color-ink); }
+.dock { display: none; }
+.bottom { display: none; }
+.moreButton { border: 1px solid transparent; background: transparent; font: inherit; cursor: pointer; }
+.breadcrumbs { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); color: var(--color-ink-muted); font-size: var(--text-small); margin-block-end: var(--space-4); }
+.breadcrumbs a { color: var(--color-brand); }
+.tabs { display: flex; gap: var(--space-2); overflow-x: auto; padding-block-end: var(--space-2); }
+.tab { min-height: var(--control-min); border: 0; border-radius: var(--radius-pill); padding: var(--space-2) var(--space-4); background: transparent; color: var(--color-ink-muted); white-space: nowrap; cursor: pointer; }
+.tabActive { background: var(--color-brand-soft); color: var(--color-brand); font-weight: 600; }
+
+@media (max-width: 63.99rem) {
+  .side { display: none; }
+  .main { margin-inline-start: 0; margin-inline-end: 0; max-width: none; padding: var(--space-5) var(--space-4) calc(6.5rem + env(safe-area-inset-bottom)); }
+  .top { justify-content: space-between; margin-block-end: var(--space-8); }
+  /* La isla es una superficie clara, pero `.navLink` nace para la barra lateral
+     oscura y lleva un gris muy claro: sobre crema quedaba casi invisible, y el
+     elemento activo era texto blanco sobre un cobre al 20 %. Aquí los colores
+     se invierten y el fondo se vuelve opaco con borde propio, para que la isla
+     se lea como una pieza apoyada sobre la página y no como una mancha. */
+  .dock { position: fixed; z-index: var(--layer-navigation); inset-inline: var(--space-3); inset-block-end: max(var(--space-3), env(safe-area-inset-bottom)); display: grid; gap: var(--space-2); justify-items: stretch; }
+  .bottom { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: var(--space-2); border: 1px solid var(--color-line-strong); border-radius: var(--radius-xl); background: var(--color-surface); box-shadow: var(--shadow-float); }
+  /* El panel repite la superficie de la isla para que se lean como una pieza.
+     Tres columnas porque los destinos que quedan tienen rótulos largos. */
+  .morePanel { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-1); padding: var(--space-2); border: 1px solid var(--color-line-strong); border-radius: var(--radius-xl); background: var(--color-surface); box-shadow: var(--shadow-float); animation: subirPanel var(--duration-fast) var(--ease-physical) both; }
+  @keyframes subirPanel { from { opacity: 0; transform: translateY(var(--space-2)); } }
+  .morePanel .navLink { min-width: 0; min-height: 3.25rem; flex-direction: column; justify-content: center; gap: var(--space-1); padding: var(--space-2) var(--space-1); color: var(--color-ink-muted); font-size: var(--text-micro); font-weight: 500; }
+  .morePanel .navLink:hover { color: var(--color-ink); background: var(--color-surface-muted); }
+  .morePanel .active { color: var(--color-brand); background: var(--color-brand-soft); border-color: var(--color-brand); font-weight: 700; box-shadow: none; }
+  .morePanel .navLink span { width: 100%; text-align: center; line-height: 1.15; overflow-wrap: break-word; hyphens: auto; }
+  .bottom .navLink { min-width: 0; min-height: 3rem; flex-direction: column; justify-content: center; gap: var(--space-1); padding: var(--space-2) var(--space-1); color: var(--color-ink-muted); font-size: var(--text-micro); font-weight: 500; }
+  .bottom .navLink:hover { transform: translateY(-.1rem); color: var(--color-ink); background: var(--color-surface-muted); }
+  /* El destino actual se marca con color, fondo y peso a la vez: el color por
+     sí solo no basta como señal. */
+  .bottom .active { color: var(--color-brand); background: var(--color-brand-soft); border-color: var(--color-brand); font-weight: 700; box-shadow: none; }
+}
+
+@media (max-width: 35rem) {
+  .accountText small { display: none; }
+  .accountText { max-width: 8rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  /* En teléfonos la etiqueta se ocultaba y la isla quedaba en diez iconos, de
+     los que cuatro pares son el mismo dibujo: `coffee` sirve a Resumen y a
+     Cafés, `system` a Perfiles y a Equipos, `compare` a Simulaciones y a
+     Calibrar, `history` a Historial y a Ajustes. Sin texto no hay forma de
+     distinguirlos, que es justo donde el documento de diseño pide que la isla
+     sustituya a la barra lateral. El texto ya estaba en el marcado. Se deja
+     ver, se centra y se permite que ocupe dos líneas: la isla crece unos pocos
+     píxeles porque las dos filas de iconos ya existían. */
+  .bottom .navLink span { width: 100%; text-align: center; line-height: 1.15; overflow-wrap: break-word; hyphens: auto; }
+}

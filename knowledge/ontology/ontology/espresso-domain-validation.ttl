@@ -1,0 +1,430 @@
+@prefix edt: <https://w3id.org/espresso-dt#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Población sintética de entrada para los casos 1, 2, 4, 7, 9 y 11 a 17.
+# Contiene hechos observados, perfiles, contextos y decisiones registradas.
+# Las desviaciones, los diagnósticos, las diferencias y las explicaciones son materializados por el
+# razonador externo; no se almacenan aquí como respuestas predeterminadas.
+
+#################################################################
+# Entidades comunes y perfil
+#################################################################
+
+edt:BaristaA a edt:Barista ; rdfs:label "barista A"@es .
+edt:BaristaB a edt:Barista ; rdfs:label "barista B"@es .
+edt:CoffeeSourceA a edt:Agent ; rdfs:label "fuente comercial sintética A"@es .
+edt:MachineValidation a edt:EspressoMachine ; rdfs:label "máquina de validación"@es .
+edt:GrinderValidation a edt:Grinder ; rdfs:label "molino de validación"@es .
+
+edt:CoffeeLotA a edt:CoffeeMaterial ;
+    rdfs:label "lote de café A"@es ;
+    edt:lotIdentifier "LOT-A-2026" ;
+    edt:bagIdentifier "BAG-A-01" ;
+    edt:commercialReference "Referencia sintética A" ;
+    edt:roastDate "2026-08-25T00:00:00-05:00"^^xsd:dateTime ;
+    edt:hasVariety edt:Caturra ;
+    edt:hasPostHarvestProcess edt:Washed ;
+    edt:hasRoastLevel edt:MediumRoast ;
+    edt:hasTerroir edt:TerroirCoffeeLotA ;
+    edt:hasDeclaredSensoryProfile edt:DeclaredProfileCoffeeLotA .
+
+edt:DeclaredProfileCoffeeLotA a edt:DeclaredSensoryProfile ;
+    edt:describesCoffee edt:CoffeeLotA ;
+    edt:declaredBy edt:CoffeeSourceA ;
+    edt:hasSensoryDescriptor edt:Chocolate, edt:Caramel, edt:Citrus ;
+    edt:sensoryDescriptionText "Chocolate, caramelo y cítrico"@es ;
+    dcterms:source <urn:source:coffee-lot-a-sheet> .
+
+edt:TargetProfileCoffeeLotA a edt:TargetSensoryProfile ;
+    edt:describesCoffee edt:CoffeeLotA ;
+    edt:sensoryTargetDefinedBy edt:BaristaA ;
+    edt:hasSensoryDescriptor edt:Chocolate, edt:Caramel ;
+    dcterms:source "Objetivo sintético de validación definido por el barista A"@es .
+
+edt:TerroirCoffeeLotA a edt:Terroir ;
+    rdfs:label "terroir del lote A"@es ;
+    edt:regionName "Huila, Colombia" ;
+    edt:hasAltitude edt:AltitudeCoffeeLotA ;
+    edt:soilCharacteristics "suelo volcánico" ;
+    edt:mineralComposition "composición mineral sintética declarada" ;
+    dcterms:source <urn:source:coffee-lot-a-sheet> .
+
+edt:AltitudeCoffeeLotA a edt:AltitudeSpecification ; edt:quantityValue 1800.0 ; edt:hasUnit edt:Meter .
+
+edt:perfil_001 a edt:ExtractionProfile ;
+    rdfs:label "perfil_001"@es ;
+    edt:definedBy edt:BaristaA ;
+    edt:validatedBy edt:BaristaA ;
+    edt:applicableToCoffee edt:CoffeeLotA ;
+    edt:hasTargetSensoryProfile edt:TargetProfileCoffeeLotA ;
+    edt:hasProfileStatus edt:Approved ;
+    edt:supportedBy edt:C2ExtractionA ;
+    edt:hasParameterSpecification edt:SpecDose, edt:SpecBeverageMass, edt:SpecTime,
+        edt:SpecTemperature, edt:SpecPressure, edt:SpecThermalStability,
+        edt:SpecTDS, edt:SpecYield .
+
+edt:SpecDose a edt:ProfileParameterSpecification ; edt:forProperty edt:CoffeeDoseMass ; edt:targetValue 18.0 ; edt:toleranceValue 0.2 ; edt:hasUnit edt:Gram .
+edt:SpecBeverageMass a edt:ProfileParameterSpecification ; edt:forProperty edt:BeverageMass ; edt:targetValue 36.0 ; edt:toleranceValue 1.0 ; edt:hasUnit edt:Gram .
+edt:SpecTime a edt:ProfileParameterSpecification ; edt:forProperty edt:ExtractionTime ; edt:minimumValue 25.0 ; edt:maximumValue 30.0 ; edt:hasUnit edt:Second .
+edt:SpecTemperature a edt:ProfileParameterSpecification ; edt:forProperty edt:WaterTemperature ; edt:minimumValue 92.0 ; edt:maximumValue 94.0 ; edt:hasUnit edt:DegreeCelsius .
+edt:SpecPressure a edt:ProfileParameterSpecification ; edt:forProperty edt:ExtractionPressure ; edt:targetValue 9.0 ; edt:toleranceValue 0.5 ; edt:hasUnit edt:Bar .
+edt:SpecThermalStability a edt:ProfileParameterSpecification ; edt:forProperty edt:ThermalStability ; edt:minimumValue 0.0 ; edt:maximumValue 0.7 ; edt:hasUnit edt:DegreeCelsius .
+edt:SpecTDS a edt:ProfileParameterSpecification ; edt:forProperty edt:TDS ; edt:minimumValue 8.0 ; edt:maximumValue 12.0 ; edt:hasUnit edt:Percent .
+edt:SpecYield a edt:ProfileParameterSpecification ; edt:forProperty edt:ExtractionYield ; edt:minimumValue 19.0 ; edt:maximumValue 24.0 ; edt:hasUnit edt:Percent .
+
+#################################################################
+# Condiciones ambientales
+#################################################################
+
+edt:EnvC1 a edt:EnvironmentalCondition ; edt:validFrom "2026-09-01T08:00:00-05:00"^^xsd:dateTime ; edt:validUntil "2026-09-01T10:00:00-05:00"^^xsd:dateTime .
+edt:EnvC2 a edt:EnvironmentalCondition ; edt:validFrom "2026-09-02T08:00:00-05:00"^^xsd:dateTime ; edt:validUntil "2026-09-02T10:00:00-05:00"^^xsd:dateTime .
+edt:EnvC4 a edt:EnvironmentalCondition ; edt:validFrom "2026-09-03T08:00:00-05:00"^^xsd:dateTime ; edt:validUntil "2026-09-03T10:00:00-05:00"^^xsd:dateTime .
+edt:EnvC7 a edt:EnvironmentalCondition ; edt:validFrom "2026-09-04T08:00:00-05:00"^^xsd:dateTime ; edt:validUntil "2026-09-04T10:00:00-05:00"^^xsd:dateTime .
+edt:EnvC9 a edt:EnvironmentalCondition ; edt:validFrom "2026-09-06T08:00:00-05:00"^^xsd:dateTime ; edt:validUntil "2026-09-06T10:00:00-05:00"^^xsd:dateTime .
+
+#################################################################
+# Caso 1: astringencia y desviaciones respecto al perfil
+#################################################################
+
+edt:C1Dose a edt:CoffeeDose ; edt:hasVariety edt:Caturra ; edt:hasPostHarvestProcess edt:Washed ; edt:hasRoastLevel edt:MediumRoast ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C1Beverage a edt:EspressoBeverage .
+edt:C1TemperatureSeries a edt:ObservationSeries ; edt:seriesForProperty edt:WaterTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c1:temperature"^^xsd:anyURI .
+edt:C1Extraction a edt:EspressoExtraction ;
+    edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_001 ;
+    edt:usesMaterial edt:CoffeeLotA, edt:C1Dose ;
+    edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ;
+    edt:producesBeverage edt:C1Beverage ; edt:occurredUnder edt:EnvC1 ;
+    edt:hasObservationSeries edt:C1TemperatureSeries ;
+    edt:startTime "2026-09-01T09:00:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-01T09:00:35-05:00"^^xsd:dateTime ;
+    edt:hasObservation edt:C1DoseObs, edt:C1MassObs, edt:C1TimeObs, edt:C1TempObs,
+        edt:C1PressureObs, edt:C1ThermalObs, edt:C1TDSObs, edt:C1YieldObs ;
+    edt:hasSensoryEvaluation edt:C1Sensory .
+edt:C1DoseObs a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C1Dose ; edt:numericValue 18.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-01T09:00:00-05:00"^^xsd:dateTime .
+edt:C1MassObs a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C1Beverage ; edt:numericValue 36.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-01T09:00:35-05:00"^^xsd:dateTime .
+edt:C1TimeObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C1Extraction ; edt:numericValue 35.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-01T09:00:35-05:00"^^xsd:dateTime .
+edt:C1TempObs a edt:MeasuredObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C1Extraction ; edt:numericValue 93.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-01T09:00:20-05:00"^^xsd:dateTime .
+edt:C1PressureObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionPressure ; edt:featureOfInterest edt:C1Extraction ; edt:numericValue 9.0 ; edt:hasUnit edt:Bar ; edt:resultTime "2026-09-01T09:00:20-05:00"^^xsd:dateTime .
+edt:C1ThermalObs a edt:CalculatedObservation, edt:QualityIndicatorObservation ; edt:observedProperty edt:ThermalStability ; edt:featureOfInterest edt:C1Extraction ; edt:numericValue 0.4 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-01T09:00:35-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C1TemperatureSeries ; edt:calculationMethodReference "urn:method:thermal-stability:2sd-error"^^xsd:anyURI .
+edt:C1TDSObs a edt:TDSObservation ; edt:observedProperty edt:TDS ; edt:featureOfInterest edt:C1Beverage ; edt:numericValue 10.5 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-01T09:02:00-05:00"^^xsd:dateTime .
+edt:C1YieldObs a edt:ExtractionYieldObservation ; edt:observedProperty edt:ExtractionYield ; edt:featureOfInterest edt:C1Extraction ; edt:numericValue 21.0 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-01T09:02:01-05:00"^^xsd:dateTime ; edt:computedFrom edt:C1DoseObs, edt:C1MassObs, edt:C1TDSObs ; edt:calculationMethodReference "urn:method:extraction-yield:tds-beverage-dose"^^xsd:anyURI .
+edt:C1Sensory a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C1Beverage ; edt:evaluationTime "2026-09-01T09:03:00-05:00"^^xsd:dateTime ; edt:hasPerceivedDefect edt:ExcessiveAstringency ; edt:hasSensoryScore edt:C1AstringencyIntensity, edt:C1AstringencyLiking .
+edt:C1AstringencyIntensity a edt:PerceivedIntensityScore ; edt:forSensoryAttribute edt:Astringency ; edt:measuresDimension edt:PerceivedIntensity ; edt:scoreValue 8 .
+edt:C1AstringencyLiking a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:Astringency ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 3 .
+
+#################################################################
+# Caso 2: mismo perfil y café, resultado quemado
+#################################################################
+
+edt:C2DoseA a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C2DoseB a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C2BeverageA a edt:EspressoBeverage .
+edt:C2BeverageB a edt:EspressoBeverage .
+edt:C2TempSeriesA a edt:ObservationSeries ; edt:seriesForProperty edt:WaterTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c2:a:temperature"^^xsd:anyURI .
+edt:C2TempSeriesB a edt:ObservationSeries ; edt:seriesForProperty edt:WaterTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c2:b:temperature"^^xsd:anyURI .
+edt:C2ExtractionA a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_001 ; edt:usesMaterial edt:CoffeeLotA, edt:C2DoseA ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C2BeverageA ; edt:occurredUnder edt:EnvC2 ; edt:hasObservationSeries edt:C2TempSeriesA ; edt:startTime "2026-09-02T09:00:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-02T09:00:28-05:00"^^xsd:dateTime ; edt:hasObservation edt:C2DoseObsA, edt:C2MassObsA, edt:C2TimeObsA, edt:C2TempObsA, edt:C2PressureObsA, edt:C2ThermalObsA, edt:C2TDSObsA, edt:C2YieldObsA ; edt:hasSensoryEvaluation edt:C2SensoryA .
+edt:C2ExtractionB a edt:EspressoExtraction ; edt:performedBy edt:BaristaB ; edt:usesProfile edt:perfil_001 ; edt:usesMaterial edt:CoffeeLotA, edt:C2DoseB ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C2BeverageB ; edt:occurredUnder edt:EnvC2 ; edt:hasObservationSeries edt:C2TempSeriesB ; edt:startTime "2026-09-02T09:05:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-02T09:05:28-05:00"^^xsd:dateTime ; edt:hasObservation edt:C2DoseObsB, edt:C2MassObsB, edt:C2TimeObsB, edt:C2TempObsB, edt:C2PressureObsB, edt:C2ThermalObsB, edt:C2TDSObsB, edt:C2YieldObsB ; edt:hasSensoryEvaluation edt:C2SensoryB .
+edt:C2DoseObsA a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C2DoseA ; edt:numericValue 18.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-02T09:00:00-05:00"^^xsd:dateTime .
+edt:C2MassObsA a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C2BeverageA ; edt:numericValue 36.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-02T09:00:28-05:00"^^xsd:dateTime .
+edt:C2TimeObsA a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C2ExtractionA ; edt:numericValue 28.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-02T09:00:28-05:00"^^xsd:dateTime .
+edt:C2TempObsA a edt:MeasuredObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C2ExtractionA ; edt:numericValue 93.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-02T09:00:14-05:00"^^xsd:dateTime .
+edt:C2PressureObsA a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionPressure ; edt:featureOfInterest edt:C2ExtractionA ; edt:numericValue 9.0 ; edt:hasUnit edt:Bar ; edt:resultTime "2026-09-02T09:00:14-05:00"^^xsd:dateTime .
+edt:C2ThermalObsA a edt:CalculatedObservation, edt:QualityIndicatorObservation ; edt:observedProperty edt:ThermalStability ; edt:featureOfInterest edt:C2ExtractionA ; edt:numericValue 0.4 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-02T09:00:28-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C2TempSeriesA ; edt:calculationMethodReference "urn:method:thermal-stability:2sd-error"^^xsd:anyURI .
+edt:C2TDSObsA a edt:TDSObservation ; edt:observedProperty edt:TDS ; edt:featureOfInterest edt:C2BeverageA ; edt:numericValue 9.5 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-02T09:02:00-05:00"^^xsd:dateTime .
+edt:C2YieldObsA a edt:ExtractionYieldObservation ; edt:observedProperty edt:ExtractionYield ; edt:featureOfInterest edt:C2ExtractionA ; edt:numericValue 19.0 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-02T09:02:01-05:00"^^xsd:dateTime ; edt:computedFrom edt:C2DoseObsA, edt:C2MassObsA, edt:C2TDSObsA ; edt:calculationMethodReference "urn:method:extraction-yield:tds-beverage-dose"^^xsd:anyURI .
+edt:C2DoseObsB a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C2DoseB ; edt:numericValue 18.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-02T09:05:00-05:00"^^xsd:dateTime .
+edt:C2MassObsB a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C2BeverageB ; edt:numericValue 36.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-02T09:05:28-05:00"^^xsd:dateTime .
+edt:C2TimeObsB a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C2ExtractionB ; edt:numericValue 28.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-02T09:05:28-05:00"^^xsd:dateTime .
+edt:C2TempObsB a edt:MeasuredObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C2ExtractionB ; edt:numericValue 96.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-02T09:05:14-05:00"^^xsd:dateTime .
+edt:C2PressureObsB a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionPressure ; edt:featureOfInterest edt:C2ExtractionB ; edt:numericValue 9.0 ; edt:hasUnit edt:Bar ; edt:resultTime "2026-09-02T09:05:14-05:00"^^xsd:dateTime .
+edt:C2ThermalObsB a edt:CalculatedObservation, edt:QualityIndicatorObservation ; edt:observedProperty edt:ThermalStability ; edt:featureOfInterest edt:C2ExtractionB ; edt:numericValue 1.4 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-02T09:05:28-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C2TempSeriesB ; edt:calculationMethodReference "urn:method:thermal-stability:2sd-error"^^xsd:anyURI .
+edt:C2TDSObsB a edt:TDSObservation ; edt:observedProperty edt:TDS ; edt:featureOfInterest edt:C2BeverageB ; edt:numericValue 9.5 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-02T09:07:00-05:00"^^xsd:dateTime .
+edt:C2YieldObsB a edt:ExtractionYieldObservation ; edt:observedProperty edt:ExtractionYield ; edt:featureOfInterest edt:C2ExtractionB ; edt:numericValue 19.0 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-02T09:07:01-05:00"^^xsd:dateTime ; edt:computedFrom edt:C2DoseObsB, edt:C2MassObsB, edt:C2TDSObsB ; edt:calculationMethodReference "urn:method:extraction-yield:tds-beverage-dose"^^xsd:anyURI .
+edt:C2SensoryA a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C2BeverageA ; edt:evaluationTime "2026-09-02T09:03:00-05:00"^^xsd:dateTime ; edt:hasSensoryScore edt:C2OverallA, edt:C2FlavorA .
+edt:C2OverallA a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 8 .
+edt:C2FlavorA a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:Flavor ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 8 .
+edt:C2SensoryB a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaB ; edt:evaluatesBeverage edt:C2BeverageB ; edt:evaluationTime "2026-09-02T09:08:00-05:00"^^xsd:dateTime ; edt:hasPerceivedDefect edt:Burnt ; edt:hasSensoryScore edt:C2OverallB, edt:C2FlavorB .
+edt:C2OverallB a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 2 .
+edt:C2FlavorB a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:Flavor ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 2 .
+
+#################################################################
+# Caso 4: un ajuste pequeño de temperatura no corrige la acidez y uno mayor sí
+#################################################################
+# Las tres extracciones quedan dentro del perfil en todas las variables
+# técnicas; solo cambia la temperatura del agua (92,0 → 92,5 → 93,5 °C).
+# El resultado se juzga por la evaluación sensorial del barista.
+
+edt:C4Dose1 a edt:CoffeeDose .
+edt:C4Dose2 a edt:CoffeeDose .
+edt:C4Dose3 a edt:CoffeeDose .
+edt:C4Beverage1 a edt:EspressoBeverage .
+edt:C4Beverage2 a edt:EspressoBeverage .
+edt:C4Beverage3 a edt:EspressoBeverage .
+edt:C4TempSeries1 a edt:ObservationSeries ; edt:seriesForProperty edt:WaterTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c4:1:temperature"^^xsd:anyURI .
+edt:C4TempSeries2 a edt:ObservationSeries ; edt:seriesForProperty edt:WaterTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c4:2:temperature"^^xsd:anyURI .
+edt:C4TempSeries3 a edt:ObservationSeries ; edt:seriesForProperty edt:WaterTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c4:3:temperature"^^xsd:anyURI .
+edt:C4Extraction1 a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_001 ; edt:usesMaterial edt:CoffeeLotA, edt:C4Dose1 ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C4Beverage1 ; edt:occurredUnder edt:EnvC4 ; edt:hasObservationSeries edt:C4TempSeries1 ; edt:startTime "2026-09-03T09:00:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-03T09:00:27-05:00"^^xsd:dateTime ; edt:hasObservation edt:C4DoseObs1, edt:C4MassObs1, edt:C4TimeObs1, edt:C4TempObs1, edt:C4PressureObs1, edt:C4ThermalObs1 ; edt:hasSensoryEvaluation edt:C4Sensory1 ; edt:precedes edt:C4Adjustment .
+edt:C4Adjustment a edt:ManualParameterAdjustment ; edt:performedBy edt:BaristaA ; edt:changesProperty edt:WaterTemperature ; edt:targetsOutcome edt:ExcessiveAcidity ; edt:previousNumericValue 92.0 ; edt:newNumericValue 92.5 ; edt:hasUnit edt:DegreeCelsius ; edt:startTime "2026-09-03T09:03:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-03T09:03:10-05:00"^^xsd:dateTime ; edt:precedes edt:C4Extraction2 .
+edt:C4Extraction2 a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_001 ; edt:usesMaterial edt:CoffeeLotA, edt:C4Dose2 ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C4Beverage2 ; edt:occurredUnder edt:EnvC4 ; edt:hasObservationSeries edt:C4TempSeries2 ; edt:evaluatesOutcomeOf edt:C4Adjustment ; edt:startTime "2026-09-03T09:05:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-03T09:05:27-05:00"^^xsd:dateTime ; edt:hasObservation edt:C4DoseObs2, edt:C4MassObs2, edt:C4TimeObs2, edt:C4TempObs2, edt:C4PressureObs2, edt:C4ThermalObs2 ; edt:hasSensoryEvaluation edt:C4Sensory2 ; edt:precedes edt:C4Adjustment2 .
+edt:C4Adjustment2 a edt:ManualParameterAdjustment ; edt:performedBy edt:BaristaA ; edt:changesProperty edt:WaterTemperature ; edt:targetsOutcome edt:ExcessiveAcidity ; edt:previousNumericValue 92.5 ; edt:newNumericValue 93.5 ; edt:hasUnit edt:DegreeCelsius ; edt:startTime "2026-09-03T09:08:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-03T09:08:10-05:00"^^xsd:dateTime ; edt:precedes edt:C4Extraction3 .
+edt:C4Extraction3 a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_001 ; edt:usesMaterial edt:CoffeeLotA, edt:C4Dose3 ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C4Beverage3 ; edt:occurredUnder edt:EnvC4 ; edt:hasObservationSeries edt:C4TempSeries3 ; edt:evaluatesOutcomeOf edt:C4Adjustment2 ; edt:startTime "2026-09-03T09:10:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-03T09:10:27-05:00"^^xsd:dateTime ; edt:hasObservation edt:C4DoseObs3, edt:C4MassObs3, edt:C4TimeObs3, edt:C4TempObs3, edt:C4PressureObs3, edt:C4ThermalObs3 ; edt:hasSensoryEvaluation edt:C4Sensory3 .
+edt:C4DoseObs1 a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C4Dose1 ; edt:numericValue 18.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-03T09:00:00-05:00"^^xsd:dateTime .
+edt:C4MassObs1 a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C4Beverage1 ; edt:numericValue 36.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-03T09:00:27-05:00"^^xsd:dateTime .
+edt:C4TimeObs1 a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C4Extraction1 ; edt:numericValue 27.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-03T09:00:27-05:00"^^xsd:dateTime .
+edt:C4TempObs1 a edt:MeasuredObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C4Extraction1 ; edt:numericValue 92.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-03T09:00:13-05:00"^^xsd:dateTime .
+edt:C4PressureObs1 a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionPressure ; edt:featureOfInterest edt:C4Extraction1 ; edt:numericValue 9.0 ; edt:hasUnit edt:Bar ; edt:resultTime "2026-09-03T09:00:13-05:00"^^xsd:dateTime .
+edt:C4ThermalObs1 a edt:CalculatedObservation, edt:QualityIndicatorObservation ; edt:observedProperty edt:ThermalStability ; edt:featureOfInterest edt:C4Extraction1 ; edt:numericValue 0.4 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-03T09:00:27-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C4TempSeries1 ; edt:calculationMethodReference "urn:method:thermal-stability:2sd-error"^^xsd:anyURI .
+edt:C4DoseObs2 a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C4Dose2 ; edt:numericValue 18.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-03T09:05:00-05:00"^^xsd:dateTime .
+edt:C4MassObs2 a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C4Beverage2 ; edt:numericValue 36.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-03T09:05:27-05:00"^^xsd:dateTime .
+edt:C4TimeObs2 a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C4Extraction2 ; edt:numericValue 27.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-03T09:05:27-05:00"^^xsd:dateTime .
+edt:C4TempObs2 a edt:MeasuredObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C4Extraction2 ; edt:numericValue 92.5 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-03T09:05:13-05:00"^^xsd:dateTime .
+edt:C4PressureObs2 a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionPressure ; edt:featureOfInterest edt:C4Extraction2 ; edt:numericValue 9.0 ; edt:hasUnit edt:Bar ; edt:resultTime "2026-09-03T09:05:13-05:00"^^xsd:dateTime .
+edt:C4ThermalObs2 a edt:CalculatedObservation, edt:QualityIndicatorObservation ; edt:observedProperty edt:ThermalStability ; edt:featureOfInterest edt:C4Extraction2 ; edt:numericValue 0.4 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-03T09:05:27-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C4TempSeries2 ; edt:calculationMethodReference "urn:method:thermal-stability:2sd-error"^^xsd:anyURI .
+edt:C4DoseObs3 a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C4Dose3 ; edt:numericValue 18.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-03T09:10:00-05:00"^^xsd:dateTime .
+edt:C4MassObs3 a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C4Beverage3 ; edt:numericValue 36.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-03T09:10:27-05:00"^^xsd:dateTime .
+edt:C4TimeObs3 a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C4Extraction3 ; edt:numericValue 27.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-03T09:10:27-05:00"^^xsd:dateTime .
+edt:C4TempObs3 a edt:MeasuredObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C4Extraction3 ; edt:numericValue 93.5 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-03T09:10:13-05:00"^^xsd:dateTime .
+edt:C4PressureObs3 a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionPressure ; edt:featureOfInterest edt:C4Extraction3 ; edt:numericValue 9.0 ; edt:hasUnit edt:Bar ; edt:resultTime "2026-09-03T09:10:13-05:00"^^xsd:dateTime .
+edt:C4ThermalObs3 a edt:CalculatedObservation, edt:QualityIndicatorObservation ; edt:observedProperty edt:ThermalStability ; edt:featureOfInterest edt:C4Extraction3 ; edt:numericValue 0.4 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-03T09:10:27-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C4TempSeries3 ; edt:calculationMethodReference "urn:method:thermal-stability:2sd-error"^^xsd:anyURI .
+edt:C4Sensory1 a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C4Beverage1 ; edt:evaluationTime "2026-09-03T09:02:00-05:00"^^xsd:dateTime ; edt:hasPerceivedDefect edt:ExcessiveAcidity ; edt:hasSensoryScore edt:C4AcidityIntensity1, edt:C4Overall1 ; edt:comparesWithSensoryProfile edt:DeclaredProfileCoffeeLotA, edt:TargetProfileCoffeeLotA ; edt:hasSensoryAcceptanceStatus edt:SensoryRejected ; edt:acceptanceRationale "Acidez punzante que domina la bebida."@es .
+edt:C4AcidityIntensity1 a edt:PerceivedIntensityScore ; edt:forSensoryAttribute edt:Acidity ; edt:measuresDimension edt:PerceivedIntensity ; edt:scoreValue 8 .
+edt:C4Overall1 a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 4 .
+edt:C4Sensory2 a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C4Beverage2 ; edt:evaluationTime "2026-09-03T09:07:00-05:00"^^xsd:dateTime ; edt:hasPerceivedDefect edt:ExcessiveAcidity ; edt:hasSensoryScore edt:C4AcidityIntensity2, edt:C4Overall2 ; edt:comparesWithSensoryProfile edt:DeclaredProfileCoffeeLotA, edt:TargetProfileCoffeeLotA ; edt:hasSensoryAcceptanceStatus edt:SensoryRejected ; edt:acceptanceRationale "La acidez sigue siendo excesiva; el cambio apenas se percibe."@es .
+edt:C4AcidityIntensity2 a edt:PerceivedIntensityScore ; edt:forSensoryAttribute edt:Acidity ; edt:measuresDimension edt:PerceivedIntensity ; edt:scoreValue 7 .
+edt:C4Overall2 a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 4 .
+edt:C4Sensory3 a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C4Beverage3 ; edt:evaluationTime "2026-09-03T09:12:00-05:00"^^xsd:dateTime ; edt:hasSensoryScore edt:C4AcidityIntensity3, edt:C4Overall3 ; edt:hasSensoryDescriptor edt:Chocolate, edt:Caramel ; edt:comparesWithSensoryProfile edt:DeclaredProfileCoffeeLotA, edt:TargetProfileCoffeeLotA ; edt:hasSensoryAcceptanceStatus edt:SensoryAccepted ; edt:acceptanceRationale "La acidez dejó de ser excesiva y la bebida recuperó el balance esperado."@es .
+edt:C4AcidityIntensity3 a edt:PerceivedIntensityScore ; edt:forSensoryAttribute edt:Acidity ; edt:measuresDimension edt:PerceivedIntensity ; edt:scoreValue 4 .
+edt:C4Overall3 a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 7 .
+
+#################################################################
+# Caso 7: ajuste del tiempo seguido por contraste sensorial y amargor
+#################################################################
+
+edt:C7Dose1 a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C7Dose2 a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C7Beverage1 a edt:EspressoBeverage .
+edt:C7Beverage2 a edt:EspressoBeverage .
+edt:C7TempSeries1 a edt:ObservationSeries ; edt:seriesForProperty edt:WaterTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c7:1:temperature"^^xsd:anyURI .
+edt:C7TempSeries2 a edt:ObservationSeries ; edt:seriesForProperty edt:WaterTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c7:2:temperature"^^xsd:anyURI .
+edt:C7Calibration a edt:EspressoCalibration ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_001 ; edt:occurredUnder edt:EnvC7 ; edt:hasTrialExtraction edt:C7Extraction1, edt:C7Extraction2 ; edt:hasParameterAdjustment edt:C7Adjustment ; edt:hasValidationStatus edt:Rejected ; edt:validatedBy edt:BaristaA ; edt:startTime "2026-09-04T08:55:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-04T09:10:00-05:00"^^xsd:dateTime .
+edt:C7Extraction1 a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_001 ; edt:usesMaterial edt:CoffeeLotA, edt:C7Dose1 ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C7Beverage1 ; edt:occurredUnder edt:EnvC7 ; edt:hasObservationSeries edt:C7TempSeries1 ; edt:startTime "2026-09-04T09:00:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-04T09:00:28-05:00"^^xsd:dateTime ; edt:hasObservation edt:C7DoseObs1, edt:C7MassObs1, edt:C7TimeObs1, edt:C7TempObs1, edt:C7PressureObs1, edt:C7ThermalObs1 ; edt:hasSensoryEvaluation edt:C7Sensory1 ; edt:precedes edt:C7Adjustment .
+edt:C7Adjustment a edt:ManualParameterAdjustment ; edt:performedBy edt:BaristaA ; edt:changesProperty edt:ExtractionTime ; edt:targetsOutcome edt:ExcessiveAcidity ; edt:previousNumericValue 28.0 ; edt:newNumericValue 31.0 ; edt:hasUnit edt:Second ; edt:partOfCalibration edt:C7Calibration ; edt:startTime "2026-09-04T09:04:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-04T09:04:10-05:00"^^xsd:dateTime ; edt:precedes edt:C7Extraction2 .
+edt:C7Extraction2 a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_001 ; edt:usesMaterial edt:CoffeeLotA, edt:C7Dose2 ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C7Beverage2 ; edt:occurredUnder edt:EnvC7 ; edt:hasObservationSeries edt:C7TempSeries2 ; edt:evaluatesOutcomeOf edt:C7Adjustment ; edt:startTime "2026-09-04T09:05:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-04T09:05:31-05:00"^^xsd:dateTime ; edt:hasObservation edt:C7DoseObs2, edt:C7MassObs2, edt:C7TimeObs2, edt:C7TempObs2, edt:C7PressureObs2, edt:C7ThermalObs2 ; edt:hasSensoryEvaluation edt:C7Sensory2 .
+edt:C7DoseObs1 a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C7Dose1 ; edt:numericValue 18.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-04T09:00:00-05:00"^^xsd:dateTime .
+edt:C7MassObs1 a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C7Beverage1 ; edt:numericValue 36.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-04T09:00:28-05:00"^^xsd:dateTime .
+edt:C7TimeObs1 a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C7Extraction1 ; edt:numericValue 28.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-04T09:00:28-05:00"^^xsd:dateTime .
+edt:C7TempObs1 a edt:MeasuredObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C7Extraction1 ; edt:numericValue 93.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-04T09:00:14-05:00"^^xsd:dateTime .
+edt:C7PressureObs1 a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionPressure ; edt:featureOfInterest edt:C7Extraction1 ; edt:numericValue 9.0 ; edt:hasUnit edt:Bar ; edt:resultTime "2026-09-04T09:00:14-05:00"^^xsd:dateTime .
+edt:C7ThermalObs1 a edt:CalculatedObservation, edt:QualityIndicatorObservation ; edt:observedProperty edt:ThermalStability ; edt:featureOfInterest edt:C7Extraction1 ; edt:numericValue 0.4 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-04T09:00:28-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C7TempSeries1 ; edt:calculationMethodReference "urn:method:thermal-stability:2sd-error"^^xsd:anyURI .
+edt:C7DoseObs2 a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C7Dose2 ; edt:numericValue 18.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-04T09:05:00-05:00"^^xsd:dateTime .
+edt:C7MassObs2 a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C7Beverage2 ; edt:numericValue 36.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-04T09:05:31-05:00"^^xsd:dateTime .
+edt:C7TimeObs2 a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C7Extraction2 ; edt:numericValue 31.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-04T09:05:31-05:00"^^xsd:dateTime .
+edt:C7TempObs2 a edt:MeasuredObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C7Extraction2 ; edt:numericValue 93.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-04T09:05:15-05:00"^^xsd:dateTime .
+edt:C7PressureObs2 a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionPressure ; edt:featureOfInterest edt:C7Extraction2 ; edt:numericValue 9.0 ; edt:hasUnit edt:Bar ; edt:resultTime "2026-09-04T09:05:15-05:00"^^xsd:dateTime .
+edt:C7ThermalObs2 a edt:CalculatedObservation, edt:QualityIndicatorObservation ; edt:observedProperty edt:ThermalStability ; edt:featureOfInterest edt:C7Extraction2 ; edt:numericValue 0.4 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-04T09:05:31-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C7TempSeries2 ; edt:calculationMethodReference "urn:method:thermal-stability:2sd-error"^^xsd:anyURI .
+edt:C7Sensory1 a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C7Beverage1 ; edt:evaluationTime "2026-09-04T09:02:00-05:00"^^xsd:dateTime ; edt:hasPerceivedDefect edt:ExcessiveAcidity ; edt:hasSensoryScore edt:C7AcidityIntensity, edt:C7AcidityLiking, edt:C7BitternessIntensityBefore, edt:C7BitternessLikingBefore ; edt:hasDesiredSensoryChange edt:C7DesiredLessAcidity .
+edt:C7AcidityIntensity a edt:PerceivedIntensityScore ; edt:forSensoryAttribute edt:Acidity ; edt:measuresDimension edt:PerceivedIntensity ; edt:scoreValue 8 .
+edt:C7AcidityLiking a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:Acidity ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 2 .
+edt:C7BitternessIntensityBefore a edt:PerceivedIntensityScore ; edt:forSensoryAttribute edt:Bitterness ; edt:measuresDimension edt:PerceivedIntensity ; edt:scoreValue 2 .
+edt:C7BitternessLikingBefore a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:Bitterness ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 7 .
+edt:C7DesiredLessAcidity a edt:DesiredSensoryChange ; edt:targetsSensoryAttribute edt:Acidity ; edt:desiredDirection edt:Decrease .
+edt:C7Sensory2 a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C7Beverage2 ; edt:evaluationTime "2026-09-04T09:07:00-05:00"^^xsd:dateTime ; edt:hasPerceivedDefect edt:ExcessiveBitterness ; edt:hasSensoryScore edt:C7AcidityIntensityAfter, edt:C7AcidityLikingAfter, edt:C7BitternessIntensity, edt:C7BitternessLiking .
+edt:C7AcidityIntensityAfter a edt:PerceivedIntensityScore ; edt:forSensoryAttribute edt:Acidity ; edt:measuresDimension edt:PerceivedIntensity ; edt:scoreValue 4 .
+edt:C7AcidityLikingAfter a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:Acidity ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 7 .
+edt:C7BitternessIntensity a edt:PerceivedIntensityScore ; edt:forSensoryAttribute edt:Bitterness ; edt:measuresDimension edt:PerceivedIntensity ; edt:scoreValue 8 .
+edt:C7BitternessLiking a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:Bitterness ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 2 .
+
+#################################################################
+# Caso 9: TDS y rendimiento conformes, rechazo sensorial
+#################################################################
+
+edt:C9Dose a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C9Beverage a edt:EspressoBeverage .
+edt:C9TempSeries a edt:ObservationSeries ; edt:seriesForProperty edt:WaterTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c9:temperature"^^xsd:anyURI .
+edt:C9Calibration a edt:EspressoCalibration ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_001 ; edt:occurredUnder edt:EnvC9 ; edt:hasTrialExtraction edt:C9Extraction ; edt:hasValidationStatus edt:Rejected ; edt:validatedBy edt:BaristaA ; edt:startTime "2026-09-06T08:55:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-06T09:05:00-05:00"^^xsd:dateTime .
+edt:C9Extraction a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_001 ; edt:usesMaterial edt:CoffeeLotA, edt:C9Dose ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C9Beverage ; edt:occurredUnder edt:EnvC9 ; edt:hasObservationSeries edt:C9TempSeries ; edt:startTime "2026-09-06T09:00:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-06T09:00:28-05:00"^^xsd:dateTime ; edt:hasObservation edt:C9DoseObs, edt:C9MassObs, edt:C9TimeObs, edt:C9TempObs, edt:C9PressureObs, edt:C9ThermalObs, edt:C9TDSObs, edt:C9YieldObs ; edt:hasSensoryEvaluation edt:C9Sensory .
+edt:C9DoseObs a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C9Dose ; edt:numericValue 18.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-06T09:00:00-05:00"^^xsd:dateTime .
+edt:C9MassObs a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C9Beverage ; edt:numericValue 36.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-06T09:00:28-05:00"^^xsd:dateTime .
+edt:C9TimeObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C9Extraction ; edt:numericValue 28.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-06T09:00:28-05:00"^^xsd:dateTime .
+edt:C9TempObs a edt:MeasuredObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C9Extraction ; edt:numericValue 93.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-06T09:00:14-05:00"^^xsd:dateTime .
+edt:C9PressureObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionPressure ; edt:featureOfInterest edt:C9Extraction ; edt:numericValue 9.0 ; edt:hasUnit edt:Bar ; edt:resultTime "2026-09-06T09:00:14-05:00"^^xsd:dateTime .
+edt:C9ThermalObs a edt:CalculatedObservation, edt:QualityIndicatorObservation ; edt:observedProperty edt:ThermalStability ; edt:featureOfInterest edt:C9Extraction ; edt:numericValue 0.4 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-06T09:00:28-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C9TempSeries ; edt:calculationMethodReference "urn:method:thermal-stability:2sd-error"^^xsd:anyURI .
+edt:C9TDSObs a edt:TDSObservation ; edt:observedProperty edt:TDS ; edt:featureOfInterest edt:C9Beverage ; edt:numericValue 10.25 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-06T09:02:00-05:00"^^xsd:dateTime .
+edt:C9YieldObs a edt:ExtractionYieldObservation ; edt:observedProperty edt:ExtractionYield ; edt:featureOfInterest edt:C9Extraction ; edt:numericValue 20.5 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-06T09:02:01-05:00"^^xsd:dateTime ; edt:computedFrom edt:C9DoseObs, edt:C9MassObs, edt:C9TDSObs ; edt:calculationMethodReference "urn:method:extraction-yield:tds-beverage-dose"^^xsd:anyURI .
+edt:C9Sensory a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C9Beverage ; edt:evaluationTime "2026-09-06T09:03:00-05:00"^^xsd:dateTime ; edt:hasPerceivedDefect edt:PersistentUnpleasantTaste ; edt:hasSensoryScore edt:C9Overall, edt:C9Flavor ; edt:hasSensoryAcceptanceStatus edt:SensoryRejected ; edt:acceptanceRationale "El barista rechazó sensorialmente la bebida por el sabor desagradable persistente, aunque los indicadores técnicos evaluados cumplieron el perfil."@es .
+edt:C9Overall a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 3 .
+edt:C9Flavor a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:Flavor ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 3 .
+
+#################################################################
+# Receta de ejemplo para los casos 11 a 16 (EKO 3.4.0)
+#################################################################
+# Es un ejemplo declarado como tal: la conclusión de cada caso depende solo de
+# quedar dentro o fuera de la receta, no de estos valores. En la máquina se usa
+# la receta real del barista. La caldera se juzga contra la referencia que se
+# deriva del agua (acta v6), como en las preparaciones medidas.
+
+edt:perfil_receta_ejemplo a edt:ExtractionProfile ;
+    rdfs:label "receta de ejemplo"@es ;
+    edt:definedBy edt:BaristaA ;
+    edt:validatedBy edt:BaristaA ;
+    edt:applicableToCoffee edt:CoffeeLotA ;
+    edt:hasProfileStatus edt:Approved ;
+    edt:hasParameterSpecification edt:RecipeSpecDose, edt:RecipeSpecMass, edt:RecipeSpecTime,
+        edt:RecipeSpecWater, edt:RecipeSpecBoiler, edt:RecipeSpecTDS .
+edt:RecipeSpecDose a edt:ProfileParameterSpecification ; edt:forProperty edt:CoffeeDoseMass ; edt:targetValue 13.0 ; edt:toleranceValue 0.5 ; edt:hasUnit edt:Gram .
+edt:RecipeSpecMass a edt:ProfileParameterSpecification ; edt:forProperty edt:BeverageMass ; edt:targetValue 30.0 ; edt:toleranceValue 2.0 ; edt:hasUnit edt:Gram .
+edt:RecipeSpecTime a edt:ProfileParameterSpecification ; edt:forProperty edt:ExtractionTime ; edt:minimumValue 18.0 ; edt:maximumValue 22.0 ; edt:hasUnit edt:Second .
+edt:RecipeSpecWater a edt:ProfileParameterSpecification ; edt:forProperty edt:WaterTemperature ; edt:targetValue 92.0 ; edt:toleranceValue 1.0 ; edt:hasUnit edt:DegreeCelsius .
+edt:RecipeSpecBoiler a edt:ProfileParameterSpecification ; edt:forProperty edt:BoilerBodyTemperature ; edt:targetValue 101.9 ; edt:toleranceValue 1.24 ; edt:hasUnit edt:DegreeCelsius ; edt:derivedFromSpecification edt:RecipeSpecWater .
+edt:RecipeSpecTDS a edt:ProfileParameterSpecification ; edt:forProperty edt:TDS ; edt:targetValue 9.0 ; edt:toleranceValue 0.6 ; edt:hasUnit edt:Percent .
+
+#################################################################
+# Caso 11: primer café tras un reposo: agua estimada fría y acidez
+#################################################################
+
+edt:EnvC11 a edt:EnvironmentalCondition ; edt:validFrom "2026-09-08T08:00:00-05:00"^^xsd:dateTime ; edt:validUntil "2026-09-08T11:00:00-05:00"^^xsd:dateTime .
+edt:C11Dose a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C11Beverage a edt:EspressoBeverage .
+edt:C11BoilerSeries a edt:ObservationSeries ; edt:seriesForProperty edt:BoilerBodyTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c11:boiler"^^xsd:anyURI .
+edt:C11Extraction a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_receta_ejemplo ; edt:usesMaterial edt:CoffeeLotA, edt:C11Dose ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C11Beverage ; edt:occurredUnder edt:EnvC11 ; edt:hasObservationSeries edt:C11BoilerSeries ; edt:startTime "2026-09-08T09:00:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-08T09:00:20-05:00"^^xsd:dateTime ; edt:hasTerminationCause edt:MaximumExtractionTimeReached ; edt:hasObservation edt:C11DoseObs, edt:C11MassObs, edt:C11TimeObs, edt:C11BoilerObs, edt:C11WaterObs, edt:C11TDSObs ; edt:hasSensoryEvaluation edt:C11Sensory .
+edt:C11DoseObs a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C11Dose ; edt:numericValue 13.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-08T09:00:00-05:00"^^xsd:dateTime .
+edt:C11MassObs a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C11Beverage ; edt:numericValue 30.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-08T09:00:20-05:00"^^xsd:dateTime .
+edt:C11TimeObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C11Extraction ; edt:numericValue 20.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-08T09:00:20-05:00"^^xsd:dateTime .
+edt:C11BoilerObs a edt:MeasuredObservation ; edt:observedProperty edt:BoilerBodyTemperature ; edt:featureOfInterest edt:C11Extraction ; edt:numericValue 101.9 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-08T09:00:00-05:00"^^xsd:dateTime .
+edt:C11WaterObs a edt:EstimatedObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C11Extraction ; edt:numericValue 89.5 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-08T09:00:00-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C11BoilerSeries ; edt:calculationMethodReference "urn:method:water-after-rest:agua-reposo-Pe-v7"^^xsd:anyURI ; edt:description "Agua sobre el café estimada por el gemelo; no es una medida."@es .
+edt:C11TDSObs a edt:TDSObservation ; edt:observedProperty edt:TDS ; edt:featureOfInterest edt:C11Beverage ; edt:numericValue 9.0 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-08T09:00:20-05:00"^^xsd:dateTime .
+edt:C11Overall a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 4 .
+edt:C11AcidityIntensity a edt:PerceivedIntensityScore ; edt:forSensoryAttribute edt:Acidity ; edt:measuresDimension edt:PerceivedIntensity ; edt:scoreValue 8 .
+edt:C11Sensory a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C11Beverage ; edt:evaluationTime "2026-09-08T09:03:00-05:00"^^xsd:dateTime ; edt:hasPerceivedDefect edt:ExcessiveAcidity ; edt:hasSensoryScore edt:C11Overall, edt:C11AcidityIntensity .
+
+#################################################################
+# Caso 12: poca dosis: café débil, no subextraído
+#################################################################
+
+edt:EnvC12 a edt:EnvironmentalCondition ; edt:validFrom "2026-09-09T08:00:00-05:00"^^xsd:dateTime ; edt:validUntil "2026-09-09T11:00:00-05:00"^^xsd:dateTime .
+edt:C12Dose a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C12Beverage a edt:EspressoBeverage .
+edt:C12BoilerSeries a edt:ObservationSeries ; edt:seriesForProperty edt:BoilerBodyTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c12:boiler"^^xsd:anyURI .
+edt:C12Extraction a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_receta_ejemplo ; edt:usesMaterial edt:CoffeeLotA, edt:C12Dose ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C12Beverage ; edt:occurredUnder edt:EnvC12 ; edt:hasObservationSeries edt:C12BoilerSeries ; edt:startTime "2026-09-09T09:00:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-09T09:00:20-05:00"^^xsd:dateTime ; edt:hasTerminationCause edt:MaximumExtractionTimeReached ; edt:hasObservation edt:C12DoseObs, edt:C12MassObs, edt:C12TimeObs, edt:C12BoilerObs, edt:C12WaterObs, edt:C12TDSObs ; edt:hasSensoryEvaluation edt:C12Sensory .
+edt:C12DoseObs a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C12Dose ; edt:numericValue 11.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-09T09:00:00-05:00"^^xsd:dateTime .
+edt:C12MassObs a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C12Beverage ; edt:numericValue 30.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-09T09:00:20-05:00"^^xsd:dateTime .
+edt:C12TimeObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C12Extraction ; edt:numericValue 20.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-09T09:00:20-05:00"^^xsd:dateTime .
+edt:C12BoilerObs a edt:MeasuredObservation ; edt:observedProperty edt:BoilerBodyTemperature ; edt:featureOfInterest edt:C12Extraction ; edt:numericValue 101.9 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-09T09:00:00-05:00"^^xsd:dateTime .
+edt:C12WaterObs a edt:EstimatedObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C12Extraction ; edt:numericValue 92.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-09T09:00:00-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C12BoilerSeries ; edt:calculationMethodReference "urn:method:water-after-rest:agua-reposo-Pe-v7"^^xsd:anyURI ; edt:description "Agua sobre el café estimada por el gemelo; no es una medida."@es .
+edt:C12TDSObs a edt:TDSObservation ; edt:observedProperty edt:TDS ; edt:featureOfInterest edt:C12Beverage ; edt:numericValue 7.2 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-09T09:00:20-05:00"^^xsd:dateTime .
+edt:C12Overall a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 4 .
+edt:C12Sensory a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C12Beverage ; edt:evaluationTime "2026-09-09T09:03:00-05:00"^^xsd:dateTime ; edt:hasSensoryScore edt:C12Overall .
+
+#################################################################
+# Caso 13: café cortado antes por el barista
+#################################################################
+
+edt:EnvC13 a edt:EnvironmentalCondition ; edt:validFrom "2026-09-10T08:00:00-05:00"^^xsd:dateTime ; edt:validUntil "2026-09-10T11:00:00-05:00"^^xsd:dateTime .
+edt:C13Dose a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C13Beverage a edt:EspressoBeverage .
+edt:C13BoilerSeries a edt:ObservationSeries ; edt:seriesForProperty edt:BoilerBodyTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c13:boiler"^^xsd:anyURI .
+edt:C13Extraction a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_receta_ejemplo ; edt:usesMaterial edt:CoffeeLotA, edt:C13Dose ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C13Beverage ; edt:occurredUnder edt:EnvC13 ; edt:hasObservationSeries edt:C13BoilerSeries ; edt:startTime "2026-09-10T09:00:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-10T09:00:13-05:00"^^xsd:dateTime ; edt:hasTerminationCause edt:ManualNormalStop ; edt:hasObservation edt:C13DoseObs, edt:C13MassObs, edt:C13TimeObs, edt:C13BoilerObs, edt:C13WaterObs, edt:C13TDSObs ; edt:hasSensoryEvaluation edt:C13Sensory .
+edt:C13DoseObs a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C13Dose ; edt:numericValue 13.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-10T09:00:00-05:00"^^xsd:dateTime .
+edt:C13MassObs a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C13Beverage ; edt:numericValue 22.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-10T09:00:13-05:00"^^xsd:dateTime .
+edt:C13TimeObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C13Extraction ; edt:numericValue 13.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-10T09:00:13-05:00"^^xsd:dateTime .
+edt:C13BoilerObs a edt:MeasuredObservation ; edt:observedProperty edt:BoilerBodyTemperature ; edt:featureOfInterest edt:C13Extraction ; edt:numericValue 101.9 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-10T09:00:00-05:00"^^xsd:dateTime .
+edt:C13WaterObs a edt:EstimatedObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C13Extraction ; edt:numericValue 92.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-10T09:00:00-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C13BoilerSeries ; edt:calculationMethodReference "urn:method:water-after-rest:agua-reposo-Pe-v7"^^xsd:anyURI ; edt:description "Agua sobre el café estimada por el gemelo; no es una medida."@es .
+edt:C13TDSObs a edt:TDSObservation ; edt:observedProperty edt:TDS ; edt:featureOfInterest edt:C13Beverage ; edt:numericValue 10.4 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-10T09:00:13-05:00"^^xsd:dateTime .
+edt:C13Overall a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 5 .
+edt:C13Sensory a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C13Beverage ; edt:evaluationTime "2026-09-10T09:03:00-05:00"^^xsd:dateTime ; edt:hasSensoryScore edt:C13Overall .
+
+#################################################################
+# Caso 14: dosis alta y amargor sobre 7,5
+#################################################################
+
+edt:EnvC14 a edt:EnvironmentalCondition ; edt:validFrom "2026-09-11T08:00:00-05:00"^^xsd:dateTime ; edt:validUntil "2026-09-11T11:00:00-05:00"^^xsd:dateTime .
+edt:C14Dose a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C14Beverage a edt:EspressoBeverage .
+edt:C14BoilerSeries a edt:ObservationSeries ; edt:seriesForProperty edt:BoilerBodyTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c14:boiler"^^xsd:anyURI .
+edt:C14Extraction a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_receta_ejemplo ; edt:usesMaterial edt:CoffeeLotA, edt:C14Dose ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C14Beverage ; edt:occurredUnder edt:EnvC14 ; edt:hasObservationSeries edt:C14BoilerSeries ; edt:startTime "2026-09-11T09:00:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-11T09:00:20-05:00"^^xsd:dateTime ; edt:hasTerminationCause edt:MaximumExtractionTimeReached ; edt:hasObservation edt:C14DoseObs, edt:C14MassObs, edt:C14TimeObs, edt:C14BoilerObs, edt:C14WaterObs, edt:C14TDSObs ; edt:hasSensoryEvaluation edt:C14Sensory .
+edt:C14DoseObs a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C14Dose ; edt:numericValue 15.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-11T09:00:00-05:00"^^xsd:dateTime .
+edt:C14MassObs a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C14Beverage ; edt:numericValue 30.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-11T09:00:20-05:00"^^xsd:dateTime .
+edt:C14TimeObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C14Extraction ; edt:numericValue 20.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-11T09:00:20-05:00"^^xsd:dateTime .
+edt:C14BoilerObs a edt:MeasuredObservation ; edt:observedProperty edt:BoilerBodyTemperature ; edt:featureOfInterest edt:C14Extraction ; edt:numericValue 101.9 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-11T09:00:00-05:00"^^xsd:dateTime .
+edt:C14WaterObs a edt:EstimatedObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C14Extraction ; edt:numericValue 92.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-11T09:00:00-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C14BoilerSeries ; edt:calculationMethodReference "urn:method:water-after-rest:agua-reposo-Pe-v7"^^xsd:anyURI ; edt:description "Agua sobre el café estimada por el gemelo; no es una medida."@es .
+edt:C14TDSObs a edt:TDSObservation ; edt:observedProperty edt:TDS ; edt:featureOfInterest edt:C14Beverage ; edt:numericValue 10.4 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-11T09:00:20-05:00"^^xsd:dateTime .
+edt:C14Overall a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 3 .
+edt:C14BitternessIntensity a edt:PerceivedIntensityScore ; edt:forSensoryAttribute edt:Bitterness ; edt:measuresDimension edt:PerceivedIntensity ; edt:scoreValue 8 .
+edt:C14Sensory a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C14Beverage ; edt:evaluationTime "2026-09-11T09:03:00-05:00"^^xsd:dateTime ; edt:hasSensoryScore edt:C14Overall, edt:C14BitternessIntensity .
+
+#################################################################
+# Caso 15: café amargo y largo
+#################################################################
+
+edt:EnvC15 a edt:EnvironmentalCondition ; edt:validFrom "2026-09-12T08:00:00-05:00"^^xsd:dateTime ; edt:validUntil "2026-09-12T11:00:00-05:00"^^xsd:dateTime .
+edt:C15Dose a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C15Beverage a edt:EspressoBeverage .
+edt:C15BoilerSeries a edt:ObservationSeries ; edt:seriesForProperty edt:BoilerBodyTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c15:boiler"^^xsd:anyURI .
+edt:C15Extraction a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_receta_ejemplo ; edt:usesMaterial edt:CoffeeLotA, edt:C15Dose ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C15Beverage ; edt:occurredUnder edt:EnvC15 ; edt:hasObservationSeries edt:C15BoilerSeries ; edt:startTime "2026-09-12T09:00:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-12T09:00:26-05:00"^^xsd:dateTime ; edt:hasTerminationCause edt:MaximumExtractionTimeReached ; edt:hasObservation edt:C15DoseObs, edt:C15MassObs, edt:C15TimeObs, edt:C15BoilerObs, edt:C15WaterObs, edt:C15TDSObs ; edt:hasSensoryEvaluation edt:C15Sensory .
+edt:C15DoseObs a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C15Dose ; edt:numericValue 13.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-12T09:00:00-05:00"^^xsd:dateTime .
+edt:C15MassObs a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C15Beverage ; edt:numericValue 30.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-12T09:00:26-05:00"^^xsd:dateTime .
+edt:C15TimeObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C15Extraction ; edt:numericValue 26.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-12T09:00:26-05:00"^^xsd:dateTime .
+edt:C15BoilerObs a edt:MeasuredObservation ; edt:observedProperty edt:BoilerBodyTemperature ; edt:featureOfInterest edt:C15Extraction ; edt:numericValue 101.9 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-12T09:00:00-05:00"^^xsd:dateTime .
+edt:C15WaterObs a edt:EstimatedObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C15Extraction ; edt:numericValue 92.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-12T09:00:00-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C15BoilerSeries ; edt:calculationMethodReference "urn:method:water-after-rest:agua-reposo-Pe-v7"^^xsd:anyURI ; edt:description "Agua sobre el café estimada por el gemelo; no es una medida."@es .
+edt:C15TDSObs a edt:TDSObservation ; edt:observedProperty edt:TDS ; edt:featureOfInterest edt:C15Beverage ; edt:numericValue 9.0 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-12T09:00:26-05:00"^^xsd:dateTime .
+edt:C15Overall a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 3 .
+edt:C15BitternessIntensity a edt:PerceivedIntensityScore ; edt:forSensoryAttribute edt:Bitterness ; edt:measuresDimension edt:PerceivedIntensity ; edt:scoreValue 8 .
+edt:C15Sensory a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C15Beverage ; edt:evaluationTime "2026-09-12T09:03:00-05:00"^^xsd:dateTime ; edt:hasPerceivedDefect edt:ExcessiveBitterness ; edt:hasSensoryScore edt:C15Overall, edt:C15BitternessIntensity .
+
+#################################################################
+# Caso 16: diferencia dentro de la dispersión de la receta
+#################################################################
+
+edt:EnvC16 a edt:EnvironmentalCondition ; edt:validFrom "2026-09-13T08:00:00-05:00"^^xsd:dateTime ; edt:validUntil "2026-09-13T11:00:00-05:00"^^xsd:dateTime .
+edt:C16ADose a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C16ABeverage a edt:EspressoBeverage .
+edt:C16ABoilerSeries a edt:ObservationSeries ; edt:seriesForProperty edt:BoilerBodyTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c16a:boiler"^^xsd:anyURI .
+edt:C16AExtraction a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_receta_ejemplo ; edt:usesMaterial edt:CoffeeLotA, edt:C16ADose ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C16ABeverage ; edt:occurredUnder edt:EnvC16 ; edt:hasObservationSeries edt:C16ABoilerSeries ; edt:startTime "2026-09-13T09:00:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-13T09:00:20-05:00"^^xsd:dateTime ; edt:hasTerminationCause edt:MaximumExtractionTimeReached ; edt:hasObservation edt:C16ADoseObs, edt:C16AMassObs, edt:C16ATimeObs, edt:C16ABoilerObs, edt:C16AWaterObs, edt:C16ATDSObs ; edt:hasSensoryEvaluation edt:C16ASensory .
+edt:C16ADoseObs a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C16ADose ; edt:numericValue 13.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-13T09:00:00-05:00"^^xsd:dateTime .
+edt:C16AMassObs a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C16ABeverage ; edt:numericValue 30.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-13T09:00:20-05:00"^^xsd:dateTime .
+edt:C16ATimeObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C16AExtraction ; edt:numericValue 20.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-13T09:00:20-05:00"^^xsd:dateTime .
+edt:C16ABoilerObs a edt:MeasuredObservation ; edt:observedProperty edt:BoilerBodyTemperature ; edt:featureOfInterest edt:C16AExtraction ; edt:numericValue 101.9 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-13T09:00:00-05:00"^^xsd:dateTime .
+edt:C16AWaterObs a edt:EstimatedObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C16AExtraction ; edt:numericValue 92.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-13T09:00:00-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C16ABoilerSeries ; edt:calculationMethodReference "urn:method:water-after-rest:agua-reposo-Pe-v7"^^xsd:anyURI ; edt:description "Agua sobre el café estimada por el gemelo; no es una medida."@es .
+edt:C16ATDSObs a edt:TDSObservation ; edt:observedProperty edt:TDS ; edt:featureOfInterest edt:C16ABeverage ; edt:numericValue 9.0 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-13T09:00:20-05:00"^^xsd:dateTime .
+edt:C16AOverall a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 7 .
+edt:C16ASensory a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C16ABeverage ; edt:evaluationTime "2026-09-13T09:03:00-05:00"^^xsd:dateTime ; edt:hasSensoryScore edt:C16AOverall .
+edt:C16BDose a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C16BBeverage a edt:EspressoBeverage .
+edt:C16BBoilerSeries a edt:ObservationSeries ; edt:seriesForProperty edt:BoilerBodyTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c16b:boiler"^^xsd:anyURI .
+edt:C16BExtraction a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_receta_ejemplo ; edt:usesMaterial edt:CoffeeLotA, edt:C16BDose ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C16BBeverage ; edt:occurredUnder edt:EnvC16 ; edt:hasObservationSeries edt:C16BBoilerSeries ; edt:startTime "2026-09-13T09:10:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-13T09:10:21-05:00"^^xsd:dateTime ; edt:hasTerminationCause edt:MaximumExtractionTimeReached ; edt:hasObservation edt:C16BDoseObs, edt:C16BMassObs, edt:C16BTimeObs, edt:C16BBoilerObs, edt:C16BWaterObs, edt:C16BTDSObs ; edt:hasSensoryEvaluation edt:C16BSensory .
+edt:C16BDoseObs a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C16BDose ; edt:numericValue 13.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-13T09:10:00-05:00"^^xsd:dateTime .
+edt:C16BMassObs a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C16BBeverage ; edt:numericValue 31.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-13T09:10:21-05:00"^^xsd:dateTime .
+edt:C16BTimeObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C16BExtraction ; edt:numericValue 21.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-13T09:10:21-05:00"^^xsd:dateTime .
+edt:C16BBoilerObs a edt:MeasuredObservation ; edt:observedProperty edt:BoilerBodyTemperature ; edt:featureOfInterest edt:C16BExtraction ; edt:numericValue 101.9 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-13T09:10:00-05:00"^^xsd:dateTime .
+edt:C16BWaterObs a edt:EstimatedObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C16BExtraction ; edt:numericValue 92.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-13T09:10:00-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C16BBoilerSeries ; edt:calculationMethodReference "urn:method:water-after-rest:agua-reposo-Pe-v7"^^xsd:anyURI ; edt:description "Agua sobre el café estimada por el gemelo; no es una medida."@es .
+edt:C16BTDSObs a edt:TDSObservation ; edt:observedProperty edt:TDS ; edt:featureOfInterest edt:C16BBeverage ; edt:numericValue 9.0 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-13T09:10:21-05:00"^^xsd:dateTime .
+edt:C16BOverall a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 5 .
+edt:C16BSensory a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C16BBeverage ; edt:evaluationTime "2026-09-13T09:13:00-05:00"^^xsd:dateTime ; edt:hasSensoryScore edt:C16BOverall .
+
+#################################################################
+# Caso 17: presión fuera del perfil y aceptación sensorial
+#################################################################
+# Inverso del caso 9. Todas las especificaciones del perfil se cumplen salvo la
+# presión, que queda bajo su tolerancia; el barista acepta la bebida sin
+# defectos. Reproduce lo que ocurrió en la catación del 2026-11-04, donde los
+# cafés aceptados salieron no conformes por la caída de presión al paso al PI.
+# Prueba que la conformidad técnica no decide la aceptación sensorial ni al
+# revés: el razonador declara la desviación y no atribuye ningún defecto.
+
+edt:EnvC17 a edt:EnvironmentalCondition ; edt:validFrom "2026-09-14T08:00:00-05:00"^^xsd:dateTime ; edt:validUntil "2026-09-14T10:00:00-05:00"^^xsd:dateTime .
+edt:C17Dose a edt:CoffeeDose ; edt:hasGrindCoarsenessCategory edt:Fine .
+edt:C17Beverage a edt:EspressoBeverage .
+edt:C17TempSeries a edt:ObservationSeries ; edt:seriesForProperty edt:WaterTemperature ; edt:hasUnit edt:DegreeCelsius ; edt:dataReference "urn:series:c17:temperature"^^xsd:anyURI .
+edt:C17Extraction a edt:EspressoExtraction ; edt:performedBy edt:BaristaA ; edt:usesProfile edt:perfil_001 ; edt:usesMaterial edt:CoffeeLotA, edt:C17Dose ; edt:usesEquipment edt:MachineValidation, edt:GrinderValidation ; edt:producesBeverage edt:C17Beverage ; edt:occurredUnder edt:EnvC17 ; edt:hasObservationSeries edt:C17TempSeries ; edt:startTime "2026-09-14T09:00:00-05:00"^^xsd:dateTime ; edt:endTime "2026-09-14T09:00:28-05:00"^^xsd:dateTime ; edt:hasObservation edt:C17DoseObs, edt:C17MassObs, edt:C17TimeObs, edt:C17TempObs, edt:C17PressureObs, edt:C17ThermalObs, edt:C17TDSObs, edt:C17YieldObs ; edt:hasSensoryEvaluation edt:C17Sensory .
+edt:C17DoseObs a edt:MeasuredObservation ; edt:observedProperty edt:CoffeeDoseMass ; edt:featureOfInterest edt:C17Dose ; edt:numericValue 18.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-14T09:00:00-05:00"^^xsd:dateTime .
+edt:C17MassObs a edt:MeasuredObservation ; edt:observedProperty edt:BeverageMass ; edt:featureOfInterest edt:C17Beverage ; edt:numericValue 36.0 ; edt:hasUnit edt:Gram ; edt:resultTime "2026-09-14T09:00:28-05:00"^^xsd:dateTime .
+edt:C17TimeObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionTime ; edt:featureOfInterest edt:C17Extraction ; edt:numericValue 28.0 ; edt:hasUnit edt:Second ; edt:resultTime "2026-09-14T09:00:28-05:00"^^xsd:dateTime .
+edt:C17TempObs a edt:MeasuredObservation ; edt:observedProperty edt:WaterTemperature ; edt:featureOfInterest edt:C17Extraction ; edt:numericValue 93.0 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-14T09:00:14-05:00"^^xsd:dateTime .
+edt:C17PressureObs a edt:MeasuredObservation ; edt:observedProperty edt:ExtractionPressure ; edt:featureOfInterest edt:C17Extraction ; edt:numericValue 8.2 ; edt:hasUnit edt:Bar ; edt:resultTime "2026-09-14T09:00:14-05:00"^^xsd:dateTime .
+edt:C17ThermalObs a edt:CalculatedObservation, edt:QualityIndicatorObservation ; edt:observedProperty edt:ThermalStability ; edt:featureOfInterest edt:C17Extraction ; edt:numericValue 0.4 ; edt:hasUnit edt:DegreeCelsius ; edt:resultTime "2026-09-14T09:00:28-05:00"^^xsd:dateTime ; edt:derivedFromSeries edt:C17TempSeries ; edt:calculationMethodReference "urn:method:thermal-stability:2sd-error"^^xsd:anyURI .
+edt:C17TDSObs a edt:TDSObservation ; edt:observedProperty edt:TDS ; edt:featureOfInterest edt:C17Beverage ; edt:numericValue 10.25 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-14T09:02:00-05:00"^^xsd:dateTime .
+edt:C17YieldObs a edt:ExtractionYieldObservation ; edt:observedProperty edt:ExtractionYield ; edt:featureOfInterest edt:C17Extraction ; edt:numericValue 20.5 ; edt:hasUnit edt:Percent ; edt:resultTime "2026-09-14T09:02:01-05:00"^^xsd:dateTime ; edt:computedFrom edt:C17DoseObs, edt:C17MassObs, edt:C17TDSObs ; edt:calculationMethodReference "urn:method:extraction-yield:tds-beverage-dose"^^xsd:anyURI .
+edt:C17Sensory a edt:SensoryEvaluation ; edt:evaluatedBy edt:BaristaA ; edt:evaluatesBeverage edt:C17Beverage ; edt:evaluationTime "2026-09-14T09:03:00-05:00"^^xsd:dateTime ; edt:hasSensoryScore edt:C17Overall, edt:C17Flavor ; edt:hasSensoryAcceptanceStatus edt:SensoryAccepted ; edt:acceptanceRationale "El barista aceptó la bebida sin defectos, aunque la presión quedó por debajo de la tolerancia del perfil."@es .
+edt:C17Overall a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:OverallLiking ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 7 .
+edt:C17Flavor a edt:HedonicLikingScore ; edt:forSensoryAttribute edt:Flavor ; edt:measuresDimension edt:HedonicLiking ; edt:scoreValue 7 .

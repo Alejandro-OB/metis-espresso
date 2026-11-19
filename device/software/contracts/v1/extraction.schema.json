@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/v1/extraction.schema.json",
+  "title": "Completed extraction payload v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "source", "profile", "startedAt", "finishedAt", "durationMs", "termination", "sampleCount", "statistics"],
+  "$comment": "Los instantes y la duración solo pueden faltar cuando la preparación se cortó por falta de energía (ADR-005 § 3 y § 8 punto 10, RNF-006): el dispositivo la cierra al rearrancar y no sabe cuándo terminó. En cualquier otra terminación un nulo afirmaría que no consta algo que el dispositivo sí midió.",
+  "if": {"required": ["termination"], "properties": {"termination": {"const": "unexpected-power-loss"}}},
+  "else": {
+    "properties": {
+      "startedAt": {"type": "string"},
+      "finishedAt": {"type": "string"},
+      "durationMs": {"type": "integer"}
+    }
+  },
+  "properties": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 80},
+    "source": {"enum": ["measured", "simulation"]},
+    "coffeeReference": {"type": ["string", "null"]},
+    "barista": {"type": ["string", "null"]},
+    "profile": {"$ref": "profile.schema.json"},
+    "startedAt": {"description": "null solo en una preparación cortada por falta de energía cuyo inicio ocurrió sin hora de pared", "type": ["string", "null"], "format": "date-time"},
+    "finishedAt": {"description": "null solo en una preparación cortada por falta de energía: nadie vio el final", "type": ["string", "null"], "format": "date-time"},
+    "durationMs": {"description": "null solo en una preparación cortada por falta de energía: la duración no consta", "type": ["integer", "null"], "minimum": 0},
+    "termination": {"enum": ["manual-normal-stop", "maximum-extraction-time-reached", "safety-protection-trip", "unexpected-power-loss"]},
+    "sampleCount": {"type": "integer", "minimum": 0},
+    "seriesRef": {"type": ["string", "null"]},
+    "calibration": {
+      "description": "Calibración vigente con la que se midió (RF-014); null si el dispositivo no la declara",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 31},
+        "version": {"type": "integer", "minimum": 0}
+      }
+    },
+    "boilerOffsetAppliedC": {
+      "description": "Desplazamiento de la referencia de caldera con que se preparó (compensación del primer uso, ADR-009, enmienda del 2026-10-19), en °C; 0 si no se compensó. Ausente si no consta, como en una preparación recuperada tras un corte de energía o en registros anteriores",
+      "type": "number",
+      "minimum": 0
+    },
+    "firmwareVersion": {
+      "description": "Versión del firmware que midió (RF-014); null si no se declara",
+      "type": ["string", "null"],
+      "maxLength": 63
+    },
+    "waterReference": {
+      "description": "Recta caldera → agua con que la placa convirtió el agua del perfil (ADR-009, enmienda del 2026-10-18) y acta de temperatura de la que salió: agua = gain · caldera + offsetC, medida entre boilerMinimumC y boilerMaximumC. null si no consta, como en una preparación recuperada tras un corte o en un firmware sin la sección; ausente en registros anteriores, hechos con la recta del acta v6",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["plant", "gain", "offsetC", "boilerMinimumC", "boilerMaximumC"],
+      "properties": {
+        "plant": {"type": "string", "minLength": 1, "maxLength": 63},
+        "gain": {"type": "number", "exclusiveMinimum": 0},
+        "offsetC": {"type": "number"},
+        "boilerMinimumC": {"type": "number", "exclusiveMinimum": 0},
+        "boilerMaximumC": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["temperatureMaeC", "pressureMaeBar", "temperatureWithinTolerancePercent", "pressureWithinTolerancePercent"],
+      "properties": {
+        "temperatureMaeC": {"description": "null si la ventana no se abrió o no hubo muestras válidas en ella", "type": ["number", "null"], "minimum": 0},
+        "pressureMaeBar": {"description": "null si la ventana no se abrió o no hubo muestras válidas en ella", "type": ["number", "null"], "minimum": 0},
+        "temperatureWithinTolerancePercent": {"description": "null si además no hay tolerancia declarada", "type": ["number", "null"], "minimum": 0, "maximum": 100},
+        "pressureWithinTolerancePercent": {"description": "null si además no hay tolerancia declarada", "type": ["number", "null"], "minimum": 0, "maximum": 100},
+        "window": {
+          "description": "Tramo sobre el que se calcularon los indicadores; ausente en registros anteriores a la regla, que cubrían la preparación entera",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["rule", "status", "startMs"],
+          "properties": {
+            "rule": {"type": "string", "minLength": 1, "maxLength": 63},
+            "status": {"enum": ["undetermined", "stabilized", "never-stabilized", "no-pressure-range"]},
+            "startMs": {"type": ["integer", "null"], "minimum": 0}
+          }
+        },
+        "temperatureSite": {"description": "Dónde se midió la temperatura juzgada; ausente en registros anteriores", "enum": ["boiler", "water"]}
+      }
+    }
+  }
+}

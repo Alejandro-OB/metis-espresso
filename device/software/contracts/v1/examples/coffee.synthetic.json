@@ -1,0 +1,18 @@
+{
+  "id": "coffee-synthetic-001",
+  "commercialReference": "Café sintético de validación",
+  "lotIdentifier": "LOT-TEST-001",
+  "bagIdentifier": "BAG-TEST-001",
+  "variety": "Caturra",
+  "postHarvestProcess": "lavado",
+  "roastLevel": "medio",
+  "roastDate": "2026-09-01T00:00:00-05:00",
+  "region": "Huila, Colombia",
+  "declaredSensoryProfile": {
+    "id": "declared-profile-synthetic-001",
+    "declaredBy": "tostador sintético",
+    "source": "urn:eko:test:coffee-sheet:001",
+    "originalText": "Chocolate, caramelo y cítrico",
+    "descriptors": ["chocolate", "caramelo", "cítrico"]
+  }
+}

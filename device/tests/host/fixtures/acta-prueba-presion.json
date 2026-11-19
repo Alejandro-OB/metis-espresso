@@ -1,0 +1,23 @@
+{
+  "test_fixture": true,
+  "acta": "acta-PRUEBA-presion",
+  "version": 1,
+  "loop": "pressure",
+  "date": "2026-10-01",
+  "operator": "prueba de anfitrion",
+  "signed_by": "nadie: planta de prueba, NO medida",
+  "calibration_id": "nominal-v1",
+  "plant": {
+    "gain": 0.09,
+    "time_constant_s": 0.4,
+    "dead_time_s": 0.05,
+    "method": "copiada del modelo de banco de control_plant; no es una identificacion"
+  },
+  "tuning": {"lambda_s": 0.15, "filter_time_constant_s": 0.05, "setpoint_rate": 3.0,
+             "output_maximum": 100.0},
+  "hard_limit": 11.0,
+  "conditions": {"ambient_c": 22.0, "sensor_body_c": 22.0, "mains_v": 120.0,
+                 "fill_state": "no aplica"},
+  "acceptance": [{"criterion": "que el firmware compile con esta planta",
+                  "result": "lo comprueba run_commissioned_plant_tests.sh"}]
+}

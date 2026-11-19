@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/v1/extraction-context.schema.json",
+  "title": "Coffee and sensory target for an extraction v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["coffeeId"],
+  "properties": {
+    "coffeeId": {"type": "string", "minLength": 1, "maxLength": 80},
+    "targetSensoryProfile": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "definedBy", "rationale", "descriptors"],
+          "properties": {
+            "id": {"type": "string", "minLength": 1, "maxLength": 80},
+            "definedBy": {"type": "string", "minLength": 1, "maxLength": 120},
+            "rationale": {"type": "string", "minLength": 1, "maxLength": 2000},
+            "descriptors": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"type": "string", "minLength": 1, "maxLength": 120}
+            }
+          }
+        }
+      ]
+    }
+  }
+}

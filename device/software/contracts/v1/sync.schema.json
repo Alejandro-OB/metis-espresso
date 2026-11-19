@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/v1/sync.schema.json",
+  "title": "Outbox synchronization v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["deviceId", "messages"],
+  "properties": {
+    "deviceId": {"type": "string", "minLength": 1},
+    "messages": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {"$ref": "envelope.schema.json"}
+    }
+  }
+}
+

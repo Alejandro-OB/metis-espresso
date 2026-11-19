@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/simulation/v1/simulation-artifact.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactId", "simulationRunId", "kind", "format", "compression", "sampleSchema", "dataReference", "sampleCount", "communicationStepSeconds", "simulatedDurationSeconds", "sizeBytes", "sha256", "createdAt"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "artifactId": {"type": "string", "minLength": 1, "maxLength": 100},
+    "simulationRunId": {"type": "string", "pattern": "^sim-[A-Za-z0-9-]{8,76}$"},
+    "kind": {"const": "simulation-series"},
+    "format": {"const": "application/x-ndjson"},
+    "compression": {"const": "gzip"},
+    "sampleSchema": {"const": "simulation-sample/1.0"},
+    "dataReference": {"type": "string", "pattern": "^series://sim-"},
+    "sampleCount": {"type": "integer", "minimum": 1},
+    "communicationStepSeconds": {"enum": [0.1, 0.02]},
+    "simulatedDurationSeconds": {"type": "number", "exclusiveMinimum": 0},
+    "sizeBytes": {"type": "integer", "minimum": 1},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "createdAt": {"type": "string", "format": "date-time"}
+  }
+}

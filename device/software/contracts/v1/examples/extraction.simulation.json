@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0",
+  "messageId": "sim-extraction-0001",
+  "messageType": "extraction.completed",
+  "deviceId": "esp32s3-prototype-01",
+  "sequence": 32,
+  "occurredAt": "2026-09-02T15:00:30Z",
+  "payload": {
+    "id": "sim-00000001",
+    "source": "simulation",
+    "coffeeReference": null,
+    "barista": "barista-synthetic-01",
+    "profile": {
+      "id": "simulation-default",
+      "name": "Perfil de prueba",
+      "definedBy": "barista-synthetic-01",
+      "version": 1,
+      "temperatureSetpointC": 93.0,
+      "temperatureToleranceC": 0.5,
+      "pressureSetpointBar": 9.0,
+      "pressureToleranceBar": 0.5,
+      "maximumTimeMs": 30000,
+      "expectedBeverageMassG": null,
+      "status": "effective"
+    },
+    "startedAt": "2026-09-02T15:00:00Z",
+    "finishedAt": "2026-09-02T15:00:30Z",
+    "durationMs": 30000,
+    "termination": "maximum-extraction-time-reached",
+    "sampleCount": 300,
+    "seriesRef": "sim-00000001",
+    "statistics": {
+      "temperatureMaeC": 0.42,
+      "pressureMaeBar": 0.31,
+      "temperatureWithinTolerancePercent": 82.0,
+      "pressureWithinTolerancePercent": 86.0
+    }
+  }
+}

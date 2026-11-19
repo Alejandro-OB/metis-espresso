@@ -1,0 +1,198 @@
+# Cada bloque consulta conclusiones producidas por el método general de comparación.
+# Ninguna consulta depende de heurísticas causales ni de identificadores codificados de los casos.
+
+# --- CASE01 ---
+# ¿Qué falló o qué generó la astringencia?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?barista ?profile ?extraction ?deviation ?diagnosis ?conclusion ?explanation ?recommendation ?knowledgeBasis WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:performedBy ?barista ; edt:usesProfile ?profile ;
+    edt:hasSensoryEvaluation/edt:hasPerceivedDefect edt:ExcessiveAstringency ; edt:hasRecommendedAction ?action .
+  ?deviation a edt:TechnicalDeviation ; edt:derivedFrom ?observation, ?specification .
+  ?extraction edt:hasObservation ?observation .
+  ?diagnosis a edt:Diagnosis ; edt:isDiagnosisOf edt:ExcessiveAstringency ; edt:derivedFrom ?deviation ;
+    edt:description ?conclusion ; edt:generatedBy edt:EvidenceBasedReasoner .
+  ?explanationNode edt:explains ?diagnosis ; edt:description ?explanation .
+  ?action edt:respondsTo ?diagnosis ; edt:description ?recommendation .
+  ?action (edt:basedOnCriterion|edt:supportedByHeuristic|edt:followsProcedure|edt:supportedByEvidencePattern|edt:governedByPolicy) ?knowledgeBasis .
+}
+
+# --- CASE02 ---
+# ¿Por qué una bebida resultó quemada si se usó el mismo perfil?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?baristaReference ?baristaBurnt ?profile ?reference ?burnt ?difference ?conclusion ?explanation ?recommendation ?knowledgeBasis ?evidence WHERE {
+  ?difference a edt:ObservedDifference ; edt:generatedBy edt:EvidenceBasedReasoner ;
+    edt:comparesExtraction ?reference, ?burnt ; edt:hasEvidence ?evidence .
+  ?reference edt:performedBy ?baristaReference ; edt:usesProfile ?profile .
+  ?burnt edt:performedBy ?baristaBurnt ; edt:usesProfile ?profile ;
+    edt:hasSensoryEvaluation/edt:hasPerceivedDefect edt:Burnt ; edt:hasRecommendedAction ?action .
+  FILTER (?reference != ?burnt)
+  FILTER NOT EXISTS { ?reference edt:hasSensoryEvaluation/edt:hasPerceivedDefect edt:Burnt }
+  ?diagnosis a edt:Diagnosis ; edt:isDiagnosisOf edt:Burnt ; edt:derivedFrom ?difference ; edt:description ?conclusion .
+  ?explanationNode edt:explains ?diagnosis ; edt:description ?explanation .
+  ?action edt:respondsTo ?diagnosis ; edt:description ?recommendation .
+  ?action (edt:basedOnCriterion|edt:supportedByHeuristic|edt:followsProcedure|edt:supportedByEvidencePattern|edt:governedByPolicy) ?knowledgeBasis .
+}
+
+# --- CASE04 ---
+# ¿Por qué el primer ajuste de temperatura no corrigió la acidez y el segundo sí?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?barista ?initial ?firstAdjustment ?property ?target ?firstSetting ?posterior ?secondAdjustment ?confirmedSetting ?confirmation
+       ?firstCategory ?secondCategory ?conclusion ?explanation ?recommendation ?knowledgeBasis ?confirmationConclusion ?evidence WHERE {
+  ?initial edt:performedBy ?barista ; edt:precedes ?firstAdjustment ;
+    edt:hasSensoryEvaluation/edt:hasPerceivedDefect ?target .
+  ?firstAdjustment a edt:ManualParameterAdjustment ; edt:changesProperty ?property ;
+    edt:targetsOutcome ?target ; edt:newNumericValue ?firstSetting ; edt:precedes ?posterior .
+  ?posterior edt:evaluatesOutcomeOf ?firstAdjustment ; edt:precedes ?secondAdjustment ;
+    edt:hasSensoryEvaluation/edt:hasPerceivedDefect ?target ; edt:hasRecommendedAction ?action .
+  ?secondAdjustment a edt:ManualParameterAdjustment ; edt:changesProperty ?property ; edt:targetsOutcome ?target ;
+    edt:previousNumericValue ?firstSetting ; edt:newNumericValue ?confirmedSetting ; edt:precedes ?confirmation .
+  ?confirmation edt:evaluatesOutcomeOf ?secondAdjustment ;
+    edt:hasSensoryEvaluation/edt:hasSensoryAcceptanceStatus edt:SensoryAccepted .
+  FILTER NOT EXISTS { ?confirmation edt:hasSensoryEvaluation/edt:hasPerceivedDefect ?target }
+  ?diagnosis a edt:AdjustmentOutcomeAssessment ; edt:assessesAdjustment ?firstAdjustment ;
+    edt:hasOutcomeCategory ?firstCategory ; edt:isDiagnosisOf ?target ;
+    edt:derivedFrom ?difference ; edt:description ?conclusion .
+  ?difference a edt:ObservedDifference ; edt:comparesExtraction ?initial, ?posterior ; edt:hasEvidence ?evidence .
+  ?explanationNode edt:explains ?diagnosis ; edt:description ?explanation .
+  ?action edt:respondsTo ?diagnosis ; edt:description ?recommendation .
+  ?action (edt:basedOnCriterion|edt:supportedByHeuristic|edt:followsProcedure|edt:supportedByEvidencePattern|edt:governedByPolicy) ?knowledgeBasis .
+  ?confirmationAssessment a edt:AdjustmentOutcomeAssessment ; edt:assessesAdjustment ?secondAdjustment ;
+    edt:hasOutcomeCategory ?secondCategory ; edt:description ?confirmationConclusion .
+}
+
+# --- CASE07 ---
+# ¿Qué causó el amargor después de corregir la acidez?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?barista ?initial ?adjustment ?target ?posterior ?previousTime ?newTime ?conclusion ?explanation ?recommendation ?knowledgeBasis ?evidence WHERE {
+  ?initial edt:performedBy ?barista ; edt:hasSensoryEvaluation/edt:hasPerceivedDefect edt:ExcessiveAcidity ; edt:precedes ?adjustment .
+  ?adjustment edt:changesProperty edt:ExtractionTime ; edt:targetsOutcome ?target ; edt:previousNumericValue ?previousTime ;
+    edt:newNumericValue ?newTime ; edt:precedes ?posterior .
+  ?posterior edt:hasSensoryEvaluation/edt:hasPerceivedDefect edt:ExcessiveBitterness ; edt:hasRecommendedAction ?action .
+  ?diagnosis a edt:Diagnosis ; edt:isDiagnosisOf edt:ExcessiveBitterness ; edt:derivedFrom ?evidence ; edt:description ?conclusion .
+  ?explanationNode edt:explains ?diagnosis ; edt:description ?explanation .
+  ?action edt:respondsTo ?diagnosis ; edt:description ?recommendation .
+  ?action (edt:basedOnCriterion|edt:supportedByHeuristic|edt:followsProcedure|edt:supportedByEvidencePattern|edt:governedByPolicy) ?knowledgeBasis .
+}
+
+# --- CASE09 ---
+# ¿Por qué se rechazó una prueba con TDS y rendimiento conformes, y por qué no hay recomendación?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?barista ?calibration ?extraction ?tds ?yield ?defect ?diagnosis ?conclusion ?explanation ?evidence WHERE {
+  ?calibration a edt:EspressoCalibration ; edt:performedBy ?barista ; edt:hasValidationStatus edt:Rejected ; edt:hasTrialExtraction ?extraction .
+  ?extraction edt:hasObservation ?tdsObservation, ?yieldObservation ; edt:hasSensoryEvaluation/edt:hasPerceivedDefect ?defect ;
+    edt:hasWithheldRecommendation ?diagnosis .
+  FILTER NOT EXISTS { ?extraction edt:hasRecommendedAction ?anyAction }
+  ?tdsObservation edt:observedProperty edt:TDS ; edt:numericValue ?tds .
+  ?yieldObservation edt:observedProperty edt:ExtractionYield ; edt:numericValue ?yield .
+  ?diagnosis a edt:Diagnosis ; edt:isDiagnosisOf ?defect ; edt:derivedFrom ?evidence ; edt:description ?conclusion .
+  ?explanationNode edt:explains ?diagnosis ; edt:description ?explanation .
+}
+
+# --- CASE11 ---
+# ¿Por qué salió ácido el primer café tras un reposo?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?barista ?profile ?extraction ?diagnosis ?conclusion ?explanation ?recommendation ?direction ?source WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:performedBy ?barista ; edt:usesProfile ?profile ;
+    edt:hasRecommendedAction ?action ;
+    edt:hasSensoryEvaluation/edt:hasPerceivedDefect edt:ExcessiveAcidity .
+  ?action edt:supportedByHeuristic edt:ColdWaterAcidityHeuristic ; edt:respondsTo ?diagnosis ;
+    edt:description ?recommendation ; edt:recommendedDirection ?direction .
+  ?diagnosis a edt:Diagnosis ; edt:supportedByHeuristic edt:ColdWaterAcidityHeuristic ;
+    edt:description ?conclusion ; edt:generatedBy edt:EvidenceBasedReasoner .
+  ?explanationNode edt:explains ?diagnosis ; edt:description ?explanation .
+  edt:ColdWaterAcidityHeuristic dcterms:source ?source .
+}
+
+# --- CASE12 ---
+# ¿Por qué salió débil un café con poca dosis?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?barista ?profile ?extraction ?diagnosis ?conclusion ?explanation ?recommendation ?direction ?source WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:performedBy ?barista ; edt:usesProfile ?profile ;
+    edt:hasRecommendedAction ?action .
+  ?action edt:supportedByHeuristic edt:DoseConcentrationHeuristic ; edt:respondsTo ?diagnosis ;
+    edt:description ?recommendation ; edt:recommendedDirection ?direction .
+  ?diagnosis a edt:Diagnosis ; edt:supportedByHeuristic edt:DoseConcentrationHeuristic ;
+    edt:description ?conclusion ; edt:generatedBy edt:EvidenceBasedReasoner .
+  ?explanationNode edt:explains ?diagnosis ; edt:description ?explanation .
+  edt:DoseConcentrationHeuristic dcterms:source ?source .
+}
+
+# --- CASE13 ---
+# ¿Qué cambia cuando el barista corta el café antes?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?barista ?profile ?extraction ?diagnosis ?conclusion ?explanation ?recommendation ?direction ?source WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:performedBy ?barista ; edt:usesProfile ?profile ;
+    edt:hasRecommendedAction ?action .
+  ?action edt:supportedByHeuristic edt:ShortShotHeuristic ; edt:respondsTo ?diagnosis ;
+    edt:description ?recommendation ; edt:recommendedDirection ?direction .
+  ?diagnosis a edt:Diagnosis ; edt:supportedByHeuristic edt:ShortShotHeuristic ;
+    edt:description ?conclusion ; edt:generatedBy edt:EvidenceBasedReasoner .
+  ?explanationNode edt:explains ?diagnosis ; edt:description ?explanation .
+  edt:ShortShotHeuristic dcterms:source ?source .
+}
+
+# --- CASE14 ---
+# ¿Por qué salió amargo un café con la dosis alta?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?barista ?profile ?extraction ?diagnosis ?conclusion ?explanation ?recommendation ?direction ?source WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:performedBy ?barista ; edt:usesProfile ?profile ;
+    edt:hasRecommendedAction ?action .
+  ?action edt:supportedByHeuristic edt:HighDoseTasteHeuristic ; edt:respondsTo ?diagnosis ;
+    edt:description ?recommendation ; edt:recommendedDirection ?direction .
+  ?diagnosis a edt:Diagnosis ; edt:supportedByHeuristic edt:HighDoseTasteHeuristic ;
+    edt:description ?conclusion ; edt:generatedBy edt:EvidenceBasedReasoner .
+  ?explanationNode edt:explains ?diagnosis ; edt:description ?explanation .
+  edt:HighDoseTasteHeuristic dcterms:source ?source .
+}
+
+# --- CASE15 ---
+# ¿Qué conviene cambiar primero en un café amargo y largo?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?barista ?profile ?extraction ?diagnosis ?conclusion ?explanation ?recommendation ?direction ?source WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:performedBy ?barista ; edt:usesProfile ?profile ;
+    edt:hasRecommendedAction ?action ;
+    edt:hasSensoryEvaluation/edt:hasPerceivedDefect edt:ExcessiveBitterness .
+  ?action edt:supportedByHeuristic edt:LongBitterShotHeuristic ; edt:respondsTo ?diagnosis ;
+    edt:description ?recommendation ; edt:recommendedDirection ?direction .
+  ?diagnosis a edt:Diagnosis ; edt:supportedByHeuristic edt:LongBitterShotHeuristic ;
+    edt:description ?conclusion ; edt:generatedBy edt:EvidenceBasedReasoner .
+  ?explanationNode edt:explains ?diagnosis ; edt:description ?explanation .
+  edt:LongBitterShotHeuristic dcterms:source ?source .
+}
+
+# --- CASE16 ---
+# ¿Se atribuye una diferencia que cabe en la dispersión de la receta?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?barista ?profile ?extraction ?diagnosis ?conclusion ?explanation ?recommendation ?direction ?source WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:performedBy ?barista ; edt:usesProfile ?profile ;
+    edt:hasRecommendedAction ?action .
+  ?action edt:supportedByHeuristic edt:WithinDispersionHeuristic ; edt:respondsTo ?diagnosis ;
+    edt:description ?recommendation ; edt:recommendedDirection ?direction .
+  ?diagnosis a edt:Diagnosis ; edt:supportedByHeuristic edt:WithinDispersionHeuristic ;
+    edt:description ?conclusion ; edt:generatedBy edt:EvidenceBasedReasoner .
+  ?explanationNode edt:explains ?diagnosis ; edt:description ?explanation .
+  edt:WithinDispersionHeuristic dcterms:source ?source .
+}
+
+# --- CASE17 ---
+# ¿Por qué se aceptó una bebida técnicamente no conforme, y qué concluye el razonador sobre ella?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?barista ?extraction ?property ?value ?technicalStatus ?rationale ?diagnosis ?conclusion ?explanation WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:performedBy ?barista ;
+    edt:hasSensoryEvaluation ?evaluation ; edt:hasObservation ?observation .
+  ?evaluation edt:hasSensoryAcceptanceStatus edt:SensoryAccepted ; edt:acceptanceRationale ?rationale .
+  FILTER NOT EXISTS { ?evaluation edt:hasPerceivedDefect ?anyDefect }
+  ?assessment edt:assessesExtraction ?extraction ; edt:hasTechnicalConformance ?technicalStatus .
+  FILTER (?technicalStatus = edt:TechnicallyNonConformant)
+  ?deviation a edt:TechnicalDeviation ; edt:derivedFrom ?observation .
+  ?observation edt:observedProperty ?property ; edt:numericValue ?value .
+  ?diagnosis a edt:Diagnosis ; edt:derivedFrom ?deviation ; edt:description ?conclusion .
+  FILTER NOT EXISTS { ?diagnosis edt:isDiagnosisOf ?defect . ?anyEvaluation edt:hasPerceivedDefect ?defect }
+  ?explanationNode edt:explains ?diagnosis ; edt:description ?explanation .
+}

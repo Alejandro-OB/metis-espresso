@@ -1,0 +1,9 @@
+{
+  "coffeeId": "coffee-synthetic-001",
+  "targetSensoryProfile": {
+    "id": "target-profile-synthetic-001",
+    "definedBy": "barista-01",
+    "rationale": "Objetivo sintético para comprobar el contrato; no representa una preferencia universal.",
+    "descriptors": ["chocolate", "caramelo"]
+  }
+}

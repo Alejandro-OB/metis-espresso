@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/simulation/v1/simulation-sample.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "simulationRunId", "sequence", "simulationTimeSeconds", "channels", "commands", "quality"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "simulationRunId": {"type": "string", "pattern": "^sim-[A-Za-z0-9-]{8,76}$"},
+    "sequence": {"type": "integer", "minimum": 1},
+    "simulationTimeSeconds": {"type": "number", "minimum": 0},
+    "channels": {
+      "type": "object",
+      "required": ["temperatureC", "pressureBar"],
+      "additionalProperties": {"type": "number"},
+      "properties": {"temperatureC": {"type": "number"}, "pressureBar": {"type": "number"}}
+    },
+    "commands": {
+      "type": "object", "additionalProperties": false,
+      "required": ["heaterCommand", "pumpCommand"],
+      "properties": {
+        "heaterCommand": {"type": "number", "minimum": 0, "maximum": 1},
+        "pumpCommand": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "quality": {"const": "simulated"}
+  }
+}

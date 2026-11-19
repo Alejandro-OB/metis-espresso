@@ -1,0 +1,74 @@
+# Respuesta diagnóstica general. No contiene identificadores ni heurísticas
+# causales particulares de los casos. Se ejecuta después de reasoning/materialize.py.
+PREFIX edt: <https://w3id.org/espresso-dt#>
+
+SELECT ?extraction ?finding ?diagnosis ?conclusion ?explanation
+       ?recommendation ?recommendationGenerator ?basisRelation ?knowledgeBasis
+       ?evidence ?generator ?adjustment ?outcomeCategory
+       ?outcomeTarget ?technicalConformance ?sensoryAcceptance ?withheldFor
+WHERE {
+  ?diagnosis a edt:Diagnosis ;
+             edt:isDiagnosisOf ?finding ;
+             edt:description ?conclusion ;
+             edt:derivedFrom ?diagnosticEvidence ;
+             edt:generatedBy ?generator .
+
+  ?explanationNode a edt:ExplanationAssertion ;
+                   edt:explains ?diagnosis ;
+                   edt:description ?explanation ;
+                   edt:hasEvidence ?evidence ;
+                   edt:generatedBy ?generator .
+
+  OPTIONAL {
+    ?action a edt:RecommendedAction ;
+            edt:respondsTo ?diagnosis ;
+            edt:description ?recommendation ;
+            edt:generatedBy ?recommendationGenerator .
+    OPTIONAL {
+      ?action ?basisRelation ?knowledgeBasis .
+      VALUES ?basisRelation {
+        edt:basedOnCriterion edt:supportedByHeuristic edt:followsProcedure
+        edt:supportedByEvidencePattern edt:governedByPolicy
+      }
+    }
+  }
+  # Diagnóstico tras el cual el razonador declara que no recomienda: ninguna
+  # variable que la máquina comprueba aísla una causa.
+  OPTIONAL { ?withheldFor edt:hasWithheldRecommendation ?diagnosis . }
+  OPTIONAL {
+    ?diagnosis a edt:AdjustmentOutcomeAssessment ;
+               edt:assessesAdjustment ?adjustment ;
+               edt:hasOutcomeCategory ?outcomeCategory .
+    ?adjustment edt:targetsOutcome ?outcomeTarget .
+  }
+  {
+    ?diagnosis a edt:AdjustmentOutcomeAssessment ;
+               edt:assessesAdjustment ?adjustment .
+    ?extraction a edt:EspressoExtraction ;
+                edt:evaluatesOutcomeOf ?adjustment .
+  }
+  UNION
+  {
+    ?diagnosis edt:derivedFrom ?difference .
+    ?difference a edt:ObservedDifference ;
+                edt:comparesExtraction ?extraction .
+  }
+  UNION
+  {
+    ?extraction edt:hasObservation ?observation .
+    ?diagnosis edt:derivedFrom/edt:derivedFrom ?observation .
+  }
+  UNION
+  {
+    ?extraction edt:hasSensoryEvaluation/edt:hasPerceivedDefect ?finding .
+  }
+  OPTIONAL {
+    ?technicalAssessment a edt:TechnicalConformanceAssessment ;
+                         edt:assessesExtraction ?extraction ;
+                         edt:hasTechnicalConformance ?technicalConformance .
+  }
+  OPTIONAL {
+    ?extraction edt:hasSensoryEvaluation/edt:hasSensoryAcceptanceStatus ?sensoryAcceptance .
+  }
+}
+ORDER BY ?extraction ?diagnosis ?evidence

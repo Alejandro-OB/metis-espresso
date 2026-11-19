@@ -1,0 +1,92 @@
+@prefix edt: <https://w3id.org/espresso-dt#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/espresso-dt/acquisition> a owl:Ontology ;
+    owl:versionIRI <https://w3id.org/espresso-dt/acquisition/1.1.1> ;
+    owl:versionInfo "1.1.1" ;
+    owl:priorVersion <https://w3id.org/espresso-dt/acquisition/1.1.0> ;
+    owl:imports <https://w3id.org/espresso-dt> ;
+    dcterms:title "Módulo de adquisición de datos para extracción de espresso"@es ;
+    dcterms:description "Extensión opcional que representa sensores y procedencia metrológica de las observaciones del proceso."@es ;
+    dcterms:requires <https://w3id.org/espresso-dt> .
+
+edt:Sensor a owl:Class ;
+    rdfs:subClassOf edt:EquipmentEntity ;
+    rdfs:label "sensor"@es ;
+    rdfs:comment "Dispositivo de adquisición que observa el proceso; no es un participante de la extracción."@es .
+edt:TemperatureSensor a owl:Class ; rdfs:subClassOf edt:Sensor ; rdfs:label "sensor de temperatura"@es .
+edt:PressureSensor a owl:Class ; rdfs:subClassOf edt:Sensor ; rdfs:label "sensor de presión"@es .
+edt:MassSensor a owl:Class ; rdfs:subClassOf edt:Sensor ; rdfs:label "sensor de masa"@es .
+edt:TDSSensor a owl:Class ; rdfs:subClassOf edt:Sensor ; rdfs:label "sensor de sólidos disueltos"@es .
+
+edt:SensorObservation a owl:Class ;
+    owl:equivalentClass [ a owl:Class ; owl:intersectionOf (
+        edt:Observation
+        [ a owl:Restriction ; owl:onProperty edt:madeBySensor ; owl:someValuesFrom edt:Sensor ]
+    ) ] ;
+    rdfs:label "observación de sensor"@es .
+
+edt:madeBySensor a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:domain edt:Observation ; rdfs:range edt:Sensor ;
+    rdfs:label "realizada por sensor"@es .
+edt:observesProperty a owl:ObjectProperty ;
+    rdfs:domain edt:Sensor ; rdfs:range edt:ObservableProperty ;
+    rdfs:label "observa propiedad"@es .
+edt:installedOn a owl:ObjectProperty ;
+    rdfs:domain edt:Sensor ; rdfs:range edt:EquipmentEntity ;
+    rdfs:label "instalado en"@es .
+
+edt:sensorIdentifier a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:domain edt:Sensor ; rdfs:range xsd:string ; rdfs:label "identificador de sensor"@es .
+edt:measurementLocation a owl:DatatypeProperty ;
+    rdfs:domain edt:Sensor ; rdfs:range xsd:string ; rdfs:label "ubicación de medición"@es .
+edt:accuracyValue a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:domain edt:Sensor ; rdfs:range xsd:decimal ; rdfs:label "valor de exactitud"@es .
+edt:samplingFrequencyHz a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:domain edt:Sensor ; rdfs:range xsd:decimal ; rdfs:label "frecuencia de muestreo en hercios"@es .
+edt:lastCalibrationDate a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:domain edt:Sensor ; rdfs:range xsd:dateTime ; rdfs:label "fecha de última calibración"@es .
+
+# Población auxiliar para el caso sintético del núcleo.
+
+edt:TemperatureSensorDemo a edt:TemperatureSensor ;
+    rdfs:label "sensor de temperatura de demostración"@es ;
+    edt:sensorIdentifier "TEMP-DEMO-01" ;
+    edt:observesProperty edt:WaterTemperature ;
+    edt:installedOn edt:MachineDemo ;
+    edt:measurementLocation "salida de agua de la máquina" ;
+    edt:lastCalibrationDate "2026-08-01T00:00:00-05:00"^^xsd:dateTime .
+
+edt:PressureSensorDemo a edt:PressureSensor ;
+    rdfs:label "sensor de presión de demostración"@es ;
+    edt:sensorIdentifier "PRESS-DEMO-01" ;
+    edt:observesProperty edt:ExtractionPressure ;
+    edt:installedOn edt:MachineDemo ;
+    edt:measurementLocation "circuito hidráulico de la máquina" ;
+    edt:lastCalibrationDate "2026-08-01T00:00:00-05:00"^^xsd:dateTime .
+
+edt:ScaleDemo a edt:MassSensor ;
+    rdfs:label "balanza externa de demostración"@es ;
+    edt:sensorIdentifier "MASS-DEMO-01" ;
+    edt:observesProperty edt:CoffeeDoseMass, edt:BeverageMass ;
+    edt:measurementLocation "instrumento externo del barista; no instalado en la cafetera" ;
+    edt:lastCalibrationDate "2026-08-01T00:00:00-05:00"^^xsd:dateTime .
+
+edt:RefractometerDemo a edt:TDSSensor ;
+    rdfs:label "refractómetro de demostración"@es ;
+    edt:sensorIdentifier "TDS-DEMO-01" ;
+    edt:observesProperty edt:TDS ;
+    edt:measurementLocation "muestra de bebida" ;
+    edt:lastCalibrationDate "2026-08-01T00:00:00-05:00"^^xsd:dateTime .
+
+edt:ObsDoseDemo edt:madeBySensor edt:ScaleDemo .
+edt:ObsBeverageMassDemo edt:madeBySensor edt:ScaleDemo .
+edt:ObsManualDoseDemo edt:madeBySensor edt:ScaleDemo .
+edt:ObsManualBeverageMassDemo edt:madeBySensor edt:ScaleDemo .
+edt:ObsTemperatureDemo edt:madeBySensor edt:TemperatureSensorDemo .
+edt:ObsPressureDemo edt:madeBySensor edt:PressureSensorDemo .
+edt:ObsTDSDemo edt:madeBySensor edt:RefractometerDemo .
+edt:ObsManualTDSDemo edt:madeBySensor edt:RefractometerDemo .

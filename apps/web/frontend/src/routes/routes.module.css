@@ -1,0 +1,604 @@
+/* Una columna de retícula toma por omisión el tamaño mínimo de su contenido,
+   y basta con que un hijo no sepa encogerse —una tabla con ancho mínimo, una
+   fila de filtros de cuatro columnas— para que la columna entera crezca por
+   encima del contenedor. En tablet eso sacaba 183 px de página fuera de la
+   pantalla y aparecía barra horizontal. `minmax(0, 1fr)` fija la columna al
+   ancho disponible y `min-width: 0` deja que cada hijo se encoja; las zonas
+   que ya tienen su propio desplazamiento, como la envoltura de la tabla,
+   siguen desplazándose dentro de sí mismas. */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-6); animation: reveal var(--duration-slow) var(--ease-physical) both; }
+.page > * { min-width: 0; }
+@keyframes reveal { from { opacity: 0; transform: translateY(var(--space-5)); } }
+.heading { max-width: 58rem; }
+.headingWithAction { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: var(--space-4); }
+.title { max-width: 40ch; margin-block-end: var(--space-3); font-family: var(--font-editorial); font-size: var(--text-heading-2); line-height: var(--leading-heading); font-weight: 600; letter-spacing: -.015em; }
+.lead { max-width: var(--content-reading); margin-block-end: 0; color: var(--color-ink-muted); font-size: clamp(1rem, 1.4vw, 1.18rem); }
+.heroTitle { max-width: 36ch; font-family: var(--font-editorial); font-size: var(--text-heading-1); line-height: var(--leading-heading); font-weight: 600; letter-spacing: -.02em; }
+.heroAccent { color: var(--color-brand); font-style: italic; }
+.grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-4); }
+.span8 { grid-column: span 8; }
+.span7 { grid-column: span 7; }
+.span6 { grid-column: span 6; }
+.span5 { grid-column: span 5; }
+.span4 { grid-column: span 4; }
+.span12 { grid-column: 1 / -1; }
+.surfaceTitle { margin-block-end: var(--space-4); font-family: var(--font-editorial); font-size: var(--text-heading-3); line-height: 1.3; font-weight: 600; letter-spacing: 0; }
+/* El rótulo de cada tarjeta flotaba solo en gris. Una marca corta en el verde
+   de la marca le da un punto de apoyo y repite la identidad a escala pequeña,
+   que es donde una interfaz se siente propia o genérica. */
+.kicker { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--color-ink-muted); font-size: var(--text-small); letter-spacing: .08em; text-transform: uppercase; }
+.kicker::before { content: ''; flex: 0 0 auto; width: .9rem; height: .15rem; border-radius: var(--radius-pill); background: var(--color-accent); }
+/* Cinco medidas en columnas de 9 rem daban cuatro arriba y una huérfana
+   debajo, con tres columnas vacías al lado. Con la columna algo más estrecha
+   entran las cinco en una fila y la tarjeta deja de tener un hueco. */
+.measurements { display: grid; grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); gap: var(--space-5) var(--space-6); }
+.manualData { display: grid; gap: var(--space-5); }
+.manualValues { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: var(--space-5); }
+.manualValues > div { display: grid; gap: var(--space-2); }
+.manualValues small { color: var(--color-ink-muted); font-size: var(--text-micro); line-height: 1.45; }
+.calculatedResult { display: grid; grid-template-columns: minmax(10rem, .35fr) 1fr; align-items: end; gap: var(--space-5); padding-block: var(--space-4); border-block: 1px solid var(--color-line); }
+.calculatedResult p, .completeMessage { margin: 0; color: var(--color-ink-muted); font-size: var(--text-small); }
+.pendingHeading { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-4); padding-block-start: var(--space-2); }
+.pendingHeading span { color: var(--color-ink-muted); font-size: var(--text-small); }
+.services { display: grid; gap: var(--space-4); }
+.service { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-5); padding-block: var(--space-3); box-shadow: 0 -.06rem 0 var(--color-line) inset; }
+.service:first-child { padding-block-start: 0; }
+.service p { margin: 0; color: var(--color-ink-muted); font-size: var(--text-small); }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); color: var(--color-ink-muted); font-size: var(--text-small); }
+.data { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.stack { display: grid; gap: var(--space-5); }
+.formGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5); }
+.formFull { grid-column: 1 / -1; }
+.formHint { margin: 0; color: var(--color-ink-muted); font-size: var(--text-small); }
+.optionalCoffeeField { display: grid; gap: var(--space-1); align-content: start; }
+.optionalCoffeeField > label:last-child { min-height: auto; color: var(--color-ink-muted); font-size: var(--text-small); }
+.descriptorFieldset { display: grid; gap: var(--space-4); margin: 0; padding: 0; border: 0; }
+.descriptorFieldset legend { padding: 0; font-weight: 700; }
+.descriptorFieldset > p { margin: calc(var(--space-3) * -1) 0 0; color: var(--color-ink-muted); font-size: var(--text-small); }
+.descriptorList { display: grid; gap: var(--space-3); }
+.descriptorRow { display: grid; grid-template-columns: minmax(12rem, 1fr) minmax(7rem, .3fr) auto; align-items: end; gap: var(--space-3); padding-block-end: var(--space-3); border-bottom: 1px solid var(--color-line); }
+.removeDescriptor { min-height: var(--control-min); border: 0; padding: 0 var(--space-2); background: transparent; color: var(--color-danger); font: inherit; font-size: var(--text-small); cursor: pointer; }
+.removeDescriptor:hover { text-decoration: underline; text-underline-offset: .2rem; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.listActions { display: flex; justify-content: flex-end; margin-block-end: var(--space-4); }
+/* `.listActions` alinea a la derecha porque allí la acción corona una tabla y
+   el borde derecho de la tabla le sirve de anclaje. En equipos no hay tabla:
+   el botón quedaba solo en mitad de la página, con un vacío a su izquierda que
+   no pertenecía a nada. Aquí arranca en el margen del texto y se arrima al
+   encabezado, de modo que se lee como la acción de ese encabezado. */
+.headingAction { display: flex; justify-content: flex-start; margin-block-start: calc(var(--space-4) - var(--space-6)); }
+/* Misma trampa que en `.page`: una columna de retícula toma el tamaño mínimo
+   de su contenido, y la fila de especificaciones pide 651 px. Dentro de un
+   modal de 544 el formulario entero se estiraba a 631 y aparecía barra
+   horizontal. */
+.profileForm { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+.profileForm > * { min-width: 0; }
+.coffeeChoices, .specificationEditor { display: grid; gap: var(--space-3); margin: 0; padding: 0; border: 0; }
+.coffeeChoices legend, .specificationEditor legend { padding: 0; font-weight: 700; }
+.coffeeChoices > p, .specificationEditor > p { margin: calc(var(--space-2) * -1) 0 0; color: var(--color-ink-muted); font-size: var(--text-small); }
+.coffeeChoices > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space-4); }
+.specificationList { display: grid; gap: var(--space-3); }
+/* Cinco controles en fila necesitan 651 px y el modal da 544. En vez de
+   recortar los mínimos hasta que quepan —y dejar los campos impracticables—,
+   la fila se apila y recupera sus columnas cuando el contenedor da de sí. */
+.specificationRow { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; gap: var(--space-3); padding-block-end: var(--space-4); border-bottom: 1px solid var(--color-line); }
+/* En dos columnas la variable queda con su definición y el objetivo con su
+   tolerancia, que es como se leen de a pares. Apilarlos de uno en uno alarga
+   el formulario sin que nadie gane nada, y en cinco columnas el desplegable
+   de variable se queda en 128 px y recorta «Temperatura del agua». */
+.specificationRow > button { grid-column: 1 / -1; justify-self: start; }
+@container (min-width: 44rem) {
+  .specificationRow { grid-template-columns: minmax(11rem, 1.4fr) minmax(8rem, .8fr) repeat(2, minmax(7rem, .7fr)) auto; padding-block-end: var(--space-3); }
+  .specificationRow > button { grid-column: auto; justify-self: auto; }
+}
+.formError { margin: 0; color: var(--color-danger); font-size: var(--text-small); }
+.profileDetailActions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.specificationSummary { display: grid; }
+.specificationSummary > div { display: flex; justify-content: space-between; gap: var(--space-5); padding-block: var(--space-3); border-bottom: 1px solid var(--color-line); }
+.specificationSummary > div:first-child { padding-block-start: 0; }
+.specificationSummary span { color: var(--color-ink-muted); font-variant-numeric: tabular-nums; text-align: right; }
+.sectionHeading { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-5); }
+.sectionHeading p { margin: calc(var(--space-3) * -1) 0 var(--space-4); color: var(--color-ink-muted); font-size: var(--text-small); }
+.descriptorChoices, .desiredChanges { display: grid; gap: var(--space-3); margin: 0; padding: 0; border: 0; }
+.descriptorChoices legend, .desiredChanges legend { padding: 0; font-weight: 700; }
+.descriptorChoices section h3 { margin: 0 0 var(--space-2); font-size: var(--text-small); }
+.descriptorChoices label { min-height: 2rem; font-size: var(--text-small); }
+.desiredChanges > p { margin: calc(var(--space-2) * -1) 0 0; color: var(--color-ink-muted); font-size: var(--text-small); }
+.desiredChanges > div { display: grid; gap: var(--space-3); }
+.desiredChangeRow { display: grid; grid-template-columns: minmax(10rem, 1fr) minmax(9rem, .7fr) auto; align-items: end; gap: var(--space-3); padding-block-end: var(--space-3); border-bottom: 1px solid var(--color-line); }
+.sensoryReferences { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8); }
+.sensoryReferences section { min-width: 0; }
+.sensoryReferences h3 { font-size: 1rem; }
+.desiredChangeSummary { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); color: var(--color-ink-muted); font-size: var(--text-small); }
+.sensoryReferenceGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); margin-block-end: var(--space-6); padding-block-end: var(--space-5); border-bottom: 1px solid var(--color-line); }
+.sensoryReferenceGrid section { display: grid; align-content: start; gap: var(--space-2); }
+.sensoryReferenceGrid p { margin: 0; color: var(--color-ink-muted); font-size: var(--text-small); }
+.sensoryReferenceGrid small { color: var(--color-ink-muted); }
+.sensoryDetails { display: grid; padding-block: var(--space-3); border-block: 1px solid var(--color-line); }
+.sensoryDetails summary { width: fit-content; color: var(--color-brand); font-weight: 700; cursor: pointer; }
+.sensoryDetails > p { color: var(--color-ink-muted); font-size: var(--text-small); }
+.sensoryScoreGrid { display: grid; }
+.sensoryScoreRow { display: grid; grid-template-columns: minmax(7rem, .6fr) repeat(3, minmax(8rem, 1fr)); align-items: end; gap: var(--space-3); padding-block: var(--space-3); border-bottom: 1px solid var(--color-line); }
+.defectChoices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2) var(--space-5); margin-block-start: var(--space-5); padding: 0; border: 0; }
+.defectChoices legend { grid-column: 1 / -1; margin-block-end: var(--space-2); padding: 0; font-weight: 700; }
+.contextForm { display: grid; grid-template-columns: minmax(14rem, 24rem) auto; align-items: end; gap: var(--space-3); }
+.legacySensoryTarget { margin-block-start: var(--space-5); padding-block-start: var(--space-4); border-top: 1px solid var(--color-line); }
+.historyToolbar { display: grid; gap: var(--space-4); margin-block-end: var(--space-5); }
+.historySearch { width: min(100%, 27rem); }
+.historyPrimaryFilters { display: grid; grid-template-columns: repeat(4, minmax(9rem, 1fr)); align-items: end; gap: var(--space-3); }
+.historyAdvanced { border-block: 1px solid var(--color-line); padding-block: var(--space-3); }
+.historyAdvanced summary { width: fit-content; color: var(--color-brand); font-weight: 700; cursor: pointer; }
+.historyFilterGrid { display: grid; grid-template-columns: repeat(4, minmax(9rem, 1fr)); gap: var(--space-3); margin-block-start: var(--space-4); }
+.historyPrimaryFilters input, .historyPrimaryFilters select, .historyFilterGrid input, .historyFilterGrid select, .historySearch input { min-height: 2.35rem; height: 2.35rem; padding: .45rem .7rem; font-size: var(--text-small); }
+
+/* La barra de filtros busca densidad y con ratón 2,35 rem se maneja bien. En
+   una pantalla táctil esos mismos controles quedan por debajo de los 44 px que
+   fija docs/design-system.md, así que allí recuperan la altura mínima. */
+@media (pointer: coarse) {
+  .historyPrimaryFilters input, .historyPrimaryFilters select,
+  .historyFilterGrid input, .historyFilterGrid select,
+  .historySearch input { min-height: var(--control-min); height: var(--control-min); }
+  .historyActions button { min-height: var(--control-min); }
+}
+.historyActions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.historyActions button { min-height: 2.35rem; padding: .45rem .85rem; font-size: var(--text-small); white-space: nowrap; }
+/* La regla apuntaba al último `span` del botón para encoger el círculo del
+   icono. Pero `Button` solo añade ese segundo `span` cuando recibe un icono:
+   en «Limpiar filtros», que no lo lleva, el último `span` es el del texto y
+   quedaba comprimido a 1,4 rem, de modo que el rótulo se derramaba sobre el
+   botón vecino. El icono es siempre el segundo. */
+.historyActions button span + span { width: 1.4rem; height: 1.4rem; }
+.relationGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); }
+.relationGrid section { display: grid; align-content: start; gap: var(--space-2); }
+.relationGrid p { margin: 0; color: var(--color-ink-muted); }
+/* Cuatro columnas iguales a todo lo ancho daban botones de unos 280 px para
+   rótulos de dos palabras: el texto se partía en dos líneas, el icono quedaba
+   lejos al otro extremo y la fila pesaba más que el contenido que encabeza.
+   Cada botón mide ahora lo que mide su rótulo, y la fila se reparte sola en
+   dos renglones cuando no caben. */
+.quickActions { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: var(--space-3); }
+.quickActions > a { width: 100%; min-height: 2.6rem; gap: var(--space-2); padding: var(--space-2) var(--space-4); font-size: var(--text-small); white-space: nowrap; }
+/* El círculo del icono es el segundo `span` del botón, y aquí va más pequeño
+   para no dominar un rótulo de una línea. */
+.quickActions > a span + span { width: 1.5rem; height: 1.5rem; }
+/* Dos columnas dentro de una ficha estrecha dejan unos 130 px por valor y
+   «Espresso laboratorio» se parte en dos líneas. Como la superficie es un
+   contenedor, el reparto lo decide el ancho real de la ficha y no el de la
+   ventana: apilado donde no cabe, en dos columnas donde sí. */
+.contextGrid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); margin-block-start: var(--space-4); }
+@container (min-width: 24rem) {
+  .contextGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8); }
+}
+.contextGrid > div { display: grid; gap: var(--space-1); }
+.contextGrid strong { font-size: var(--text-heading-3); line-height: 1.25; }
+.contextGrid small, .contextLabel, .muted { color: var(--color-ink-muted); }
+.contextLabel { font-size: var(--text-small); }
+.sensorList { display: grid; }
+.sensorRow { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding-block: var(--space-3); border-bottom: 1px solid var(--color-line); }
+.sensorRow:first-child { padding-block-start: 0; }
+.sensorRow > div:first-child { display: grid; gap: var(--space-1); }
+.sensorRow > div:last-child { text-align: right; }
+.sensorRow > div:last-child > span:first-child { font-size: clamp(1.5rem, 2.4vw, 1.9rem); }
+.compactList { display: grid; }
+.compactList a { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: var(--control-min); padding-block: var(--space-3); border-bottom: 1px solid var(--color-line); color: var(--color-ink); text-decoration: none; }
+.compactList a:first-child { padding-block-start: 0; }
+.compactList a:hover { color: var(--color-brand); }
+.rowLink { display: inline-flex; align-items: center; align-self: center; min-height: var(--control-min); padding-inline: var(--space-2); color: var(--color-brand); font-size: var(--text-small); font-weight: 600; text-decoration: none; white-space: nowrap; }
+.rowLink:hover { color: var(--color-brand-hover); text-decoration: underline; text-underline-offset: .2rem; }
+/* En una tarjeta estrecha no caben dos columnas: reservar 9 rem para el
+   término dejaba unos 50 px para el valor y «Espresso laboratorio» se partía
+   en cuatro trozos. Por omisión el valor va bajo su término, que funciona a
+   cualquier ancho, y las dos columnas vuelven solo cuando la tarjeta que la
+   contiene mide lo suficiente. */
+.definition { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 var(--space-5); margin: 0; }
+@container (min-width: 22rem) {
+  .definition { grid-template-columns: minmax(8rem, .8fr) minmax(0, 1fr); gap: var(--space-3) var(--space-5); }
+  .definition dd + dt { margin-block-start: 0; }
+}
+.definition dd + dt { margin-block-start: var(--space-4); }
+.definition dt { color: var(--color-ink-muted); font-size: var(--text-small); }
+/* `anywhere` parte la palabra aunque quepa entera en la línea siguiente.
+   `break-word` solo lo hace cuando no hay otra salida. */
+.definition dd { margin: 0; min-width: 0; overflow-wrap: break-word; }
+.definitionRow { display: contents; }
+.evidence { display: grid; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-lg); background: var(--color-surface-muted); }
+.evidence code { font-family: var(--font-data); font-size: var(--text-small); overflow-wrap: anywhere; }
+.compareGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: var(--space-4); }
+.compareItem { padding: var(--space-4); border-radius: var(--radius-lg); background: var(--color-surface-muted); }
+.comparisonDimensions { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-6); margin: 0; padding: 0; border: 0; }
+.comparisonDimensions legend { width: 100%; margin-block-end: var(--space-2); padding: 0; font-weight: 700; }
+.comparisonDimensions label { min-height: 1.75rem; font-size: var(--text-small); }
+.comparisonTable { min-width: 0; overflow-x: auto; }
+.comparisonHeader, .comparisonRow { display: flex; min-width: 46rem; border-bottom: 1px solid var(--color-line); }
+.comparisonHeader { color: var(--color-ink-muted); background: var(--color-surface-muted); font-size: var(--text-small); }
+.comparisonHeader > *, .comparisonRow > * { flex: 1 1 0; min-width: 10rem; padding: var(--space-3); }
+.comparisonHeader > :first-child, .comparisonRow > :first-child { flex: 0 0 12rem; }
+.comparisonHeader strong { display: flex; align-items: center; gap: var(--space-2); }
+.comparisonHeader i, .sensoryComparison h3 i, .chartLegend i { width: .65rem; height: .65rem; flex: 0 0 auto; border-radius: 50%; }
+.comparisonRow > strong { display: grid; align-content: start; gap: var(--space-1); font-size: var(--text-small); }
+.comparisonRow > strong small, .comparisonRow > span small { color: var(--color-ink-muted); font-size: var(--text-micro); font-weight: 500; }
+.comparisonRow > span { display: grid; align-content: start; gap: var(--space-1); font-variant-numeric: tabular-nums; }
+.comparisonRow > span[data-state='different'] { background: color-mix(in srgb, var(--color-warning) 8%, transparent); }
+.comparisonRow > span[data-state='missing'] { color: var(--color-ink-muted); background: var(--color-surface-muted); }
+.profileEvidenceGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--space-8); }
+.profileEvidenceGrid section { min-width: 0; }
+.profileEvidenceGrid h3 { margin: 0 0 var(--space-4); font-size: 1rem; }
+.profileEvidenceGrid h4 { margin: var(--space-5) 0 var(--space-2); color: var(--color-ink-muted); font-size: var(--text-small); text-transform: uppercase; letter-spacing: .05em; }
+.linkList { display: grid; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.linkList li { display: grid; gap: var(--space-1); }
+.linkList small, .linkList span { color: var(--color-ink-muted); font-size: var(--text-small); }
+.traceTimeline { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.traceTimeline li { position: relative; padding-inline-start: 2rem; }
+.traceTimeline li::before { content: ''; position: absolute; inset: 1.25rem auto auto .3rem; width: .65rem; height: .65rem; border: 2px solid var(--color-brand); border-radius: 50%; background: var(--color-surface); }
+.traceTimeline li::after { content: ''; position: absolute; inset: 1.9rem auto 0 .65rem; width: 1px; background: var(--color-line); }
+.traceTimeline li:last-child::after { display: none; }
+.traceTimeline a, .traceTimeline li > div { display: grid; gap: var(--space-1); padding: var(--space-3) 0 var(--space-5); color: var(--color-ink); text-decoration: none; }
+.traceTimeline a:hover strong { color: var(--color-brand); text-decoration: underline; }
+.traceTimeline small { color: var(--color-brand); font-size: var(--text-micro); font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.traceTimeline span, .traceTimeline time { color: var(--color-ink-muted); font-size: var(--text-small); }
+.equipmentGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: var(--space-4); }
+.equipmentGrid h3 { margin: var(--space-5) 0 var(--space-2); font-size: var(--text-small); }
+.equipmentList { display: grid; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.equipmentList li { display: grid; gap: var(--space-1); padding-block-end: var(--space-3); border-block-end: 1px solid var(--color-line); }
+.equipmentList span, .equipmentList small { color: var(--color-ink-muted); font-size: var(--text-small); }
+.equipmentForm { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.equipmentForm fieldset { margin: 0; padding: var(--space-4) 0 0; border: 0; border-block-start: 1px solid var(--color-line); }
+.equipmentForm legend { font-weight: 700; }
+.equipmentSensorFields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.sensoryComparison { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--space-6); }
+.sensoryComparison > section { min-width: 0; }
+.sensoryComparison h3 { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-3); font-size: 1rem; }
+.sensoryBar { display: grid; grid-template-columns: minmax(7rem, .8fr) minmax(7rem, 1fr) 2rem; align-items: center; gap: var(--space-2); padding-block: var(--space-2); font-size: var(--text-small); }
+.sensoryBar > div { height: .4rem; overflow: hidden; border-radius: var(--radius-pill); background: var(--color-line); }
+.sensoryBar > div i { display: block; height: 100%; border-radius: inherit; }
+.sensoryBar strong { text-align: right; font-variant-numeric: tabular-nums; }
+.sensoryTerms { display: grid; grid-template-columns: 7rem 1fr; gap: var(--space-2); margin-block-start: var(--space-3); font-size: var(--text-small); }
+.sensoryTerms ul { display: grid; gap: var(--space-1); margin: 0; padding-inline-start: var(--space-5); }
+.sensoryTerms > span { color: var(--color-ink-muted); }
+.overlayChart { min-width: 0; padding: var(--space-4); border: 1px solid var(--color-line); border-radius: var(--radius-lg); }
+.overlayChart h3 { margin: 0; font-size: 1rem; }
+.overlayChart svg { display: block; width: 100%; margin-block-start: var(--space-3); }
+.chartLegend { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); color: var(--color-ink-muted); font-size: var(--text-small); }
+.chartLegend span { display: inline-flex; align-items: center; gap: var(--space-2); }
+.chartLegend i { width: 1.5rem; height: .35rem; border-block-start: .2rem solid; background: transparent; }
+.linePattern2 { border-style: dashed !important; }
+.linePattern3 { border-style: dotted !important; }
+.linePattern4 { border-block-start-style: double !important; }
+.chartData { max-width: 100%; margin-block-start: var(--space-3); overflow-x: auto; color: var(--color-ink-muted); font-size: var(--text-small); }
+.chartData summary { width: fit-content; color: var(--color-brand); font-weight: 600; cursor: pointer; }
+.chartData dl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3); margin-block-end: 0; }
+.chartData dl div { display: grid; gap: var(--space-1); }
+.chartData dt { font-size: var(--text-micro); text-transform: uppercase; letter-spacing: .04em; }
+.chartData dd { margin: 0; color: var(--color-ink); }
+.chartDataTable { min-width: 38rem; margin-block-start: var(--space-3); }
+.chartDataTable > div { display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); gap: var(--space-3); padding: var(--space-2); border-block-end: 1px solid var(--color-line); }
+.score { display: flex; justify-content: space-between; gap: var(--space-4); padding-block: var(--space-2); box-shadow: 0 -.06rem 0 var(--color-line) inset; }
+.score strong { font-family: var(--font-data); }
+.callout { position: relative; overflow: hidden; }
+.callout::after { content: '≈'; position: absolute; inset-inline-end: var(--space-5); inset-block-end: calc(var(--space-8) * -1); color: var(--color-brand-soft); font-family: var(--font-editorial); font-size: 12rem; line-height: 1; pointer-events: none; }
+.list { margin: 0; padding-inline-start: var(--space-5); }
+.list li + li { margin-block-start: var(--space-2); }
+.calibrationLayout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(16rem, .65fr); gap: var(--space-4); }
+.timeline { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; counter-reset: calibration-event; }
+.timeline li { position: relative; padding: 0 0 var(--space-5) var(--space-8); counter-increment: calibration-event; }
+.timeline li::before { content: counter(calibration-event); position: absolute; inset: 0 auto auto 0; display: grid; width: 1.55rem; height: 1.55rem; place-items: center; border-radius: 50%; background: var(--color-brand-soft); color: var(--color-brand); font-size: var(--text-small); font-weight: 700; }
+.timeline li::after { content: ''; position: absolute; inset: 1.7rem auto 0 .75rem; width: 1px; background: var(--color-line); }
+.timeline li:last-child { padding-block-end: 0; }
+.timeline li:last-child::after { display: none; }
+.timeline li > div { display: grid; gap: var(--space-1); }
+.timeline span, .timeline a { color: var(--color-ink-muted); font-size: var(--text-small); }
+.inlineWorkflowForm { display: grid; grid-template-columns: minmax(15rem, 1fr) auto; align-items: end; gap: var(--space-3); }
+.adjustmentGrid { display: grid; grid-template-columns: repeat(4, minmax(7rem, 1fr)); align-items: end; gap: var(--space-4); margin-block-start: var(--space-4); }
+.recommendationAdjustment { display: grid; grid-template-columns: repeat(4, minmax(8rem, 1fr)); gap: var(--space-4); align-items: end; }
+.recommendationExplanation { margin-block-start: var(--space-4); padding-block-start: var(--space-4); border-block-start: 1px solid var(--color-line); }
+.closeCalibrationForm { display: grid; grid-template-columns: minmax(12rem, .5fr) minmax(18rem, 1fr) auto; align-items: end; gap: var(--space-4); }
+.startExtractionCard { width: 100%; max-width: 52rem; margin-inline: auto; }
+.simulationNotice { margin: calc(var(--space-3) * -1) 0 0; color: var(--color-ink-muted); font-size: var(--text-small); }
+.simulationIntro { display: grid; width: 100%; max-width: 52rem; margin-inline: auto; }
+.simulationLaunch { border-block-start: .28rem solid var(--color-brand); }
+/* Tres columnas fijas dejaban al desplegable unos 160 px útiles una vez
+   descontados el relleno y la flecha nativa, y «Selecciona un perfil» se
+   cortaba a media palabra. Con `auto-fit` la fila solo mantiene tres columnas
+   si cada una llega a 16rem; por debajo baja a dos y el formulario respira sin
+   que ningún rótulo se trunque. */
+.simulationForm { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); align-items: end; gap: var(--space-5); }
+/* El botón caía en una columna de 178 px y «Ejecutar simulación» con su icono
+   pide unos 230: el rótulo se partía en dos líneas dentro de la píldora. En su
+   propia línea cabe entero y además queda donde está la acción principal en el
+   resto de formularios, bajo los campos y alineado a la izquierda. */
+.simulationForm > button { grid-column: 1 / -1; justify-self: start; }
+.simulationFormLead { grid-column: 1 / -1; display: grid; max-width: 48rem; gap: var(--space-2); }
+.simulationFormLead h2, .simulationHistory h2, .simulationEvidenceGrid h2 { margin: 0; font-family: var(--font-editorial); font-size: clamp(1.35rem, 2.2vw, 2rem); }
+.simulationFormLead p { max-width: 43rem; margin: 0; color: var(--color-ink-muted); }
+.simulationStamp, .sectionTitle span, .simulationStatusMain > span { color: var(--color-brand); font-family: var(--font-data); font-size: var(--text-micro); font-weight: 700; letter-spacing: .12em; }
+.simulationHistory { display: grid; gap: var(--space-4); padding-block: var(--space-8); }
+.sectionTitle { display: flex; justify-content: space-between; align-items: end; gap: var(--space-4); border-block-end: 1px solid var(--color-line-strong); padding-block-end: var(--space-3); }
+.sectionTitle h2 { margin-block-start: var(--space-1); }
+.sectionTitle > small { color: var(--color-ink-muted); }
+.simulationRows { display: grid; }
+.simulationRow { display: grid; grid-template-columns: 1.4fr 1.2fr .6fr 1fr 1fr auto; align-items: center; gap: var(--space-4); padding: var(--space-4) var(--space-2); border-block-end: 1px solid var(--color-line); color: var(--color-ink); text-decoration: none; transition: background-color 160ms ease, padding 160ms ease; }
+.simulationRow:hover { padding-inline: var(--space-3); background: var(--color-surface-muted); }
+.simulationRow > div { display: grid; gap: var(--space-1); min-width: 0; }
+.simulationRow small { color: var(--color-ink-muted); }
+.simulationBadge { width: fit-content; color: var(--color-brand); font-family: var(--font-data); font-size: .62rem; letter-spacing: .1em; }
+.simulationDetailHeading { display: flex; justify-content: space-between; align-items: start; gap: var(--space-5); }
+.simulationStatusPanel { display: grid; grid-template-columns: 1fr minmax(12rem, .45fr) auto; align-items: center; gap: var(--space-6); border-inline-start: .28rem solid var(--color-brand); }
+.simulationStatusMain { display: grid; gap: var(--space-1); }
+.simulationStatusMain strong { font-family: var(--font-editorial); font-size: 1.7rem; }
+.simulationStatusMain p { margin: 0; color: var(--color-ink-muted); }
+.simulationStatusPanel > div:nth-child(2) { display: grid; gap: var(--space-2); }
+.simulationStatusPanel > div:nth-child(2) > span { font-family: var(--font-data); font-size: 1.35rem; text-align: right; }
+.simulationCharts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.simulationChart { min-width: 0; padding: var(--space-5); border: 1px solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-surface); }
+.simulationChart header { display: flex; justify-content: space-between; gap: var(--space-4); }
+.simulationChart header > div { display: grid; gap: var(--space-1); }
+.simulationChart header span, .simulationChart header p { color: var(--color-ink-muted); font-size: var(--text-small); }
+.simulationChart header strong { font-family: var(--font-data); font-size: 1.55rem; }
+.simulationChart header p { margin: 0; text-align: right; }
+.simulationChart svg { display: block; width: 100%; margin-block: var(--space-3); }
+.simulationChart dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin: 0; padding-block-start: var(--space-3); border-block-start: 1px solid var(--color-line); }
+.simulationChart dl div { display: grid; gap: var(--space-1); }
+.simulationChart dt { color: var(--color-ink-muted); font-size: var(--text-micro); text-transform: uppercase; }
+.simulationChart dd { margin: 0; font-family: var(--font-data); font-size: var(--text-small); }
+.simulationEvidenceGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.simulationEvidenceGrid h2 { margin-block: var(--space-2) var(--space-5); }
+.semanticState { width: fit-content; padding: .35rem .7rem; border-radius: var(--radius-pill); color: var(--color-brand); background: var(--color-brand-soft); font-size: var(--text-small); font-weight: 700; }
+.liveSummary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+.liveSummary > div > div { display: grid; gap: var(--space-2); }
+.liveSummary strong { font-size: 1rem; }
+.liveSummary small { color: var(--color-ink-muted); }
+.liveClock { font-family: var(--font-data); font-size: 1.55rem !important; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+.liveCharts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.liveChart { min-width: 0; padding: var(--space-5); border: 1px solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-surface); }
+.liveChartHeader { display: flex; justify-content: space-between; gap: var(--space-4); align-items: flex-start; }
+.liveChartHeader h2 { margin: 0; font-size: 1rem; }
+.liveChartHeader p, .chartGap { margin: var(--space-1) 0 0; color: var(--color-ink-muted); font-size: var(--text-small); }
+.liveChartHeader strong { font-family: var(--font-data); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.liveChartHeader small { color: var(--color-ink-muted); font-family: var(--font-interface); font-size: var(--text-small); }
+.liveChart svg { display: block; width: 100%; margin-block-start: var(--space-3); overflow: visible; }
+.targetBand { fill: var(--color-brand-soft); opacity: .75; }
+.chartAxis { stroke: var(--color-line-strong); stroke-width: 1; }
+/* Escala de las gráficas. La rejilla va por detrás de la curva y mucho más
+   clara que el eje: tiene que dejar leer un valor sin competir con el dato.
+   `vector-effect` mantiene el grosor en 1 px real aunque el SVG se escale con
+   el ancho del contenedor, que es lo que hace que una rejilla fina no se
+   engorde en pantallas anchas. */
+.chartGrid { stroke: var(--color-line); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.chartTick { fill: var(--color-ink-muted); font-family: var(--font-data); font-size: 12px; font-variant-numeric: tabular-nums; }
+.chartTickY { text-anchor: end; dominant-baseline: middle; }
+.chartTickX { text-anchor: middle; }
+.chartBandLabel { fill: var(--color-brand); font-family: var(--font-data); font-size: 11px; letter-spacing: .04em; }
+.chartLine { fill: none; stroke: var(--color-brand); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+
+/* Curva simulada: se distingue por el trazo, no solo por el color, para que
+   siga siendo legible sin percepción cromática. */
+.chartLineSimulated { fill: none; stroke: var(--color-info); stroke-width: 2; stroke-dasharray: 7 5; stroke-linecap: round; opacity: 0.85; }
+.chartGap { min-height: 1.25rem; }
+.finishExtraction { display: grid; grid-template-columns: minmax(12rem, 1fr) minmax(14rem, .75fr) auto; align-items: end; gap: var(--space-4); }
+.finishExtraction textarea { min-height: 4rem; }
+.liveObservations { display: grid; gap: var(--space-3); }
+.liveObservations:empty { display: none; }
+.alertPreferences { display: grid; gap: var(--space-4); }
+.alertPreferences summary { width: fit-content; color: var(--color-brand); font-weight: 700; cursor: pointer; }
+.alertPreferences > p { margin: 0; color: var(--color-ink-muted); font-size: var(--text-small); }
+.alertPreferences > div { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-8); }
+.resultPanel { display: grid; gap: var(--space-6); }
+.resultDecisions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-block: 1px solid var(--color-line); }
+.resultDecision { display: grid; align-content: start; gap: var(--space-2); padding: var(--space-4) 0; }
+.resultDecision + .resultDecision { padding-inline-start: var(--space-6); border-inline-start: 1px solid var(--color-line); }
+.resultDecision span { color: var(--color-ink-muted); font-size: var(--text-small); }
+.resultDecision strong { font-size: 1.1rem; }
+.resultDecision p { margin: 0; color: var(--color-ink-muted); font-size: var(--text-small); }
+.resultProperties { display: grid; }
+.resultPropertyHeader, .resultProperty { display: grid; grid-template-columns: minmax(11rem, 1.15fr) repeat(3, minmax(8rem, 1fr)); gap: var(--space-4); align-items: center; padding: var(--space-3) 0; border-bottom: 1px solid var(--color-line); }
+.resultPropertyHeader { padding-block-start: 0; color: var(--color-ink-muted); font-size: var(--text-small); font-weight: 600; }
+.resultProperty > strong { display: grid; gap: var(--space-1); }
+.resultProperty small { color: var(--color-ink-muted); font-size: var(--text-micro); font-weight: 500; }
+.resultProperty > span { font-variant-numeric: tabular-nums; }
+.resultProperty > span[data-state='outside'] { color: var(--color-danger); font-weight: 600; }
+.resultProperty > span[data-state='within'] { color: var(--color-success); font-weight: 600; }
+.resultLowerGrid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(16rem, .65fr); gap: var(--space-8); }
+.resultLowerGrid > section { min-width: 0; }
+.resultLowerGrid h3 { margin: var(--space-2) 0; font-size: 1rem; }
+.resultLowerGrid p { color: var(--color-ink-muted); font-size: var(--text-small); }
+.resultMethod { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); margin: var(--space-5) 0; }
+.resultMethod > div { display: grid; gap: var(--space-1); }
+.resultMethod dt { color: var(--color-ink-muted); font-size: var(--text-small); }
+.resultMethod dd { margin: 0; }
+.resultEvidence { font-size: var(--text-small); }
+.resultEvidence summary { color: var(--color-brand); font-weight: 700; cursor: pointer; }
+.resultEvidence ul { display: grid; gap: var(--space-2); padding-inline-start: var(--space-5); }
+.resultRecommendations { display: grid; margin-block-start: var(--space-3); }
+.resultRecommendations a { display: grid; gap: var(--space-1); padding-block: var(--space-3); border-bottom: 1px solid var(--color-line); color: var(--color-ink); text-decoration: none; }
+.resultRecommendations a:hover strong { color: var(--color-brand); }
+.resultRecommendations span { color: var(--color-brand); font-size: var(--text-small); }
+.modelPrediction { background: var(--color-surface-muted); }
+.accountForm { display: grid; grid-template-columns: repeat(4, minmax(10rem, 1fr)) auto; align-items: end; gap: var(--space-3); margin-block: var(--space-4) var(--space-6); }
+
+@media (max-width: 63.99rem) {
+  .span8, .span7, .span6, .span5, .span4 { grid-column: 1 / -1; }
+  .simulationIntro { grid-template-columns: 1fr; }
+  .simulationRow { grid-template-columns: 1.3fr 1fr .6fr 1fr auto; }
+  .simulationRow > div:nth-child(5) { display: none; }
+}
+@media (max-width: 47.99rem) {
+  .page { gap: var(--space-6); }
+  .grid { display: grid; grid-template-columns: 1fr; }
+  .formGrid, .calculatedResult { grid-template-columns: 1fr; }
+  .descriptorRow { grid-template-columns: 1fr; align-items: stretch; }
+  .coffeeChoices > div { grid-template-columns: 1fr; }
+  .sectionHeading { align-items: stretch; flex-direction: column; }
+  .descriptorChoices > div, .sensoryReferences, .sensoryReferenceGrid, .desiredChangeRow, .sensoryScoreRow, .defectChoices, .relationGrid { grid-template-columns: 1fr; }
+  .contextForm { grid-template-columns: 1fr; }
+  .historySearch { width: 100%; }
+  .historyPrimaryFilters, .historyFilterGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .historyActions { justify-content: flex-start; }
+  .contextGrid { grid-template-columns: 1fr; gap: var(--space-5); }
+  .calibrationLayout, .inlineWorkflowForm, .adjustmentGrid, .recommendationAdjustment, .closeCalibrationForm, .liveSummary, .liveCharts, .finishExtraction, .accountForm { grid-template-columns: 1fr; }
+  .resultDecisions, .resultLowerGrid, .resultMethod { grid-template-columns: 1fr; }
+  .resultDecision + .resultDecision { padding-inline-start: 0; border-block-start: 1px solid var(--color-line); border-inline-start: 0; }
+  .resultPropertyHeader { display: none; }
+  .simulationForm, .simulationCharts, .simulationEvidenceGrid, .simulationStatusPanel { grid-template-columns: 1fr; }
+  .simulationRow { grid-template-columns: 1fr auto; }
+  .simulationRow > div:not(:first-child) { display: none; }
+  .simulationDetailHeading { align-items: start; flex-direction: column; }
+  .resultProperty { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .resultProperty > strong { grid-column: 1 / -1; }
+}
+/* Los botones de guardar el perfil en Preparar café: separados de las cajas
+   por una línea y a la derecha, porque pegados al último campo se leían como
+   parte de él. «Deshacer» va en gris para no competir con «Usar». */
+.recipeActions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: var(--space-3); margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--color-line); }
+.recipeActions > .recipeUndo { background: transparent; color: var(--color-ink-muted); }
+.recipeActions > .recipeUndo:hover { color: var(--color-ink); }
+/* El aviso de Preparar café: la única acción que no está en la pantalla,
+   sino en la máquina, así que va antes que todo lo demás. */
+/* «Iniciar preparación» al final de la página, después del perfil y de los
+   datos, que es cuando el barista ya está listo (23-oct-2026). */
+.startAction { display: flex; justify-content: flex-end; transition: opacity var(--duration-fast) ease; }
+.startActionHidden { visibility: hidden; opacity: 0; }
+.startWaiting { display: grid; justify-items: center; gap: var(--space-3); padding-block: var(--space-4); text-align: center; color: var(--color-brand); }
+.startInstruction { margin: 0; color: var(--color-ink); font-size: 1.25rem; font-weight: 700; }
+/* Sin cajas de color (26-oct-2026): el estado lo dice su punto, y los datos
+   van en columnas separadas por una línea, como una ficha. */
+.startFacts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; margin: var(--space-2) 0 0; padding-top: var(--space-4); border-top: 1px solid var(--color-line); text-align: left; }
+.startFacts > div { display: grid; align-content: space-between; gap: var(--space-1); padding-inline: var(--space-3); }
+.startFacts > div + div { border-left: 1px solid var(--color-line); }
+.startFacts dt { color: var(--color-ink-muted); font-size: var(--text-small); }
+.startFacts dd { margin: 0; color: var(--color-ink); font-family: var(--font-data); font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+@media (max-width: 34rem) {
+  .startFacts { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-4); }
+  .startFacts > div:nth-child(3) { border-left: 0; }
+}
+/* La página de un perfil: el nombre con una acción principal al lado, los
+   valores en grande y lo que se usa poco plegado al final (23-oct-2026). Antes
+   eran cuatro botones en fila y seis tarjetas del mismo peso. */
+.profileHeader { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: var(--space-4); }
+.profileHeaderActions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding-top: var(--space-2); }
+/* Sin cajas de color (26-oct-2026, a pedido del usuario): cada valor en su
+   columna, separado por una línea, como en la ventana de iniciar. */
+.profileValues { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); row-gap: var(--space-4); }
+.profileValues > div { display: grid; align-content: space-between; gap: var(--space-1); padding: var(--space-1) var(--space-4); border-inline-start: 1px solid var(--color-line); }
+.profileValues span { color: var(--color-ink-muted); font-size: var(--text-small); }
+.profileValues strong { font-family: var(--font-data); font-size: 1.35rem; font-variant-numeric: tabular-nums; color: var(--color-ink); }
+.profileAdvanced { margin-top: var(--space-2); }
+.profileAdvanced > summary { cursor: pointer; color: var(--color-brand); font-weight: 600; padding-block: var(--space-2); }
+.moreActions { position: relative; }
+.moreActionsMenu { position: absolute; right: 0; top: calc(100% + var(--space-1)); z-index: 20; display: grid; min-width: 12rem; padding: var(--space-1); border: 1px solid var(--color-line); border-radius: var(--radius-md); background: var(--color-surface); box-shadow: var(--shadow-float); }
+.moreActionsMenu > * { justify-content: flex-start; }
+/* Los valores fijos del formulario de perfil: una fila por valor, con su
+   nombre a la izquierda y las dos cajas (valor y tolerancia, o mínimo y
+   máximo) al lado. */
+.profileValueEditor { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: var(--space-3); margin-top: var(--space-5); }
+.profileValueTile { display: grid; gap: var(--space-2); margin: 0; padding: var(--space-3) var(--space-4); border: 0; border-radius: var(--radius-md); background: var(--color-brand-soft); }
+.profileValueTile legend { float: left; width: 100%; padding: 0; font-weight: 700; }
+.profileValueTile legend small { color: var(--color-ink-muted); font-weight: 400; }
+.profileValueTile > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-2); }
+.profileValueTile label { display: grid; gap: var(--space-1); }
+.profileValueTile label > span { color: var(--color-ink-muted); font-size: var(--text-small); }
+/* Etiquetas que se tocan para marcar (descriptores y cambios deseados). */
+.chipGroup { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); align-items: start; gap: var(--space-3); }
+.chipGroup > span, .directionRow > span { padding-top: var(--space-2); color: var(--color-ink-muted); font-size: var(--text-small); font-weight: 600; }
+.chipGroup > div, .directionRow > div { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.chip.chip { min-height: 2rem; padding: var(--space-1) var(--space-3); border-radius: var(--radius-pill); box-shadow: 0 0 0 0.06rem var(--color-field-line) inset; color: var(--color-ink); font-weight: 500; }
+.chip.chip:hover { background: var(--color-brand-soft); }
+.chip.chipOn { background: var(--color-brand); color: var(--color-surface); box-shadow: none; }
+.chip.chipOn:hover { background: var(--color-brand-hover); }
+.directionTable { display: grid; gap: var(--space-2); }
+.directionRow { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); align-items: center; gap: var(--space-3); }
+.directionRow > span { padding-top: 0; }
+@media (max-width: 40rem) { .chipGroup, .directionRow { grid-template-columns: minmax(0, 1fr); } }
+.profileSensory { display: grid; gap: var(--space-3); margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--color-line); }
+/* El detalle de un café (23-oct-2026). */
+.cupSummary { display: grid; gap: var(--space-4); }
+.subTitle { margin: 0 0 var(--space-3); font-size: 1rem; font-weight: 700; }
+.chipStatic { display: inline-flex; align-items: center; min-height: 1.8rem; padding: 0 var(--space-3); border-radius: var(--radius-pill); background: var(--color-brand-soft); color: var(--color-ink); font-size: var(--text-small); }
+.chipWarn { background: color-mix(in srgb, var(--color-danger) 14%, transparent); color: var(--color-danger); }
+.scoreTable { display: grid; border-top: 1px solid var(--color-line); }
+.scoreTable > div { display: grid; grid-template-columns: minmax(0, 1.4fr) 1fr 1fr; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-line); font-size: var(--text-small); }
+.scoreTable > div:first-child { color: var(--color-ink-muted); font-weight: 600; }
+/* La ficha de cata (23-oct-2026). */
+.cataForm { display: grid; gap: var(--space-5); }
+.cataForm > section { display: grid; gap: var(--space-2); }
+.choiceRow { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.descriptorChip { display: inline-flex; align-items: center; gap: var(--space-1); }
+.miniNumber.miniNumber { width: 4rem; min-height: 2rem; height: 2rem; padding: 0 var(--space-2); }
+.scoreTable input { max-width: 6rem; min-height: 2rem; height: 2rem; }
+/* Escalas de la cata como círculos, a la manera de la ficha CVA. */
+.circleScale { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.circle.circle { width: 2.1rem; min-width: 2.1rem; height: 2.1rem; min-height: 2.1rem; padding: 0; border-radius: 50%; box-shadow: 0 0 0 0.06rem var(--color-field-line) inset; color: var(--color-ink); font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+.circle.circle:hover { background: var(--color-brand-soft); }
+.circle.circleOn, .circle.circleOn:hover { background: var(--color-brand); color: var(--color-surface); box-shadow: none; }
+.scaleTable { display: grid; border-top: 1px solid var(--color-line); }
+.scaleTable > div { display: grid; grid-template-columns: 9rem minmax(0, 1fr); align-items: center; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-line); }
+.scaleTable > div > span { font-size: var(--text-small); font-weight: 600; }
+.scaleTable small { display: block; color: var(--color-ink-muted); font-weight: 400; }
+.scalePair { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+.descriptorFamilies { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2) var(--space-6); }
+.descriptorFamilies > div { display: grid; gap: var(--space-1); }
+.descriptorFamilies > div > div { display: flex; flex-wrap: wrap; gap: 0 var(--space-4); }
+.descriptorFamilies label { min-height: 2rem; font-size: var(--text-small); }
+.defectBox { margin: 0; padding: var(--space-3) var(--space-4); border: 1px solid var(--color-line); border-radius: var(--radius-md); }
+.defectBox legend { padding: 0 var(--space-2); font-weight: 700; }
+.defectBox > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space-4); }
+.defectBox label { min-height: 2rem; font-size: var(--text-small); }
+@media (max-width: 40rem) { .descriptorFamilies, .defectBox > div { grid-template-columns: minmax(0, 1fr); } .scaleTable > div { grid-template-columns: minmax(0, 1fr); } }
+.otherDescriptor { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-3); margin-top: var(--space-2); }
+.otherDescriptor > label { flex: 1 1 16rem; }
+.inlineLink.inlineLink { min-height: 0; height: auto; padding: 0; color: var(--color-danger); font-size: inherit; font-weight: 400; text-decoration: underline; }
+.scaleTable > .globalRow { border-top: 2px solid var(--color-line-strong, var(--color-line)); }
+/* «Para el próximo café» y el aviso de comprobación (23-oct-2026). */
+/* El paso siguiente a la cata, separado por una línea dentro del mismo
+   recuadro: es otra pregunta, pero del mismo momento. */
+.nextCoffeeStep { margin-top: var(--space-5); padding-top: var(--space-5); border-top: 1px solid var(--color-line); }
+.recommendationBox { display: grid; gap: var(--space-1); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--color-brand-soft); }
+
+/* Casillas del ancho de lo que llevan, centradas en filas (24-oct-2026). En
+   la rejilla de dos columnas cada una ocupaba media tarjeta, también para un
+   número de dos cifras. */
+.compactFields { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: var(--space-4); }
+.compactFields + .compactFields { margin-top: var(--space-4); }
+.fieldNarrow { flex: 0 1 13rem; min-width: 9rem; }
+.fieldWide { flex: 0 1 20rem; min-width: 13rem; }
+.compactSelect { width: min(100%, 26rem); margin-inline: auto; }
+/* Datos de la preparación: casillas iguales al ancho de la canastilla. */
+.uniformFields { display: grid; grid-template-columns: repeat(auto-fit, min(100%, 20rem)); justify-content: center; align-items: end; gap: var(--space-4); }
+.fieldUniform { min-width: 0; }
+.compactNotes { width: min(100%, calc(3 * 20rem + 2 * var(--space-4))); margin: var(--space-4) auto 0; }
+.compactNotes textarea { min-height: 4.5rem; }
+
+/* El formulario del ajuste: tres pasos numerados, cada uno con su rótulo a
+   la izquierda y lo que se toca a la derecha (24-oct-2026). */
+.adjustmentForm { display: grid; gap: var(--space-4); padding-top: var(--space-2); }
+.adjustmentForm h4 { margin: 0; font-size: 1rem; }
+.adjustmentStep { display: grid; grid-template-columns: 11rem minmax(0, 1fr); align-items: center; gap: var(--space-3); }
+.adjustmentStep > span { color: var(--color-ink-muted); font-size: var(--text-small); font-weight: 600; }
+.adjustmentStep > .formError { grid-column: 2; margin: 0; }
+.adjustmentValues { display: flex; align-items: flex-end; gap: var(--space-3); }
+.adjustmentValues label { display: grid; gap: var(--space-1); width: 10rem; }
+.adjustmentValues label small { color: var(--color-ink-muted); }
+.adjustmentValues label strong { font-size: 1.4rem; line-height: 2.5rem; }
+.adjustmentValues > span { padding-bottom: var(--space-2); color: var(--color-ink-muted); font-size: 1.25rem; }
+@media (max-width: 40rem) { .adjustmentStep { grid-template-columns: minmax(0, 1fr); } .adjustmentStep > .formError { grid-column: 1; } }
+.adjustmentStep > input { max-width: 32rem; }
+.nextCoffeeChoices { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.episodeBig { font-size: 1.35rem; font-weight: 700; }
+/* Pasos numerados de una misma historia en una sola tarjeta (flow-steps.tsx). */
+.flowSteps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
+.flowStep { display: grid; align-content: start; gap: var(--space-3); padding: var(--space-2) var(--space-5); }
+.flowStep:first-child { padding-left: 0; }
+.flowStep:last-child { padding-right: 0; }
+.flowStep + .flowStep { border-left: 1px solid var(--color-line); }
+.flowStep header { display: flex; align-items: center; gap: var(--space-3); }
+.flowStep header span { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--color-brand); color: var(--color-surface); font-size: var(--text-small); font-weight: 700; }
+.flowStep header h2 { margin: 0; font-family: var(--font-editorial); font-size: 1.15rem; }
+.flowStep > div { display: grid; gap: var(--space-2); }
+.flowStep p { margin: 0; }
+.flowStepPending header span { background: var(--color-line); color: var(--color-ink-muted); }
+@media (max-width: 56rem) { .flowSteps { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); } .flowStep { padding: 0; } .flowStep + .flowStep { border-left: 0; border-top: 1px solid var(--color-line); padding-top: var(--space-5); } }
+.uniformNote { grid-column: 1 / -1; margin: 0; text-align: center; color: var(--color-ink-muted); font-size: var(--text-small); }
+.missingValue { display: inline-flex; align-items: center; gap: var(--space-3); color: var(--color-ink-muted); }
+/* Un enlace pequeño y no un botón: está en cada dato que falta y no debe pesar más que el dato. */
+.completeLink.completeLink { min-height: 0; padding: 0; background: none; box-shadow: none; color: var(--color-brand); font-size: var(--text-small); font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; }
+.flowResult { display: grid; gap: var(--space-2); }
+.flowResult p { margin: 0; }

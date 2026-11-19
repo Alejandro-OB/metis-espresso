@@ -1,0 +1,367 @@
+# Cada bloque es una consulta independiente vinculada con PC01–PC24.
+
+# --- PC01 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?extraction ?profile ?profileDefiner ?coffee ?machine ?grinder ?barista WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:usesProfile ?profile ; edt:performedBy ?barista ;
+    edt:usesMaterial ?coffee ; edt:usesEquipment ?machine, ?grinder .
+  ?profile edt:definedBy ?profileDefiner .
+  ?coffee a edt:CoffeeDose . ?machine a edt:EspressoMachine . ?grinder a edt:Grinder .
+}
+
+# --- PC02 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?extraction ?property ?value ?unit ?time WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:hasObservation ?observation .
+  ?observation edt:observedProperty ?property ; edt:numericValue ?value ; edt:hasUnit ?unit ; edt:resultTime ?time .
+  # La temperatura es la del agua en las simuladas y la del cuerpo de la caldera en las
+  # reales, que es lo que mide la máquina (EKO 3.4.0), como en PC06.
+  VALUES ?property { edt:CoffeeDoseMass edt:BeverageMass edt:ExtractionTime edt:WaterTemperature
+                     edt:BoilerBodyTemperature edt:ExtractionPressure }
+}
+
+# --- PC03 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?profile ?property ?target ?minimum ?maximum ?tolerance ?unit WHERE {
+  ?profile a edt:ExtractionProfile ; edt:hasParameterSpecification ?specification .
+  ?specification edt:forProperty ?property ; edt:hasUnit ?unit .
+  OPTIONAL { ?specification edt:targetValue ?target }
+  OPTIONAL { ?specification edt:minimumValue ?minimum }
+  OPTIONAL { ?specification edt:maximumValue ?maximum }
+  OPTIONAL { ?specification edt:toleranceValue ?tolerance }
+}
+
+# --- PC04 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?extraction ?deviation ?property ?value ?minimum ?maximum ?target ?tolerance WHERE {
+  ?extraction edt:hasObservation ?observation .
+  ?deviation a edt:TechnicalDeviation ; edt:basedOnCriterion edt:ProfileConformanceCriterion ;
+    edt:derivedFrom ?observation, ?specification .
+  ?observation edt:observedProperty ?property ; edt:numericValue ?value .
+  ?specification a edt:ProfileParameterSpecification ; edt:forProperty ?property .
+  OPTIONAL { ?specification edt:minimumValue ?minimum }
+  OPTIONAL { ?specification edt:maximumValue ?maximum }
+  OPTIONAL { ?specification edt:targetValue ?target }
+  OPTIONAL { ?specification edt:toleranceValue ?tolerance }
+}
+
+# --- PC05 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?extraction ?indicator ?value ?unit WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:hasObservation ?observation .
+  ?observation edt:observedProperty ?indicator ; edt:numericValue ?value ; edt:hasUnit ?unit .
+  VALUES ?indicator { edt:TDS edt:ExtractionYield edt:ThermalStability }
+}
+
+# --- PC06 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+# La serie es la de la temperatura medida: el agua en las preparaciones
+# simuladas y el cuerpo de la caldera en las reales, que es lo que mide la
+# máquina (EKO 3.4.0). Pedir solo el agua dejaba sin respuesta todas las
+# preparaciones reales (catación del 2026-11-04).
+SELECT ?extraction ?stability ?value ?series ?seriesProperty ?dataReference ?method WHERE {
+  VALUES ?seriesProperty { edt:WaterTemperature edt:BoilerBodyTemperature }
+  ?extraction edt:hasObservation ?stability ; edt:hasObservationSeries ?series .
+  ?stability a edt:CalculatedObservation ; edt:observedProperty edt:ThermalStability ;
+    edt:numericValue ?value ; edt:derivedFromSeries ?series ; edt:calculationMethodReference ?method .
+  ?series edt:seriesForProperty ?seriesProperty ; edt:dataReference ?dataReference .
+}
+
+# --- PC07 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?extraction ?barista ?attribute ?dimension ?score ?descriptor ?defect ?desiredAttribute ?direction WHERE {
+  ?extraction edt:hasSensoryEvaluation ?evaluation .
+  ?evaluation edt:evaluatedBy ?barista ; edt:hasSensoryScore ?scoreNode .
+  ?scoreNode edt:forSensoryAttribute ?attribute ; edt:measuresDimension ?dimension ; edt:scoreValue ?score .
+  OPTIONAL { ?evaluation edt:hasSensoryDescriptor ?descriptor }
+  OPTIONAL { ?evaluation edt:hasPerceivedDefect ?defect }
+  OPTIONAL {
+    ?evaluation edt:hasDesiredSensoryChange ?change .
+    ?change edt:targetsSensoryAttribute ?desiredAttribute ; edt:desiredDirection ?direction .
+  }
+}
+
+# --- PC08 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?extraction ?diagnosis ?target ?evidence ?generator ?basisRelation ?knowledgeBasis WHERE {
+  ?diagnosis a edt:Diagnosis ; edt:isDiagnosisOf ?target ; edt:derivedFrom ?evidence .
+  ?explanation edt:explains ?diagnosis ; edt:generatedBy ?generator .
+  OPTIONAL {
+    ?diagnosis ?basisRelation ?knowledgeBasis .
+    VALUES ?basisRelation {
+      edt:basedOnCriterion edt:supportedByHeuristic edt:followsProcedure
+      edt:supportedByEvidencePattern edt:governedByPolicy
+    }
+  }
+  {
+    ?evidence a edt:TechnicalDeviation ; edt:derivedFrom ?observation .
+    ?extraction edt:hasObservation ?observation .
+  }
+  UNION
+  {
+    ?evidence a edt:ObservedDifference ; edt:comparesExtraction ?extraction .
+  }
+}
+
+# --- PC09 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?extraction ?action ?property ?direction ?respondsTo ?basisRelation ?knowledgeBasis ?generator WHERE {
+  ?extraction edt:hasRecommendedAction ?action .
+  ?action edt:adjustsProperty ?property ; edt:respondsTo ?respondsTo ; edt:generatedBy ?generator ;
+    ?basisRelation ?knowledgeBasis .
+  VALUES ?basisRelation {
+    edt:basedOnCriterion edt:supportedByHeuristic edt:followsProcedure
+    edt:supportedByEvidencePattern edt:governedByPolicy
+  }
+  OPTIONAL { ?action edt:recommendedDirection ?direction }
+}
+
+# --- PC10 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?observation ?sensor ?feature ?property WHERE {
+  ?observation a ?observationType ; edt:madeBySensor ?sensor ;
+    edt:featureOfInterest ?feature ; edt:observedProperty ?property .
+  ?observationType rdfs:subClassOf* edt:Observation .
+}
+
+# --- PC11 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?entity ?scope ?knowledge WHERE {
+  {
+    VALUES ?scope { edt:StaticContextAssertion edt:DynamicContextAssertion }
+    ?entity a ?scope .
+    OPTIONAL { ?entity edt:textValue ?knowledge }
+  }
+  UNION
+  {
+    VALUES ?scope { edt:LocalKnowledgeProfile edt:GlobalKnowledgeProfile }
+    ?entity a ?scope ; edt:assertsKnowledge ?knowledge .
+  }
+}
+
+# --- PC12 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?calibration ?barista ?context ?profile ?trialExtraction ?adjustment WHERE {
+  ?calibration a edt:EspressoCalibration ; edt:performedBy ?barista ; edt:hasTrialExtraction ?trialExtraction .
+  OPTIONAL { ?calibration edt:occurredUnder ?context }
+  OPTIONAL { ?calibration edt:usesProfile ?profile }
+  OPTIONAL { ?calibration edt:hasParameterAdjustment ?adjustment }
+}
+
+# --- PC13 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?calibration ?previousProfile ?validatedProfile ?producedProfile ?revision WHERE {
+  ?calibration a edt:EspressoCalibration .
+  OPTIONAL { ?calibration edt:usesProfile ?previousProfile }
+  OPTIONAL { ?calibration edt:validatesProfile ?validatedProfile }
+  OPTIONAL {
+    ?calibration edt:producesProfile ?producedProfile .
+    ?producedProfile edt:revisionOf ?revision .
+  }
+  FILTER (BOUND(?validatedProfile) || BOUND(?producedProfile))
+}
+
+# --- PC14 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?adjustment ?mode ?property ?executor ?calibration WHERE {
+  VALUES ?mode { edt:ManualParameterAdjustment edt:AutomaticParameterAdjustment }
+  ?adjustment a ?mode ; edt:changesProperty ?property ; edt:performedBy ?executor .
+  OPTIONAL { ?adjustment edt:partOfCalibration ?calibration }
+}
+
+# --- PC15 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?profile ?definer ?validator ?status ?evidence WHERE {
+  ?profile a edt:ExtractionProfile ; edt:definedBy ?definer ; edt:hasProfileStatus ?status .
+  OPTIONAL { ?profile edt:validatedBy ?validator }
+  OPTIONAL { ?profile edt:supportedBy ?evidence }
+}
+
+# --- PC16 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?coffee ?lot ?bag ?commercialReference ?roastDate ?variety ?process ?roastLevel
+       ?terroir ?region ?altitude ?altitudeValue ?altitudeUnit ?soil
+       ?mineralComposition ?terroirSource WHERE {
+  ?coffee a edt:CoffeeMaterial .
+  OPTIONAL { ?coffee edt:lotIdentifier ?lot }
+  OPTIONAL { ?coffee edt:bagIdentifier ?bag }
+  OPTIONAL { ?coffee edt:commercialReference ?commercialReference }
+  OPTIONAL { ?coffee edt:roastDate ?roastDate }
+  OPTIONAL { ?coffee edt:hasVariety ?variety }
+  OPTIONAL { ?coffee edt:hasPostHarvestProcess ?process }
+  OPTIONAL { ?coffee edt:hasRoastLevel ?roastLevel }
+  OPTIONAL {
+    ?coffee edt:hasTerroir ?terroir .
+    OPTIONAL { ?terroir edt:regionName ?region }
+    OPTIONAL {
+      ?terroir edt:hasAltitude ?altitude .
+      ?altitude edt:quantityValue ?altitudeValue ; edt:hasUnit ?altitudeUnit .
+    }
+    OPTIONAL { ?terroir edt:soilCharacteristics ?soil }
+    OPTIONAL { ?terroir edt:mineralComposition ?mineralComposition }
+    OPTIONAL { ?terroir dcterms:source ?terroirSource }
+  }
+}
+
+# --- PC17 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?process ?condition ?validFrom ?validUntil ?property ?value ?unit WHERE {
+  ?process edt:occurredUnder ?condition .
+  ?condition a edt:EnvironmentalCondition ; edt:validFrom ?validFrom ; edt:validUntil ?validUntil .
+  OPTIONAL {
+    ?observation edt:featureOfInterest ?condition ; edt:observedProperty ?property ;
+      edt:numericValue ?value ; edt:hasUnit ?unit .
+  }
+}
+
+# --- PC18 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?equipment ?manualProperty ?automaticProperty WHERE {
+  ?equipment a ?equipmentType .
+  VALUES ?equipmentType { edt:EspressoMachine edt:Grinder }
+  OPTIONAL { ?equipment edt:allowsManualAdjustmentOf ?manualProperty }
+  OPTIONAL { ?equipment edt:allowsAutomaticAdjustmentOf ?automaticProperty }
+}
+
+# --- PC19 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?recommendation ?status ?barista ?adjustment WHERE {
+  ?recommendation a edt:RecommendedAction ; edt:hasValidationStatus ?status ; edt:validatedBy ?barista .
+  OPTIONAL { ?adjustment edt:basedOnRecommendation ?recommendation }
+}
+
+# --- PC20 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?extraction ?series ?property ?unit ?dataReference WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:hasObservationSeries ?series .
+  ?series edt:seriesForProperty ?property ; edt:hasUnit ?unit ; edt:dataReference ?dataReference .
+  VALUES ?property { edt:WaterTemperature edt:ExtractionPressure }
+}
+
+# --- PC21 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?adjustment ?recommendation ?validator ?executor ?evaluationExtraction
+       ?outcomeTarget ?assessment ?category ?difference ?explanation ?evidence WHERE {
+  ?evaluationExtraction a edt:EspressoExtraction ;
+                        edt:evaluatesOutcomeOf ?adjustment .
+  ?adjustment a ?adjustmentType ; edt:performedBy ?executor ;
+              edt:targetsOutcome ?outcomeTarget .
+  ?adjustmentType rdfs:subClassOf* edt:ParameterAdjustment .
+  OPTIONAL {
+    ?adjustment edt:basedOnRecommendation ?recommendation .
+    OPTIONAL { ?recommendation edt:validatedBy ?validator }
+  }
+  ?assessment a edt:AdjustmentOutcomeAssessment ;
+              edt:assessesAdjustment ?adjustment ;
+              edt:hasOutcomeCategory ?category ;
+              edt:derivedFrom ?difference .
+  ?difference a edt:ObservedDifference ;
+              edt:comparesExtraction ?evaluationExtraction ;
+              edt:hasEvidence ?evidence .
+  ?explanationNode a edt:ExplanationAssertion ;
+                   edt:explains ?assessment ;
+                   edt:description ?explanation .
+}
+
+# --- PC22 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?extraction ?profile ?technicalAssessment ?technicalStatus
+       ?technicalEvidence ?sensoryEvaluation ?sensoryStatus ?barista
+       ?sensoryRationale WHERE {
+  ?technicalAssessment a edt:TechnicalConformanceAssessment ;
+                       edt:assessesExtraction ?extraction ;
+                       edt:againstProfile ?profile ;
+                       edt:hasTechnicalConformance ?technicalStatus ;
+                       edt:derivedFrom ?technicalEvidence .
+  OPTIONAL {
+    ?extraction edt:hasSensoryEvaluation ?sensoryEvaluation .
+    ?sensoryEvaluation edt:evaluatedBy ?barista .
+    OPTIONAL { ?sensoryEvaluation edt:hasSensoryAcceptanceStatus ?sensoryStatus }
+    OPTIONAL { ?sensoryEvaluation edt:acceptanceRationale ?sensoryRationale }
+  }
+}
+
+# --- PC23 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?adjustment ?outcomeTarget ?evaluationExtraction ?assessment ?category
+       ?conclusion ?explanation WHERE {
+  ?evaluationExtraction a edt:EspressoExtraction ;
+                        edt:evaluatesOutcomeOf ?adjustment .
+  ?adjustment edt:targetsOutcome ?outcomeTarget .
+  ?assessment a edt:AdjustmentOutcomeAssessment ;
+              edt:assessesAdjustment ?adjustment ;
+              edt:hasOutcomeCategory ?category ;
+              edt:description ?conclusion .
+  ?explanationNode a edt:ExplanationAssertion ;
+                   edt:explains ?assessment ;
+                   edt:description ?explanation .
+}
+
+# --- PC24 ---
+PREFIX edt: <https://w3id.org/espresso-dt#>
+SELECT ?extraction ?profile ?terminationCause ?maximumTime ?observedTime
+       ?dose ?finalMass ?tds ?yield ?recordedBy ?recordingTime WHERE {
+  ?extraction a edt:EspressoExtraction ; edt:usesProfile ?profile .
+  ?profile edt:hasParameterSpecification ?timeSpec .
+  ?timeSpec edt:forProperty edt:ExtractionTime ; edt:maximumValue ?maximumTime .
+  OPTIONAL { ?extraction edt:hasTerminationCause ?terminationCause }
+  OPTIONAL {
+    ?extraction edt:hasObservation ?doseObservation .
+    ?doseObservation edt:observedProperty edt:CoffeeDoseMass ;
+                     edt:numericValue ?dose ;
+                     edt:recordedBy ?recordedBy ;
+                     edt:recordingTime ?recordingTime .
+  }
+  OPTIONAL {
+    ?extraction edt:hasObservation ?massObservation .
+    ?massObservation edt:observedProperty edt:BeverageMass ;
+                     edt:numericValue ?finalMass .
+  }
+  OPTIONAL {
+    ?extraction edt:hasObservation ?tdsObservation .
+    ?tdsObservation edt:observedProperty edt:TDS ;
+                    edt:numericValue ?tds .
+  }
+  OPTIONAL {
+    ?extraction edt:hasObservation ?yieldObservation .
+    ?yieldObservation edt:observedProperty edt:ExtractionYield ;
+                      edt:numericValue ?yield ;
+                      edt:computedFrom ?doseObservation, ?massObservation, ?tdsObservation .
+  }
+  OPTIONAL {
+    ?extraction edt:hasObservation ?timeObservation .
+    ?timeObservation edt:observedProperty edt:ExtractionTime ;
+                     edt:numericValue ?observedTime .
+  }
+}
+
+# --- PC25 ---
+# ¿Qué declaró la fuente, qué buscó el barista y qué observó realmente en la bebida?
+PREFIX edt: <https://w3id.org/espresso-dt#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?extraction ?coffee ?declaredProfile ?declaredBy ?source ?declaredText
+       ?declaredDescriptor ?targetProfile ?targetDefinedBy ?targetDescriptor
+       ?evaluation ?observedDescriptor ?defect WHERE {
+  ?extraction a edt:EspressoExtraction ;
+              edt:usesMaterial ?coffee ;
+              edt:usesProfile ?extractionProfile ;
+              edt:hasSensoryEvaluation ?evaluation .
+  ?coffee a edt:CoffeeMaterial .
+  OPTIONAL {
+    ?coffee edt:hasDeclaredSensoryProfile ?declaredProfile .
+    ?declaredProfile edt:declaredBy ?declaredBy ;
+                     edt:sensoryDescriptionText ?declaredText ;
+                     dcterms:source ?source ;
+                     edt:hasSensoryDescriptor ?declaredDescriptor .
+  }
+  OPTIONAL {
+    ?extractionProfile edt:hasTargetSensoryProfile ?targetProfile .
+    ?targetProfile edt:sensoryTargetDefinedBy ?targetDefinedBy ;
+                   edt:hasSensoryDescriptor ?targetDescriptor .
+  }
+  OPTIONAL { ?evaluation edt:hasSensoryDescriptor ?observedDescriptor }
+  OPTIONAL { ?evaluation edt:hasPerceivedDefect ?defect }
+}

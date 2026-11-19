@@ -1,0 +1,93 @@
+:root {
+  color-scheme: light;
+  /* Verde profundo sobre papel claro. El verde de marca manda en la
+     navegación y en la acción principal; el esmeralda queda para lo que debe
+     saltar a la vista. Ver docs/design-system.md.
+
+     Las superficies oscuras —barra lateral, panel de acceso, panel de
+     simulación— y el texto que va encima tienen token propio. Antes estaban
+     escritas a mano en cuatro archivos, que es como un cambio de paleta deja
+     pantallas sin cambiar. */
+  --color-canvas: #e9f0eb;
+  --color-canvas-deep: #d3e0d8;
+  --color-surface: #ffffff;
+  --color-surface-raised: #fafcfb;
+  --color-surface-muted: #dbe6df;
+  --color-shell: #0c3a2c;
+  --color-shell-deep: #082a20;
+  --color-on-shell: #ffffff;
+  --color-on-shell-muted: rgba(255, 255, 255, 0.74);
+  --color-on-shell-faint: rgba(255, 255, 255, 0.55);
+  --color-overlay: rgba(8, 32, 25, 0.58);
+  --color-ink: #13231f;
+  --color-ink-muted: #4f625b;
+  --color-ink-faint: #85948e;
+  --color-brand: #0b5c43;
+  --color-brand-hover: #084735;
+  --color-brand-soft: #d9ebe2;
+  --color-accent: #17a86b;
+  --color-accent-soft: #d2f0e0;
+  --color-success: #1e7a52;
+  --color-success-soft: #d7eddf;
+  --color-warning: #7b4c08;
+  --color-warning-soft: #f4e4bf;
+  --color-danger: #9a2f2f;
+  --color-danger-soft: #f3dcdc;
+  --color-info: #2a5f80;
+  --color-info-soft: #dbe9f1;
+  /* El foco no es de la marca a propósito: sobre una interfaz verde, un
+     contorno verde se confunde con el estado seleccionado. */
+  --color-focus: #1763b8;
+  --color-line: rgba(12, 58, 44, 0.14);
+  --color-line-strong: rgba(12, 58, 44, 0.26);
+  /* El contorno de los controles donde se escribe o se pulsa. Separado de
+     `--color-line-strong`, que separa bloques: un campo necesita leerse como
+     tal sobre una superficie casi blanca, y una división entre secciones no. */
+  --color-field-line: rgba(12, 58, 44, 0.4);
+  /* Las tres familias que declara docs/design-system.md. Hasta ahora las dos
+     primeras apuntaban a Inter, de modo que Fraunces e IBM Plex Sans se
+     descargaban y no se mostraban nunca. */
+  --font-editorial: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --font-interface: 'IBM Plex Sans', 'Inter Variable', Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-data: 'IBM Plex Mono', ui-monospace, monospace;
+  --text-display: clamp(2.6rem, 7vw, 5.8rem);
+  --text-heading-1: clamp(2rem, 4vw, 3.4rem);
+  --text-heading-2: clamp(1.35rem, 2vw, 1.9rem);
+  --text-heading-3: 1.125rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-micro: 0.72rem;
+  --leading-tight: 1.02;
+  --leading-heading: 1.18;
+  --leading-body: 1.55;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --radius-sm: 0.35rem;
+  --radius-md: 0.55rem;
+  --radius-lg: 0.8rem;
+  --radius-xl: 1.15rem;
+  --radius-pill: 999rem;
+  --shadow-surface: 0 1px 0 rgba(255,255,255,.9) inset, 0 1px 2px rgba(61,41,24,.05), 0 10px 28px rgba(61,41,24,.07);
+  --shadow-float: 0 20px 56px rgba(21,55,49,.18);
+  --duration-fast: 180ms;
+  --duration-base: 420ms;
+  --duration-slow: 780ms;
+  --ease-physical: cubic-bezier(0.32, 0.72, 0, 1);
+  --content-wide: 90rem;
+  --content-reading: 48rem;
+  --control-min: 2.75rem;
+  --nav-width: 13rem;
+  --layer-navigation: 20;
+  --layer-toast: 40;
+  --layer-overlay: 60;
+  --layer-tooltip: 80;
+}

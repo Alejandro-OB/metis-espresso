@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/simulation/v1/semantic-publication.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "simulationRunId", "status", "ontology", "simulationModule", "transformation", "validation", "namedGraphIri", "resourceIri", "publishedAt"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "simulationRunId": {"type": "string", "pattern": "^sim-[A-Za-z0-9-]{8,76}$"},
+    "status": {"enum": ["pending", "validating", "published", "rejected"]},
+    "ontology": {"$ref": "#/$defs/versionedArtifact"},
+    "simulationModule": {"$ref": "#/$defs/versionedArtifact"},
+    "transformation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": {"id": {"const": "simulation-rdf-mapping"}, "version": {"type": "string"}}
+    },
+    "validation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["conforms", "shapesVersion", "validatedAt"],
+      "properties": {
+        "conforms": {"type": "boolean"},
+        "shapesVersion": {"type": "string"},
+        "validatedAt": {"type": "string", "format": "date-time"}
+      }
+    },
+    "namedGraphIri": {"type": "string", "format": "uri"},
+    "resourceIri": {"type": "string", "format": "uri"},
+    "publishedAt": {"type": ["string", "null"], "format": "date-time"}
+  },
+  "$defs": {
+    "versionedArtifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "version", "sha256"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

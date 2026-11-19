@@ -1,0 +1,52 @@
+PREFIX edt: <https://w3id.org/espresso-dt#>
+PREFIX esim: <https://w3id.org/espresso-dt/simulation#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+
+# CQ-SIM-1..5: modelo, entradas, series, origen y versión semántica de una ejecución.
+SELECT ?run ?modelId ?modelVersion ?modelSha ?profileId ?profileVersion
+       ?series ?property ?dataReference ?seriesSha ?semanticVersion
+WHERE {
+  ?run a esim:SimulationRun ;
+       esim:usedModel ?model ;
+       esim:usedScenario ?scenario ;
+       esim:generatedVirtualExtraction ?virtualExtraction ;
+       esim:semanticSchemaVersion ?semanticVersion .
+  ?model esim:modelId ?modelId ; esim:modelVersion ?modelVersion ; esim:sha256 ?modelSha .
+  ?scenario esim:profileId ?profileId ; esim:profileVersion ?profileVersion .
+  ?virtualExtraction esim:hasSimulationSeries ?series .
+  ?series a esim:SimulationSeries ;
+          edt:seriesForProperty ?property ;
+          edt:dataReference ?dataReference ;
+          esim:sha256 ?seriesSha ;
+          prov:wasGeneratedBy ?run .
+}
+
+# CQ-SIM-6: simulaciones enlazadas explícitamente con una extracción física comparable.
+SELECT ?run ?virtualExtraction ?physicalExtraction
+WHERE {
+  ?run a esim:SimulationRun ; esim:generatedVirtualExtraction ?virtualExtraction .
+  ?virtualExtraction a esim:VirtualExtraction ;
+                     esim:canBeComparedWith ?physicalExtraction .
+  ?physicalExtraction a edt:EspressoExtraction .
+}
+
+# CQ-SIM-7: diferencia entre el estado físico y el virtual de una preparación,
+# con el modelo que la produjo y la cobertura de la comparación.
+SELECT ?comparison ?measuredExtraction ?modelId ?modelVersion ?verdict ?coverage
+       ?property ?meanSigned ?rmse ?tolerance ?limitation
+WHERE {
+  ?comparison a esim:PhysicalVirtualComparison ;
+              esim:comparesMeasuredExtraction ?measuredExtraction ;
+              esim:comparesVirtualExtraction ?virtualExtraction ;
+              esim:comparisonVerdict ?verdict ;
+              esim:coverageRatio ?coverage ;
+              esim:hasChannelDifference ?difference ;
+              prov:wasGeneratedBy ?run .
+  ?run esim:usedModel ?model .
+  ?model esim:modelId ?modelId ; esim:modelVersion ?modelVersion .
+  ?difference edt:observedProperty ?property ;
+              esim:meanSignedDifference ?meanSigned ;
+              esim:rootMeanSquareDifference ?rmse .
+  OPTIONAL { ?difference esim:modelTolerance ?tolerance }
+  OPTIONAL { ?difference esim:modelLimitation ?limitation }
+}

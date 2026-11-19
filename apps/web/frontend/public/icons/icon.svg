@@ -1,0 +1,11 @@
+<!-- La taza y el vapor del icono anterior, en la identidad verde. Los valores
+     van escritos porque un recurso estático no puede leer los tokens de CSS,
+     pero corresponden uno a uno: 0c3a2c es el token color-shell y 17a86b es
+     color-accent. Si cambia la paleta, este archivo cambia con ella.
+     (Los nombres van sin sus dos guiones iniciales: un comentario XML no
+     admite dos guiones seguidos y el navegador rechaza el archivo entero.) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="116" fill="#0c3a2c"/>
+  <path d="M132 186h218v94c0 78-46 126-111 126s-107-48-107-126v-94Z" fill="none" stroke="#ffffff" stroke-width="24" stroke-linejoin="round"/>
+  <path d="M350 218h31c45 0 45 80 0 80h-31M188 105c27 27-10 46 16 72m75-72c27 27-10 46 16 72" fill="none" stroke="#17a86b" stroke-width="18" stroke-linecap="round"/>
+</svg>

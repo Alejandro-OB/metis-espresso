@@ -1,0 +1,17 @@
+# Dos copias del programa para cargar firmware por Wi-Fi (ADR-021).
+#
+# `nvs` y `phy_init` no se mueven: guardan la cola persistente, la
+# calibración, la configuración del enlace y el perfil vigente, y cambiarlos de
+# sitio los borraría. `ota_0` ocupa exactamente lo que ocupaba `factory`, de modo
+# que la primera carga por USB deja el programa donde estaba. `ota_1` es la
+# copia libre donde se escribe la siguiente versión. No queda partición
+# `factory`: nunca se actualiza, y si las dos copias fallaran el cargador
+# arrancaría ahí una imagen vieja con un acta de control que ya no rige.
+# Quedan unos 9,7 MB sin usar a partir de 0x650000.
+#
+# Name,      Type, SubType, Offset,   Size,     Flags
+nvs,         data, nvs,     0x9000,   0x40000,
+phy_init,    data, phy,     0x49000,  0x1000,
+otadata,     data, ota,     0x4A000,  0x2000,
+ota_0,       app,  ota_0,   0x50000,  0x300000,
+ota_1,       app,  ota_1,   0x350000, 0x300000,

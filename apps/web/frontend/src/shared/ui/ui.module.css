@@ -1,0 +1,186 @@
+/* Botones bajos, con las esquinas de las cajas y planos (23-oct-2026): la
+   píldora alta con sombra y el ícono en un círculo pesaban más que el
+   contenido. En pantallas táctiles vuelven al alto mínimo de toque. */
+.button {
+  min-height: 2.25rem; border: 0; border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4); display: inline-flex; align-items: center;
+  justify-content: center; gap: var(--space-2); cursor: pointer; font-weight: 600; font-size: var(--text-small);
+  text-decoration: none; transition: background var(--duration-base) var(--ease-physical), color var(--duration-base) var(--ease-physical), box-shadow var(--duration-base) var(--ease-physical);
+}
+@media (pointer: coarse) { .button { min-height: var(--control-min); } }
+.button:active { transform: scale(0.98); }
+.button[data-disabled] { opacity: 0.48; cursor: not-allowed; transform: none; }
+/* La principal se distingue por el relleno verde; las secundarias, por el
+   borde sin relleno. */
+.primary { background: var(--color-brand); color: var(--color-surface); }
+.primary:hover { background: var(--color-brand-hover); }
+.secondary { background: transparent; color: var(--color-ink); box-shadow: 0 0 0 0.06rem var(--color-field-line) inset; }
+.secondary:hover { background: var(--color-brand-soft); }
+.quiet { background: transparent; color: var(--color-brand); }
+.danger { background: var(--color-danger); color: var(--color-surface); }
+.buttonIcon { display: grid; place-items: center; }
+.iconButton { width: 2.25rem; padding: 0; }
+.buttonGroup { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+/* Un campo es una retícula y sus filas se estiraban para llenar la altura de
+   la fila del formulario. Con dos campos contiguos, uno con descripción
+   —«Opcional»— y otro sin ella, el reparto de ese espacio sobrante salía
+   distinto en cada uno: los controles no empezaban a la misma altura y ni
+   siquiera medían lo mismo, 61 px contra 46. Repartiendo el espacio entre las
+   filas, la etiqueta queda arriba y el control abajo en los dos casos, y cada
+   fila conserva su altura natural. */
+/* La descripción —«Opcional», «gramos», «De 0,1 a 900 segundos»— ocupaba una
+   línea propia bajo la etiqueta. En un formulario de doce campos eso son doce
+   líneas de alto dedicadas a una sola palabra, y obliga a leer dos renglones
+   para saber si un campo hay que rellenarlo. Puesta junto a la etiqueta, el
+   campo pasa de 106 a 77 px y la condición se ve en el mismo golpe de vista.
+   Una descripción larga no se recorta: pasa sola a la línea siguiente.
+
+   El reparto del espacio sobrante entre las líneas mantiene la etiqueta arriba
+   y el control abajo, de modo que dos campos contiguos siguen alineados aunque
+   uno lleve descripción y el otro no. */
+.field { display: flex; flex-wrap: wrap; align-items: baseline; align-content: space-between; column-gap: var(--space-3); row-gap: var(--space-2); min-width: 0; }
+/* Todo lo que no sea la etiqueta o su descripción ocupa su propia línea. */
+.field > * { width: 100%; }
+.field > .label, .field > .description { width: auto; }
+.label { font-weight: 600; color: var(--color-ink); }
+.description { color: var(--color-ink-muted); font-size: var(--text-small); }
+.input, .select, .textarea {
+  /* Un control de formulario no se encoge por debajo de su tamaño intrínseco a
+     menos que se le diga. El campo de fecha y hora pide unos 230 px y en un
+     teléfono se salía de la pantalla aunque su columna midiera 165. */
+  width: 100%; min-width: 0; min-height: var(--control-min); line-height: 1.25; border: 0; border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4); color: var(--color-ink); background: var(--color-surface-raised);
+  box-shadow: 0 0 0 0.09rem var(--color-field-line) inset, 0 0.3rem 1rem rgba(12,58,44,.04);
+  transition: box-shadow var(--duration-fast) var(--ease-physical), transform var(--duration-fast) var(--ease-physical);
+}
+/* `select` no aplica `line-height` igual que `input`, así que fijar la altura
+   es la única forma de que los dos controles de una misma fila midan lo mismo.
+   Va en `rem`, de modo que sigue creciendo si el usuario agranda la letra. */
+.input, .select { height: var(--control-min); }
+.textarea { min-height: 7rem; resize: vertical; }
+.input:focus, .select:focus, .textarea:focus { outline: none; box-shadow: 0 0 0 .18rem var(--color-focus); }
+.invalid { box-shadow: 0 0 0 .12rem var(--color-danger) inset; }
+.error { color: var(--color-danger); font-size: var(--text-small); }
+.checkRow { min-height: var(--control-min); display: flex; align-items: center; gap: var(--space-3); cursor: pointer; }
+.checkRow input { width: 1.2rem; height: 1.2rem; accent-color: var(--color-brand); }
+.switch { width: 3rem; height: 1.7rem; padding: .18rem; border: 0; border-radius: var(--radius-pill); background: var(--color-surface-muted); box-shadow: 0 0 0 .09rem var(--color-field-line) inset; cursor: pointer; }
+.switch::after { content: ''; display: block; width: 1.34rem; height: 1.34rem; border-radius: var(--radius-pill); background: var(--color-surface); box-shadow: var(--shadow-surface); transition: transform var(--duration-base) var(--ease-physical); }
+.switch[data-selected] { background: var(--color-success); }
+.switch[data-selected]::after { transform: translateX(1.3rem); }
+/* La envolvente y el núcleo concéntrico que describe docs/design-system.md:
+   el doble borde distingue el contenedor sin recurrir a una línea gris plana.
+   El núcleo venía transparente y sin sombra, de modo que solo quedaba esa
+   línea. Las superficies anidadas —gráficas, tarjetas de registro— conservan
+   un solo borde: es lo que las sitúa por debajo de estas en la jerarquía. */
+/* La envolvente se estira a la altura de la fila, pero el núcleo se quedaba a
+   la altura de su contenido: en una fila de tres tarjetas, la más corta
+   enseñaba hasta 159 px de envolvente desnuda por debajo, que se lee como una
+   franja gris suelta. La envolvente debe ceñir al núcleo, no contenerlo con
+   holgura; como retícula de una sola celda, el núcleo la llena. */
+.surfaceShell { display: grid; padding: var(--space-1); border: 1px solid var(--color-line); border-radius: var(--radius-xl); background: var(--color-surface-muted); }
+/* Declarar la superficie como contenedor permite que lo que hay dentro se
+   adapte al ancho real de la tarjeta y no al de la ventana. Una misma lista de
+   definiciones ocupa media retícula en una vista y una columna estrecha en
+   otra, y la consulta de medios no distingue esos dos casos. */
+.surface { container-type: inline-size; border: 1px solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-surface); box-shadow: var(--shadow-surface); padding: var(--space-6); }
+.alert { display: grid; grid-template-columns: auto 1fr; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-md); }
+.alertInfo { background: var(--color-info-soft); color: var(--color-info); }
+.alertSuccess { background: var(--color-success-soft); color: var(--color-success); }
+.alertWarning { background: var(--color-warning-soft); color: var(--color-warning); }
+.alertDanger { background: var(--color-danger-soft); color: var(--color-danger); }
+.alertTitle { font-weight: 700; margin: 0; }
+.alertBody { margin: 0; color: var(--color-ink); }
+.status { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-small); font-weight: 600; }
+.statusDot { width: .58rem; height: .58rem; border-radius: var(--radius-pill); background: currentColor; box-shadow: 0 0 0 .22rem currentColor; opacity: .72; }
+.available { color: var(--color-success); }
+.degraded { color: var(--color-warning); }
+.unavailable { color: var(--color-danger); }
+.badge { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 1.8rem; padding: var(--space-1) var(--space-3); border-radius: var(--radius-pill); font-size: var(--text-micro); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: var(--color-surface-muted); color: var(--color-ink-muted); }
+.measured { background: var(--color-success-soft); color: var(--color-success); }
+.simulation { background: var(--color-info-soft); color: var(--color-info); }
+.measurement { display: grid; gap: var(--space-1); }
+/* `Measurement` muestra tanto cifras como valores de texto —«Cierre normal»—.
+   A 2 rem en monoespaciada, un texto de trece caracteres no cabe en una
+   columna de 157 px y se partía en tres líneas, de modo que las casillas de la
+   misma fila quedaban de alturas muy distintas. Con el máximo algo más bajo y
+   el interlineado ajustado, las cifras siguen destacando y el texto ocupa dos
+   líneas compactas en lugar de tres sueltas. */
+.measurementValue { font-family: var(--font-data); font-size: clamp(1.25rem, 2.2vw, 1.75rem); line-height: 1.15; overflow-wrap: break-word; font-variant-numeric: tabular-nums; }
+.measurementLabel { color: var(--color-ink-muted); font-size: var(--text-small); }
+.skeleton { display: block; min-height: 1rem; border-radius: var(--radius-sm); background: linear-gradient(100deg, var(--color-surface-muted), var(--color-surface), var(--color-surface-muted)); background-size: 200% 100%; animation: shimmer 1.6s var(--ease-physical) infinite; }
+@keyframes shimmer { to { background-position-x: -200%; } }
+.progress { width: 100%; height: .5rem; overflow: hidden; border-radius: var(--radius-pill); background: var(--color-surface-muted); }
+.progressValue { height: 100%; background: var(--color-success); border-radius: inherit; transition: transform var(--duration-slow) var(--ease-physical); transform-origin: left; }
+.empty { text-align: center; padding: var(--space-12) var(--space-5); }
+.emptyMark { width: 4rem; height: 4rem; display: grid; place-items: center; margin: 0 auto var(--space-5); border-radius: 42% 58% 52% 48%; background: var(--color-brand-soft); color: var(--color-brand); font-family: var(--font-editorial); font-size: 2rem; }
+.tableWrap { overflow-x: auto; border-top: 1px solid var(--color-line); border-bottom: 1px solid var(--color-line); }
+.table { width: 100%; border-collapse: collapse; min-width: 48rem; }
+.table caption { text-align: left; padding: var(--space-4); font-family: var(--font-editorial); font-size: var(--text-heading-3); font-weight: 650; }
+.table th { padding: var(--space-3) var(--space-4); text-align: left; color: var(--color-ink-muted); font-size: var(--text-micro); letter-spacing: .08em; text-transform: uppercase; background: var(--color-surface-muted); }
+.sortButton { display: inline-flex; align-items: center; gap: var(--space-1); border: 0; padding: 0; background: transparent; color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; }
+.sortButton:hover { color: var(--color-ink); }
+.sortButton:focus-visible { border-radius: var(--radius-sm); outline: .15rem solid var(--color-focus); outline-offset: .2rem; }
+.headerLabel { display: inline-block; }
+.table th.numeric .sortButton, .table th.numeric .headerLabel { justify-content: flex-end; }
+.table td { padding: var(--space-4); vertical-align: middle; box-shadow: 0 -.06rem 0 var(--color-line) inset; }
+.table tr { transition: background var(--duration-fast) var(--ease-physical); }
+.table tbody tr:hover { background: color-mix(in srgb, var(--color-brand) 6%, transparent); }
+.numeric { text-align: right !important; font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.cards { display: none; }
+.toolbar { display: flex; align-items: end; justify-content: space-between; gap: var(--space-4); margin-block-end: var(--space-5); }
+.toolbar > :first-child { flex: 1; max-width: 30rem; }
+.pagination { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-2); padding-block-start: var(--space-5); color: var(--color-ink-muted); font-size: var(--text-small); }
+.pagination > .pageArrow { width: 2.25rem; height: 2.25rem; padding: 0; border-radius: var(--radius-md); box-shadow: 0 0 0 0.09rem var(--color-field-line) inset; color: var(--color-ink); font-size: 1.4rem; line-height: 1; }
+.pagination > .pageArrow:hover { transform: none; background: var(--color-brand-soft); }
+.pagination > .pageArrow[data-disabled] { opacity: 1; color: var(--color-ink-faint); box-shadow: 0 0 0 0.09rem var(--color-line) inset; background: transparent; }
+.modalOverlay { position: fixed; inset: 0; z-index: var(--layer-overlay); background: var(--color-overlay); backdrop-filter: blur(.55rem); display: grid; place-items: center; padding: var(--space-4); }
+/* El modal se declara contenedor: lo que vive dentro se adapta a su ancho y
+   no al de la ventana. Un mismo editor aparece en un modal estrecho y en una
+   vista ancha, y una consulta de medios no distingue esos dos casos. */
+.modal { container-type: inline-size; width: min(38rem, 100%); max-height: calc(100dvh - var(--space-8)); overflow: auto; border: 0; border-radius: var(--radius-xl); background: var(--color-surface); color: var(--color-ink); box-shadow: var(--shadow-float); padding: var(--space-8); }
+.modalWide { width: min(64rem, 100%); }
+.dialogHeader { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); }
+.dialogTitle { font-family: var(--font-editorial); font-size: var(--text-heading-2); }
+.dialogActions { display: flex; justify-content: flex-end; gap: var(--space-3); margin-block-start: var(--space-6); }
+.tooltip { z-index: var(--layer-tooltip); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); background: var(--color-ink); color: var(--color-surface); font-size: var(--text-small); box-shadow: var(--shadow-float); }
+
+/* Las capas aparecían y desaparecían de golpe. `react-aria-components` marca
+   el elemento con `data-entering` y `data-exiting` mientras entra y mientras
+   sale, y espera a que la animación termine antes de quitarlo del árbol: de
+   ahí que la salida también se pueda animar y no haya que tocar ningún
+   componente.
+
+   El velo solo cambia de opacidad y el diálogo sube unos píxeles mientras
+   aparece; nada de lo que se anima provoca recálculo de la disposición. Salir
+   va más rápido que entrar, porque para entonces el usuario ya decidió. La
+   regla global de `prefers-reduced-motion` recorta estas duraciones a 1 ms sin
+   necesidad de repetirla aquí. */
+.modalOverlay[data-entering] { animation: velo var(--duration-base) var(--ease-physical) both; }
+.modalOverlay[data-exiting] { animation: velo var(--duration-fast) var(--ease-physical) reverse both; }
+.modal[data-entering] { animation: capa var(--duration-base) var(--ease-physical) both; }
+.modal[data-exiting] { animation: capa var(--duration-fast) var(--ease-physical) reverse both; }
+.tooltip[data-entering] { animation: capaMenor var(--duration-fast) var(--ease-physical) both; }
+.tooltip[data-exiting] { animation: capaMenor var(--duration-fast) var(--ease-physical) reverse both; }
+
+@keyframes velo { from { opacity: 0; } }
+@keyframes capa { from { opacity: 0; transform: translateY(var(--space-5)) scale(.97); } }
+@keyframes capaMenor { from { opacity: 0; transform: translateY(var(--space-2)); } }
+.toastRegion { position: fixed; z-index: var(--layer-toast); inset-inline-end: var(--space-5); inset-block-end: var(--space-5); width: min(24rem, calc(100% - var(--space-8))); display: grid; gap: var(--space-3); }
+.toast { padding: var(--space-4); border-radius: var(--radius-lg); background: var(--color-ink); color: var(--color-surface); box-shadow: var(--shadow-float); animation: toastIn var(--duration-slow) var(--ease-physical) both; }
+@keyframes toastIn { from { opacity: 0; transform: translateY(var(--space-8)) scale(.96); } }
+
+@media (max-width: 47.99rem) {
+  .tableWrap { display: none; }
+  .cards { display: grid; gap: var(--space-3); }
+  .recordCard { padding: var(--space-4); border: 1px solid var(--color-line); border-radius: var(--radius-md); background: var(--color-surface); }
+  .recordRow { display: grid; grid-template-columns: minmax(6rem, .8fr) 1.2fr; gap: var(--space-3); padding-block: var(--space-2); }
+  .recordLabel { color: var(--color-ink-muted); font-size: var(--text-small); }
+  .toolbar { align-items: stretch; flex-direction: column; }
+  .pagination { justify-content: center; }
+}
+
+.searchSelect { position: relative; min-width: 0; }
+.searchSelectList { position: absolute; z-index: 20; inset-inline: 0; top: 100%; margin: var(--space-1) 0 0; padding: var(--space-1); list-style: none; border: 1px solid var(--color-line); border-radius: var(--radius-md); background: var(--color-surface-raised); box-shadow: var(--shadow-float); max-height: 18rem; overflow: auto; }
+.searchSelectList button { display: block; width: 100%; padding: var(--space-2) var(--space-3); border: 0; border-radius: var(--radius-sm); background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer; }
+.searchSelectList button:hover, .searchSelectList button:focus-visible { background: var(--color-brand-soft); }
+.searchSelectList [aria-selected="true"] button { font-weight: 700; }

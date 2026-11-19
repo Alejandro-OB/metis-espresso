@@ -1,0 +1,15 @@
+# El sistema verifica integridad por sha256 sobre los bytes del archivo:
+# `SemanticManifest.verify` en packages/espresso_semantics/manifest.py y
+# `RegisteredModel.verify` en packages/espresso_simulation/registry.py leen
+# en binario. Cualquier conversión de fin de línea en el checkout cambia esos
+# bytes y la aplicación no arranca: «checksum semántico inválido».
+#
+# Por eso se desactiva la conversión para todo el repositorio. Git para Windows
+# trae `core.autocrlf=true` por omisión y reescribe a CRLF al clonar, lo que
+# rompía la ontología y el contrato de la FMU. El árbol de trabajo debe ser
+# idéntico byte a byte al contenido versionado, en cualquier sistema operativo.
+#
+# No se normaliza a LF a secas porque el repositorio no es homogéneo:
+# GemeloDigitalPreparacionCafe/package.mo está versionado con CRLF y su
+# checksum corresponde a esos bytes. Normalizar lo rompería al revés.
+* -text

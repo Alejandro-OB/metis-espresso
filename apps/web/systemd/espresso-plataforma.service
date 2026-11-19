@@ -1,0 +1,36 @@
+# Arranque de la plataforma en la Raspberry (ADR-016 § 4.1, enmienda del 2026-10-30).
+#
+# En cada encendido lleva los servicios al estado declarado en compose.yaml con el
+# perfil semantic, aunque alguien los haya detenido a mano: la política de reinicio
+# de los contenedores solo conserva el último estado. No reconstruye imágenes; eso
+# es una actualización, y las actualizaciones son manuales (ADR-016 § 4.4).
+#
+# No exige el disco externo. Los datos viven en la tarjeta (ADR-015, revisión del
+# 2026-09-15) y el disco solo recibe copias: sin él la plataforma arranca igual y
+# el registro del sistema lo avisa.
+#
+# Instalación (como root):
+#   install -m 644 espresso-plataforma.service /etc/systemd/system/
+#   systemctl daemon-reload && systemctl enable espresso-plataforma.service
+
+[Unit]
+Description=Plataforma del gemelo de la cafetera (ADR-016)
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+User=espresso
+Group=docker
+WorkingDirectory=/home/espresso/espresso/apps/web
+ExecStartPre=/bin/sh -c 'mountpoint -q /mnt/datos || echo "Sin el disco de copias en /mnt/datos: la plataforma arranca, pero no hay dónde copiar (ADR-015)" >&2'
+ExecStart=/usr/bin/docker compose --profile semantic up -d --no-build
+# Al apagar, detiene los servicios en orden para que la base cierre limpia.
+ExecStop=/usr/bin/docker compose --profile semantic stop
+TimeoutStartSec=300
+TimeoutStopSec=120
+
+[Install]
+WantedBy=multi-user.target

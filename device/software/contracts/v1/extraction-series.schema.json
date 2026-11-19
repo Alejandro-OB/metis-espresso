@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/v1/extraction-series.schema.json",
+  "title": "Extraction measured series chunk v1",
+  "description": "Tramo de la serie medida de una preparación ya terminada. Es evidencia diferida: se compone al cerrar la preparación y se entrega desde la cola persistente, de modo que sobrevive a un corte de enlace igual que el resumen. No es el flujo en vivo, que viaja en telemetry.sample y no se retiene.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["preparationId", "source", "chunkIndex", "chunkCount", "intervalMs", "samples"],
+  "properties": {
+    "preparationId": {"type": "string", "minLength": 1, "maxLength": 48},
+    "source": {"enum": ["measured", "simulation"]},
+    "chunkIndex": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Orden de este tramo dentro de la serie, empezando en cero."
+    },
+    "chunkCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Tramos que componen la serie completa. Permite saber que falta alguno en lugar de tomar por completa una serie truncada."
+    },
+    "intervalMs": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Separación nominal entre muestras conservadas. El dispositivo registra a mayor cadencia y conserva la rejilla que declara la comparación físico-virtual."
+    },
+    "samples": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {"$ref": "#/$defs/sample"}
+    }
+  },
+  "$defs": {
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["elapsedMs", "temperature", "pressure"],
+      "properties": {
+        "elapsedMs": {
+          "type": "integer",
+          "minimum": -60000,
+          "description": "Instante desde el inicio de la preparación. La fecha absoluta se obtiene del resumen, que es quien la declara. Los valores negativos son el minuto previo a pulsar, tomado con la máquina lista y sobre la misma rejilla: describen la máquina antes de la preparación (estabilidad térmica, § 4.4 de la monografía) y no forman parte de ella, de modo que quien calcule algo de la preparación debe filtrar elapsedMs >= 0. Pueden faltar en parte o del todo si la máquina llevaba menos de un minuto lista; nunca se rellenan. Enmienda del 2026-10-19 a ADR-012 § 4.1."
+        },
+        "temperature": {"$ref": "#/$defs/channel"},
+        "pressure": {"$ref": "#/$defs/channel"}
+      }
+    },
+    "channel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "quality"],
+      "properties": {
+        "value": {
+          "type": ["number", "null"],
+          "description": "Ausente como null cuando no hay medida. Una muestra no apta se marca, no se sustituye ni se interpola."
+        },
+        "quality": {"enum": ["valid", "invalid", "simulated"]}
+      }
+    }
+  }
+}

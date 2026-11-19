@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/v1/operational-event.schema.json",
+  "title": "Operational event payload v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "state", "severity", "description"],
+  "properties": {
+    "preparationId": {"type": ["string", "null"]},
+    "kind": {"enum": ["state-transition", "operator-action", "alarm", "diagnostic"]},
+    "state": {"type": "string", "minLength": 1, "maxLength": 40},
+    "previousState": {"type": ["string", "null"], "maxLength": 40},
+    "severity": {"enum": ["information", "warning", "critical"]},
+    "code": {"type": ["string", "null"], "maxLength": 80},
+    "description": {"type": "string", "minLength": 1, "maxLength": 240}
+  }
+}

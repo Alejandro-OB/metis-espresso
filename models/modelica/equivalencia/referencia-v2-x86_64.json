@@ -1,0 +1,4506 @@
+{
+ "duracionSegundos": 30.0,
+ "pasoSegundos": 0.1,
+ "muestras": [
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.680007208753125
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 1,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 0.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.680047473887214
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 2,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 0.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.680155385342005
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 3,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 0.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.68035702633415
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 4,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 0.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.68068059141018
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 5,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 0.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.68115436747189
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 6,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 0.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.681806217996552
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 7,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 0.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.682663417195613
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 8,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 0.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.683752601960975
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 9,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 0.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.685099763376684
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 10,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 1.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.686730251445113
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 11,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 1.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.68866878414798
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 12,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 1.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.690939457854938
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 13,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 1.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.693565758072452
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 14,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 1.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.696570570197082
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 15,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 1.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.699976190159532
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 16,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 1.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.7038043349242
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 17,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 1.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.708076152833087
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 18,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 1.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.712812233791624
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 19,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 1.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.71803261929773
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 20,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 2.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.72375486201861
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 21,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 2.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.72999731430417
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 22,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 2.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.736779831538797
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 23,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 2.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.74412143568901
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 24,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 2.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.75203999700483
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 25,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 2.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.760552537656224
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 26,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 2.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.769675489318956
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 27,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 2.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.77942480674284
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 28,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 2.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.789815997644325
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 29,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 2.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.80086412554067
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 30,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 3.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.81258381061383
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 31,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 3.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.824989234224404
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 32,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 3.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.83809414605099
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 33,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 3.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.851911872165942
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 34,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 3.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.866455323157766
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 35,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 3.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.88173700204328
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 36,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 3.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.897769011969842
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 37,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 3.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.91456306375568
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 38,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 3.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.932130483301137
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 39,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 3.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.950482218882712
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 40,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 4.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.96962884833283
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 41,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 4.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 23.98958058610617
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 42,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 4.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.010347290233256
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 43,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 4.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.031938469162185
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 44,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 4.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.054363288490435
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 45,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 4.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.077630577588423
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 46,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 4.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.101748836116258
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 47,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 4.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.126726240434948
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 48,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 4.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.152570649914367
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 49,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 4.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.179289613139076
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 50,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 5.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.206890374013255
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 51,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 5.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.23537987776683
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 52,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 5.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.26476477686373
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 53,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 5.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.295051436813935
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 54,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 5.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.326245941891045
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 55,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 5.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.358354100756173
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 56,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 5.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.3913814519899
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 57,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 5.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.42533326953361
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 58,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 5.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.46021456804158
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 59,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 5.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.49603010814525
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 60,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 6.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.532784401630522
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 61,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 6.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.570481716530253
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 62,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 6.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.609126082132093
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 63,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 6.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.648721293903918
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 64,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 6.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.689270918337456
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 65,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 6.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.730778297711936
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 66,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 6.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.773246554778098
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 67,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 6.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.816678597364614
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 68,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 6.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.861077122907602
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 69,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 6.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.906444622904417
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 70,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 7.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 24.952783387293152
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 71,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 7.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.000095508758648
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 72,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 7.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.048382886966124
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 73,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 7.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.097647232724057
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 74,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 7.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.147890072076393
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 75,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 7.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.19911275032632
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 76,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 7.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.25131643599144
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 77,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 7.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.30450212469242
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 78,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 7.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.358670642975653
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 79,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 7.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.41382265207079
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 80,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 8.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.469958651584363
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 81,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 8.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.527078983130707
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 82,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 8.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.58518383390043
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 83,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 8.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.64427324016799
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 84,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 8.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.704347090739304
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 85,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 8.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.765405130339786
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 86,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 8.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.82744696294435
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 87,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 8.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.890472055049827
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 88,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 8.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 25.954479738890882
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 89,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 8.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.019469215600225
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 90,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 9.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.085439558314135
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 91,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 9.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.152389715223592
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 92,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 9.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.220318512572874
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 93,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 9.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.289224657605132
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 94,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 9.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.359106741457026
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 95,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 9.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.429963242002316
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 96,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 9.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.501792526645488
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 97,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 9.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.57459285506627
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 98,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 9.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.648362381915774
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 99,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 9.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.723099159464823
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 100,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 10.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.798801140205683
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 101,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 10.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.875466179407113
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 102,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 10.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 26.953092037624174
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 103,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 10.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 27.03167638316353
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 104,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 10.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 27.11121679450389
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 105,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 10.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 27.191710762674177
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 106,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 10.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 27.273155693587967
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 107,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 10.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 27.355548910336324
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 108,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 10.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 27.43888765543943
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 109,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 10.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 27.523169093056993
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 110,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 11.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 27.60839031115904
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 111,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 11.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 27.694548323656875
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 112,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 11.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 27.781640072495293
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 113,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 11.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 27.869662429706807
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 114,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 11.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 27.958612199427705
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 115,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 11.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 28.04848611987768
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 116,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 11.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 28.139280865302453
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 117,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 11.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 28.23099304788093
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 118,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 11.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 28.32361921959682
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 119,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 11.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 28.417155874075377
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 120,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 12.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 28.51159944838639
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 121,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 12.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 28.60694632481318
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 122,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 12.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 28.703192832588286
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 123,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 12.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 28.80033524959697
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 124,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 12.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 28.89836980404857
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 125,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 12.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 28.99729267611599
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 126,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 12.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 29.09709999954441
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 127,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 12.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 29.197787863229337
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 128,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 12.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 29.29935231276471
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 129,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 12.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 29.401789351961042
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 130,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 13.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 29.50509494433487
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 131,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 13.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 29.609265014569473
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 132,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 13.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 29.714295449947087
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 133,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 13.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 29.820182101753858
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 134,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 13.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 29.926920786657092
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 135,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 13.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 30.034507288056034
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 136,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 13.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 30.142937357405913
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 137,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 13.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 30.25220671551608
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 138,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 13.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 30.362311053822964
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 139,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 13.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 30.47324603563726
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 140,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 14.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 30.585007297366985
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 141,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 14.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 30.697590449715676
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 142,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 14.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 30.81099107885717
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 143,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 14.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 30.92520474758635
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 144,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 14.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 31.040226996447245
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 145,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 14.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 31.156053344837858
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 146,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 14.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 31.27267929209296
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 147,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 14.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 31.39010031854474
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 148,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 14.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 31.508311886561728
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 149,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 14.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 31.62730944156641
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 150,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 15.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 31.74708841303203
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 151,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 15.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 31.867644215458654
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 152,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 15.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 31.988972249328924
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 153,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 15.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 32.11106790204411
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 154,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 15.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 32.23392654884026
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 155,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 15.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 32.35754355368533
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 156,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 15.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 32.481914270157176
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 157,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 15.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 32.6070340423031
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 158,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 15.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 32.73289820548081
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 159,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 15.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 32.85950208718174
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 160,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 16.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 32.98684100783623
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 161,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 16.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 33.11491028160168
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 162,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 16.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 33.24370521713331
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 163,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 16.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 33.373221118338165
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 164,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 16.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 33.503453285112755
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 165,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 16.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 33.634397014064064
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 166,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 16.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 33.766047599214914
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 167,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 16.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 33.898400332693484
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 168,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 16.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 34.03145050540729
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 169,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 16.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 34.16519340770208
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 170,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 17.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 34.29962433000583
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 171,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 17.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 34.43473856345804
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 172,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 17.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 34.57053140052449
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 173,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 17.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 34.7069981355981
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 174,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 17.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 34.84413406558548
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 175,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 17.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 34.98193449048017
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 176,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 17.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 35.120394713922224
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 177,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 17.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 35.25951004374468
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 178,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 17.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 35.39927579250684
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 179,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 17.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 35.539687278015094
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 180,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 18.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 35.68073982383095
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 181,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 18.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 35.822428759766865
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 182,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 18.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 35.96474942237012
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 183,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 18.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 36.10769715539436
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 184,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 18.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 36.25126731025995
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 185,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 18.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 36.39545524650248
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 186,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 18.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 36.54025633221033
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 187,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 18.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 36.68566594445076
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 188,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 18.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 36.831679469685696
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 189,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 18.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 36.978292304176136
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 190,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 19.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 37.12549985437653
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 191,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 19.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 37.27329753731874
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 192,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 19.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 37.421680780986094
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 193,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 19.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 37.570645024676935
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 194,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 19.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 37.72018571935894
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 195,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 19.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 37.87029832801363
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 196,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 19.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 38.02097832597161
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 197,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 19.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 38.17222120123836
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 198,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 19.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 38.32402245481114
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 199,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 19.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 38.47637760098678
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 200,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 20.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 38.62928216766096
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 201,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 20.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 38.78273169661884
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 202,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 20.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 38.936721743817145
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 203,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 20.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 39.091247879658
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 204,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 20.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 39.24630568925494
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 205,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 20.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 39.40189077269031
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 206,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 20.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 39.55799874526571
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 207,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 20.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 39.71462523774386
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 208,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 20.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 39.87176589658361
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 209,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 20.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 40.02941638416735
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 210,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 21.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 40.18757237902105
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 211,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 21.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 40.3462295760271
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 212,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 21.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 40.50538368663052
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 213,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 21.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 40.66503043903822
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 214,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 21.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 40.82516557841109
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 215,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 21.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 40.985784867050256
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 216,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 21.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 41.14688408457613
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 217,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 21.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 41.308459028101765
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 218,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 21.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 41.4705055123992
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 219,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 21.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 41.63301937006071
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 220,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 22.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 41.79599645165314
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 221,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 22.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 41.95943262586695
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 222,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 22.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 42.1233237796593
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 223,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 22.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 42.28766581839142
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 224,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 22.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 42.4524546659606
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 225,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 22.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 42.617686264926704
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 226,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 22.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 42.783356576633366
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 227,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 22.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 42.94946158132399
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 228,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 22.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 43.11599727825245
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 229,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 22.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 43.28295968578914
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 230,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 23.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 43.45034484152188
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 231,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 23.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 43.61814880235215
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 232,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 23.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 43.786367644586335
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 233,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 23.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 43.9549974640226
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 234,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 23.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 44.124034376033364
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 235,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 23.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 44.29347451564303
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 236,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 23.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 44.463314037601435
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 237,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 23.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 44.63354911645342
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 238,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 23.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 44.80417594660372
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 239,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 23.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 44.97519074237795
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 240,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 24.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 45.14658973807991
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 241,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 24.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 45.31836918804453
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 242,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 24.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 45.490525366687166
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 243,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 24.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 45.663054568549455
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 244,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 24.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 45.83595310834096
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 245,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 24.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 46.00921732097754
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 246,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 24.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 46.18284356161621
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 247,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 24.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 46.3568282056865
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 248,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 24.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 46.53116764891837
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 249,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 24.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 46.70585830736712
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 250,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 25.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 46.880896617434814
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 251,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 25.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 47.05627903588851
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 252,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 25.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 47.23200203987568
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 253,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 25.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 47.4080621269365
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 254,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 25.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 47.58445581501303
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 255,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 25.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 47.76117964245583
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 256,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 25.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 47.938230168027474
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 257,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 25.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 48.115603970903464
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 258,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 25.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 48.29329765067041
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 259,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 25.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 48.47130782732171
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 260,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 26.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 48.64963114125044
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 261,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 26.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 48.82826425323975
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 262,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 26.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 49.00720384445128
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 263,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 26.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 49.18644661641048
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 264,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 26.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 49.36598929099006
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 265,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 26.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 49.54582861039097
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 266,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 26.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 49.72596133712142
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 267,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 26.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 49.90638425397327
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 268,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 26.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 50.08709416399671
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 269,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 26.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 50.2680878904726
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 270,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 27.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 50.449362276883164
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 271,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 27.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 50.63091418688032
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 272,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 27.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 50.812740504252076
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 273,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 27.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 50.99483813288742
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 274,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 27.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 51.17720399673925
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 275,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 27.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 51.359835039785196
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 276,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 27.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 51.54272822598722
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 277,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 27.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 51.72588053924926
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 278,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 27.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 51.90928898337296
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 279,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 27.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 52.09295058201252
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 280,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 28.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 52.2768623786273
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 281,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 28.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 52.461021436433214
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 282,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 28.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 52.64542483835271
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 283,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 28.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 52.830069686962986
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 284,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 28.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 53.01495310444329
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 285,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 28.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 53.20007223252043
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 286,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 28.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 53.385424232413186
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 287,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 28.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 53.57100628477542
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 288,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 28.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 53.75681558963788
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 289,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 28.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 53.94284936634881
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 290,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 29.0
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 54.12910485351347
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 291,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 29.1
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 54.315579308932456
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 292,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 29.2
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 54.502270009538734
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 293,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 29.3
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 54.68917425133401
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 294,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 29.4
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 54.8762893493236
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 295,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 29.5
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 55.06361263745066
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 296,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 29.6
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 55.25114146852928
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 297,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 29.7
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 55.438873214176624
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 298,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 29.8
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 55.626805264744064
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 299,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 29.9
+  },
+  {
+   "channels": {
+    "pressureBar": 5.6,
+    "temperatureC": 55.81493502924775
+   },
+   "commands": {
+    "heaterCommand": 1.0,
+    "pumpCommand": 0.0
+   },
+   "quality": "simulated",
+   "schemaVersion": "1.0",
+   "sequence": 300,
+   "simulationRunId": "sim-equivalencia",
+   "simulationTimeSeconds": 30.0
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/simulation/v1/profile-snapshot.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "profileId", "profileVersion", "profileStatus", "targets", "tolerances", "resolution", "sourceSpecifications"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "profileId": {"type": "string", "minLength": 1, "maxLength": 80},
+    "profileVersion": {"type": "integer", "minimum": 1},
+    "profileStatus": {"enum": ["approved", "accepted", "effective"]},
+    "targets": {"$ref": "#/$defs/values"},
+    "tolerances": {"$ref": "#/$defs/nonNegativeValues"},
+    "resolution": {
+      "type": "object", "additionalProperties": false,
+      "required": ["temperature", "pressure"],
+      "properties": {
+        "temperature": {"enum": ["target-direct", "range-midpoint"]},
+        "pressure": {"enum": ["target-direct", "range-midpoint"]}
+      }
+    },
+    "sourceSpecifications": {"type": "array", "minItems": 2, "items": {"type": "object"}}
+  },
+  "$defs": {
+    "values": {
+      "type": "object", "additionalProperties": false,
+      "required": ["temperatureC", "pressureBar"],
+      "properties": {"temperatureC": {"type": "number"}, "pressureBar": {"type": "number", "minimum": 0}}
+    },
+    "nonNegativeValues": {
+      "type": "object", "additionalProperties": false,
+      "required": ["temperatureC", "pressureBar"],
+      "properties": {"temperatureC": {"type": "number", "minimum": 0}, "pressureBar": {"type": "number", "minimum": 0}}
+    }
+  }
+}

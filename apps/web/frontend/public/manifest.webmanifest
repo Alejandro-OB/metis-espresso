@@ -1,0 +1,15 @@
+{
+  "id": "/",
+  "name": "Bitácora de espresso",
+  "short_name": "Bitácora",
+  "description": "Historial, evidencia, evaluación y decisiones para el prototipo de café espresso.",
+  "lang": "es-CO",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#e9f0eb",
+  "theme_color": "#0c3a2c",
+  "icons": [
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

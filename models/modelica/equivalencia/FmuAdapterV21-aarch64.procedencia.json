@@ -1,0 +1,19 @@
+{
+  "generadoEn": "2026-10-22T09:37:56-05:00",
+  "arquitecturaDeCompilacion": "aarch64",
+  "arquitecturaLeidaDelBinario": "aarch64",
+  "sistema": "Linux 6.18.50+rpt-rpi-2712",
+  "compilador": "cc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "opciones": "CMAKE_BUILD_TYPE=Release CVODE_DIRECTORY=/home/espresso/sundials-7.8.0/lib",
+  "sundials": "7.8.0",
+  "artefactoOrigen": {
+    "nombre": "FmuAdapterV21.fmu",
+    "sha256": "6083ebec106871115401cce7b2b560aa68e09fd1716807de737b55672e1c0c5d"
+  },
+  "artefactoGenerado": {
+    "nombre": "FmuAdapterV21-aarch64.fmu",
+    "sha256": "a9327d238929825275e18baf5b64bd1c325737c4c0fe36864de3e68f5b2e10fe",
+    "bibliotecaSha256": "6ae1aba687bc4f5f016ff20deee3360301af50078aa996cfa82c161342fe91b2"
+  }
+}

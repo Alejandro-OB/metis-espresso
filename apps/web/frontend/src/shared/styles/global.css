@@ -1,0 +1,89 @@
+@import './tokens.css';
+
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--color-canvas); scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-width: 20rem;
+  min-height: 100dvh;
+  /* Un velo verde muy tenue por la parte alta, para que la página no sea un
+     plano uniforme contra el que las tarjetas blancas flotan sin apoyo. Al 6 %
+     no toca el contraste de ningún texto. */
+  /* El lienzo lo pinta `html`. Si lo pintara también el `body`, su fondo
+     taparía la capa de trazos: en el orden de pintado, un descendiente con
+     `z-index` negativo va antes que el fondo de los bloques. */
+  color: var(--color-ink);
+  font-family: var(--font-interface);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  text-rendering: optimizeLegibility;
+}
+hr { border: 0; border-top: 1px solid var(--color-line); }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-tooltip);
+  pointer-events: none;
+  opacity: 0.012;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; }
+h1, h2, h3, p { margin-block-start: 0; }
+::selection { background: var(--color-accent-soft); color: var(--color-ink); }
+:focus-visible { outline: 0.18rem solid var(--color-focus); outline-offset: 0.2rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.skip-link {
+  position: fixed;
+  inset-block-start: var(--space-3);
+  inset-inline-start: var(--space-3);
+  z-index: var(--layer-tooltip);
+  transform: translateY(-200%);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: var(--color-surface);
+  transition: transform var(--duration-fast) var(--ease-physical);
+}
+.skip-link:focus { transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+}
+
+/* Trazos geométricos finos en dos esquinas, con el centro limpio: sobre un
+   lienzo claro una línea se lee y un resplandor no, que es por lo que los
+   fondos de luz difusa no funcionan aquí. Los círculos concéntricos son los
+   mismos que marcan las superficies oscuras, de modo que el recurso es uno
+   solo en toda la aplicación.
+
+   El dibujo entra como máscara y no como imagen de color: así el trazo lo pinta
+   un token y no un color escrito a mano dentro del SVG, que es la regla que
+   fija docs/design-system.md. `z-index: -1` lo deja sobre el fondo del lienzo
+   y por debajo de todo el contenido. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--color-brand);
+  opacity: 0.17;
+  mask-image: url("data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20320%20320'%20fill='none'%20stroke='%23fff'%20stroke-width='1.5'%20stroke-linejoin='round'><circle%20cx='96'%20cy='196'%20r='124'/><circle%20cx='96'%20cy='196'%20r='86'/><path%20d='M6%20298%20L150%20204%20L308%20244%20L118%20318%20Z'/><path%20d='M6%20298%20L308%20244'/><path%20d='M150%20204%20L118%20318'/><path%20d='M150%20204%20L54%20318'/><path%20d='M308%20244%20L214%20318'/></svg>"), url("data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20320%20320'%20fill='none'%20stroke='%23fff'%20stroke-width='1.5'%20stroke-linejoin='round'><g%20transform='rotate%28180%20160%20160%29'><circle%20cx='96'%20cy='196'%20r='124'/><circle%20cx='96'%20cy='196'%20r='86'/><path%20d='M6%20298%20L150%20204%20L308%20244%20L118%20318%20Z'/><path%20d='M6%20298%20L308%20244'/><path%20d='M150%20204%20L118%20318'/><path%20d='M150%20204%20L54%20318'/><path%20d='M308%20244%20L214%20318'/></g></svg>");
+  mask-position: left -8rem bottom -8rem, right -15rem top -13rem;
+  mask-size: 30rem 30rem, 34rem 34rem;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: url("data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20320%20320'%20fill='none'%20stroke='%23fff'%20stroke-width='1.5'%20stroke-linejoin='round'><circle%20cx='96'%20cy='196'%20r='124'/><circle%20cx='96'%20cy='196'%20r='86'/><path%20d='M6%20298%20L150%20204%20L308%20244%20L118%20318%20Z'/><path%20d='M6%20298%20L308%20244'/><path%20d='M150%20204%20L118%20318'/><path%20d='M150%20204%20L54%20318'/><path%20d='M308%20244%20L214%20318'/></svg>"), url("data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20320%20320'%20fill='none'%20stroke='%23fff'%20stroke-width='1.5'%20stroke-linejoin='round'><g%20transform='rotate%28180%20160%20160%29'><circle%20cx='96'%20cy='196'%20r='124'/><circle%20cx='96'%20cy='196'%20r='86'/><path%20d='M6%20298%20L150%20204%20L308%20244%20L118%20318%20Z'/><path%20d='M6%20298%20L308%20244'/><path%20d='M150%20204%20L118%20318'/><path%20d='M150%20204%20L54%20318'/><path%20d='M308%20244%20L214%20318'/></g></svg>");
+  -webkit-mask-position: left -8rem bottom -8rem, right -15rem top -13rem;
+  -webkit-mask-size: 30rem 30rem, 34rem 34rem;
+  -webkit-mask-repeat: no-repeat;
+}
+
+/* Por debajo de 1024 px el contenido ocupa todo el ancho y no queda esquina
+   libre: el dibujo pasaría por detrás del texto en vez de acompañarlo. Un
+   adorno solo se justifica donde sobra sitio. */
+@media (max-width: 63.99rem) {
+  body::after { display: none; }
+}

@@ -1,0 +1,551 @@
+@prefix edt: <https://w3id.org/espresso-dt#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+edt:ExtractionShape a sh:NodeShape ;
+    sh:targetClass edt:EspressoExtraction ;
+    sh:property [ sh:path edt:usesProfile ; sh:class edt:ExtractionProfile ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:performedBy ; sh:class edt:Barista ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:usesMaterial ; sh:class edt:CoffeeMaterial ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:producesBeverage ; sh:class edt:EspressoBeverage ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:startTime ; sh:datatype xsd:dateTime ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:endTime ; sh:datatype xsd:dateTime ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:occurredUnder ; sh:class edt:EnvironmentalCondition ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasTerminationCause ; sh:class edt:TerminationCause ; sh:maxCount 1 ] .
+
+# El inicio y el fin son obligatorios salvo en una extracción cortada por una
+# pérdida inesperada de energía: el dispositivo la cerró al rearrancar sin ver su
+# final, y sin hora de pared tampoco su inicio. Exigirlos obligaría a inventarlos.
+edt:ExtractionStartShape a sh:NodeShape ;
+    sh:targetClass edt:EspressoExtraction ;
+    sh:message "Una extracción requiere tiempo de inicio (edt:startTime), salvo si terminó por pérdida inesperada de energía."@es ;
+    sh:or (
+        [ sh:path edt:startTime ; sh:minCount 1 ]
+        [ sh:path edt:hasTerminationCause ; sh:hasValue edt:UnexpectedPowerLoss ]
+    ) .
+
+edt:ExtractionEndShape a sh:NodeShape ;
+    sh:targetClass edt:EspressoExtraction ;
+    sh:message "Una extracción requiere tiempo de fin (edt:endTime), salvo si terminó por pérdida inesperada de energía."@es ;
+    sh:or (
+        [ sh:path edt:endTime ; sh:minCount 1 ]
+        [ sh:path edt:hasTerminationCause ; sh:hasValue edt:UnexpectedPowerLoss ]
+    ) .
+
+edt:ObservationShape a sh:NodeShape ;
+    sh:targetClass edt:Observation ;
+    sh:property [ sh:path edt:observedProperty ; sh:class edt:ObservableProperty ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:featureOfInterest ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:resultTime ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:ManualObservationEntryShape a sh:NodeShape ;
+    sh:targetSubjectsOf edt:recordedBy ;
+    sh:property [ sh:path edt:recordedBy ; sh:class edt:Agent ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:recordingTime ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:QualitativeObservationShape a sh:NodeShape ;
+    sh:targetClass edt:QualitativeObservation ;
+    sh:property [ sh:path edt:textValue ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:QuantitativeObservationShape a sh:NodeShape ;
+    sh:targetClass edt:QuantitativeObservation ;
+    sh:property [ sh:path edt:numericValue ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasUnit ; sh:class edt:Unit ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:CalculatedObservationShape a sh:NodeShape ;
+    sh:targetClass edt:CalculatedObservation ;
+    sh:or (
+        [ sh:property [ sh:path edt:computedFrom ; sh:minCount 1 ] ]
+        [ sh:property [ sh:path edt:derivedFromSeries ; sh:class edt:ObservationSeries ; sh:minCount 1 ] ]
+    ) ;
+    sh:property [ sh:path edt:calculationMethodReference ; sh:datatype xsd:anyURI ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:ObservationSeriesShape a sh:NodeShape ;
+    sh:targetClass edt:ObservationSeries ;
+    sh:property [ sh:path edt:seriesForProperty ; sh:class edt:ObservableProperty ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasUnit ; sh:class edt:Unit ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:dataReference ; sh:datatype xsd:anyURI ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:EnvironmentalConditionShape a sh:NodeShape ;
+    sh:targetClass edt:EnvironmentalCondition ;
+    sh:property [ sh:path edt:validFrom ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:validUntil ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:CoffeeMaterialShape a sh:NodeShape ;
+    sh:targetClass edt:CoffeeMaterial ;
+    sh:property [ sh:path edt:lotIdentifier ; sh:datatype xsd:string ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:bagIdentifier ; sh:datatype xsd:string ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:commercialReference ; sh:datatype xsd:string ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:roastDate ; sh:datatype xsd:dateTime ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasTerroir ; sh:class edt:Terroir ; sh:maxCount 1 ] .
+
+edt:SensoryProfileShape a sh:NodeShape ;
+    sh:targetClass edt:SensoryProfile ;
+    sh:property [ sh:path edt:describesCoffee ; sh:class edt:CoffeeMaterial ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasSensoryDescriptor ; sh:class edt:SensoryDescriptor ; sh:minCount 1 ] .
+
+edt:DeclaredSensoryProfileShape a sh:NodeShape ;
+    sh:targetClass edt:DeclaredSensoryProfile ;
+    sh:property [ sh:path edt:declaredBy ; sh:class edt:Agent ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:sensoryDescriptionText ; sh:datatype rdf:langString ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path dcterms:source ; sh:minCount 1 ] .
+
+edt:TargetSensoryProfileShape a sh:NodeShape ;
+    sh:targetClass edt:TargetSensoryProfile ;
+    sh:property [ sh:path edt:sensoryTargetDefinedBy ; sh:class edt:Barista ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path dcterms:source ; sh:minCount 1 ] .
+
+edt:TerroirShape a sh:NodeShape ;
+    sh:targetClass edt:Terroir ;
+    sh:property [ sh:path edt:regionName ; sh:datatype xsd:string ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasAltitude ; sh:class edt:AltitudeSpecification ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:soilCharacteristics ; sh:datatype xsd:string ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:mineralComposition ; sh:datatype xsd:string ; sh:maxCount 1 ] ;
+    sh:sparql [
+        sh:message "La composición mineral solo puede registrarse cuando se conoce su fuente."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              $this edt:mineralComposition ?composition .
+              FILTER NOT EXISTS { $this dcterms:source ?source }
+            }
+        """
+    ] .
+
+edt:AltitudeSpecificationShape a sh:NodeShape ;
+    sh:targetClass edt:AltitudeSpecification ;
+    sh:property [ sh:path edt:quantityValue ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasUnit ; sh:class edt:Unit ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:ProfileShape a sh:NodeShape ;
+    sh:targetClass edt:ExtractionProfile ;
+    sh:property [ sh:path edt:definedBy ; sh:class edt:Agent ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:hasProfileStatus ; sh:class edt:ProfileStatus ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasParameterSpecification ; sh:class edt:ProfileParameterSpecification ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:hasTargetSensoryProfile ; sh:class edt:TargetSensoryProfile ; sh:maxCount 1 ] ;
+    sh:sparql [
+        sh:message "El perfil sensorial objetivo debe describir un café al que sea aplicable el perfil de extracción."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              $this edt:hasTargetSensoryProfile ?sensoryProfile .
+              ?sensoryProfile edt:describesCoffee ?coffee .
+              FILTER NOT EXISTS { $this edt:applicableToCoffee ?coffee }
+            }
+        """
+    ] .
+
+edt:ProfileParameterShape a sh:NodeShape ;
+    sh:targetClass edt:ProfileParameterSpecification ;
+    sh:property [ sh:path edt:forProperty ; sh:class edt:ObservableProperty ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasUnit ; sh:class edt:Unit ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:xone (
+        [ sh:property [ sh:path edt:targetValue ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ] ;
+          sh:property [ sh:path edt:toleranceValue ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxCount 1 ] ;
+          sh:property [ sh:path edt:minimumValue ; sh:maxCount 0 ] ;
+          sh:property [ sh:path edt:maximumValue ; sh:maxCount 0 ] ]
+        [ sh:and (
+            [ sh:property [ sh:path edt:minimumValue ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ] ]
+            [ sh:property [ sh:path edt:maximumValue ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ] ]
+          ) ;
+          sh:property [ sh:path edt:targetValue ; sh:maxCount 0 ] ;
+          sh:property [ sh:path edt:toleranceValue ; sh:maxCount 0 ] ]
+    ) ;
+    sh:sparql [
+        sh:message "El valor mínimo de una especificación no puede superar su valor máximo."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              $this edt:minimumValue ?minimum ; edt:maximumValue ?maximum .
+              FILTER (?minimum > ?maximum)
+            }
+        """
+    ] .
+
+edt:SensoryEvaluationShape a sh:NodeShape ;
+    sh:targetClass edt:SensoryEvaluation ;
+    sh:property [ sh:path edt:evaluatedBy ; sh:class edt:Barista ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:evaluatesBeverage ; sh:class edt:EspressoBeverage ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:evaluationTime ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasSensoryScore ; sh:class edt:SensoryScore ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:hasSensoryDescriptor ; sh:class edt:SensoryDescriptor ] ;
+    sh:property [ sh:path edt:comparesWithSensoryProfile ; sh:class edt:SensoryProfile ] ;
+    sh:property [
+        sh:path edt:hasSensoryAcceptanceStatus ;
+        sh:class edt:SensoryAcceptanceStatus ;
+        sh:in (edt:SensoryAccepted edt:SensoryRejected edt:SensoryAcceptanceInconclusive) ;
+        sh:maxCount 1
+    ] ;
+    sh:property [ sh:path edt:acceptanceRationale ; sh:datatype rdf:langString ; sh:maxCount 1 ] ;
+    sh:sparql [
+        sh:message "Una evaluación no puede repetir la misma combinación de atributo y dimensión."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              $this edt:hasSensoryScore ?a, ?b .
+              ?a edt:forSensoryAttribute ?attribute ; edt:measuresDimension ?dimension .
+              ?b edt:forSensoryAttribute ?attribute ; edt:measuresDimension ?dimension .
+              FILTER (?a != ?b)
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "Un rechazo sensorial requiere justificación y una justificación requiere un estado explícito; el estado nunca se infiere de puntuaciones o defectos."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              {
+                $this edt:hasSensoryAcceptanceStatus edt:SensoryRejected .
+                FILTER NOT EXISTS { $this edt:acceptanceRationale ?rationale }
+              }
+              UNION {
+                $this edt:acceptanceRationale ?rationale .
+                FILTER NOT EXISTS { $this edt:hasSensoryAcceptanceStatus ?status }
+              }
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "Una evaluación solo puede compararse con perfiles sensoriales del café utilizado por su extracción."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              $this edt:comparesWithSensoryProfile ?sensoryProfile .
+              ?sensoryProfile edt:describesCoffee ?coffee .
+              ?extraction edt:hasSensoryEvaluation $this .
+              FILTER NOT EXISTS { ?extraction edt:usesMaterial ?coffee }
+            }
+        """
+    ] .
+
+edt:SensoryScoreShape a sh:NodeShape ;
+    sh:targetClass edt:SensoryScore ;
+    sh:property [ sh:path edt:forSensoryAttribute ; sh:class edt:SensoryAttribute ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:measuresDimension ; sh:class edt:SensoryDimension ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:scoreValue ; sh:datatype xsd:integer ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:PerceivedIntensityScoreShape a sh:NodeShape ;
+    sh:targetClass edt:PerceivedIntensityScore ;
+    sh:property [ sh:path edt:measuresDimension ; sh:hasValue edt:PerceivedIntensity ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    # De 0 a 15 desde EKO 3.5.0, como la ficha descriptiva CVA (SCA-103) y el
+    # léxico de World Coffee Research; antes era de 0 a 10.
+    sh:property [ sh:path edt:scoreValue ; sh:datatype xsd:integer ; sh:minInclusive 0 ; sh:maxInclusive 15 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:sparql [
+        sh:message "Balance y OverallLiking solo admiten agrado."@es ;
+        sh:select "SELECT $this WHERE { $this edt:forSensoryAttribute ?a . FILTER (?a IN (edt:Balance, edt:OverallLiking)) }"
+    ] .
+
+edt:HedonicLikingScoreShape a sh:NodeShape ;
+    sh:targetClass edt:HedonicLikingScore ;
+    sh:property [ sh:path edt:measuresDimension ; sh:hasValue edt:HedonicLiking ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:scoreValue ; sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:maxInclusive 9 ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:DesiredSensoryChangeShape a sh:NodeShape ;
+    sh:targetClass edt:DesiredSensoryChange ;
+    sh:property [ sh:path edt:targetsSensoryAttribute ; sh:class edt:SensoryAttribute ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:desiredDirection ; sh:class edt:DesiredChangeDirection ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:TechnicalDeviationShape a sh:NodeShape ;
+    sh:targetClass edt:TechnicalDeviation ;
+    sh:property [ sh:path edt:derivedFrom ; sh:minCount 2 ] ;
+    sh:property [
+        sh:path edt:derivedFrom ;
+        sh:qualifiedValueShape [ sh:class edt:Observation ] ;
+        sh:qualifiedMinCount 1
+    ] ;
+    sh:property [
+        sh:path edt:derivedFrom ;
+        sh:qualifiedValueShape [ sh:class edt:ProfileParameterSpecification ] ;
+        sh:qualifiedMinCount 1
+    ] ;
+    sh:property [ sh:path edt:basedOnCriterion ; sh:class edt:EvaluationCriterion ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:statusCode ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:GuidanceKnowledgeShape a sh:NodeShape ;
+    sh:targetClass edt:EvaluationCriterion,
+        edt:ExpertHeuristic,
+        edt:DiagnosticHeuristic,
+        edt:Procedure,
+        edt:DiagnosticProcedure,
+        edt:CalibrationProcedure,
+        edt:ContextualEvidencePattern,
+        edt:ValidationPolicy ;
+    sh:property [ sh:path edt:description ; sh:datatype rdf:langString ; sh:minCount 1 ] ;
+    sh:property [ sh:path dcterms:source ; sh:minCount 1 ] .
+
+edt:TechnicalConformanceAssessmentShape a sh:NodeShape ;
+    sh:targetClass edt:TechnicalConformanceAssessment ;
+    sh:property [ sh:path edt:assessesExtraction ; sh:class edt:EspressoExtraction ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:againstProfile ; sh:class edt:ExtractionProfile ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [
+        sh:path edt:hasTechnicalConformance ;
+        sh:class edt:TechnicalConformanceCategory ;
+        sh:in (edt:TechnicallyConformant edt:TechnicallyNonConformant edt:TechnicalConformanceInconclusive) ;
+        sh:minCount 1 ; sh:maxCount 1
+    ] ;
+    sh:property [ sh:path edt:derivedFrom ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:generatedBy ; sh:class edt:Agent ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:assessmentTime ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:description ; sh:datatype rdf:langString ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:statusCode ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:sparql [
+        sh:message "La evaluación técnica debe utilizar el mismo perfil de la extracción y no puede preceder a su evidencia."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              {
+                $this edt:assessesExtraction ?extraction ; edt:againstProfile ?profile .
+                FILTER NOT EXISTS { ?extraction edt:usesProfile ?profile }
+              }
+              UNION {
+                $this edt:assessmentTime ?assessmentTime ; edt:derivedFrom ?observation .
+                ?observation edt:resultTime ?resultTime .
+                FILTER (?assessmentTime < ?resultTime)
+              }
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "Toda observación, especificación o desviación utilizada debe pertenecer a la extracción y al perfil evaluados."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              $this edt:assessesExtraction ?extraction ;
+                    edt:againstProfile ?profile ;
+                    edt:derivedFrom ?evidence .
+              {
+                ?evidence a edt:Observation .
+                FILTER NOT EXISTS { ?extraction edt:hasObservation ?evidence }
+              }
+              UNION {
+                ?evidence a edt:ProfileParameterSpecification .
+                FILTER NOT EXISTS { ?profile edt:hasParameterSpecification ?evidence }
+              }
+              UNION {
+                ?evidence a edt:TechnicalDeviation .
+                FILTER NOT EXISTS {
+                  ?extraction edt:hasObservation ?observation .
+                  ?profile edt:hasParameterSpecification ?specification .
+                  ?evidence edt:derivedFrom ?observation, ?specification .
+                }
+              }
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "Una extracción conforme requiere cobertura completa y ninguna desviación; una no conforme requiere al menos una desviación."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              {
+                $this edt:hasTechnicalConformance edt:TechnicallyNonConformant .
+                FILTER NOT EXISTS {
+                  $this edt:derivedFrom ?deviation .
+                  ?deviation a edt:TechnicalDeviation .
+                }
+              }
+              UNION {
+                $this edt:hasTechnicalConformance edt:TechnicallyConformant ; edt:againstProfile ?profile .
+                ?profile edt:hasParameterSpecification ?specification .
+                # La que se juzga a través de una derivada no exige observación propia (EKO 3.4.0).
+                FILTER NOT EXISTS { ?derived edt:derivedFromSpecification ?specification }
+                FILTER NOT EXISTS {
+                  $this edt:derivedFrom ?specification, ?observation .
+                  ?specification edt:forProperty ?property ; edt:hasUnit ?unit .
+                  ?observation edt:observedProperty ?property ; edt:hasUnit ?unit ; edt:numericValue ?value .
+                }
+              }
+              UNION {
+                $this edt:hasTechnicalConformance edt:TechnicallyConformant ; edt:derivedFrom ?deviation .
+                ?deviation a edt:TechnicalDeviation .
+              }
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "Una evaluación inconclusa debe conservar al menos una especificación sin observación numérica compatible."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              $this edt:hasTechnicalConformance edt:TechnicalConformanceInconclusive ; edt:againstProfile ?profile .
+              FILTER NOT EXISTS {
+                ?profile edt:hasParameterSpecification ?specification .
+                FILTER NOT EXISTS { ?derived edt:derivedFromSpecification ?specification }
+                FILTER NOT EXISTS {
+                  $this edt:derivedFrom ?specification, ?observation .
+                  ?specification edt:forProperty ?property ; edt:hasUnit ?unit .
+                  ?observation edt:observedProperty ?property ; edt:hasUnit ?unit ; edt:numericValue ?value .
+                }
+              }
+            }
+        """
+    ] .
+
+edt:DiagnosisShape a sh:NodeShape ;
+    sh:targetClass edt:Diagnosis ;
+    sh:property [ sh:path edt:derivedFrom ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:isDiagnosisOf ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:generatedBy ; sh:class edt:Agent ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:description ; sh:datatype rdf:langString ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:statusCode ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:ExplanationShape a sh:NodeShape ;
+    sh:targetClass edt:ExplanationAssertion ;
+    sh:property [ sh:path edt:explains ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasEvidence ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:generatedBy ; sh:class edt:Agent ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:description ; sh:datatype rdf:langString ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:statusCode ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:ObservedDifferenceShape a sh:NodeShape ;
+    sh:targetClass edt:ObservedDifference ;
+    sh:property [ sh:path edt:comparesExtraction ; sh:class edt:EspressoExtraction ; sh:minCount 2 ] ;
+    sh:property [ sh:path edt:hasEvidence ; sh:minCount 2 ] .
+
+edt:RecommendedActionShape a sh:NodeShape ;
+    sh:targetClass edt:RecommendedAction ;
+    sh:property [ sh:path edt:respondsTo ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:or (
+        [ sh:property [ sh:path edt:respondsTo ; sh:class edt:Diagnosis ] ]
+        [ sh:property [ sh:path edt:respondsTo ; sh:class edt:TechnicalDeviation ] ]
+        [ sh:property [ sh:path edt:respondsTo ; sh:class edt:ObservedDifference ] ]
+        [ sh:property [ sh:path edt:respondsTo ; sh:class edt:SensoryDefect ] ]
+    ) ;
+    sh:property [ sh:path edt:adjustsProperty ; sh:class edt:ObservableProperty ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:generatedBy ; sh:class edt:Agent ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:derivedFrom ; sh:minCount 1 ] ;
+    sh:or (
+        [ sh:property [ sh:path edt:basedOnCriterion ; sh:class edt:EvaluationCriterion ; sh:minCount 1 ] ]
+        [ sh:property [ sh:path edt:supportedByHeuristic ; sh:class edt:ExpertHeuristic ; sh:minCount 1 ] ]
+        [ sh:property [ sh:path edt:followsProcedure ; sh:class edt:Procedure ; sh:minCount 1 ] ]
+        [ sh:property [ sh:path edt:supportedByEvidencePattern ; sh:class edt:ContextualEvidencePattern ; sh:minCount 1 ] ]
+        [ sh:property [ sh:path edt:governedByPolicy ; sh:class edt:ValidationPolicy ; sh:minCount 1 ] ]
+    ) ;
+    sh:property [ sh:path edt:description ; sh:datatype rdf:langString ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:hasValidationStatus ; sh:class edt:ValidationStatus ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:validatedBy ; sh:class edt:Barista ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:validationTime ; sh:datatype xsd:dateTime ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:validationRationale ; sh:datatype rdf:langString ; sh:maxCount 1 ] ;
+    sh:sparql [
+        sh:message "Una recomendación con decisión de validación debe identificar estado, barista y tiempo; una modificación también requiere justificación."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              {
+                $this edt:hasValidationStatus ?status .
+                FILTER NOT EXISTS { $this edt:validatedBy ?barista }
+              }
+              UNION {
+                $this edt:hasValidationStatus ?status .
+                FILTER NOT EXISTS { $this edt:validationTime ?time }
+              }
+              UNION {
+                $this edt:validatedBy ?barista .
+                FILTER NOT EXISTS { $this edt:hasValidationStatus ?status }
+              }
+              UNION {
+                $this edt:hasValidationStatus edt:Modified .
+                FILTER NOT EXISTS { $this edt:validationRationale ?rationale }
+              }
+            }
+        """
+    ] .
+
+edt:EspressoCalibrationShape a sh:NodeShape ;
+    sh:targetClass edt:EspressoCalibration ;
+    sh:property [ sh:path edt:performedBy ; sh:class edt:Barista ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:usesProfile ; sh:class edt:ExtractionProfile ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasTrialExtraction ; sh:class edt:EspressoExtraction ; sh:minCount 1 ] ;
+    sh:property [ sh:path edt:occurredUnder ; sh:class edt:EnvironmentalCondition ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:validatesProfile ; sh:class edt:ExtractionProfile ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:producesProfile ; sh:class edt:ExtractionProfile ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasValidationStatus ; sh:class edt:ValidationStatus ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:startTime ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:endTime ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+edt:ParameterAdjustmentShape a sh:NodeShape ;
+    sh:targetClass edt:ParameterAdjustment ;
+    sh:property [ sh:path edt:performedBy ; sh:class edt:Agent ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:changesProperty ; sh:class edt:ObservableProperty ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [
+        sh:path edt:targetsOutcome ;
+        sh:nodeKind sh:IRI ;
+        sh:or (
+            [ sh:class edt:ObservableProperty ]
+            [ sh:class edt:SensoryDefect ]
+        )
+    ] ;
+    sh:property [ sh:path edt:partOfCalibration ; sh:class edt:EspressoCalibration ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:basedOnRecommendation ; sh:class edt:RecommendedAction ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:startTime ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:endTime ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:sparql [
+        sh:message "Un ajuste manual basado en una recomendación requiere que esta haya sido aceptada o modificada; todo ajuste debe referirse a la misma propiedad que la recomendación."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              $this edt:basedOnRecommendation ?recommendation ; edt:changesProperty ?actualProperty .
+              {
+                $this a edt:ManualParameterAdjustment .
+                FILTER NOT EXISTS {
+                  ?recommendation edt:hasValidationStatus ?status .
+                  FILTER (?status IN (edt:Accepted, edt:Modified))
+                }
+              }
+              UNION {
+                $this a edt:AutomaticParameterAdjustment .
+                ?recommendation edt:hasValidationStatus edt:Rejected .
+              }
+              UNION {
+                ?recommendation edt:adjustsProperty ?recommendedProperty .
+                FILTER (?recommendedProperty != ?actualProperty)
+              }
+            }
+        """
+    ] .
+
+edt:OutcomeEvaluationExtractionShape a sh:NodeShape ;
+    sh:targetSubjectsOf edt:evaluatesOutcomeOf ;
+    sh:class edt:EspressoExtraction ;
+    sh:property [ sh:path edt:evaluatesOutcomeOf ; sh:class edt:ParameterAdjustment ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [
+        sh:path (edt:evaluatesOutcomeOf edt:targetsOutcome) ;
+        sh:minCount 1 ;
+        sh:message "Todo ajuste evaluado debe declarar la propiedad o el defecto que pretendía corregir."@es
+    ] ;
+    sh:sparql [
+        sh:message "La extracción evaluadora debe estar precedida directamente por el ajuste y comenzar después de su finalización."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              $this edt:evaluatesOutcomeOf ?adjustment ; edt:startTime ?extractionStart .
+              {
+                FILTER NOT EXISTS { ?adjustment edt:precedes $this }
+              }
+              UNION {
+                ?adjustment edt:endTime ?adjustmentEnd .
+                FILTER (?extractionStart < ?adjustmentEnd)
+              }
+            }
+        """
+    ] .
+
+edt:AdjustmentOutcomeAssessmentShape a sh:NodeShape ;
+    sh:targetClass edt:AdjustmentOutcomeAssessment ;
+    sh:property [ sh:path edt:assessesAdjustment ; sh:class edt:ParameterAdjustment ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [
+        sh:path edt:hasOutcomeCategory ;
+        sh:class edt:AdjustmentOutcomeCategory ;
+        sh:in (edt:ExpectedOutcomeObserved edt:InsufficientOutcomeObserved edt:AdverseOutcomeObserved edt:InconclusiveOutcome) ;
+        sh:minCount 1 ; sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path edt:derivedFrom ;
+        sh:qualifiedValueShape [ sh:class edt:ObservedDifference ] ;
+        sh:qualifiedMinCount 1
+    ] ;
+    sh:sparql [
+        sh:message "La evaluación debe derivarse de una diferencia que incluya el ajuste como evidencia y compare una extracción declarada como evaluadora."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              $this edt:assessesAdjustment ?adjustment ; edt:derivedFrom ?difference .
+              ?difference a edt:ObservedDifference .
+              FILTER (
+                NOT EXISTS { ?difference edt:hasEvidence ?adjustment }
+                || NOT EXISTS {
+                  ?evaluation edt:evaluatesOutcomeOf ?adjustment .
+                  ?difference edt:comparesExtraction ?evaluation
+                }
+              )
+            }
+        """
+    ] .

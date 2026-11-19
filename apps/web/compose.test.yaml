@@ -1,0 +1,76 @@
+services:
+  db:
+    volumes: !reset []
+    tmpfs:
+      - /var/lib/postgresql/data
+
+  api:
+    environment:
+      APP_ENVIRONMENT: test
+      APP_SEED_DEMO: "true"
+    restart: "no"
+    depends_on:
+      migrate:
+        condition: service_healthy
+
+  migrate:
+    command:
+      - /bin/sh
+      - -c
+      - alembic upgrade head && touch /tmp/migrated && python -c 'import time; time.sleep(86400)'
+    healthcheck:
+      test: ["CMD", "python", "-c", "from pathlib import Path; assert Path('/tmp/migrated').exists()"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  web:
+    restart: "no"
+
+  llm-stub:
+    image: python:3.12.11-alpine3.22
+    working_dir: /stub
+    volumes:
+      - ./scripts:/stub:ro
+    command: ["python", "llm_stub.py"]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8090/health"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
+
+  api-tests:
+    build:
+      context: ../..
+      dockerfile: apps/web/backend/Dockerfile
+      target: test
+    environment:
+      APP_ENVIRONMENT: test
+      APP_DATABASE_URL: sqlite+pysqlite:////tmp/api-tests.sqlite3
+      APP_SEED_DEMO: "false"
+    depends_on:
+      api:
+        condition: service_healthy
+      llm-stub:
+        condition: service_healthy
+    command: ["python", "tests/compose_runner.py"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8091', timeout=2)"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    restart: "no"
+
+  e2e:
+    build:
+      context: ./frontend
+      target: e2e
+    environment:
+      E2E_BASE_URL: http://127.0.0.1:8099
+      E2E_UPSTREAM: http://web:8080
+    depends_on:
+      web:
+        condition: service_healthy
+      api-tests:
+        condition: service_healthy
+    restart: "no"

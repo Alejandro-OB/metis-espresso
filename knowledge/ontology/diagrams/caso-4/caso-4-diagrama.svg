@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1316" viewBox="0 0 1700 1316" role="img">
+<title>Caso 4</title>
+<style><![CDATA[
+    :root {
+      --paper: #fffdfa;
+      --ink: #293448;
+      --green: #397947;
+      --blue: #2c72aa;
+      --purple: #70499a;
+      --orange: #d85f2b;
+      --gold: #b97810;
+      --gray: #75808e;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      padding: 18px;
+      color: var(--ink);
+      font-family: "DejaVu Sans", "Noto Sans", sans-serif;
+      background: #eeeae3;
+    }
+
+    .sheet {
+      width: min(1700px, 100%);
+      min-width: 1280px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid #d8d2c8;
+      background: var(--paper);
+      box-shadow: 0 12px 34px rgba(51, 42, 34, 0.1);
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(330px, 0.65fr) minmax(850px, 1.35fr);
+      min-height: 132px;
+      align-items: center;
+      gap: 38px;
+      padding: 24px 30px;
+      border-bottom: 1px solid #ddd7ce;
+    }
+
+    .eyebrow {
+      margin: 0 0 6px;
+      color: #c9582b;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: #3f271e;
+      font-family: "DejaVu Serif", "Noto Serif", serif;
+      font-size: 54px;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .context {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 18px;
+      margin: 0;
+    }
+
+    .context div {
+      min-height: 76px;
+      padding: 11px 15px;
+      border-left: 3px solid #d7b18f;
+      background: #fcfaf6;
+    }
+
+    .context dt {
+      margin-bottom: 6px;
+      color: #c9582b;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .context dd {
+      margin: 0;
+      color: #354155;
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    svg { display: block; width: 100%; height: auto; background: var(--paper); }
+    .node rect { stroke-width: 1.8; filter: url(#shadow); }
+    .node text { font-size: 13px; font-weight: 680; text-anchor: middle; }
+    .node .type { font-size: 11.5px; font-weight: 560; }
+    .node .property { font-size: 10.5px; font-weight: 600; }
+    .node .category { font-size: 8.5px; font-weight: 820; letter-spacing: 0.8px; opacity: 0.78; }
+
+    .barista rect { fill: #f1f8f1; stroke: var(--green); }
+    .barista text { fill: #2f683a; }
+    .profile rect { fill: #fff5ec; stroke: #d96331; }
+    .profile text { fill: #b44d24; }
+    .extraction rect, .evidence rect { fill: #f1f8fc; stroke: var(--blue); }
+    .extraction text, .evidence text { fill: #235f88; }
+    .adjustment rect { fill: #f5f2fb; stroke: var(--purple); }
+    .adjustment text { fill: #63438f; }
+    .difference rect, .diagnosis rect { fill: #fff5ed; stroke: var(--orange); }
+    .difference text, .diagnosis text { fill: #9e421f; }
+    .explanation rect, .recommendation rect, .guidance rect { fill: #fff9ee; stroke: var(--gold); stroke-width: 2; }
+    .explanation text, .recommendation text, .guidance text { fill: #765318; }
+
+    .comparison rect { fill: #fbfcfd; stroke: #8793a1; stroke-width: 1.5; stroke-dasharray: 5 5; }
+    .comparison .heading { fill: #657181; font-size: 10px; font-weight: 820; letter-spacing: 0.6px; }
+    .comparison .result { fill: #364256; font-size: 12px; font-weight: 700; }
+    .comparison .success { fill: #2f7040; font-size: 12px; font-weight: 760; }
+    .comparison .muted { fill: #6d7888; font-size: 10.5px; font-weight: 620; }
+
+    .edge { fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .domain { stroke: var(--green); marker-end: url(#arrow-green); }
+    .observation { stroke: var(--blue); marker-end: url(#arrow-blue); }
+    .sequence { stroke: var(--purple); marker-end: url(#arrow-purple); }
+    .provenance { stroke: var(--blue); stroke-dasharray: 2 5; marker-end: url(#arrow-blue); }
+    .diagnostic { stroke: var(--orange); stroke-dasharray: 2 5; marker-end: url(#arrow-orange); }
+    .explanation-edge { stroke: var(--gold); marker-end: url(#arrow-gold); }
+    .operation { stroke: #8793a1; stroke-dasharray: 5 5; marker-end: url(#arrow-gray); }
+
+    .edge-label {
+      font-size: 10.5px;
+      font-weight: 780;
+      text-anchor: middle;
+      paint-order: stroke;
+      stroke: var(--paper);
+      stroke-width: 7px;
+      stroke-linejoin: round;
+    }
+    .green-label { fill: #356b40; }
+    .blue-label { fill: #2c6598; }
+    .purple-label { fill: #66438b; }
+    .orange-label { fill: #b94d22; }
+    .gold-label { fill: #8c5d0e; }
+    .gray-label { fill: #6d7888; }
+
+    footer {
+      display: flex;
+      min-height: 70px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 16px 28px;
+      color: #596477;
+      font-size: 11px;
+      font-weight: 700;
+      background: #faf8f4;
+    }
+    .legend { display: flex; flex-wrap: wrap; gap: 26px; }
+    .legend span { display: inline-flex; align-items: center; gap: 9px; }
+    .sample { width: 34px; border-top: 2px solid var(--green); }
+    .sample.sequence-sample { border-color: var(--purple); }
+    .sample.provenance-sample { border-color: var(--blue); border-top-style: dotted; }
+    .sample.diagnostic-sample { border-color: var(--orange); border-top-style: dotted; }
+    .sample.explanation-sample { border-color: var(--gold); }
+    footer p { margin: 0; white-space: nowrap; }
+  
+
+      .export-header-bg { fill: #fffdfa; }
+      .export-separator { stroke: #ddd7ce; stroke-width: 1; }
+      .export-eyebrow { fill: #c9582b; font: 800 11px 'DejaVu Sans','Noto Sans',sans-serif; letter-spacing: 1px; }
+      .export-title { fill: #3f271e; font-family: 'DejaVu Serif','Noto Serif',serif; font-weight: 700; }
+      .export-title-short { font-size: 47px; }
+      .export-title-long { font-size: 32px; }
+      .export-context { fill: #fcfaf6; }
+      .export-context-rule { fill: #d7b18f; }
+      .export-context-term { fill: #c9582b; font: 800 11px 'DejaVu Sans','Noto Sans',sans-serif; letter-spacing: .5px; }
+      .export-context-description { fill: #354155; font: 650 12px 'DejaVu Sans','Noto Sans',sans-serif; }
+      .export-footer-bg { fill: #faf8f4; }
+      .export-legend, .export-footer-note { fill: #596477; font: 700 10.5px 'DejaVu Sans','Noto Sans',sans-serif; }
+    ]]></style>
+<rect x="0" y="0" width="1700" height="1316" fill="#fffdfa"/>
+<g id="cabecera" aria-label="Cabecera del diagrama"><rect class="export-header-bg" x="0" y="0" width="1700" height="140"/><text class="export-eyebrow" x="28" y="27" text-anchor="start"><tspan x="28" dy="0">ONTOLOGÍA DEL PROCESO DE EXTRACCIÓN DE ESPRESSO</tspan></text><text class="export-title export-title-short" x="28" y="78" text-anchor="start"><tspan x="28" dy="0">Caso 4</tspan></text><rect class="export-context" x="646" y="24" width="505" height="93" rx="4"/><rect class="export-context-rule" x="646" y="24" width="3" height="93"/><text class="export-context-term" x="661" y="45" text-anchor="start"><tspan x="661" dy="0">SITUACIÓN</tspan></text><text class="export-context-description" x="661" y="65" text-anchor="start"><tspan x="661" dy="0">El cambio 12→13 no modifica 30 g/20 s. El barista amplía el ajuste a</tspan><tspan x="661" dy="16">15 y obtiene 36 g/27 s con los demás controles constantes.</tspan></text><rect class="export-context" x="1167" y="24" width="505" height="93" rx="4"/><rect class="export-context-rule" x="1167" y="24" width="3" height="93"/><text class="export-context-term" x="1182" y="45" text-anchor="start"><tspan x="1182" dy="0">PREGUNTA</tspan></text><text class="export-context-description" x="1182" y="65" text-anchor="start"><tspan x="1182" dy="0">¿Por qué el primer ajuste no corrigió el problema?</tspan></text><line class="export-separator" x1="0" y1="139" x2="1700" y2="139"/></g>
+<g id="diagrama" transform="translate(0 140)">
+
+      <title id="svg-title">Caso 4, confirmación mediante ajustes progresivos</title>
+      <desc id="svg-desc">Tres extracciones enlazadas por dos ajustes manuales de molienda. La segunda extracción conserva masa y tiempo bajos; la tercera recupera ambos valores con los controles constantes. El razonador materializa un diagnóstico contextual, una explicación y una recomendación.</desc>
+
+      <defs>
+        <filter id="shadow" x="-20%" y="-30%" width="140%" height="170%"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#293448" flood-opacity="0.08"/></filter>
+        <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#397947"/></marker>
+        <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2c72aa"/></marker>
+        <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#70499a"/></marker>
+        <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d85f2b"/></marker>
+        <marker id="arrow-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b97810"/></marker>
+        <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8793a1"/></marker>
+      </defs>
+
+      <!-- Contexto ontológico -->
+      <path class="edge domain" d="M 720 67 L 300 67"/>
+      <text class="edge-label green-label" x="510" y="55">definedBy</text>
+      <path class="edge observation" d="M 980 67 L 1190 67"/>
+      <text class="edge-label blue-label" x="1085" y="55">hasParameterSpecification</text>
+      <path class="edge domain" d="M 165 180 C 250 125 545 118 770 105"/>
+      <text class="edge-label green-label" x="450" y="125">usesProfile</text>
+      <path class="edge domain" d="M 785 180 L 830 105"/>
+      <text class="edge-label green-label" x="775" y="145">usesProfile</text>
+      <path class="edge domain" d="M 1405 180 C 1320 128 1110 118 930 105"/>
+      <text class="edge-label green-label" x="1190" y="125">usesProfile</text>
+      <path class="edge domain" d="M 165 180 C 145 135 160 118 185 105"/>
+      <text class="edge-label green-label" x="115" y="139">performedBy</text>
+
+      <!-- Secuencia temporal -->
+      <path class="edge sequence" d="M 290 225 L 350 225"/>
+      <text class="edge-label purple-label" x="320" y="212">precedes</text>
+      <path class="edge sequence" d="M 600 225 L 660 225"/>
+      <text class="edge-label purple-label" x="630" y="212">precedes</text>
+      <path class="edge sequence" d="M 910 225 L 970 225"/>
+      <text class="edge-label purple-label" x="940" y="212">precedes</text>
+      <path class="edge sequence" d="M 1220 225 L 1280 225"/>
+      <text class="edge-label purple-label" x="1250" y="212">precedes</text>
+
+      <!-- Observaciones -->
+      <path class="edge observation" d="M 165 270 L 165 345"/>
+      <text class="edge-label blue-label" x="225" y="315">hasObservation</text>
+      <path class="edge observation" d="M 785 270 L 785 345"/>
+      <text class="edge-label blue-label" x="845" y="315">hasObservation</text>
+      <path class="edge observation" d="M 1405 270 L 1405 345"/>
+      <text class="edge-label blue-label" x="1465" y="315">hasObservation</text>
+
+      <!-- Entradas de la comparación externa -->
+      <path class="edge operation" d="M 165 455 C 250 485 350 500 470 520"/>
+      <path class="edge operation" d="M 785 455 L 785 510"/>
+      <path class="edge operation" d="M 1405 455 C 1310 485 1215 500 1100 520"/>
+      <path class="edge operation" d="M 1375 110 C 1375 280 1235 400 1040 510"/>
+      <path class="edge operation" d="M 475 285 C 500 370 540 445 600 510"/>
+      <path class="edge operation" d="M 1095 285 C 1070 370 1030 445 970 510"/>
+
+      <!-- Materialización -->
+      <path class="edge operation" d="M 620 685 C 520 715 410 730 300 760"/>
+      <text class="edge-label gray-label" x="470" y="720">materializa</text>
+
+      <!-- Relaciones del conocimiento -->
+      <path class="edge diagnostic" d="M 650 805 L 500 805"/>
+      <text class="edge-label orange-label" x="575" y="793">isDiagnosisOf</text>
+      <path class="edge provenance" d="M 650 835 L 500 835"/>
+      <text class="edge-label blue-label" x="575" y="854">derivedFrom</text>
+      <path class="edge explanation-edge" d="M 1190 815 L 1070 815"/>
+      <text class="edge-label gold-label" x="1130" y="803">explains</text>
+      <path class="edge explanation-edge" d="M 1190 850 C 1020 905 650 905 500 850"/>
+      <text class="edge-label gold-label" x="845" y="899">hasEvidence</text>
+      <path class="edge diagnostic" d="M 900 270 C 1125 420 1160 735 1050 950"/>
+      <text class="edge-label orange-label" x="1138" y="705">hasRecommendedAction</text>
+      <path class="edge explanation-edge" d="M 850 950 L 850 870"/>
+      <text class="edge-label gold-label" x="910" y="917">respondsTo</text>
+      <path class="edge explanation-edge" d="M 1080 995 L 1240 995"/>
+      <text class="edge-label gold-label" x="1160" y="983">followsProcedure</text>
+      <path class="edge explanation-edge" d="M 620 995 L 485 995"/>
+      <text class="edge-label gold-label" x="552" y="983">generatedBy</text>
+      <path class="edge explanation-edge" d="M 280 870 L 280 950"/>
+      <text class="edge-label gold-label" x="335" y="915">generatedBy</text>
+
+      <!-- Entidades de contexto -->
+      <g class="node barista"><rect x="80" y="30" width="220" height="75" rx="9"/><text x="190" y="47"><tspan class="category" x="190">ACTOR</tspan><tspan x="190" dy="22">BaristaA</tspan><tspan class="type" x="190" dy="19">Barista</tspan></text></g>
+      <g class="node profile"><rect x="720" y="30" width="260" height="75" rx="9"/><text x="850" y="47"><tspan class="category" x="850">PERFIL</tspan><tspan x="850" dy="22">perfil_001</tspan><tspan class="type" x="850" dy="19">ExtractionProfile</tspan></text></g>
+      <g class="node evidence"><rect x="1190" y="25" width="370" height="85" rx="9"/><text x="1375" y="42"><tspan class="category" x="1375">ESPECIFICACIONES DEL PERFIL</tspan><tspan x="1375" dy="22">SpecBeverageMass: 35–37 g</tspan><tspan x="1375" dy="20">SpecTime: 25–30 s</tspan><tspan class="type" x="1375" dy="18">ProfileParameterSpecification</tspan></text></g>
+
+      <!-- Ruta principal -->
+      <g class="node extraction"><rect x="40" y="180" width="250" height="90" rx="9"/><text x="165" y="197"><tspan class="category" x="165">PRIMERA EXTRACCIÓN</tspan><tspan x="165" dy="22">C4Extraction1</tspan><tspan class="type" x="165" dy="19">EspressoExtraction</tspan><tspan class="property" x="165" dy="17">clic 12 · 30 g · 20 s</tspan></text></g>
+      <g class="node adjustment"><rect x="350" y="180" width="250" height="105" rx="9"/><text x="475" y="197"><tspan class="category" x="475">PRIMER AJUSTE</tspan><tspan x="475" dy="22">C4Adjustment</tspan><tspan class="type" x="475" dy="19">ManualParameterAdjustment</tspan><tspan class="property" x="475" dy="17">GrindSetting · 12 → 13</tspan><tspan class="property" x="475" dy="16">targetsOutcome → BeverageMass · ExtractionTime</tspan></text></g>
+      <g class="node extraction"><rect x="660" y="180" width="250" height="90" rx="9"/><text x="785" y="197"><tspan class="category" x="785">SEGUNDA EXTRACCIÓN</tspan><tspan x="785" dy="22">C4Extraction2</tspan><tspan class="type" x="785" dy="19">EspressoExtraction</tspan><tspan class="property" x="785" dy="17">clic 13 · 30 g · 20 s</tspan></text></g>
+      <g class="node adjustment"><rect x="970" y="180" width="250" height="105" rx="9"/><text x="1095" y="197"><tspan class="category" x="1095">SEGUNDO AJUSTE</tspan><tspan x="1095" dy="22">C4Adjustment2</tspan><tspan class="type" x="1095" dy="19">ManualParameterAdjustment</tspan><tspan class="property" x="1095" dy="17">GrindSetting · 13 → 15</tspan><tspan class="property" x="1095" dy="16">targetsOutcome → BeverageMass · ExtractionTime</tspan></text></g>
+      <g class="node extraction"><rect x="1280" y="180" width="250" height="90" rx="9"/><text x="1405" y="197"><tspan class="category" x="1405">TERCERA EXTRACCIÓN</tspan><tspan x="1405" dy="22">C4Extraction3</tspan><tspan class="type" x="1405" dy="19">EspressoExtraction</tspan><tspan class="property" x="1405" dy="17">clic 15 · 36 g · 27 s</tspan></text></g>
+
+      <!-- Evidencia observada -->
+      <g class="node evidence"><rect x="20" y="345" width="290" height="110" rx="9"/><text x="165" y="362"><tspan class="category" x="165">OBSERVACIONES 1</tspan><tspan x="165" dy="22">C4GrindObs1: 12</tspan><tspan x="165" dy="20">C4MassObs1: 30 g</tspan><tspan x="165" dy="20">C4TimeObs1: 20 s</tspan><tspan class="type" x="165" dy="18">MeasuredObservation</tspan></text></g>
+      <g class="node evidence"><rect x="640" y="345" width="290" height="110" rx="9"/><text x="785" y="362"><tspan class="category" x="785">OBSERVACIONES 2</tspan><tspan x="785" dy="22">C4GrindObs2: 13</tspan><tspan x="785" dy="20">C4MassObs2: 30 g</tspan><tspan x="785" dy="20">C4TimeObs2: 20 s</tspan><tspan class="type" x="785" dy="18">MeasuredObservation</tspan></text></g>
+      <g class="node evidence"><rect x="1260" y="345" width="290" height="110" rx="9"/><text x="1405" y="362"><tspan class="category" x="1405">OBSERVACIONES 3</tspan><tspan x="1405" dy="22">C4GrindObs3: 15</tspan><tspan x="1405" dy="20">C4MassObs3: 36 g</tspan><tspan x="1405" dy="20">C4TimeObs3: 27 s</tspan><tspan class="type" x="1405" dy="18">MeasuredObservation</tspan></text></g>
+
+      <!-- Operación externa -->
+      <g class="comparison"><rect x="300" y="510" width="1100" height="175" rx="12"/><text x="850" y="532" text-anchor="middle"><tspan class="heading" x="850">COMPARACIÓN PROGRESIVA EXTERNA · EVIDENCEBASEDREASONER</tspan><tspan class="result" x="850" dy="28">Primer cambio 12→13: 30 g/20 s → 30 g/20 s · masa y tiempo continúan bajo el perfil</tspan><tspan class="success" x="850" dy="24">Segundo cambio 13→15: 30 g/20 s → 36 g/27 s · masa y tiempo entran en el perfil</tspan><tspan class="muted" x="850" dy="24">Controles iguales en las tres pruebas: dosis 18 g · temperatura 93 °C · presión 9 bar · estabilidad 0,4 °C</tspan><tspan class="muted" x="850" dy="22">La comparación no interpreta universalmente los clics: limita la conclusión al café y contexto observados.</tspan></text></g>
+
+      <!-- Conocimiento materializado -->
+      <g class="node difference"><rect x="70" y="760" width="430" height="110" rx="9"/><text x="285" y="777"><tspan class="category" x="285">DIFERENCIA OBSERVADA</tspan><tspan x="285" dy="22">Contraste progresivo de tres pruebas</tspan><tspan class="type" x="285" dy="19">ObservedDifference · observed-difference</tspan><tspan class="property" x="285" dy="18">comparesExtraction → C4Extraction1, 2 y 3</tspan><tspan class="property" x="285" dy="17">hasEvidence → observaciones + ajustes + desviaciones</tspan></text></g>
+      <g class="node diagnosis"><rect x="650" y="760" width="420" height="110" rx="9"/><text x="860" y="777"><tspan class="category" x="860">DIAGNÓSTICO</tspan><tspan x="860" dy="22">Primer ajuste insuficiente</tspan><tspan class="type" x="860" dy="19">Diagnosis · probable-diagnosis</tspan><tspan class="property" x="860" dy="18">12→13 no respondió; 13→15 recuperó 36 g/27 s</tspan><tspan class="property" x="860" dy="17">Alcance: CoffeeLotA + EnvC4</tspan></text></g>
+      <g class="node explanation"><rect x="1190" y="760" width="440" height="110" rx="9"/><text x="1410" y="777"><tspan class="category" x="1410">EXPLICACIÓN PROBABLE</tspan><tspan x="1410" dy="22">La magnitud del primer cambio no fue suficiente</tspan><tspan class="type" x="1410" dy="19">ExplanationAssertion · probable-explanation</tspan><tspan class="property" x="1410" dy="18">El cambio mayor recuperó dos variables bajo controles iguales</tspan><tspan class="property" x="1410" dy="17">No constituye una regla universal del molino</tspan></text></g>
+
+      <g class="node guidance"><rect x="85" y="950" width="400" height="90" rx="9"/><text x="285" y="967"><tspan class="category" x="285">AGENTE DE RAZONAMIENTO</tspan><tspan x="285" dy="23">Razonador basado en evidencia</tspan><tspan class="type" x="285" dy="20">EvidenceBasedReasoner · SoftwareAgent</tspan></text></g>
+      <g class="node recommendation"><rect x="620" y="950" width="460" height="105" rx="9"/><text x="850" y="967"><tspan class="category" x="850">PRUEBA RECOMENDADA</tspan><tspan x="850" dy="22">Repetir en clic 15 con los controles constantes</tspan><tspan class="type" x="850" dy="19">RecommendedAction</tspan><tspan class="property" x="850" dy="18">Evaluar sensorialmente la bebida</tspan><tspan class="property" x="850" dy="17">Si se sostiene, conservarlo como referencia contextual</tspan></text></g>
+      <g class="node guidance"><rect x="1240" y="955" width="390" height="80" rx="9"/><text x="1435" y="972"><tspan class="category" x="1435">PROCEDIMIENTO DOCUMENTADO</tspan><tspan x="1435" dy="23">IterativeCalibrationProcedure</tspan><tspan class="type" x="1435" dy="20">CalibrationProcedure</tspan></text></g>
+    
+</g>
+<g id="leyenda" aria-label="Leyenda del diagrama"><rect class="export-footer-bg" x="0" y="1250" width="1700" height="66"/><line x1="26" y1="1280" x2="56" y2="1280" stroke="#347848" stroke-width="2"/><text class="export-legend" x="65" y="1284" text-anchor="start"><tspan x="65" dy="0">Relación del dominio</tspan></text><line x1="220.0" y1="1280" x2="250.0" y2="1280" stroke="#7250a0" stroke-width="2"/><text class="export-legend" x="259" y="1284" text-anchor="start"><tspan x="259" dy="0">Secuencia temporal</tspan></text><line x1="401.2" y1="1280" x2="431.2" y2="1280" stroke="#2876ad" stroke-width="2" stroke-dasharray="2 5"/><text class="export-legend" x="440.2" y="1284" text-anchor="start"><tspan x="440.2" dy="0">Procedencia</tspan></text><line x1="537.6" y1="1280" x2="567.6" y2="1280" stroke="#d9602e" stroke-width="2" stroke-dasharray="2 5"/><text class="export-legend" x="576.6" y="1284" text-anchor="start"><tspan x="576.6" dy="0">Relación diagnóstica</tspan></text><line x1="731.6" y1="1280" x2="761.6" y2="1280" stroke="#347848" stroke-width="2"/><text class="export-legend" x="770.6" y="1284" text-anchor="start"><tspan x="770.6" dy="0">Explicación y recomendación</tspan></text><text class="export-footer-note" x="1674" y="1284" text-anchor="end"><tspan x="1674" dy="0">Ontología 3.5.0 · Diagrama del caso 4</tspan></text></g>
+</svg>

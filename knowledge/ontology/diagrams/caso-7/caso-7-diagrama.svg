@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1466" viewBox="0 0 1700 1466" role="img">
+<title>Caso 7</title>
+<style><![CDATA[
+    :root {
+      --paper: #fffdfa;
+      --ink: #293448;
+      --green: #397947;
+      --blue: #2c72aa;
+      --purple: #70499a;
+      --orange: #d85f2b;
+      --gold: #b97810;
+      --gray: #75808e;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      padding: 18px;
+      color: var(--ink);
+      font-family: "DejaVu Sans", "Noto Sans", sans-serif;
+      background: #eeeae3;
+    }
+    .sheet {
+      width: min(1700px, 100%);
+      min-width: 1280px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid #d8d2c8;
+      background: var(--paper);
+      box-shadow: 0 12px 34px rgba(51, 42, 34, 0.1);
+    }
+    header {
+      display: grid;
+      grid-template-columns: minmax(330px, 0.65fr) minmax(850px, 1.35fr);
+      min-height: 132px;
+      align-items: center;
+      gap: 38px;
+      padding: 24px 30px;
+      border-bottom: 1px solid #ddd7ce;
+    }
+    .eyebrow {
+      margin: 0 0 6px;
+      color: #c9582b;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      color: #3f271e;
+      font-family: "DejaVu Serif", "Noto Serif", serif;
+      font-size: 54px;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+    .context {
+      display: grid;
+      grid-template-columns: 1.22fr 0.78fr;
+      gap: 18px;
+      margin: 0;
+    }
+    .context div {
+      min-height: 76px;
+      padding: 11px 15px;
+      border-left: 3px solid #d7b18f;
+      background: #fcfaf6;
+    }
+    .context dt {
+      margin-bottom: 6px;
+      color: #c9582b;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .context dd {
+      margin: 0;
+      color: #354155;
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    svg { display: block; width: 100%; height: auto; background: var(--paper); }
+    .node rect { stroke-width: 1.8; filter: url(#shadow); }
+    .node text { font-size: 13px; font-weight: 680; text-anchor: middle; }
+    .node .type { font-size: 11.5px; font-weight: 560; }
+    .node .property { font-size: 10.5px; font-weight: 600; }
+    .node .category { font-size: 8.5px; font-weight: 820; letter-spacing: 0.8px; opacity: 0.78; }
+
+    .barista rect { fill: #f1f8f1; stroke: var(--green); }
+    .barista text { fill: #2f683a; }
+    .profile rect { fill: #fff5ec; stroke: #d96331; }
+    .profile text { fill: #b44d24; }
+    .calibration rect { fill: #f2f7ef; stroke: #5e8157; }
+    .calibration text { fill: #45643f; }
+    .status rect { fill: #fff1ee; stroke: #c95f50; }
+    .status text { fill: #a44b3f; }
+    .extraction rect, .evidence rect { fill: #f1f8fc; stroke: var(--blue); }
+    .extraction text, .evidence text { fill: #235f88; }
+    .adjustment rect, .sensory rect, .defect rect { fill: #f5f2fb; stroke: var(--purple); }
+    .adjustment text, .sensory text, .defect text { fill: #63438f; }
+    .difference rect, .deviation rect, .diagnosis rect { fill: #fff5ed; stroke: var(--orange); }
+    .difference text, .deviation text, .diagnosis text { fill: #9e421f; }
+    .explanation rect, .recommendation rect, .guidance rect { fill: #fff9ee; stroke: var(--gold); stroke-width: 2; }
+    .explanation text, .recommendation text, .guidance text { fill: #765318; }
+
+    .comparison rect { fill: #fbfcfd; stroke: #8793a1; stroke-width: 1.5; stroke-dasharray: 5 5; }
+    .comparison .heading { fill: #657181; font-size: 10px; font-weight: 820; letter-spacing: 0.6px; }
+    .comparison .agent { fill: #364256; font-size: 12px; font-weight: 780; }
+    .comparison .result { fill: #364256; font-size: 12px; font-weight: 700; }
+    .comparison .warning { fill: #a54726; font-size: 12px; font-weight: 760; }
+    .comparison .muted { fill: #6d7888; font-size: 10.5px; font-weight: 620; }
+
+    .edge { fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .domain { stroke: var(--green); marker-end: url(#arrow-green); }
+    .observation { stroke: var(--blue); marker-end: url(#arrow-blue); }
+    .sequence { stroke: var(--purple); marker-end: url(#arrow-purple); }
+    .provenance { stroke: var(--blue); stroke-dasharray: 2 5; marker-end: url(#arrow-blue); }
+    .diagnostic { stroke: var(--orange); stroke-dasharray: 2 5; marker-end: url(#arrow-orange); }
+    .explanation-edge { stroke: var(--gold); marker-end: url(#arrow-gold); }
+    .operation { stroke: #8793a1; stroke-dasharray: 5 5; marker-end: url(#arrow-gray); }
+
+    .edge-label {
+      font-size: 10.5px;
+      font-weight: 780;
+      text-anchor: middle;
+      paint-order: stroke;
+      stroke: var(--paper);
+      stroke-width: 7px;
+      stroke-linejoin: round;
+    }
+    .green-label { fill: #356b40; }
+    .blue-label { fill: #2c6598; }
+    .purple-label { fill: #66438b; }
+    .orange-label { fill: #b94d22; }
+    .gold-label { fill: #8c5d0e; }
+    .gray-label { fill: #6d7888; }
+
+    footer {
+      display: flex;
+      min-height: 70px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 16px 28px;
+      color: #596477;
+      font-size: 11px;
+      font-weight: 700;
+      background: #faf8f4;
+    }
+    .legend { display: flex; flex-wrap: wrap; gap: 26px; }
+    .legend span { display: inline-flex; align-items: center; gap: 9px; }
+    .sample { width: 34px; border-top: 2px solid var(--green); }
+    .sample.sequence-sample { border-color: var(--purple); }
+    .sample.provenance-sample { border-color: var(--blue); border-top-style: dotted; }
+    .sample.diagnostic-sample { border-color: var(--orange); border-top-style: dotted; }
+    .sample.explanation-sample { border-color: var(--gold); }
+    footer p { margin: 0; white-space: nowrap; }
+  
+
+      .export-header-bg { fill: #fffdfa; }
+      .export-separator { stroke: #ddd7ce; stroke-width: 1; }
+      .export-eyebrow { fill: #c9582b; font: 800 11px 'DejaVu Sans','Noto Sans',sans-serif; letter-spacing: 1px; }
+      .export-title { fill: #3f271e; font-family: 'DejaVu Serif','Noto Serif',serif; font-weight: 700; }
+      .export-title-short { font-size: 47px; }
+      .export-title-long { font-size: 32px; }
+      .export-context { fill: #fcfaf6; }
+      .export-context-rule { fill: #d7b18f; }
+      .export-context-term { fill: #c9582b; font: 800 11px 'DejaVu Sans','Noto Sans',sans-serif; letter-spacing: .5px; }
+      .export-context-description { fill: #354155; font: 650 12px 'DejaVu Sans','Noto Sans',sans-serif; }
+      .export-footer-bg { fill: #faf8f4; }
+      .export-legend, .export-footer-note { fill: #596477; font: 700 10.5px 'DejaVu Sans','Noto Sans',sans-serif; }
+    ]]></style>
+<rect x="0" y="0" width="1700" height="1466" fill="#fffdfa"/>
+<g id="cabecera" aria-label="Cabecera del diagrama"><rect class="export-header-bg" x="0" y="0" width="1700" height="140"/><text class="export-eyebrow" x="28" y="27" text-anchor="start"><tspan x="28" dy="0">ONTOLOGÍA DEL PROCESO DE EXTRACCIÓN DE ESPRESSO · ESCENARIO SINTÉTICO</tspan></text><text class="export-title export-title-short" x="28" y="78" text-anchor="start"><tspan x="28" dy="0">Caso 7</tspan></text><rect class="export-context" x="646" y="24" width="505" height="93" rx="4"/><rect class="export-context-rule" x="646" y="24" width="3" height="93"/><text class="export-context-term" x="661" y="45" text-anchor="start"><tspan x="661" dy="0">SITUACIÓN</tspan></text><text class="export-context-description" x="661" y="65" text-anchor="start"><tspan x="661" dy="0">Tras aumentar el tiempo de 28 a 31 s, disminuye la acidez percibida y</tspan><tspan x="661" dy="16">en la segunda bebida se registra amargor excesivo.</tspan></text><rect class="export-context" x="1167" y="24" width="505" height="93" rx="4"/><rect class="export-context-rule" x="1167" y="24" width="3" height="93"/><text class="export-context-term" x="1182" y="45" text-anchor="start"><tspan x="1182" dy="0">PREGUNTA</tspan></text><text class="export-context-description" x="1182" y="65" text-anchor="start"><tspan x="1182" dy="0">¿Qué factor registrado explica mejor la aparición del amargor?</tspan></text><line class="export-separator" x1="0" y1="139" x2="1700" y2="139"/></g>
+<g id="diagrama" transform="translate(0 140)">
+
+      <title id="svg-title">Caso 7, contraste sensorial posterior a un ajuste del tiempo</title>
+      <desc id="svg-desc">Escenario sintético con dos extracciones enlazadas por un ajuste manual del tiempo. Ambas evalúan acidez y amargor; un razonador externo contrasta las puntuaciones, el perfil y los controles para materializar una explicación probable y una prueba de confirmación.</desc>
+      <defs>
+        <filter id="shadow" x="-20%" y="-30%" width="140%" height="170%"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#293448" flood-opacity="0.08"/></filter>
+        <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#397947"/></marker>
+        <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2c72aa"/></marker>
+        <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#70499a"/></marker>
+        <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d85f2b"/></marker>
+        <marker id="arrow-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b97810"/></marker>
+        <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8793a1"/></marker>
+      </defs>
+
+      <!-- Contexto: una sola línea de lectura -->
+      <path class="edge domain" d="M 480 67 L 300 67"/>
+      <text class="edge-label green-label" x="390" y="55">definedBy</text>
+      <path class="edge domain" d="M 830 67 L 730 67"/>
+      <text class="edge-label green-label" x="780" y="55">usesProfile</text>
+      <path class="edge domain" d="M 830 45 C 650 8 420 8 265 30"/>
+      <text class="edge-label green-label" x="550" y="20">performedBy</text>
+      <path class="edge domain" d="M 1190 67 L 1390 67"/>
+      <text class="edge-label green-label" x="1290" y="55">hasValidationStatus</text>
+
+      <!-- La calibración agrupa la ruta -->
+      <path class="edge domain" d="M 885 115 C 700 145 420 155 260 190"/>
+      <text class="edge-label green-label" x="570" y="151">hasTrialExtraction</text>
+      <path class="edge domain" d="M 1010 115 C 965 145 905 165 850 190"/>
+      <text class="edge-label green-label" x="940" y="150">hasParameterAdjustment</text>
+      <path class="edge domain" d="M 1140 115 C 1260 145 1390 158 1450 190"/>
+      <text class="edge-label green-label" x="1285" y="151">hasTrialExtraction</text>
+
+      <!-- Secuencia principal -->
+      <path class="edge sequence" d="M 380 235 L 700 235"/>
+      <text class="edge-label purple-label" x="540" y="222">precedes</text>
+      <path class="edge sequence" d="M 1000 235 L 1320 235"/>
+      <text class="edge-label purple-label" x="1160" y="222">precedes</text>
+
+      <!-- Ramas de evidencia -->
+      <path class="edge observation" d="M 170 280 L 170 345"/>
+      <text class="edge-label blue-label" x="230" y="320">hasObservation</text>
+      <path class="edge sequence" d="M 300 280 C 355 305 435 320 505 345"/>
+      <text class="edge-label purple-label" x="405" y="310">hasSensoryEvaluation</text>
+      <path class="edge sequence" d="M 505 465 L 505 490"/>
+      <text class="edge-label purple-label" x="580" y="484">hasPerceivedDefect</text>
+
+      <path class="edge observation" d="M 1400 280 C 1340 305 1235 320 1190 345"/>
+      <text class="edge-label blue-label" x="1300" y="310">hasObservation</text>
+      <path class="edge sequence" d="M 1510 280 L 1510 345"/>
+      <text class="edge-label purple-label" x="1573" y="320">hasSensoryEvaluation</text>
+      <path class="edge sequence" d="M 1510 465 L 1510 490"/>
+      <text class="edge-label purple-label" x="1585" y="484">hasPerceivedDefect</text>
+
+      <path class="edge observation" d="M 605 105 C 610 205 620 330 700 390"/>
+      <text class="edge-label blue-label" x="650" y="320">hasParameterSpecification</text>
+
+      <!-- Entradas de la comparación -->
+      <path class="edge operation" d="M 170 445 C 240 515 350 545 450 590"/>
+      <path class="edge operation" d="M 505 565 C 570 575 620 582 680 590"/>
+      <path class="edge operation" d="M 850 295 L 850 590"/>
+      <path class="edge operation" d="M 850 435 L 850 590"/>
+      <path class="edge operation" d="M 1190 445 C 1135 515 1080 550 1020 590"/>
+      <path class="edge operation" d="M 1510 565 C 1420 575 1330 582 1240 590"/>
+
+      <!-- Materialización -->
+      <path class="edge operation" d="M 620 760 C 540 780 430 790 340 810"/>
+      <text class="edge-label gray-label" x="480" y="790">materializa</text>
+      <path class="edge operation" d="M 900 760 L 825 810"/>
+      <text class="edge-label gray-label" x="860" y="790">materializa</text>
+
+      <!-- Convergencia hacia el diagnóstico -->
+      <path class="edge provenance" d="M 820 950 C 700 930 520 925 440 910"/>
+      <text class="edge-label blue-label" x="625" y="925">derivedFrom</text>
+      <path class="edge provenance" d="M 955 950 L 850 900"/>
+      <text class="edge-label blue-label" x="915" y="925">derivedFrom</text>
+      <path class="edge diagnostic" d="M 1140 985 C 1330 910 1475 745 1510 565"/>
+      <text class="edge-label orange-label" x="1380" y="815">isDiagnosisOf</text>
+      <path class="edge explanation-edge" d="M 1260 1005 L 1140 1005"/>
+      <text class="edge-label gold-label" x="1200" y="993">explains</text>
+
+      <!-- Recomendación y procedimiento -->
+      <path class="edge explanation-edge" d="M 930 1120 L 930 1060"/>
+      <text class="edge-label gold-label" x="988" y="1094">respondsTo</text>
+      <path class="edge explanation-edge" d="M 1170 1170 L 1320 1170"/>
+      <text class="edge-label gold-label" x="1245" y="1158">followsProcedure</text>
+      <path class="edge diagnostic" d="M 1620 235 C 1660 390 1660 1080 1570 1235 C 1430 1250 1260 1245 1170 1205"/>
+      <text class="edge-label orange-label" x="1620" y="850">hasRecommendedAction</text>
+
+      <!-- Entidades de contexto -->
+      <g class="node barista"><rect x="80" y="30" width="220" height="75" rx="9"/><text x="190" y="47"><tspan class="category" x="190">ACTOR</tspan><tspan x="190" dy="22">BaristaA</tspan><tspan class="type" x="190" dy="19">Barista</tspan></text></g>
+      <g class="node profile"><rect x="480" y="30" width="250" height="75" rx="9"/><text x="605" y="47"><tspan class="category" x="605">PERFIL</tspan><tspan x="605" dy="22">perfil_001</tspan><tspan class="type" x="605" dy="19">ExtractionProfile</tspan></text></g>
+      <g class="node calibration"><rect x="830" y="25" width="360" height="90" rx="9"/><text x="1010" y="42"><tspan class="category" x="1010">CALIBRACIÓN</tspan><tspan x="1010" dy="22">C7Calibration</tspan><tspan class="type" x="1010" dy="19">EspressoCalibration</tspan><tspan class="property" x="1010" dy="17">dos pruebas · un ajuste manual</tspan></text></g>
+      <g class="node status"><rect x="1390" y="35" width="220" height="65" rx="9"/><text x="1500" y="52"><tspan class="category" x="1500">ESTADO</tspan><tspan x="1500" dy="22">Rejected</tspan><tspan class="type" x="1500" dy="18">ValidationStatus</tspan></text></g>
+
+      <!-- Ruta temporal -->
+      <g class="node extraction"><rect x="80" y="190" width="300" height="90" rx="9"/><text x="230" y="207"><tspan class="category" x="230">PRIMERA EXTRACCIÓN</tspan><tspan x="230" dy="22">C7Extraction1</tspan><tspan class="type" x="230" dy="19">EspressoExtraction</tspan><tspan class="property" x="230" dy="17">tiempo 28 s</tspan></text></g>
+      <g class="node adjustment"><rect x="700" y="190" width="300" height="105" rx="9"/><text x="850" y="207"><tspan class="category" x="850">AJUSTE MANUAL</tspan><tspan x="850" dy="22">C7Adjustment</tspan><tspan class="type" x="850" dy="19">ManualParameterAdjustment</tspan><tspan class="property" x="850" dy="17">ExtractionTime · 28 → 31 s</tspan><tspan class="property" x="850" dy="16">targetsOutcome → ExcessiveAcidity</tspan></text></g>
+      <g class="node extraction"><rect x="1320" y="190" width="300" height="90" rx="9"/><text x="1470" y="207"><tspan class="category" x="1470">SEGUNDA EXTRACCIÓN</tspan><tspan x="1470" dy="22">C7Extraction2</tspan><tspan class="type" x="1470" dy="19">EspressoExtraction</tspan><tspan class="property" x="1470" dy="17">tiempo 31 s</tspan></text></g>
+
+      <!-- Evidencia -->
+      <g class="node evidence"><rect x="35" y="345" width="270" height="100" rx="9"/><text x="170" y="362"><tspan class="category" x="170">OBSERVACIONES 1</tspan><tspan x="170" dy="22">C7TimeObs1: 28 s</tspan><tspan x="170" dy="20">masa 36 g · temperatura 93 °C</tspan><tspan x="170" dy="20">presión 9 bar · estabilidad 0,4 °C</tspan><tspan class="type" x="170" dy="18">MeasuredObservation</tspan></text></g>
+      <g class="node sensory"><rect x="370" y="345" width="270" height="120" rx="9"/><text x="505" y="362"><tspan class="category" x="505">EVALUACIÓN SENSORIAL 1</tspan><tspan x="505" dy="22">C7Sensory1</tspan><tspan class="type" x="505" dy="19">SensoryEvaluation</tspan><tspan class="property" x="505" dy="18">acidez: intensidad 8/15 · agrado 2/9</tspan><tspan class="property" x="505" dy="17">amargor: intensidad 2/15 · agrado 7/9</tspan><tspan class="property" x="505" dy="17">evaluatedBy → BaristaA</tspan></text></g>
+      <g class="node defect"><rect x="370" y="490" width="270" height="75" rx="9"/><text x="505" y="507"><tspan class="category" x="505">DEFECTO INICIAL</tspan><tspan x="505" dy="22">ExcessiveAcidity</tspan><tspan class="type" x="505" dy="19">SensoryDefect</tspan></text></g>
+
+      <g class="node evidence"><rect x="700" y="345" width="300" height="90" rx="9"/><text x="850" y="362"><tspan class="category" x="850">LÍMITE DEL PERFIL</tspan><tspan x="850" dy="22">SpecTime: máximo 30 s</tspan><tspan class="type" x="850" dy="19">ProfileParameterSpecification</tspan><tspan class="property" x="850" dy="18">forProperty → ExtractionTime</tspan></text></g>
+
+      <g class="node evidence"><rect x="1055" y="345" width="270" height="100" rx="9"/><text x="1190" y="362"><tspan class="category" x="1190">OBSERVACIONES 2</tspan><tspan x="1190" dy="22">C7TimeObs2: 31 s</tspan><tspan x="1190" dy="20">masa 36 g · temperatura 93 °C</tspan><tspan x="1190" dy="20">presión 9 bar · estabilidad 0,4 °C</tspan><tspan class="type" x="1190" dy="18">MeasuredObservation</tspan></text></g>
+      <g class="node sensory"><rect x="1375" y="345" width="270" height="120" rx="9"/><text x="1510" y="362"><tspan class="category" x="1510">EVALUACIÓN SENSORIAL 2</tspan><tspan x="1510" dy="22">C7Sensory2</tspan><tspan class="type" x="1510" dy="19">SensoryEvaluation</tspan><tspan class="property" x="1510" dy="18">acidez: intensidad 4/15 · agrado 7/9</tspan><tspan class="property" x="1510" dy="17">amargor: intensidad 8/15 · agrado 2/9</tspan><tspan class="property" x="1510" dy="17">evaluatedBy → BaristaA</tspan></text></g>
+      <g class="node defect"><rect x="1375" y="490" width="270" height="75" rx="9"/><text x="1510" y="507"><tspan class="category" x="1510">NUEVO DEFECTO</tspan><tspan x="1510" dy="22">ExcessiveBitterness</tspan><tspan class="type" x="1510" dy="19">SensoryDefect</tspan></text></g>
+
+      <!-- Procesamiento externo -->
+      <g class="comparison"><rect x="270" y="590" width="1160" height="170" rx="12"/><text x="850" y="612" text-anchor="middle"><tspan class="heading" x="850">PROCESAMIENTO EXTERNO</tspan><tspan class="agent" x="850" dy="24">EvidenceBasedReasoner · SoftwareAgent</tspan><tspan class="result" x="850" dy="24">Compara las mismas dimensiones sensoriales antes y después del ajuste</tspan><tspan class="warning" x="850" dy="22">Acidez: intensidad 8→4 · agrado 2→7 — Amargor: intensidad 2→8 · agrado 7→2</tspan><tspan class="muted" x="850" dy="22">Tiempo 28→31 s y 31 s &gt; máximo de 30 s; los demás valores técnicos permanecen iguales</tspan><tspan class="muted" x="850" dy="20">La evidencia respalda un diagnóstico probable, no una causa demostrada</tspan><tspan class="muted" x="850" dy="19">Procedencia formal del conocimiento inferido: generatedBy → EvidenceBasedReasoner</tspan></text></g>
+
+      <!-- Evidencia materializada -->
+      <g class="node difference"><rect x="140" y="810" width="400" height="110" rx="9"/><text x="340" y="827"><tspan class="category" x="340">DIFERENCIA OBSERVADA</tspan><tspan x="340" dy="22">Tiempo: 28 → 31 s</tspan><tspan class="property" x="340" dy="19">Acidez: intensidad 8→4 · agrado 2→7</tspan><tspan class="property" x="340" dy="17">Amargor: intensidad 2→8 · agrado 7→2</tspan><tspan class="type" x="340" dy="19">ObservedDifference</tspan></text></g>
+      <g class="node deviation"><rect x="650" y="810" width="350" height="90" rx="9"/><text x="825" y="827"><tspan class="category" x="825">DESVIACIÓN TÉCNICA</tspan><tspan x="825" dy="22">Tiempo fuera del perfil</tspan><tspan class="property" x="825" dy="19">31 s supera el máximo de 30 s</tspan><tspan class="type" x="825" dy="18">TechnicalDeviation</tspan></text></g>
+
+      <!-- Conclusión -->
+      <g class="node diagnosis"><rect x="720" y="950" width="420" height="110" rx="9"/><text x="930" y="967"><tspan class="category" x="930">DIAGNÓSTICO PROBABLE</tspan><tspan x="930" dy="22">Aumento del tiempo fuera del perfil</tspan><tspan class="property" x="930" dy="19">Es el factor registrado que mejor explica</tspan><tspan class="property" x="930" dy="17">el amargor posterior</tspan><tspan class="type" x="930" dy="17">Diagnosis · probable-diagnosis</tspan></text></g>
+      <g class="node explanation"><rect x="1240" y="945" width="420" height="125" rx="9"/><text x="1450" y="962"><tspan class="category" x="1450">EXPLICACIÓN PROBABLE</tspan><tspan x="1450" dy="22">Cambios observados después del ajuste</tspan><tspan class="property" x="1450" dy="19">La acidez disminuyó y su agrado aumentó</tspan><tspan class="property" x="1450" dy="18">El amargor aumentó y su agrado disminuyó</tspan><tspan class="property" x="1450" dy="18">El tiempo fue el único parámetro ajustado y superó el perfil</tspan><tspan class="type" x="1450" dy="18">ExplanationAssertion · probable-explanation</tspan></text></g>
+
+      <g class="node recommendation"><rect x="690" y="1120" width="480" height="105" rx="9"/><text x="930" y="1137"><tspan class="category" x="930">PRUEBA RECOMENDADA</tspan><tspan x="930" dy="22">Probar con 29 o 30 s</tspan><tspan class="property" x="930" dy="19">sin modificar los demás parámetros</tspan><tspan class="property" x="930" dy="18">Si desaparece el amargor, el diagnóstico gana respaldo</tspan><tspan class="type" x="930" dy="17">RecommendedAction</tspan></text></g>
+      <g class="node guidance"><rect x="1320" y="1125" width="350" height="90" rx="9"/><text x="1495" y="1142"><tspan class="category" x="1495">PROCEDIMIENTO DOCUMENTADO</tspan><tspan x="1495" dy="23">Calibración iterativa</tspan><tspan class="property" x="1495" dy="19">Cambiar un solo parámetro por prueba</tspan><tspan class="type" x="1495" dy="17">IterativeCalibrationProcedure · CalibrationProcedure</tspan></text></g>
+    
+</g>
+<g id="leyenda" aria-label="Leyenda del diagrama"><rect class="export-footer-bg" x="0" y="1400" width="1700" height="66"/><line x1="26" y1="1430" x2="56" y2="1430" stroke="#347848" stroke-width="2"/><text class="export-legend" x="65" y="1434" text-anchor="start"><tspan x="65" dy="0">Relación del dominio</tspan></text><line x1="220.0" y1="1430" x2="250.0" y2="1430" stroke="#7250a0" stroke-width="2"/><text class="export-legend" x="259" y="1434" text-anchor="start"><tspan x="259" dy="0">Secuencia y evaluación sensorial</tspan></text><line x1="490.8" y1="1430" x2="520.8" y2="1430" stroke="#2876ad" stroke-width="2" stroke-dasharray="2 5"/><text class="export-legend" x="529.8" y="1434" text-anchor="start"><tspan x="529.8" dy="0">Procedencia</tspan></text><line x1="627.2" y1="1430" x2="657.2" y2="1430" stroke="#d9602e" stroke-width="2" stroke-dasharray="2 5"/><text class="export-legend" x="666.2" y="1434" text-anchor="start"><tspan x="666.2" dy="0">Relación diagnóstica</tspan></text><line x1="821.2" y1="1430" x2="851.2" y2="1430" stroke="#347848" stroke-width="2"/><text class="export-legend" x="860.2" y="1434" text-anchor="start"><tspan x="860.2" dy="0">Explicación y recomendación</tspan></text><text class="export-footer-note" x="1674" y="1434" text-anchor="end"><tspan x="1674" dy="0">Ontología 3.5.0 · Caso 7 · datos sintéticos</tspan></text></g>
+</svg>

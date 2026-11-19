@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/simulation/v1/simulation-run.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "simulationRunId",
+    "status",
+    "semanticStatus",
+    "progress",
+    "requestedBy",
+    "createdAt",
+    "startedAt",
+    "finishedAt",
+    "model",
+    "profileSnapshot",
+    "controller",
+    "durationSeconds",
+    "contractVersion",
+    "error"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "simulationRunId": {
+      "type": "string",
+      "pattern": "^sim-[A-Za-z0-9-]{8,76}$"
+    },
+    "status": {
+      "enum": [
+        "queued",
+        "running",
+        "succeeded",
+        "failed",
+        "cancelled"
+      ]
+    },
+    "semanticStatus": {
+      "enum": [
+        "pending",
+        "validating",
+        "published",
+        "rejected"
+      ]
+    },
+    "progress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "completedSteps",
+        "totalSteps",
+        "percent"
+      ],
+      "properties": {
+        "completedSteps": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "totalSteps": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "requestedBy": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "startedAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "finishedAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "model": {
+      "type": "object"
+    },
+    "profileSnapshot": {
+      "type": "object"
+    },
+    "controller": {
+      "type": "object"
+    },
+    "durationSeconds": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "contractVersion": {
+      "const": "1.0"
+    },
+    "summary": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "artifact": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "cancelRequested": {
+      "type": "boolean"
+    },
+    "error": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "message",
+            "retryable"
+          ],
+          "properties": {
+            "code": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]+$"
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "retryable": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+    "initialConditions": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "description": "Estado con el que se inicializó el modelo, tal como se escribió en la FMU.",
+      "properties": {
+        "channels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "fmuParameters": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "unit": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "replicates": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "extractionId": {
+          "type": "string"
+        },
+        "modelTolerances": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "minimumCoverageRatio": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

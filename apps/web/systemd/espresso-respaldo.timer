@@ -1,0 +1,12 @@
+# Dispara espresso-respaldo.service a diario. Persistent: si la Raspberry estaba
+# apagada a la hora fijada, la copia corre apenas vuelve a encender.
+
+[Unit]
+Description=Copia diaria de la plataforma (ADR-015)
+
+[Timer]
+OnCalendar=*-*-* 03:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

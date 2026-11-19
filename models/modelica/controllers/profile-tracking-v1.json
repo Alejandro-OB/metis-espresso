@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0",
+  "controllerId": "profile-tracking",
+  "controllerVersion": "1.0.0",
+  "deterministic": true,
+  "inputs": [
+    "simulationTimeSeconds",
+    "temperatureC",
+    "pressureBar",
+    "targetTemperatureC",
+    "targetPressureBar"
+  ],
+  "outputs": ["heaterCommand", "pumpCommand"],
+  "configuration": {
+    "fullPowerBandC": 8.0,
+    "mediumPowerBandC": 2.0,
+    "mediumAction": 0.15,
+    "nearAction": 0.04,
+    "extractionBoost": 0.8,
+    "pumpPressureAtFullCommandBar": 9.0
+  },
+  "configurationSha256": "2a5ad6cf1f93013ad3335e947554f1f399aa40bd4ec8f7d73458f34cafc64cb6"
+}

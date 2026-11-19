@@ -1,0 +1,18 @@
+{
+  "contractVersion": "2.0",
+  "model": "GemeloDigitalPreparacionCafe.FmuAdapterV2",
+  "fmiVersion": "2.0",
+  "kind": "co-simulation",
+  "communicationStepSeconds": 0.1,
+  "authority": "simulation-only",
+  "inputs": [
+    {"name": "heaterCommand", "type": "Real", "unit": "1", "minimum": 0.0, "maximum": 1.0, "causality": "input", "meaning": "demanda media del calentador"},
+    {"name": "pumpCommand", "type": "Real", "unit": "1", "minimum": 0.0, "maximum": 1.0, "causality": "input", "meaning": "densidad PSM de la bomba"}
+  ],
+  "outputs": [
+    {"name": "temperatureC", "type": "Real", "unit": "degC", "causality": "output", "meaning": "lectura del NTC del cuerpo de la caldera"},
+    {"name": "pressureBar", "type": "Real", "unit": "bar", "causality": "output", "meaning": "transductor entre la bomba y la caldera"},
+    {"name": "waterTemperatureC", "type": "Real", "unit": "degC", "causality": "output", "meaning": "agua sobre el café, estimada; no se mide en uso normal"},
+    {"name": "cupFlowGs", "type": "Real", "unit": "g/s", "causality": "output", "meaning": "caudal hacia la taza"}
+  ]
+}

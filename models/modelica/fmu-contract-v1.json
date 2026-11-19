@@ -1,0 +1,16 @@
+{
+  "contractVersion": "1.0",
+  "model": "GemeloDigitalPreparacionCafe.FmuAdapterV1",
+  "fmiVersion": "2.0",
+  "kind": "co-simulation",
+  "communicationStepSeconds": 0.1,
+  "authority": "simulation-only",
+  "inputs": [
+    {"name": "heaterCommand", "type": "Real", "unit": "1", "minimum": 0.0, "maximum": 1.0, "causality": "input"},
+    {"name": "pumpCommand", "type": "Real", "unit": "1", "minimum": 0.0, "maximum": 1.0, "causality": "input"}
+  ],
+  "outputs": [
+    {"name": "temperatureC", "type": "Real", "unit": "degC", "causality": "output"},
+    {"name": "pressureBar", "type": "Real", "unit": "bar", "causality": "output"}
+  ]
+}

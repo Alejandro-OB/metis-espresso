@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/simulation/v1/simulation-summary.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "simulationRunId", "source", "sampleCount", "communicationStepSeconds", "simulatedDurationSeconds", "metrics", "seriesArtifactId"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "simulationRunId": {"type": "string", "pattern": "^sim-[A-Za-z0-9-]{8,76}$"},
+    "source": {"const": "simulation"},
+    "sampleCount": {"type": "integer", "minimum": 1},
+    "communicationStepSeconds": {"enum": [0.1, 0.02]},
+    "simulatedDurationSeconds": {"type": "number", "exclusiveMinimum": 0},
+    "metrics": {
+      "type": "object",
+      "required": ["temperatureC", "pressureBar"],
+      "additionalProperties": {"$ref": "#/$defs/metric"},
+      "properties": {
+        "temperatureC": {"$ref": "#/$defs/metric"},
+        "pressureBar": {"$ref": "#/$defs/metric"}
+      }
+    },
+    "seriesArtifactId": {"type": "string", "minLength": 1, "maxLength": 100}
+  },
+  "$defs": {
+    "metric": {
+      "type": "object", "additionalProperties": false,
+      "required": ["unit", "initial", "final", "minimum", "maximum", "target", "tolerance", "meanAbsoluteError", "withinTolerancePercent"],
+      "properties": {
+        "unit": {"type": "string", "minLength": 1},
+        "initial": {"type": "number"}, "final": {"type": "number"},
+        "minimum": {"type": "number"}, "maximum": {"type": "number"},
+        "target": {"type": "number"},
+        "tolerance": {"description": "null si el perfil no declara tolerancia", "type": ["number", "null"], "minimum": 0},
+        "meanAbsoluteError": {"type": "number", "minimum": 0},
+        "withinTolerancePercent": {"description": "null si no hay tolerancia declarada", "type": ["number", "null"], "minimum": 0, "maximum": 100}
+      }
+    }
+  }
+}

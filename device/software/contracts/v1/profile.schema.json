@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/v1/profile.schema.json",
+  "title": "Extraction profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "version", "temperatureSetpointC", "temperatureToleranceC", "pressureSetpointBar", "pressureToleranceBar", "maximumTimeMs", "status"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 40},
+    "name": {"type": "string", "minLength": 1, "maxLength": 64},
+    "definedBy": {"type": ["string", "null"], "minLength": 1, "maxLength": 120},
+    "version": {"type": "integer", "minimum": 1},
+    "temperatureSetpointC": {"type": "number"},
+    "temperatureToleranceC": {"type": "number", "exclusiveMinimum": 0},
+    "pressureSetpointBar": {"type": "number", "exclusiveMinimum": 0},
+    "pressureToleranceBar": {"type": "number", "exclusiveMinimum": 0},
+    "maximumTimeMs": {"type": "integer", "minimum": 1},
+    "purgeMaximumTimeMs": {"type": "integer", "minimum": 1000, "maximum": 30000},
+    "boilerOffsetC": {"description": "Compensación del primer uso (ADR-009, enmienda del 2026-10-19): cuánto subir la referencia de caldera, en °C, solo para la próxima preparación. Lo pide el gemelo de la plataforma; ausente equivale a 0. El dispositivo lo suma después de convertir el agua pedida a caldera, lo admite hasta el máximo de su acta de temperatura y lo devuelve a 0 al terminar esa preparación. Un valor por encima del máximo no se recorta: la propuesta se rechaza.", "type": "number", "minimum": 0},
+    "expectedBeverageMassG": {"type": ["number", "null"], "exclusiveMinimum": 0},
+    "status": {"enum": ["draft", "proposed", "accepted", "effective", "retired"]}
+  }
+}

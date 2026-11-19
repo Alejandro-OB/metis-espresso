@@ -1,0 +1,13 @@
+@prefix edt: <https://w3id.org/espresso-dt#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+edt:SensorShape a sh:NodeShape ;
+    sh:targetClass edt:Sensor ;
+    sh:property [ sh:path edt:sensorIdentifier ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:observesProperty ; sh:class edt:ObservableProperty ; sh:minCount 1 ] .
+
+edt:SensorObservationShape a sh:NodeShape ;
+    sh:targetClass edt:SensorObservation ;
+    sh:property [ sh:path edt:madeBySensor ; sh:class edt:Sensor ; sh:minCount 1 ; sh:maxCount 1 ] .
+

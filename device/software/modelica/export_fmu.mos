@@ -1,0 +1,12 @@
+rutaFuente := getEnvironmentVar("MODELICA_SOURCE_ROOT");
+if rutaFuente == "" then
+  rutaFuente := ".";
+end if;
+loadModel(Modelica);
+loadFile(rutaFuente + "/EkoCoffeeMachine.mo");
+buildModelFMU(
+  EkoCoffeeMachine,
+  version = "2.0",
+  fmuType = "cs",
+  fileNamePrefix = "EkoCoffeeMachine");
+getErrorString();

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/v1/telemetry.schema.json",
+  "title": "Telemetry sample payload v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["source", "state", "elapsedMs", "temperature", "pressure", "targets", "actuators"],
+  "properties": {
+    "source": {"enum": ["measured", "simulation"]},
+    "preparationId": {"type": ["string", "null"]},
+    "state": {"enum": ["safe-inactive", "coffee-heating", "ready", "extraction", "manual-purge", "steam-heating", "steam-ready", "cooling-to-brew", "alarm"]},
+    "elapsedMs": {"type": "integer", "minimum": 0},
+    "temperature": {"$ref": "#/$defs/temperature"},
+    "pressure": {"$ref": "#/$defs/pressure"},
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["temperatureC", "pressureBar"],
+      "properties": {
+        "temperatureC": {"type": "number"},
+        "pressureBar": {"type": "number", "minimum": 0}
+      }
+    },
+    "actuators": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["heaterOn", "pumpDutyPercent", "virtual"],
+      "properties": {
+        "heaterOn": {"type": "boolean"},
+        "heaterAppliedMs": {"description": "Conducción acumulada del calentador desde el arranque de la placa, en ms; vuelve a cero al reiniciarla. Entre dos muestras da la demanda media, que una lectura instantánea cada 15 s no da. Ausente si el lazo no publica su estado.", "type": "integer", "minimum": 0},
+        "pumpDutyPercent": {"type": "number", "minimum": 0, "maximum": 100},
+        "virtual": {"type": "boolean"}
+      }
+    }
+  },
+  "$defs": {
+    "temperature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit", "quality"],
+      "properties": {
+        "value": {"type": ["number", "null"]},
+        "unit": {"const": "Cel"},
+        "quality": {"enum": ["valid", "invalid", "simulated"]}
+      }
+    },
+    "pressure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit", "quality"],
+      "properties": {
+        "value": {"type": ["number", "null"]},
+        "unit": {"const": "bar"},
+        "quality": {"enum": ["valid", "invalid", "simulated"]}
+      }
+    }
+  }
+}
+

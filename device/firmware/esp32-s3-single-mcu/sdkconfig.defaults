@@ -1,0 +1,79 @@
+# Hardware disponible: ESP32-S3-N16R8.
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+CONFIG_ESPTOOLPY_FLASHMODE_DIO=y
+
+# N16R8: 8 MB de PSRAM octal. La prueba de arranque confirma la capacidad real.
+CONFIG_SPIRAM=y
+CONFIG_SPIRAM_MODE_OCT=y
+CONFIG_SPIRAM_TYPE_AUTO=y
+CONFIG_SPIRAM_SPEED_80M=y
+CONFIG_SPIRAM_BOOT_INIT=y
+CONFIG_SPIRAM_USE_MALLOC=y
+CONFIG_SPIRAM_MEMTEST=y
+
+# NVS ampliada para la cola persistente y aplicación con margen de crecimiento.
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+
+# Vuelta atrás del cargador de arranque (ADR-021): una imagen llegada por Wi-Fi
+# arranca a prueba y, si la placa se reinicia antes de declararla válida, el
+# cargador vuelve a la anterior. Vive en el cargador, de modo que activarla
+# exige cargar una vez por USB el cargador nuevo junto con la tabla.
+CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE=y
+
+# Consola por el puente UART de la tarjeta y salida secundaria USB Serial/JTAG.
+#
+# 921600 baudios y no 115200 por el registro del lazo (ADR-007 § 3.6 y ADR-009
+# § 3.9), que sale por este mismo puerto: el lazo de presión emite 50 líneas por
+# segundo de unos 200 bytes, más las del lazo térmico, lo que da unos
+# 110 kbit/s. A 115200 eso ocuparía el 95 % del enlace, y cualquier mensaje de
+# diagnóstico haría que el drenaje se retrasara y la cola empezara a descartar.
+# El monitor debe abrirse con el mismo valor: `idf.py -b 921600 monitor`.
+#
+# `UART_CUSTOM` en vez de `UART_DEFAULT` es obligatorio para poder fijar el
+# baudaje: en `components/esp_stdio/Kconfig`, `ESP_CONSOLE_UART_BAUDRATE` solo
+# tiene prompt `if ESP_CONSOLE_UART_CUSTOM`, de modo que con la consola por
+# omisión el símbolo no es configurable y Kconfig lo devuelve a 115200 en cada
+# generación, ignorando lo que diga este archivo. Los pines siguen siendo los de
+# siempre: 43 y 44 son los valores por omisión del ESP32-S3.
+CONFIG_ESP_CONSOLE_UART_CUSTOM=y
+CONFIG_ESP_CONSOLE_UART_TX_GPIO=43
+CONFIG_ESP_CONSOLE_UART_RX_GPIO=44
+CONFIG_ESP_CONSOLE_SECONDARY_USB_SERIAL_JTAG=y
+CONFIG_ESP_CONSOLE_UART_BAUDRATE=921600
+
+# El diagnóstico no conserva credenciales ni se conecta a una red. La NVS se
+# usa únicamente para la cola local del contrato v1 y la calibración del radio.
+CONFIG_ESP_WIFI_NVS_ENABLED=n
+
+# Resolución del planificador. El valor por omisión de ESP-IDF es 100 Hz, es
+# decir un tick de 10 ms: con él, el ciclo de adquisición de 10 ms que fija
+# ADR-007 § 3.3 ocuparía exactamente un tick, sin margen para el jitter, y el
+# lazo a 20 ms quedaría en dos. A 1 kHz ambos periodos se expresan con
+# resolución de sobra y `vTaskDelayUntil` mantiene la cadencia.
+CONFIG_FREERTOS_HZ=1000
+
+# Vigilancia de tarea detenida (RF-011). Las tareas críticas se suscriben
+# explícitamente; el tiempo es holgado frente a sus periodos de 10 y 50 ms, de
+# modo que solo salta ante una detención real y no ante un ciclo largo.
+CONFIG_ESP_TASK_WDT_INIT=y
+CONFIG_ESP_TASK_WDT_TIMEOUT_S=5
+CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU0=n
+CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU1=n
+
+# Pila de la tarea principal. El valor de ESP-IDF son 3584 bytes, y con ellos el
+# diagnóstico llegó a dejar 68 bytes libres: bastó añadir una comprobación con
+# medio kilobyte de texto para desbordarla y dejar la placa reiniciando en
+# bucle. El diagnóstico arranca todos los subsistemas desde esta tarea, así que
+# su pico es el más alto del firmware. Medido tras repartir esos bloques en
+# funciones propias: 3372 bytes de uso máximo. Se redondea a 4608 para dejar un
+# margen de aproximadamente un cuarto, y el propio diagnóstico informa de lo que
+# le queda en cada arranque.
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=4608
+
+# Opciones propias del diagnóstico.
+CONFIG_CAFE_EXPECTED_FLASH_MB=16
+CONFIG_CAFE_EXPECTED_PSRAM_MB=8
+CONFIG_CAFE_WIFI_SCAN=y
+CONFIG_CAFE_LED_TEST=y
+CONFIG_CAFE_SIMULATION=y

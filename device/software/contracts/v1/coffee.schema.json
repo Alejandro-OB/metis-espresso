@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/v1/coffee.schema.json",
+  "title": "Coffee and declared sensory profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "commercialReference"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 80},
+    "commercialReference": {"type": "string", "minLength": 1, "maxLength": 200},
+    "lotIdentifier": {"type": ["string", "null"], "maxLength": 120},
+    "bagIdentifier": {"type": ["string", "null"], "maxLength": 120},
+    "variety": {"type": ["string", "null"], "maxLength": 120},
+    "postHarvestProcess": {"type": ["string", "null"], "maxLength": 120},
+    "roastLevel": {"type": ["string", "null"], "maxLength": 120},
+    "roastDate": {"type": ["string", "null"], "format": "date-time"},
+    "region": {"type": ["string", "null"], "maxLength": 200},
+    "declaredSensoryProfile": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "declaredBy", "source", "originalText", "descriptors"],
+          "properties": {
+            "id": {"type": "string", "minLength": 1, "maxLength": 80},
+            "declaredBy": {"type": "string", "minLength": 1, "maxLength": 200},
+            "source": {"type": "string", "minLength": 1, "maxLength": 500},
+            "originalText": {"type": "string", "minLength": 1, "maxLength": 2000},
+            "descriptors": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"type": "string", "minLength": 1, "maxLength": 120}
+            }
+          }
+        }
+      ]
+    }
+  }
+}

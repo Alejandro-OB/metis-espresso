@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Caso 2 · Diagrama ontológico</title>
+  <style>
+    :root {
+      --paper: #fffdfa;
+      --ink: #293448;
+      --green: #397947;
+      --blue: #2c72aa;
+      --purple: #70499a;
+      --orange: #d85f2b;
+      --gold: #b97810;
+      --gray: #75808e;
+      --coffee: #8a5d38;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      padding: 18px;
+      color: var(--ink);
+      font-family: "DejaVu Sans", "Noto Sans", sans-serif;
+      background: #eeeae3;
+    }
+
+    .sheet {
+      width: min(1700px, 100%);
+      min-width: 1240px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid #d8d2c8;
+      background: var(--paper);
+      box-shadow: 0 12px 34px rgba(51, 42, 34, 0.1);
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(340px, 0.72fr) minmax(760px, 1.28fr);
+      min-height: 126px;
+      align-items: center;
+      gap: 42px;
+      padding: 24px 28px;
+      border-bottom: 1px solid #ddd7ce;
+    }
+
+    .eyebrow {
+      margin: 0 0 6px;
+      color: #c9582b;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: #3f271e;
+      font-family: "DejaVu Serif", "Noto Serif", serif;
+      font-size: 54px;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .context {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin: 0;
+    }
+
+    .context div {
+      min-height: 68px;
+      padding: 11px 15px;
+      border-left: 3px solid #d7b18f;
+      background: #fcfaf6;
+    }
+
+    .context dt {
+      margin-bottom: 6px;
+      color: #c9582b;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .context dd {
+      margin: 0;
+      color: #354155;
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    svg { display: block; width: 100%; height: auto; background: var(--paper); }
+
+    .node rect { stroke-width: 1.8; filter: url(#shadow); }
+    .node text { font-size: 13px; font-weight: 680; text-anchor: middle; }
+    .node .type { font-size: 11.5px; font-weight: 560; }
+    .node .property { font-size: 10.5px; font-weight: 600; }
+    .node .category {
+      font-size: 8.5px;
+      font-weight: 820;
+      letter-spacing: 0.8px;
+      opacity: 0.78;
+    }
+
+    .barista rect { fill: #f1f8f1; stroke: var(--green); }
+    .barista text { fill: #2f683a; }
+    .profile rect { fill: #fff5ec; stroke: #d96331; }
+    .profile text { fill: #b44d24; }
+    .material rect { fill: #faf4ee; stroke: var(--coffee); }
+    .material text { fill: #725039; }
+    .extraction rect, .evidence rect { fill: #f1f8fc; stroke: var(--blue); }
+    .extraction text, .evidence text { fill: #235f88; }
+    .sensory rect, .defect rect { fill: #f7f3fd; stroke: var(--purple); }
+    .sensory text, .defect text { fill: #63438f; }
+    .difference rect, .deviation rect, .diagnosis rect { fill: #fff5ed; stroke: var(--orange); }
+    .difference text, .deviation text, .diagnosis text { fill: #9e421f; }
+    .explanation rect, .guidance rect { fill: #fff9ee; stroke: var(--gold); stroke-width: 2; }
+    .explanation text, .guidance text { fill: #765318; }
+
+    .comparison rect {
+      fill: #fbfcfd;
+      stroke: #8793a1;
+      stroke-width: 1.5;
+      stroke-dasharray: 5 5;
+    }
+    .comparison .heading { fill: #657181; font-size: 10px; font-weight: 820; letter-spacing: 0.6px; }
+    .comparison .result { fill: #364256; font-size: 12px; font-weight: 700; }
+    .comparison .muted { fill: #6d7888; font-size: 10.5px; font-weight: 620; }
+
+    .edge {
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .domain { stroke: var(--green); marker-end: url(#arrow-green); }
+    .observation { stroke: var(--blue); marker-end: url(#arrow-blue); }
+    .sensory-edge { stroke: var(--purple); marker-end: url(#arrow-purple); }
+    .provenance { stroke: var(--blue); stroke-dasharray: 2 5; marker-end: url(#arrow-blue); }
+    .diagnostic { stroke: var(--orange); stroke-dasharray: 2 5; marker-end: url(#arrow-orange); }
+    .explanation-edge { stroke: var(--gold); marker-end: url(#arrow-gold); }
+    .operation { stroke: #8793a1; stroke-dasharray: 5 5; marker-end: url(#arrow-gray); }
+
+    .edge-label {
+      font-size: 10.5px;
+      font-weight: 780;
+      text-anchor: middle;
+      paint-order: stroke;
+      stroke: var(--paper);
+      stroke-width: 7px;
+      stroke-linejoin: round;
+    }
+    .green-label { fill: #356b40; }
+    .blue-label { fill: #2c6598; }
+    .purple-label { fill: #66438b; }
+    .orange-label { fill: #b94d22; }
+    .gold-label { fill: #8c5d0e; }
+    .gray-label { fill: #6d7888; }
+
+    footer {
+      display: flex;
+      min-height: 70px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 16px 28px;
+      color: #596477;
+      font-size: 11px;
+      font-weight: 700;
+      background: #faf8f4;
+    }
+    .legend { display: flex; flex-wrap: wrap; gap: 28px; }
+    .legend span { display: inline-flex; align-items: center; gap: 9px; }
+    .sample { width: 36px; border-top: 2px solid var(--green); }
+    .sample.provenance-sample { border-color: var(--blue); border-top-style: dotted; }
+    .sample.diagnostic-sample { border-color: var(--orange); border-top-style: dotted; }
+    .sample.explanation-sample { border-color: var(--gold); }
+    footer p { margin: 0; white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <main class="sheet">
+    <header>
+      <div>
+        <p class="eyebrow">Ontología del proceso de extracción de espresso</p>
+        <h1>Caso 2</h1>
+      </div>
+      <dl class="context">
+        <div>
+          <dt>Situación</dt>
+          <dd>Dos baristas usaron el mismo perfil y el mismo café. Una bebida fue agradable y la otra presentó sabor quemado.</dd>
+        </div>
+        <div>
+          <dt>Pregunta</dt>
+          <dd>¿Por qué una bebida presentó sabor quemado si se utilizó el mismo perfil?</dd>
+        </div>
+      </dl>
+    </header>
+
+    <svg viewBox="0 0 1700 1000" role="img" aria-labelledby="svg-title svg-desc">
+      <title id="svg-title">Caso 2, recorrido ontológico simplificado</title>
+      <desc id="svg-desc">Dos extracciones comparten perfil y café. La comparación externa encuentra diferencias térmicas, materializa una diferencia observada y dos desviaciones, y permite formular un diagnóstico y una explicación probable del sabor quemado.</desc>
+
+      <defs>
+        <filter id="shadow" x="-20%" y="-30%" width="140%" height="170%">
+          <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#293448" flood-opacity="0.08"/>
+        </filter>
+        <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#397947"/></marker>
+        <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2c72aa"/></marker>
+        <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#70499a"/></marker>
+        <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d85f2b"/></marker>
+        <marker id="arrow-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b97810"/></marker>
+        <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8793a1"/></marker>
+      </defs>
+
+      <!-- Dos rutas que comparten perfil y café -->
+      <path class="edge domain" d="M 250 120 C 225 155 180 160 105 130"/>
+      <text class="edge-label green-label" x="205" y="158">performedBy</text>
+      <path class="edge domain" d="M 1450 120 C 1475 155 1520 160 1595 130"/>
+      <text class="edge-label green-label" x="1495" y="158">performedBy</text>
+      <path class="edge domain" d="M 490 82 C 575 48 650 42 740 48"/>
+      <text class="edge-label green-label" x="615" y="48">usesMaterial</text>
+      <path class="edge domain" d="M 1210 82 C 1125 48 1050 42 960 48"/>
+      <text class="edge-label green-label" x="1085" y="48">usesMaterial</text>
+      <path class="edge domain" d="M 490 118 C 575 150 650 145 740 138"/>
+      <text class="edge-label green-label" x="615" y="153">usesProfile</text>
+      <path class="edge domain" d="M 1210 118 C 1125 150 1050 145 960 138"/>
+      <text class="edge-label green-label" x="1085" y="153">usesProfile</text>
+
+      <!-- Hechos consultados por el motor externo -->
+      <path class="edge observation" d="M 330 134 C 285 175 230 205 185 235"/>
+      <text class="edge-label blue-label" x="260" y="185">hasObservation</text>
+      <path class="edge sensory-edge" d="M 410 134 C 440 175 480 205 505 235"/>
+      <text class="edge-label purple-label" x="470" y="185">hasSensoryEvaluation</text>
+      <path class="edge observation" d="M 850 172 L 850 235"/>
+      <text class="edge-label blue-label" x="965" y="207">hasParameterSpecification</text>
+      <path class="edge observation" d="M 1300 134 C 1270 175 1230 205 1195 235"/>
+      <text class="edge-label blue-label" x="1250" y="185">hasObservation</text>
+      <path class="edge sensory-edge" d="M 1390 134 C 1445 175 1490 205 1515 235"/>
+      <text class="edge-label purple-label" x="1460" y="185">hasSensoryEvaluation</text>
+      <path class="edge sensory-edge" d="M 1605 365 C 1660 425 1650 535 1585 590"/>
+      <text class="edge-label purple-label" x="1565" y="488">hasPerceivedDefect</text>
+
+      <!-- Entrada y salida del procesamiento externo -->
+      <path class="edge operation" d="M 185 365 C 285 400 370 415 450 420"/>
+      <path class="edge operation" d="M 505 365 C 565 395 620 410 650 420"/>
+      <path class="edge operation" d="M 850 365 L 850 420"/>
+      <path class="edge operation" d="M 1195 365 C 1135 395 1080 410 1030 420"/>
+      <path class="edge operation" d="M 1515 365 C 1410 400 1320 415 1250 420"/>
+      <path class="edge operation" d="M 650 535 L 430 575"/>
+      <path class="edge operation" d="M 850 535 L 850 575"/>
+      <path class="edge operation" d="M 1050 535 L 1270 575"/>
+      <text class="edge-label gray-label" x="850" y="558">materializa conocimiento</text>
+
+      <!-- Relaciones formales del conocimiento materializado -->
+      <path class="edge provenance" d="M 725 790 C 650 745 520 710 430 685"/>
+      <text class="edge-label blue-label" x="595" y="735">derivedFrom</text>
+      <path class="edge provenance" d="M 850 790 L 850 685"/>
+      <text class="edge-label blue-label" x="895" y="742">derivedFrom</text>
+      <path class="edge provenance" d="M 975 790 C 1050 745 1180 710 1270 685"/>
+      <text class="edge-label blue-label" x="1105" y="735">derivedFrom</text>
+      <path class="edge diagnostic" d="M 1070 825 C 1300 810 1490 750 1550 685"/>
+      <text class="edge-label orange-label" x="1425" y="770">isDiagnosisOf</text>
+      <path class="edge explanation-edge" d="M 850 900 L 850 875"/>
+      <text class="edge-label gold-label" x="805" y="892">explains</text>
+      <path class="edge explanation-edge" d="M 1130 945 L 1270 945"/>
+      <text class="edge-label gold-label" x="1200" y="933">generatedBy</text>
+
+      <!-- Entidades del caso -->
+      <g class="node barista">
+        <rect x="30" y="70" width="150" height="60" rx="9"/>
+        <text x="105" y="85"><tspan class="category" x="105">ACTOR</tspan><tspan x="105" dy="16">BaristaA</tspan><tspan class="type" x="105" dy="16">Barista</tspan></text>
+      </g>
+
+      <g class="node extraction">
+        <rect x="250" y="65" width="240" height="69" rx="9"/>
+        <text x="370" y="81"><tspan class="category" x="370">EXTRACCIÓN DE REFERENCIA</tspan><tspan x="370" dy="19">C2ExtractionA</tspan><tspan class="type" x="370" dy="18">EspressoExtraction</tspan></text>
+      </g>
+
+      <g class="node material">
+        <rect x="740" y="15" width="220" height="67" rx="9"/>
+        <text x="850" y="31"><tspan class="category" x="850">CAFÉ COMPARTIDO</tspan><tspan x="850" dy="19">CoffeeLotA</tspan><tspan class="type" x="850" dy="18">CoffeeMaterial</tspan></text>
+      </g>
+
+      <g class="node profile">
+        <rect x="740" y="105" width="220" height="67" rx="9"/>
+        <text x="850" y="121"><tspan class="category" x="850">PERFIL COMPARTIDO</tspan><tspan x="850" dy="19">perfil_001</tspan><tspan class="type" x="850" dy="18">ExtractionProfile</tspan></text>
+      </g>
+
+      <g class="node extraction">
+        <rect x="1210" y="65" width="240" height="69" rx="9"/>
+        <text x="1330" y="81"><tspan class="category" x="1330">EXTRACCIÓN AFECTADA</tspan><tspan x="1330" dy="19">C2ExtractionB</tspan><tspan class="type" x="1330" dy="18">EspressoExtraction</tspan></text>
+      </g>
+
+      <g class="node barista">
+        <rect x="1520" y="70" width="150" height="60" rx="9"/>
+        <text x="1595" y="85"><tspan class="category" x="1595">ACTOR</tspan><tspan x="1595" dy="16">BaristaB</tspan><tspan class="type" x="1595" dy="16">Barista</tspan></text>
+      </g>
+
+      <!-- Tarjetas de evidencia: agrupan individuos para evitar cruces -->
+      <g class="node evidence">
+        <rect x="35" y="235" width="300" height="130" rx="9"/>
+        <text x="185" y="252"><tspan class="category" x="185">OBSERVACIONES DE REFERENCIA</tspan><tspan x="185" dy="22">C2TempObsA: 93 °C</tspan><tspan class="type" x="185" dy="18">WaterTemperature · MeasuredObservation</tspan><tspan x="185" dy="21">C2ThermalObsA: 0,4 °C</tspan><tspan class="type" x="185" dy="18">ThermalStability · CalculatedObservation</tspan></text>
+      </g>
+
+      <g class="node sensory">
+        <rect x="355" y="235" width="300" height="130" rx="9"/>
+        <text x="505" y="252"><tspan class="category" x="505">EVALUACIÓN SENSORIAL DE REFERENCIA</tspan><tspan x="505" dy="22">C2SensoryA · SensoryEvaluation</tspan><tspan class="property" x="505" dy="20">evaluatedBy → BaristaA</tspan><tspan class="property" x="505" dy="19">hasSensoryScore → C2OverallA, C2FlavorA</tspan><tspan class="type" x="505" dy="19">Agrado global: 8/9 · sabor: 8/9</tspan></text>
+      </g>
+
+      <g class="node evidence">
+        <rect x="675" y="235" width="350" height="130" rx="9"/>
+        <text x="850" y="252"><tspan class="category" x="850">ESPECIFICACIONES DEL PERFIL</tspan><tspan x="850" dy="22">SpecTemperature: máximo 94 °C</tspan><tspan class="type" x="850" dy="18">ProfileParameterSpecification</tspan><tspan x="850" dy="21">SpecThermalStability: máximo 0,7 °C</tspan><tspan class="type" x="850" dy="18">ProfileParameterSpecification</tspan></text>
+      </g>
+
+      <g class="node evidence">
+        <rect x="1045" y="235" width="300" height="130" rx="9"/>
+        <text x="1195" y="252"><tspan class="category" x="1195">OBSERVACIONES AFECTADAS</tspan><tspan x="1195" dy="22">C2TempObsB: 96 °C</tspan><tspan class="type" x="1195" dy="18">WaterTemperature · MeasuredObservation</tspan><tspan x="1195" dy="21">C2ThermalObsB: 1,4 °C</tspan><tspan class="type" x="1195" dy="18">ThermalStability · CalculatedObservation</tspan></text>
+      </g>
+
+      <g class="node sensory">
+        <rect x="1365" y="235" width="300" height="130" rx="9"/>
+        <text x="1515" y="252"><tspan class="category" x="1515">EVALUACIÓN SENSORIAL AFECTADA</tspan><tspan x="1515" dy="22">C2SensoryB · SensoryEvaluation</tspan><tspan class="property" x="1515" dy="20">evaluatedBy → BaristaB</tspan><tspan class="property" x="1515" dy="19">hasPerceivedDefect → Burnt</tspan><tspan class="type" x="1515" dy="19">Agrado global: 2/9 · sabor: 2/9</tspan></text>
+      </g>
+
+      <!-- El motor externo no es una entidad de la ontología -->
+      <g class="comparison">
+        <rect x="250" y="420" width="1200" height="115" rx="10"/>
+        <text x="850" y="441" text-anchor="middle"><tspan class="heading" x="850">COMPARACIÓN EXTERNA · OPERACIÓN DEL RAZONADOR</tspan><tspan class="result" x="850" dy="23">Valores térmicos: 93 frente a 96 °C · 0,4 frente a 1,4 °C</tspan><tspan class="result" x="850" dy="20">Resultado sensorial: agrado 8/9 frente a 2/9 · Burnt solo en C2ExtractionB</tspan><tspan class="result" x="850" dy="20">Contra el perfil: 96 &gt; 94 °C · 1,4 &gt; 0,7 °C</tspan><tspan class="muted" x="850" dy="20">Sin diferencias: dosis 18 g · bebida 36 g · tiempo 28 s · presión 9 bar · TDS 9,5 % · rendimiento 19 %</tspan></text>
+      </g>
+
+      <g class="node difference">
+        <rect x="220" y="575" width="420" height="110" rx="9"/>
+        <text x="430" y="592"><tspan class="category" x="430">DIFERENCIA OBSERVADA</tspan><tspan x="430" dy="22">Diferencia térmica entre extracciones</tspan><tspan class="type" x="430" dy="19">ObservedDifference · observed-difference</tspan><tspan class="property" x="430" dy="18">comparesExtraction → C2ExtractionA, C2ExtractionB</tspan><tspan class="property" x="430" dy="17">generatedBy → EvidenceBasedReasoner</tspan></text>
+      </g>
+
+      <g class="node deviation">
+        <rect x="670" y="575" width="360" height="110" rx="9"/>
+        <text x="850" y="592"><tspan class="category" x="850">DESVIACIÓN TÉCNICA</tspan><tspan x="850" dy="22">Temperatura sobre el perfil</tspan><tspan class="type" x="850" dy="19">TechnicalDeviation · above-profile</tspan><tspan class="property" x="850" dy="18">derivedFrom → C2TempObsB + SpecTemperature</tspan><tspan class="property" x="850" dy="17">basedOnCriterion → ProfileConformanceCriterion</tspan></text>
+      </g>
+
+      <g class="node deviation">
+        <rect x="1060" y="575" width="420" height="110" rx="9"/>
+        <text x="1270" y="592"><tspan class="category" x="1270">DESVIACIÓN TÉCNICA</tspan><tspan x="1270" dy="22">Estabilidad térmica sobre el perfil</tspan><tspan class="type" x="1270" dy="19">TechnicalDeviation · above-profile</tspan><tspan class="property" x="1270" dy="18">derivedFrom → C2ThermalObsB + SpecThermalStability</tspan><tspan class="property" x="1270" dy="17">basedOnCriterion → ProfileConformanceCriterion</tspan></text>
+      </g>
+
+      <g class="node defect">
+        <rect x="1510" y="590" width="150" height="95" rx="9"/>
+        <text x="1585" y="607"><tspan class="category" x="1585">DEFECTO</tspan><tspan x="1585" dy="23">Sabor quemado</tspan><tspan class="type" x="1585" dy="19">Burnt</tspan><tspan class="type" x="1585" dy="17">SensoryDefect</tspan></text>
+      </g>
+
+      <g class="node diagnosis">
+        <rect x="630" y="790" width="440" height="85" rx="9"/>
+        <text x="850" y="807"><tspan class="category" x="850">DIAGNÓSTICO</tspan><tspan x="850" dy="22">Problema térmico probable</tspan><tspan class="type" x="850" dy="19">Diagnosis · probable-diagnosis</tspan><tspan class="type" x="850" dy="17">Diagnóstico del defecto Burnt</tspan></text>
+      </g>
+
+      <g class="node explanation">
+        <rect x="570" y="900" width="560" height="85" rx="9"/>
+        <text x="850" y="917"><tspan class="category" x="850">EXPLICACIÓN</tspan><tspan x="850" dy="23">Solo B superó 94 °C y 0,7 °C con los controles iguales</tspan><tspan class="type" x="850" dy="19">El incumplimiento térmico coincidió con Burnt</tspan><tspan class="property" x="850" dy="17">ExplanationAssertion · probable; no causa universal</tspan></text>
+      </g>
+
+      <g class="node guidance">
+        <rect x="1270" y="905" width="390" height="80" rx="9"/>
+        <text x="1465" y="922"><tspan class="category" x="1465">AGENTE DE RAZONAMIENTO</tspan><tspan x="1465" dy="23">Razonador basado en evidencia</tspan><tspan class="type" x="1465" dy="20">EvidenceBasedReasoner</tspan><tspan class="type" x="1465" dy="17">SoftwareAgent</tspan></text>
+      </g>
+    </svg>
+
+    <footer aria-label="Leyenda">
+      <div class="legend">
+        <span><i class="sample"></i>Relación del dominio</span>
+        <span><i class="sample provenance-sample"></i>Procedencia</span>
+        <span><i class="sample diagnostic-sample"></i>Relación diagnóstica</span>
+        <span><i class="sample explanation-sample"></i>Explicación y procedencia</span>
+      </div>
+      <p>Ontología 3.5.0 · Diagrama del caso 2</p>
+    </footer>
+  </main>
+</body>
+</html>

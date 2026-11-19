@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/v1/model-inference.schema.json",
+  "title": "Registered model inference v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "inferenceId", "modelId", "datasetId", "createdAt", "input", "inputSha256", "result", "evidenceIds", "useStatus"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "inferenceId": {"type": "string", "minLength": 1, "maxLength": 80},
+    "modelId": {"type": "string", "minLength": 1, "maxLength": 120},
+    "datasetId": {"type": "string", "minLength": 1, "maxLength": 120},
+    "createdAt": {"type": "string", "format": "date-time"},
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["episodeId", "coffeeId", "extractionId", "targetOutcome"],
+      "properties": {
+        "episodeId": {"type": "string", "minLength": 1},
+        "coffeeId": {"type": "string", "minLength": 1},
+        "extractionId": {"type": "string", "minLength": 1},
+        "targetOutcome": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "code"],
+          "properties": {
+            "kind": {"enum": ["sensory-defect", "observable-property"]},
+            "code": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "inputSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task", "predictedOutcomeCategory", "uncertaintyValue", "uncertaintyMethodReference", "abstained", "abstentionReason"],
+      "properties": {
+        "task": {"const": "adjustment-outcome-category"},
+        "predictedOutcomeCategory": {"type": ["string", "null"]},
+        "uncertaintyValue": {"type": ["number", "null"], "minimum": 0},
+        "uncertaintyMethodReference": {"type": "string", "format": "uri"},
+        "abstained": {"type": "boolean"},
+        "abstentionReason": {"type": ["string", "null"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"abstained": {"const": true}}},
+          "then": {
+            "properties": {
+              "predictedOutcomeCategory": {"type": "null"},
+              "uncertaintyValue": {"type": "null"},
+              "abstentionReason": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      ]
+    },
+    "evidenceIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "useStatus": {"enum": ["test-only", "pending-human-review"]}
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "artefacto": "dist/FmuAdapterV2-aarch64.fmu",
+  "referencia": "referencia-v2-x86_64.json",
+  "muestras": 300,
+  "canales": {
+    "temperatureC": {
+      "rmse": 3.232253620283999e-14,
+      "diferenciaMaxima": 1.1368683772161603e-13,
+      "umbralRmse": 0.025,
+      "umbralMaxima": 0.05,
+      "cumple": true,
+      "muestraDeLaMayorDiferencia": 282
+    },
+    "pressureBar": {
+      "rmse": 0.0,
+      "diferenciaMaxima": 0.0,
+      "umbralRmse": 0.01,
+      "umbralMaxima": 0.02,
+      "cumple": true,
+      "muestraDeLaMayorDiferencia": 0
+    }
+  },
+  "equivalente": true,
+  "umbralesDe": "ADR-011 § 4.3"
+}

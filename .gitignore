@@ -1,0 +1,83 @@
+# Entornos y dependencias
+.venv/
+venv/
+node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Frontend
+dist/
+coverage/
+playwright-report/
+# Capturas y registros de consola que el servidor MCP de Playwright deja al
+# navegar: son de la sesión que los generó y no describen el proyecto.
+.playwright-mcp/
+test-results/
+
+# Variables locales y secretos
+.env
+.env.*
+!.env.example
+
+# Bases y datos locales de ejecución
+*.sqlite
+*.sqlite3
+*.db
+backups/
+
+# Herramientas y sistema operativo
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+
+# EasyEDA (copias de respaldo autogeneradas)
+device/hardware/easyeda/**/*_backup/
+*.epro2
+
+# Ajustes locales de KiCad, generados por la herramienta y no versionables
+*.kicad_prl
+
+.claude
+
+# LaTeX: todo lo que produce la compilación de la monografía. Se regenera
+# entero desde los .tex y el .bib, y versionarlo llenaría el historial de
+# ruido binario en cada compilación. Las reglas van acotadas a
+# docs/monografia/ a propósito: un patrón global como *.log o *.out
+# arrastraría archivos de otras líneas de trabajo que sí importan.
+docs/monografia/*.pdf
+docs/monografia/**/*.aux
+docs/monografia/**/*.log
+docs/monografia/**/*.toc
+docs/monografia/**/*.lof
+docs/monografia/**/*.lot
+docs/monografia/**/*.out
+docs/monografia/**/*.bbl
+docs/monografia/**/*.blg
+docs/monografia/**/*.bcf
+docs/monografia/**/*.run.xml
+docs/monografia/**/*.fls
+docs/monografia/**/*.fdb_latexmk
+docs/monografia/**/*.synctex.gz
+docs/monografia/**/*.xdv
+docs/monografia/**/*.idx
+docs/monografia/**/*.ind
+docs/monografia/**/*.ilg
+docs/monografia/**/*.glo
+docs/monografia/**/*.gls
+docs/monografia/**/*.acn
+docs/monografia/**/*.acr
+docs/monografia/**/*.alg
+docs/monografia/**/*.nav
+docs/monografia/**/*.snm
+docs/monografia/**/*.vrb
+docs/monografia/**/*-blx.bib
+
+# Salida de compilar.sh de la monografía
+docs/monografia/compilado/

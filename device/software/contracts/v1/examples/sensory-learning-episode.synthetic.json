@@ -1,0 +1,26 @@
+{
+  "id": "episode-synthetic-001",
+  "coffeeId": "coffee-synthetic-001",
+  "initialExtractionId": "sim-00000001",
+  "followUpExtractionId": "sim-00000002",
+  "adjustment": {
+    "id": "adjustment-synthetic-001",
+    "performedBy": "barista-01",
+    "property": "water-temperature",
+    "previousValue": 94.0,
+    "newValue": 92.0,
+    "unit": "Cel",
+    "occurredAt": "2026-09-04T10:07:00-05:00",
+    "rationale": "Prueba sintética para evaluar una asociación contextual; no constituye una regla universal."
+  },
+  "targetOutcome": {
+    "kind": "sensory-defect",
+    "code": "amargor-excesivo"
+  },
+  "outcome": {
+    "category": "expected-observed",
+    "assessedBy": "barista-01",
+    "assessedAt": "2026-09-04T10:15:00-05:00",
+    "rationale": "El defecto objetivo no se percibió en la comprobación sintética y la evaluación posterior quedó registrada."
+  }
+}

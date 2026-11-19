@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eko.local/contracts/v1/dataset-manifest.schema.json",
+  "title": "Sensory episode dataset manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "datasetId", "selectionVersion", "createdAt", "format", "dataFile", "sha256", "recordCount", "dataOrigin", "physicalTrainingEligibleCount", "approvedProtocolReference", "unitOfObservation", "missingValuePolicy", "qualityReportFile", "qualityReportSha256", "datasheetFile", "datasheetSha256"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "datasetId": {"type": "string", "minLength": 1},
+    "selectionVersion": {"const": "sensory-learning-episodes-v2"},
+    "createdAt": {"type": "string", "format": "date-time"},
+    "format": {"const": "application/x-ndjson"},
+    "dataFile": {"const": "episodes.jsonl"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "recordCount": {"type": "integer", "minimum": 0},
+    "dataOrigin": {"enum": ["empty", "measured", "simulation", "mixed"]},
+    "physicalTrainingEligibleCount": {"type": "integer", "minimum": 0},
+    "approvedProtocolReference": {"type": ["string", "null"], "format": "uri"},
+    "unitOfObservation": {"const": "contextual-sensory-adjustment-episode"},
+    "missingValuePolicy": {"const": "preserve-null-no-imputation"},
+    "qualityReportFile": {"const": "quality-report.json"},
+    "qualityReportSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "datasheetFile": {"const": "DATASHEET.md"},
+    "datasheetSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

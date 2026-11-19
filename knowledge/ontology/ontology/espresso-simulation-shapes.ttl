@@ -1,0 +1,75 @@
+@prefix edt: <https://w3id.org/espresso-dt#> .
+@prefix esim: <https://w3id.org/espresso-dt/simulation#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+esim:SimulationRunShape a sh:NodeShape ;
+    sh:targetClass esim:SimulationRun ;
+    sh:property [ sh:path esim:usedModel ; sh:class esim:FmuModelArtifact ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:usedScenario ; sh:class esim:SimulationScenario ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:generatedVirtualExtraction ; sh:class esim:VirtualExtraction ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path prov:wasAssociatedWith ; sh:class esim:SimulationExecutor ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path prov:startedAtTime ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path prov:endedAtTime ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:durationSeconds ; sh:datatype xsd:decimal ; sh:minExclusive 0 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:semanticSchemaVersion ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+esim:FmuModelArtifactShape a sh:NodeShape ;
+    sh:targetClass esim:FmuModelArtifact ;
+    sh:property [ sh:path esim:modelId ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:modelVersion ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:contractVersion ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:sha256 ; sh:datatype xsd:string ; sh:pattern "^[0-9a-f]{64}$" ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+esim:VirtualExtractionShape a sh:NodeShape ;
+    sh:targetClass esim:VirtualExtraction ;
+    sh:property [ sh:path esim:simulatesProfile ; sh:class edt:ExtractionProfile ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:hasSimulationSeries ; sh:class esim:SimulationSeries ; sh:minCount 2 ] ;
+    sh:not [ sh:class edt:EspressoExtraction ] .
+
+esim:SimulationSeriesShape a sh:NodeShape ;
+    sh:targetClass esim:SimulationSeries ;
+    sh:property [ sh:path edt:seriesForProperty ; sh:class edt:ObservableProperty ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasUnit ; sh:class edt:Unit ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:dataReference ; sh:datatype xsd:anyURI ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:sha256 ; sh:datatype xsd:string ; sh:pattern "^[0-9a-f]{64}$" ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:sampleCount ; sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path prov:wasGeneratedBy ; sh:class esim:SimulationRun ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+esim:SimulatedObservationShape a sh:NodeShape ;
+    sh:targetClass esim:SimulatedObservation ;
+    sh:not [ sh:class edt:MeasuredObservation ] ;
+    sh:property [ sh:path edt:observedProperty ; sh:class edt:ObservableProperty ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:featureOfInterest ; sh:class esim:VirtualExtraction ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:numericValue ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasUnit ; sh:class edt:Unit ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path prov:wasGeneratedBy ; sh:class esim:SimulationRun ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+esim:PhysicalVirtualComparisonShape a sh:NodeShape ;
+    sh:targetClass esim:PhysicalVirtualComparison ;
+    sh:property [ sh:path esim:comparesVirtualExtraction ; sh:class esim:VirtualExtraction ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:comparesMeasuredExtraction ; sh:class edt:EspressoExtraction ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:hasChannelDifference ; sh:class esim:ChannelDifference ; sh:minCount 1 ] ;
+    sh:property [ sh:path esim:coverageRatio ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:comparisonVerdict ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path prov:wasGeneratedBy ; sh:class esim:SimulationRun ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:sparql [
+        sh:message "La comparación debe referirse a la extracción declarada como comparable por su réplica virtual."@es ;
+        sh:select """
+            SELECT $this WHERE {
+              $this esim:comparesVirtualExtraction ?virtual ; esim:comparesMeasuredExtraction ?measured .
+              FILTER NOT EXISTS { ?virtual esim:canBeComparedWith ?measured }
+            }
+        """
+    ] .
+
+esim:ChannelDifferenceShape a sh:NodeShape ;
+    sh:targetClass esim:ChannelDifference ;
+    sh:property [ sh:path edt:observedProperty ; sh:class edt:ObservableProperty ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path edt:hasUnit ; sh:class edt:Unit ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:comparedSampleCount ; sh:datatype xsd:integer ; sh:minInclusive 0 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:coverageRatio ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:meanSignedDifference ; sh:datatype xsd:decimal ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:rootMeanSquareDifference ; sh:datatype xsd:decimal ; sh:maxCount 1 ] ;
+    sh:property [ sh:path esim:comparisonVerdict ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ] .

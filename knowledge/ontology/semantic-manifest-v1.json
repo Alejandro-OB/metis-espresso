@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0",
+  "ontology": {
+    "id": "EKO",
+    "version": "3.5.0",
+    "path": "knowledge/ontology/ontology/espresso-dt.ttl",
+    "sha256": "5651564fb1063a70d931923bf6ae3ea510abfd711a15b51443469cfc4fe28f3a"
+  },
+  "ontologyShapes": {
+    "version": "3.5.0",
+    "path": "knowledge/ontology/ontology/espresso-dt-shapes.ttl",
+    "sha256": "4459904ec943341f56672aea54ca1b4da3f369733cd5e8b3cfbbfa3657ec72ea"
+  },
+  "simulationModule": {
+    "id": "EKO-simulation",
+    "version": "1.1.4",
+    "path": "knowledge/ontology/ontology/espresso-simulation.ttl",
+    "sha256": "e2bdd5717962b56d1ab3a7ea4778c5dc5011410e9d906a56e9c5a35b0ee39d65"
+  },
+  "simulationShapes": {
+    "version": "1.1.0",
+    "path": "knowledge/ontology/ontology/espresso-simulation-shapes.ttl",
+    "sha256": "4da7698c103e729fa5b9db65b13fbe9af0f196904ab309ce6e73bc0a3256439b"
+  },
+  "simulationQueries": {
+    "version": "1.1.0",
+    "path": "knowledge/ontology/queries/simulation-competency-questions.rq",
+    "sha256": "80eccdc65bbccf6bddce18f4320c2b5a779b377c8611c4423f7ffcff38b73886"
+  }
+}

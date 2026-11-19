@@ -1,0 +1,620 @@
+menu "Diagnóstico de la cafetera"
+
+config CAFE_EXPECTED_FLASH_MB
+    int "Capacidad esperada de flash (MB)"
+    default 16
+    range 1 128
+
+config CAFE_EXPECTED_PSRAM_MB
+    int "Capacidad esperada de PSRAM (MB)"
+    default 8
+    range 0 32
+
+config CAFE_WIFI_SCAN
+    bool "Ejecutar escaneo de Wi-Fi al arrancar"
+    default y
+
+config CAFE_LED_TEST
+    bool "Ejecutar secuencia visible en los GPIO de LED"
+    default y
+    help
+        Solo conmuta GPIO38, GPIO39, GPIO40 y GPIO41. Las órdenes del
+        calentador y de la bomba permanecen siempre en nivel bajo.
+
+config CAFE_SYNC
+    bool "Enlazar con la plataforma externa por Wi-Fi"
+    default n
+    help
+        Conecta a la red, obtiene la hora y entrega los registros pendientes.
+        No habilita ninguna ruta capaz de iniciar una preparación ni de actuar
+        sobre las salidas de potencia.
+
+config CAFE_REPORT_INTERRUPTED_EXTRACTIONS
+    bool "Informar de las preparaciones cortadas por la energía"
+    depends on CAFE_SYNC
+    default y
+    help
+        Al arrancar, una preparación que quedó abierta se envía como cerrada
+        por `unexpected-power-loss`, sin fin ni duración (ADR-005 § 3,
+        RNF-006). Exige una plataforma con el contrato del 2026-10-12, que
+        admite esos nulos: la cola se entrega por lotes y una plataforma
+        anterior rechazaría el lote entero y la bloquearía. Desactivado, la
+        marca se guarda y se borra igual, y solo se anota.
+
+config CAFE_WIFI_SSID
+    string "Nombre de la red Wi-Fi"
+    depends on CAFE_SYNC
+    default ""
+    help
+        La ESP32-S3 solo admite redes de 2,4 GHz.
+
+config CAFE_WIFI_PASSWORD
+    string "Contraseña de la red Wi-Fi"
+    depends on CAFE_SYNC
+    default ""
+    help
+        Se guarda en sdkconfig, que no se versiona. No debe escribirse en
+        sdkconfig.defaults ni en ningún archivo del repositorio.
+
+config CAFE_SYNC_URL
+    string "Dirección del servicio de sincronización (puesta en servicio)"
+    depends on CAFE_SYNC
+    default "http://192.168.1.106:8080/api/v1/sync"
+
+config CAFE_SYNC_TOKEN
+    string "Credencial del servicio de sincronización (puesta en servicio)"
+    depends on CAFE_SYNC
+    default "dev-barista-token"
+
+config CAFE_SYNC_INTERVAL_MS
+    int "Periodo entre intentos de entrega, en milisegundos"
+    depends on CAFE_SYNC
+    default 15000
+    range 1000 600000
+
+config CAFE_TELEMETRY_ACTIVE_INTERVAL_MS
+    int "Periodo de telemetría durante la preparación, en milisegundos"
+    depends on CAFE_SYNC
+    default 1000
+    range 200 60000
+    help
+      Cadencia con la que el dispositivo publica el proceso mientras extrae.
+      Esas muestras son la serie medida con la que después se compara el modelo
+      virtual, y el comparador admite hasta mil por preparación: a una por
+      segundo cubre dieciséis minutos de extracción.
+
+config CAFE_TELEMETRY_IDLE_INTERVAL_MS
+    int "Periodo de telemetría fuera de la preparación, en milisegundos"
+    depends on CAFE_SYNC
+    default 15000
+    range 1000 600000
+    help
+      Fuera de la extracción basta con mantener el estado al día. Un valor bajo
+      añadiría tráfico permanente sin aportar evidencia.
+
+config CAFE_FIRMWARE_UPDATE
+    bool "Admitir firmware nuevo por Wi-Fi desde el computador (ADR-021)"
+    depends on CAFE_SYNC
+    default y
+    help
+        Con la máquina apagada, tara y purgado sostenidos 3 s piden a la placa
+        que busque un firmware nuevo en el computador, lo escriba en la
+        partición libre y arranque con él a prueba. Ningún mensaje de red
+        puede pedirlo. Desactivado, el gesto se rechaza; la confirmación de
+        una imagen que llegó por Wi-Fi se hace igual.
+
+config CAFE_FIRMWARE_UPDATE_URL
+    string "Manifiesto del firmware en el computador (puesta en servicio)"
+    depends on CAFE_FIRMWARE_UPDATE
+    default ""
+    help
+        Dirección completa del manifiesto que publica
+        `device/software/firmware_update/publicar_firmware.py`, por ejemplo
+        http://192.168.1.50:8070/manifest.json. La imagen se busca en la misma
+        carpeta, como firmware.bin. Vacía, el gesto no busca nada. La orden
+        `C,ota,<dirección>` del puerto de servicio la desplaza.
+
+config CAFE_DEVICE_ID
+    string "Identificador del dispositivo en los mensajes de sincronización"
+    default "esp32s3-prototype-01"
+    help
+      Se envía como deviceId en cada envolvente. Debe ser estable: el servicio
+      externo lo usa junto al messageId para no duplicar registros.
+
+config CAFE_PURGE_MAXIMUM_MS
+    int "Corte del purgado manual, en ms"
+    default 10000
+    range 1000 30000
+    help
+        El supervisor corta el purgado al cumplir este tiempo, aunque el botón
+        siga pulsado. Por omisión, los 10 s de siempre. Existe para la
+        condición 3 del plan de la temperatura del café, que necesita un
+        purgado de duración constante, y para poder alargarlo cuando haga
+        falta. El tope de 30 s es la bomba más larga que el supervisor ya
+        admite en una extracción.
+
+config CAFE_CONTROL_BENCH_LOOP
+    bool "Cerrar los lazos de control contra el modelo de banco"
+    default y
+    help
+        Los dos lazos leen `control_plant` en lugar de los sensores y le
+        devuelven su actuación, de modo que el control puede verse regular sin
+        cafetera. Las salidas físicas siguen inhibidas: la sintonía declara
+        `commissioned` falso y el guardián corta por esa causa, igual que en
+        operación.
+
+        Es necesario porque `simulated_plant` no responde al controlador —no es
+        su cometido, genera escenarios para el supervisor— y un PI enfrentado a
+        una planta que lo ignora no regula nada.
+
+        Cada línea del registro declara `source=simulated`, así que un ensayo de
+        banco nunca puede confundirse con uno medido.
+
+config CAFE_SIMULATION
+    bool "Ejecutar la planta simulada sin activar cargas físicas"
+    default y
+    help
+        Ejecuta temperatura, presión, tiempos, órdenes virtuales e inyección
+        de fallos en una tarea FreeRTOS. PUMP_CMD y HEATER_CMD físicos
+        permanecen en nivel bajo.
+
+config CAFE_HYDRAULIC_TEST
+    bool "Binario del ensayo hidráulico E2: bomba a orden fija con las actas aprobadas"
+    depends on !CAFE_IDENTIFICATION && !CAFE_SIMULATION && !CAFE_CONTROL_BENCH_LOOP
+    default n
+    help
+        Puesta en servicio 9.3 (enmienda a ADR-007 § 5 del 2026-10-16). Durante
+        cada extracción la bomba trabaja a la orden elegida por el puerto con
+        `H,order,<n>`, sin el PI, y el calentador lo regula su acta. Exige las
+        dos actas compiladas: el guardián autoriza como en operación, con sus
+        límites, y por eso no hay confirmación en el mando.
+
+        Sin orden elegida la bomba no se mueve. Un equipo desplegado lleva
+        siempre el binario de operación.
+
+config CAFE_HYDRAULIC_TEST_ORDER_1
+    int "Primera orden de bomba del ensayo (%)"
+    depends on CAFE_HYDRAULIC_TEST
+    range 1 100
+    default 5
+
+config CAFE_HYDRAULIC_TEST_ORDER_2
+    int "Segunda orden de bomba del ensayo (%)"
+    depends on CAFE_HYDRAULIC_TEST
+    range 1 100
+    default 20
+
+config CAFE_HYDRAULIC_TEST_ORDER_3
+    int "Tercera orden de bomba del ensayo (%)"
+    depends on CAFE_HYDRAULIC_TEST
+    range 1 100
+    default 75
+    help
+        Las tres órdenes tienen que ser distintas y no pasar del techo del
+        acta de presión; si no, el ensayo queda sin configurar y la bomba no
+        se mueve.
+
+config CAFE_IDENTIFICATION
+    bool "Binario de identificación: modo restringido de puesta en servicio"
+    depends on !CAFE_SIMULATION && !CAFE_CONTROL_BENCH_LOOP
+    default n
+    help
+        Compila el modo restringido de ADR-007 § 5 (enmienda del 2026-09-21):
+        una autorización de actuación en lazo abierto, acotada y temporal, que
+        sustituye al controlador para registrar la respuesta de la planta. Es
+        la pieza F1 del procedimiento de puesta en servicio.
+
+        Solo relaja la inhibición por falta de puesta en servicio, y solo para
+        la salida que gobierna la secuencia elegida. Las demás causas cortan
+        igual que en operación. El PI no se ejecuta, salvo con la secuencia
+        de sintonía en caliente (ADR-020 § 4.2), y `commissioned` sigue
+        falso.
+
+        Activarlo no basta para actuar: en cada arranque hay que confirmar en
+        el mando, con café y tara apretados a la vez durante cinco segundos,
+        dentro de los treinta primeros y antes de encender. Sin esa
+        confirmación el binario se comporta como el de operación.
+
+        Exige la planta real: no se puede combinar con la simulación ni con el
+        lazo de banco, porque identificar contra un modelo no identifica nada.
+
+        Un equipo desplegado lleva siempre el binario de operación.
+
+choice CAFE_IDENTIFICATION_SEQUENCE
+    prompt "Secuencia de estímulo"
+    depends on CAFE_IDENTIFICATION
+    default CAFE_IDENTIFICATION_HEATER_STEP_1PCT_V1
+    help
+        Una secuencia por escalón de la escalera 1, 2, 3, 5 y 10 %: no se sube
+        de escalón mientras el anterior no haya dado una respuesta legible
+        sobre el ruido de reposo. Las duraciones son provisionales y salen del
+        modelo de banco; ver `stimulus_sequence.c`.
+
+        El calentador va antes que la bomba (puesta en servicio, etapas 5 y 6).
+
+    config CAFE_IDENTIFICATION_HEATER_STEP_1PCT_V1
+        bool "heater-step-1pct-v1: calentador al 1 %"
+    config CAFE_IDENTIFICATION_HEATER_STEP_2PCT_V1
+        bool "heater-step-2pct-v1: calentador al 2 %"
+    config CAFE_IDENTIFICATION_HEATER_STEP_3PCT_V1
+        bool "heater-step-3pct-v1: calentador al 3 %"
+    config CAFE_IDENTIFICATION_HEATER_STEP_5PCT_V1
+        bool "heater-step-5pct-v1: calentador al 5 %"
+    config CAFE_IDENTIFICATION_HEATER_STEP_10PCT_V1
+        bool "heater-step-10pct-v1: calentador al 10 %"
+    config CAFE_IDENTIFICATION_HEATER_STEP_2PCT_V2
+        bool "heater-step-2pct-v2: calentador al 2 % durante 3 h (etapa 5.1)"
+    config CAFE_IDENTIFICATION_HEATER_STEP_5PCT_V2
+        bool "heater-step-5pct-v2: calentador al 5 % durante 25 min (etapa 5.6)"
+    config CAFE_IDENTIFICATION_PUMP_STEP_1PCT_V1
+        bool "pump-step-1pct-v1: bomba al 1 %"
+    config CAFE_IDENTIFICATION_PUMP_STEP_2PCT_V1
+        bool "pump-step-2pct-v1: bomba al 2 %"
+    config CAFE_IDENTIFICATION_PUMP_STEP_3PCT_V1
+        bool "pump-step-3pct-v1: bomba al 3 %"
+    config CAFE_IDENTIFICATION_PUMP_STEP_5PCT_V1
+        bool "pump-step-5pct-v1: bomba al 5 %"
+    config CAFE_IDENTIFICATION_PUMP_STEP_10PCT_V1
+        bool "pump-step-10pct-v1: bomba al 10 %"
+    config CAFE_IDENTIFICATION_PUMP_STEP_20PCT_V1
+        bool "pump-step-20pct-v1: bomba al 20 %"
+    config CAFE_IDENTIFICATION_PUMP_STEP_30PCT_V1
+        bool "pump-step-30pct-v1: bomba al 30 %"
+    config CAFE_IDENTIFICATION_PUMP_STEP_50PCT_V1
+        bool "pump-step-50pct-v1: bomba al 50 %"
+    config CAFE_IDENTIFICATION_PUMP_STEP_75PCT_V1
+        bool "pump-step-75pct-v1: bomba al 75 %"
+    config CAFE_IDENTIFICATION_HEATER_TUNING_10PCT_V1
+        bool "heater-tuning-10pct-v1: PI con techo del 10 % durante 2 h (sintonía)"
+        select CAFE_IDENTIFICATION_THERMAL_TUNING
+    config CAFE_IDENTIFICATION_PUMP_DIAGNOSTIC_50PCT_V1
+        bool "pump-diagnostic-50pct-v1: bomba al 50 % durante 25 s (diagnóstico, no identifica)"
+    config CAFE_IDENTIFICATION_PUMP_DIAGNOSTIC_100PCT_V1
+        bool "pump-diagnostic-100pct-v1: bomba al 100 % durante 10 s (diagnóstico, no identifica)"
+    config CAFE_IDENTIFICATION_HEATER_PULSE_100PCT_V1
+        bool "heater-pulse-100pct-v1: calentador al 100 % durante 30 s y 15 min de registro (arrastre)"
+        help
+            Mide cuánto sigue subiendo la caldera tras cortar la plena potencia,
+            dato del arranque rápido. La energía del pulso acota la subida total
+            a unos 41 °C. Exige un tope del 100 % y conviene un límite duro de
+            prueba bajo como respaldo.
+    config CAFE_IDENTIFICATION_PUMP_LADDER_V1
+        bool "pump-ladder-v1: escalera de la bomba 1–75 % en un solo binario"
+        help
+            Arranca en el escalón del 1 %. Con la secuencia terminada, `B,step,<n>`
+            por el puerto de servicio arma el mismo escalón o el siguiente, nunca
+            otro (enmienda a ADR-007 § 5 del 2026-10-10). El tope tiene que
+            cubrir el 75 %.
+    config CAFE_IDENTIFICATION_PUMP_THERMAL_LADDER_V1
+        bool "pump-thermal-ladder-v1: escalera de la bomba de 25 s a 10, 30 y 50 % (7.9)"
+        help
+            La misma escalera, con escalones de 25 s, lo que dura una
+            extracción: los de 6 s no dan tiempo a que el sensor del cuerpo vea
+            el agua fría. Sirve para medir la ganancia de la prealimentación
+            ff-v1 con el PI térmico regulando. El tope tiene que cubrir el 50 %.
+    config CAFE_IDENTIFICATION_PUMP_TUNING_75PCT_V1
+        bool "pump-tuning-75pct-v1: PI de presión con techo del 75 % durante 25 s (sintonía)"
+        select CAFE_IDENTIFICATION_PRESSURE_TUNING
+        help
+            Sintonía en caliente del lazo de presión (puesta en servicio 7.1 a
+            7.3, enmienda a ADR-007 § 5 del 2026-10-12). Una extracción por
+            prueba; con la secuencia terminada, `B,step,75` la vuelve a armar.
+            El tope tiene que cubrir el 75 %.
+endchoice
+
+config CAFE_IDENTIFICATION_THERMAL_TUNING
+    bool
+    depends on CAFE_IDENTIFICATION
+    help
+        La activa la secuencia heater-tuning. Tras la confirmación física, el
+        PI térmico regula con la planta provisional de abajo y su salida no
+        pasa del techo de la secuencia. Por el puerto de servicio, `A,lambda,`
+        y `A,integral,` cambian la sintonía en caliente (ADR-020 § 4.2).
+        `commissioned` sigue falso.
+
+config CAFE_IDENTIFICATION_TUNING_GAIN_MILLI
+    int "Planta provisional: K en milésimas de °C por % de demanda"
+    depends on CAFE_IDENTIFICATION_THERMAL_TUNING
+    default 0
+    range 0 1000000
+    help
+        De la 5.2, no de una estimación. Con 0 la sintonía queda sin
+        configurar y el PI no pide potencia: es el valor por omisión a
+        propósito, para que olvidar ponerlo no regule con una planta inventada.
+
+config CAFE_IDENTIFICATION_TUNING_TIME_CONSTANT_S
+    int "Planta provisional: τ en segundos"
+    depends on CAFE_IDENTIFICATION_THERMAL_TUNING
+    default 0
+    range 0 100000
+
+config CAFE_IDENTIFICATION_TUNING_DEAD_TIME_MS
+    int "Planta provisional: θ en milisegundos"
+    depends on CAFE_IDENTIFICATION_THERMAL_TUNING
+    default 0
+    range 0 600000
+
+config CAFE_IDENTIFICATION_TUNING_LAMBDA_S
+    int "λ inicial en segundos"
+    depends on CAFE_IDENTIFICATION_THERMAL_TUNING
+    default 30
+    range 1 1800
+    help
+        La propuesta del borrador del acta térmica, unas diez veces el
+        retardo. Se cambia en caliente con `A,lambda,<s>`.
+
+config CAFE_IDENTIFICATION_TUNING_FILTER_MS
+    int "Constante del filtro de temperatura en milisegundos"
+    depends on CAFE_IDENTIFICATION_THERMAL_TUNING
+    default 500
+    range 1 10000
+    help
+        0,5 s, decidido en la 5.3 el 2026-10-09.
+
+config CAFE_IDENTIFICATION_TUNING_SETPOINT_RATE_MILLI
+    int "Velocidad de la referencia en milésimas de °C por segundo"
+    depends on CAFE_IDENTIFICATION_THERMAL_TUNING
+    default 500
+    range 1 100000
+    help
+        0,5 °C/s, la propuesta del borrador del acta térmica.
+
+config CAFE_IDENTIFICATION_PRESSURE_TUNING
+    bool
+    depends on CAFE_IDENTIFICATION
+    help
+        La activa la secuencia pump-tuning. Tras la confirmación física, el PI
+        de presión regula hacia la referencia del perfil con la planta
+        provisional de abajo, y su salida no pasa del techo de la secuencia.
+        `A,lambda,` y `A,integral,` cambian la sintonía en caliente, como en la
+        térmica. `commissioned` sigue falso.
+
+        Símbolos propios y no los de la térmica: la presión se sintoniza en
+        décimas de segundo y en bar, y compartirlos obligaría a leer cada
+        número según qué secuencia esté elegida.
+
+config CAFE_IDENTIFICATION_PRESSURE_TUNING_GAIN_MILLI
+    int "Planta provisional de presión: K en milésimas de bar por % de bomba"
+    depends on CAFE_IDENTIFICATION_PRESSURE_TUNING
+    default 0
+    range 0 1000000
+    help
+        De la 6.5 con café, no de una estimación. Con 0 la sintonía queda sin
+        configurar y la bomba no recibe nada: olvidar ponerlo no regula con una
+        planta inventada.
+
+config CAFE_IDENTIFICATION_PRESSURE_TUNING_TIME_CONSTANT_MS
+    int "Planta provisional de presión: τ en milisegundos"
+    depends on CAFE_IDENTIFICATION_PRESSURE_TUNING
+    default 0
+    range 0 600000
+
+config CAFE_IDENTIFICATION_PRESSURE_TUNING_DEAD_TIME_MS
+    int "Planta provisional de presión: θ en milisegundos"
+    depends on CAFE_IDENTIFICATION_PRESSURE_TUNING
+    default 0
+    range 0 600000
+
+config CAFE_IDENTIFICATION_PRESSURE_TUNING_LAMBDA_MS
+    int "λ inicial de presión en milisegundos"
+    depends on CAFE_IDENTIFICATION_PRESSURE_TUNING
+    default 1000
+    range 1 1800000
+    help
+        Se cambia en caliente con `A,lambda,<s>`, que admite decimales.
+
+config CAFE_IDENTIFICATION_PRESSURE_TUNING_FILTER_MS
+    int "Constante del filtro de presión en milisegundos"
+    depends on CAFE_IDENTIFICATION_PRESSURE_TUNING
+    default 20
+    range 1 10000
+    help
+        20 ms, el elegido en la 6.4 el 2026-10-11 (retrasa la subida 19 ms
+        frente a 53 ms con 50 ms). La 7.8 lo confirma con el lazo cerrado.
+
+config CAFE_IDENTIFICATION_PRESSURE_TUNING_SETPOINT_RATE_MILLI
+    int "Velocidad de la referencia de presión en milésimas de bar por segundo"
+    depends on CAFE_IDENTIFICATION_PRESSURE_TUNING
+    default 3000
+    range 1 1000000
+    help
+        3 bar/s, el valor del lazo de banco: de 0 a 9 bar en unos tres
+        segundos, un arranque suave y no un escalón.
+
+config CAFE_IDENTIFICATION_PRESSURE_PREINFUSION_MARGIN_MBAR
+    int "Preinfusión: el PI entra a la referencia menos este margen, en mbar"
+    depends on CAFE_IDENTIFICATION_PRESSURE_TUNING
+    default 500
+    range 0 5000
+    help
+        Mientras la pastilla se moja la bomba va al techo, sin PI, y la
+        presión se queda en la meseta de la canastilla. El PI entra cuando la
+        presión filtrada llega a la referencia menos este margen (enmienda a
+        ADR-007 § 5 del 2026-10-12, tarde). 0,5 bar: con 8,5 bar de referencia
+        el paso es a 8,0, y la meseta medida con el rizado de la bomba no pasó
+        de 7,4. Con 0 no pasa nunca al PI.
+
+config CAFE_IDENTIFICATION_PRESSURE_PREINFUSION_FILTER_MS
+    int "Preinfusión: constante del filtro de la decisión del paso, en ms"
+    depends on CAFE_IDENTIFICATION_PRESSURE_TUNING
+    default 300
+    range 1 5000
+    help
+        Solo para decidir el paso al PI; el PI sigue con su filtro de 20 ms.
+        Con 20 ms, en la primera prueba con preinfusión (2026-10-12, 44 clics)
+        un golpe de la bomba llevó la lectura a 8,2 bar con la meseta en 7,3, y
+        el PI entró antes de que la pastilla cerrara. 300 ms reducen el rizado
+        de ±0,6–0,9 bar a 3,6 Hz a unos ±0,1.
+
+config CAFE_IDENTIFICATION_PRESSURE_PREINFUSION_INTEGRAL_PERCENT
+    int "Preinfusión: integral con que arranca el PI, en %"
+    depends on CAFE_IDENTIFICATION_PRESSURE_TUNING
+    default 15
+    range 0 100
+    help
+        Lo que pide la bomba en régimen fue un 10 % con 44 clics y un 54 % con
+        32 y 38 (2026-10-12). Arrancar cerca de lo menor evita el sobrepaso con
+        la molienda fina; con la gruesa el PI sube desde ahí.
+
+config CAFE_IDENTIFICATION_MAXIMUM_PERCENT
+    int "Tope del estímulo que impone el guardián, en % (provisional)"
+    depends on CAFE_IDENTIFICATION
+    default 1
+    range 1 100
+    help
+        Lo impone el guardián en cada ciclo, aparte de la secuencia: quien
+        genera el estímulo no juzga si es admisible. Un estímulo por encima
+        inhibe con `stimulus-limit`; no se recorta.
+
+        Es una declaración separada a propósito. Subir de escalón exige
+        cambiar la secuencia **y** el tope, y una secuencia que pida más que
+        el tope ni siquiera se arma.
+
+        El valor no está medido. El 1 % es el primer escalón que fija la
+        enmienda de ADR-007 § 5, y se sube solo cuando el escalón anterior
+        haya dado una respuesta legible.
+
+config CAFE_IDENTIFICATION_PUMP_NO_HEAT
+    bool "Diagnóstico de bomba sin calentar (2026-10-10)"
+    depends on CAFE_IDENTIFICATION && !CAFE_IDENTIFICATION_TRIP_TEST
+    default n
+    help
+        La referencia de café baja a 5 °C: la máquina se declara preparada a
+        cualquier temperatura y el lazo térmico no pide potencia, de modo que
+        la bomba se puede probar con agua fría sin esperar a calentar. La
+        confirmación física, el guardián, el corte de 2 min y el corte por
+        presión siguen igual. Solo para diagnóstico de la bomba; sus registros
+        no entran en la identificación.
+
+config CAFE_IDENTIFICATION_TRIP_TEST
+    bool "Ensayo de corte: límite duro de temperatura bajado (puesta en servicio 5.10)"
+    depends on CAFE_IDENTIFICATION
+    default n
+    help
+        Baja el límite duro de temperatura para comprobar sobre la caldera real
+        que la máquina pasa sola a alarma al superarlo, sin llevarla al límite
+        de banco. La referencia de café baja con él para que los límites sigan
+        siendo válidos.
+
+        Solo puede bajar el límite, nunca subirlo, y no toca ninguna otra
+        protección. Es exclusivo del binario de identificación: un equipo
+        desplegado lleva el de operación.
+
+config CAFE_IDENTIFICATION_TRIP_TEST_LIMIT_C
+    int "Límite duro de prueba, en °C"
+    depends on CAFE_IDENTIFICATION_TRIP_TEST
+    default 60
+    range 40 140
+
+config CAFE_HEATER_FEEDFORWARD_MILLI
+    int "Prealimentación del calentador ff-v1, en milésimas de % por cada % de bomba"
+    depends on CAFE_IDENTIFICATION
+    default 0
+    range 0 5000
+    help
+        ADR-009 § 3.4: potencia que se suma al calentador en proporción a la
+        densidad de la bomba, mientras la bomba está autorizada, por encima del
+        tope del PI (puerta 2, enmienda del 2026-10-12). Solo existe en el
+        binario de identificación, para los ensayos que la miden; uno de
+        operación la toma del acta de temperatura. Cero la apaga. La 7.9 la
+        midió en 1150 con la canastilla vacía, que es un techo.
+
+config CAFE_HEATER_RECOVERY_HOLD
+    bool "Retener la integral térmica durante la extracción y la recuperación (ensayo)"
+    depends on CAFE_IDENTIFICATION
+    default n
+    help
+        ADR-009, enmienda del 2026-10-16 (puesta en servicio 7.6): la integral
+        del PI térmico no se actualiza desde que la bomba queda autorizada
+        hasta que el metal vuelve a la referencia. Solo existe en el binario de
+        identificación, para el ensayo que la comprueba en la máquina; uno de
+        operación la toma del acta de temperatura.
+
+config CAFE_HEATER_RECOVERY_RETURN_TAU_S
+    int "Devolución de la integral térmica tras el café, τ_eq en segundos (ensayo; 0 la apaga)"
+    depends on CAFE_IDENTIFICATION
+    default 0
+    range 0 3600
+    help
+        ADR-009, segunda enmienda del 2026-10-16 (puesta en servicio 7.6):
+        desde que para la bomba, la integral del PI térmico se devuelve al
+        valor que tenía al arrancarla con esta constante de tiempo, durante
+        tres constantes. El modelo de tres nodos da 533 s, provisional. Solo
+        existe en el binario de identificación; uno de operación la toma del
+        acta. No se combina con CAFE_HEATER_RECOVERY_HOLD.
+
+config CAFE_HEATER_FAST_START_PROVISIONAL
+    bool "Arranque rápido con parámetros provisionales (ensayo supervisado)"
+    depends on CAFE_IDENTIFICATION
+    default n
+    help
+        ADR-009, enmienda del 2026-10-11, paso 2: el primer arranque rápido se
+        hace con un margen provisional grande para medir el arrastre real.
+        Solo existe en el binario de identificación, con el operador delante:
+        un binario de operación toma estos números del acta de temperatura y,
+        si el acta no los trae, el arranque rápido no actúa.
+
+if CAFE_HEATER_FAST_START_PROVISIONAL
+
+config CAFE_HEATER_FAST_START_MARGIN_DECI_C
+    int "Margen δ bajo la referencia, en décimas de °C"
+    default 0
+    range 0 900
+    help
+        El corte es la referencia menos este margen. Cero no es válido y deja
+        el arranque rápido sin actuar: el valor del ensayo lo elige el operador
+        y queda escrito con su razón en la evidencia.
+
+config CAFE_HEATER_FAST_START_BAND_DECI_C
+    int "Banda de activación, en décimas de °C"
+    default 0
+    range 0 900
+
+config CAFE_HEATER_FAST_START_MAX_BOOST_S
+    int "Tiempo máximo al 100 %, en segundos"
+    default 0
+    range 0 3600
+
+config CAFE_HEATER_FAST_START_MAX_SETPOINT_DECI_C
+    int "Referencia máxima con arranque rápido, en décimas de °C"
+    default 0
+    range 0 1200
+
+config CAFE_HEATER_FAST_START_RELEASE_DECI_C
+    int "Caída desde el máximo que termina la espera, en décimas de °C"
+    default 0
+    range 0 100
+
+endif
+
+config CAFE_FIRST_USE_OFFSET_PROVISIONAL
+    bool "Compensación del primer uso con máximo provisional (ensayo supervisado)"
+    depends on CAFE_IDENTIFICATION
+    default n
+    help
+        ADR-009, enmienda del 2026-10-19: el gemelo de la plataforma pide en
+        el perfil (`boilerOffsetC`) subir la referencia de caldera para la
+        próxima preparación, y la placa lo admite hasta un máximo que sale
+        del acta de temperatura (sección `first_use_offset`). Para el ensayo
+        que mide ese máximo, antes de que la sección exista, este binario
+        admite uno provisional; si se da, manda sobre el acta y se avisa en
+        el registro. Solo existe en el binario de identificación: sin
+        confirmar el modo restringido en el mando se comporta como el de
+        operación. Un binario de operación lo toma del acta y, si el acta no
+        lo trae, rechaza cualquier desplazamiento.
+
+if CAFE_FIRST_USE_OFFSET_PROVISIONAL
+
+config CAFE_FIRST_USE_OFFSET_MAX_DECI_C
+    int "Desplazamiento máximo de la referencia de caldera, en décimas de °C"
+    default 0
+    range 0 100
+    help
+        Cero no admite ningún desplazamiento. El valor del ensayo lo elige el
+        operador y queda escrito con su razón en la evidencia. El límite duro
+        sigue mandando: una referencia subida que no deje la banda de «lista»
+        bajo él se rechaza aunque quepa en este máximo.
+
+endif
+
+endmenu

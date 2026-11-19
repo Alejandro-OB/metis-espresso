@@ -1,0 +1,14 @@
+{
+  "id": "sensory-evaluation-synthetic-001",
+  "evaluatedBy": "barista-01",
+  "evaluatedAt": "2026-09-04T10:05:00-05:00",
+  "protocolReference": "urn:eko:test:sensory-protocol:001",
+  "descriptors": ["chocolate"],
+  "defects": ["amargor-excesivo"],
+  "scores": [
+    {"attribute": "bitterness", "dimension": "perceived-intensity", "value": 8},
+    {"attribute": "bitterness", "dimension": "hedonic-liking", "value": 2}
+  ],
+  "acceptance": {"status": "rejected", "rationale": "El amargor fue excesivo para el objetivo de esta prueba."},
+  "comment": "Fixture sintético; no representa una degustación real."
+}
