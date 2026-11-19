@@ -6,7 +6,7 @@ Modelo de prueba de integración, no el modelo físico de la cafetera (ese está
 `EkoCoffeeMachine.mo` es una planta de primer orden para temperatura y presión.
 Sus parámetros sirven para probar la integración; **no se identificaron sobre la
 cafetera** y no deben leerse como parámetros reales, límites de seguridad ni
-ganancias de control. En el registro de modelos de la plataforma
+ganancias de control. En el registro de modelos del servidor
 (`models/modelica/model-registry-v1.json`) figura como `espresso-reduced-fixture`,
 con papel de *fixture*.
 
@@ -49,15 +49,15 @@ PYTHONPATH=../packages python -m unittest software.modelica.tests.test_modelica_
 
 `PYTHONPATH` hace falta porque el adaptador viene de `packages/espresso_simulation`.
 
-## Puente con la placa
+## Puente con la tarjeta de control
 
-Desde `device/`, con la placa conectada por USB:
+Desde `device/`, con la tarjeta de control conectada por USB:
 
 ```bash
 PYTHONPATH=../packages python -m software.modelica.fmu_hil_bridge --port /dev/ttyACM0 --steps 100
 ```
 
-Avanza la FMU, envía a la placa tramas `I,…` y escribe la respuesta `O,…` en
+Avanza la FMU, envía a la tarjeta de control tramas `I,…` y escribe la respuesta `O,…` en
 `hil_fmu_run.csv`. El puente abre el puerto a 115200 baudios y la consola del
 firmware va a 921600: hay que igualar la velocidad antes de usarlo. Es un modo de
 prueba; las salidas de potencia deben estar desconectadas.

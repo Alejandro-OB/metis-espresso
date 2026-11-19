@@ -1,6 +1,6 @@
 # PCB-MANDO · liberación 2026-09-20
 
-Placa del panel: cuatro LED indicadores, ocho pulsadores y el cable soldado que
+Tarjeta del panel: cuatro LED indicadores, ocho pulsadores y el cable soldado que
 sube a `PCB-CONTROL`. No tiene red de 120 VAC.
 
 ## Archivos
@@ -16,7 +16,7 @@ El esquemático agrupa los pulsadores por la función que rotula la serigrafía
 —encendido, preparación, vapor y purga— y llama al conector por su destino,
 `PCB-CONTROL`.
 
-## Datos de la placa
+## Datos de la tarjeta
 
 | | |
 |---|---|
@@ -66,11 +66,11 @@ máquina no tiene función de vapor (ver
   igual, porque reparte el esfuerzo mecánico del cable.
 - El paso de esta fila es **2,54 mm** (22,86 mm de extremo a extremo); el de
   `PCB-CONTROL` es 2,50 mm (22,50 mm). Si alguna vez se pone una tira de pines,
-  no sirve la misma pieza en las dos placas.
+  no sirve la misma pieza en las dos tarjetas.
 
 ## Lista de materiales
 
 `LED3` usa el dispositivo genérico `5mm_LED` porque la librería no tiene uno
 amarillo; el color consta en el designador. La columna de código de proveedor del
-BOM no es fiable en esta placa: los otros LED y las resistencias arrastran
+BOM no es fiable en esta tarjeta: los otros LED y las resistencias arrastran
 nombres internos de librería, no referencias de compra.

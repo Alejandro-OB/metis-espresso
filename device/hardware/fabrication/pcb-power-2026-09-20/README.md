@@ -1,6 +1,6 @@
 # PCB-POTENCIA · liberación 2026-09-20
 
-> **Es la única placa con red de 120 VAC.** No se energiza sin haber revisado la
+> **Es la única tarjeta con red de 120 VAC.** No se energiza sin haber revisado la
 > barrera de aislamiento ya soldada (sin restos de estaño, fundente ni puentes) y
 > el cableado de los portafusibles descrito abajo.
 
@@ -23,7 +23,7 @@ sexta, la única con recuadro **verde**, reúne lo que no toca los 120 V: la
 conexión a `PCB-CONTROL`, el driver del SSR y los conectores de mando `SSR-DC` y
 `DIM-LOG`. Así se ve de un vistazo qué se puede tocar con la máquina enchufada.
 
-## Datos de la placa
+## Datos de la tarjeta
 
 | | |
 |---|---|
@@ -43,10 +43,10 @@ aislado quedan **8,90 mm en la cara inferior** y 10,04 mm en la superior. La
 regla de diseño fija 8,0 mm de región prohibida en ambas capas.
 
 Esa franja es lo único que impide que la red llegue a la ESP32 y al panel que se
-toca con la mano. Un cambio que la cruce invalida la placa, y hay que volver a
+toca con la mano. Un cambio que la cruce invalida la tarjeta, y hay que volver a
 medirla cada vez que se reconstruya un relleno de cobre.
 
-## Componentes fuera de la placa
+## Componentes fuera de la tarjeta
 
 El esquemático incluye, sin huella en el PCB, lo que se instala en el chasis,
 para que se vea a dónde llega cada bornera:
@@ -63,7 +63,7 @@ para que se vea a dónde llega cada bornera:
 
 ## Cableado
 
-**Los fusibles no van en la placa.** Las borneras `DESDE-FUS-12A` y
+**Los fusibles no van en la tarjeta.** Las borneras `DESDE-FUS-12A` y
 `DESDE-FUS-2A` son por donde **vuelve** el cable desde cada portafusible, no donde
 se monta. Sus dos pines son el mismo nodo: conectar ahí el portafusible lo dejaría
 en paralelo con la pista y anulado.
@@ -72,14 +72,14 @@ en paralelo con la pista y anulado.
 8,75 A, quedaría detrás del fusible de 2 A, y la fuente y la bomba detrás del de
 12 A, sin protección efectiva.
 
-**El reparto del conductor de línea se hace fuera de la placa.** Ese conductor se
+**El reparto del conductor de línea se hace fuera de la tarjeta.** Ese conductor se
 divide hacia `RED-IN`, el portafusible de 12 A y el de 2 A, y por ese nudo pasan
 los 9,46 A de toda la máquina. Hace falta una regleta en el chasis.
 
 **El dimmer necesita tres hilos de red.** Su módulo tiene cuatro bornes —`AC-IN`,
 `N`, `N`, `AC-OUT`— y detecta el cruce por cero entre `AC-IN` y `N`. Además de los
 dos hilos de `DIM-AC`, se lleva un neutro desde uno de los tornillos de neutro
-libres de la placa.
+libres de la tarjeta.
 
 ### Rótulos de serigrafía
 
@@ -154,7 +154,7 @@ La serigrafía dice 98 °C; en la unidad construida se montó un termofusible de
 ### Al soldar el termofusible
 
 El calor del soldador lo dispara y queda abierto para siempre, y entonces parece
-un defecto de la placa. Se suelda rápido, con la punta a temperatura baja y
+un defecto de la tarjeta. Se suelda rápido, con la punta a temperatura baja y
 **sujetando la pata con alicates entre el cuerpo y el punto de soldadura**, para
 que hagan de disipador. Los mismos alicates sirven al doblar las patas, para que
 el esfuerzo no llegue al sello del encapsulado.

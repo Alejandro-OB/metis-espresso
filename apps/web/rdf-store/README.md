@@ -1,6 +1,6 @@
 # Almacén RDF
 
-Imagen del almacén RDF de la plataforma: **Apache Jena Fuseki 5.5.0** oficial
+Imagen del almacén RDF del servidor: **Apache Jena Fuseki 5.5.0** oficial
 sobre `eclipse-temurin:21-jre-alpine`, sin extensiones de terceros.
 
 ## Por qué una imagen propia

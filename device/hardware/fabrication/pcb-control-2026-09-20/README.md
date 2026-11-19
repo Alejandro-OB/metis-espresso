@@ -1,6 +1,6 @@
 # PCB-CONTROL · liberación 2026-09-20
 
-Placa lógica del controlador. Lleva la tarjeta ESP32-S3, el conversor `ADS1115`
+Tarjeta lógica del controlador. Lleva la tarjeta ESP32-S3, el conversor `ADS1115`
 que lee el NTC de la caldera y el transductor de presión, el amplificador `HX711`
 de la báscula y los conectores hacia `PCB-MANDO` y `PCB-POTENCIA`. No tiene red
 de 120 VAC.
@@ -17,7 +17,7 @@ de 120 VAC.
 La lista de materiales está en
 [`../../easyeda/current/pcb-control-bom.csv`](../../easyeda/current/pcb-control-bom.csv).
 
-## Datos de la placa
+## Datos de la tarjeta
 
 | | |
 |---|---|
@@ -55,7 +55,7 @@ apoya con `VDD` sobre el pad cuadrado.
 
 ## Al leer el trazado
 
-- `I2C_SCL` e `I2C_SDA` rodean la placa por el borde derecho (68 y 92 mm de
+- `I2C_SCL` e `I2C_SDA` rodean la tarjeta por el borde derecho (68 y 92 mm de
   recorrido). Son señales de bus lento y esa longitud no las afecta.
 - La derivación de `+3V3` al `ADS1115` va a 10 mil, más estrecha que el resto de
   la red, porque entre dos pads contiguos no cabe una pista más ancha. El

@@ -3,7 +3,7 @@
 Proyecto ESP-IDF 6.1 / FreeRTOS para la tarjeta `ESP32-S3-N16R8` (16 MB de
 flash, 8 MB de PSRAM) montada en `PCB-CONTROL`. Mide temperatura y presión,
 regula el calentador y la bomba con dos lazos PI, gobierna la máquina de estados
-del panel y entrega los registros a la plataforma por Wi-Fi.
+del panel y entrega los registros al servidor por Wi-Fi.
 
 ## Seguridad de las salidas de potencia
 
@@ -42,7 +42,7 @@ nombre es la envoltura con el hardware. Algunos de los principales:
 | `panel_runtime`, `panel_gesture`, `indicator_panel` | Pulsadores y LED de `PCB-MANDO` |
 | `extraction_runtime`, `extraction_profile`, `extraction_session` | Registro de cada extracción contra el perfil vigente |
 | `water_reference`, `first_use_offset` | Recta caldera → agua y compensación del primer uso |
-| `nvs_outbox`, `sync_runtime`, `sync_transport` | Cola persistente y entrega a la plataforma |
+| `nvs_outbox`, `sync_runtime`, `sync_transport` | Cola persistente y entrega al servidor |
 | `firmware_update` | Actualización por Wi-Fi con vuelta atrás |
 | `simulated_plant`, `control_plant` | Planta simulada y modelo de banco, sin cargas físicas |
 | `pin_map.h` | Asignación de pines |
@@ -73,8 +73,8 @@ Opciones de enlace (requieren `CAFE_SYNC`):
 | Opción | Uso |
 |---|---|
 | `CAFE_WIFI_SSID`, `CAFE_WIFI_PASSWORD` | Red de 2,4 GHz |
-| `CAFE_SYNC_URL` | Dirección de `POST /api/v1/sync` en la plataforma |
-| `CAFE_SYNC_TOKEN` | *Token* de escritura de la plataforma |
+| `CAFE_SYNC_URL` | Dirección de `POST /api/v1/sync` en el servidor |
+| `CAFE_SYNC_TOKEN` | *Token* de escritura del servidor |
 | `CAFE_DEVICE_ID` | `deviceId` estable de los mensajes |
 | `CAFE_FIRMWARE_UPDATE`, `CAFE_FIRMWARE_UPDATE_URL` | Actualización por Wi-Fi y su manifiesto |
 
@@ -111,7 +111,7 @@ su sintonía y si está puesto en servicio. Después se imprime un `heartbeat` c
 (`ota_0`, `ota_1`), sin partición `factory`. `sdkconfig.defaults` activa
 `CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE`.
 
-La placa no descarga nada por iniciativa propia ni por orden de la red. Con la
+La máquina no descarga nada por iniciativa propia ni por orden de la red. Con la
 máquina apagada, **tara y purgado sostenidos 3 s** le piden buscar el manifiesto
 configurado (`CAFE_FIRMWARE_UPDATE_URL`, o la orden `C,ota,<dirección>` por el
 puerto serie), cuyo formato es:

@@ -1,13 +1,13 @@
-# Plataforma web
+# Servidor local
 
 Aplicación que corre en la Raspberry Pi 5 junto a la cafetera. Recibe la
 telemetría del controlador ESP32-S3, guarda cada preparación con su contexto,
 ejecuta el modelo físico (FMU) para compararlo con lo medido y publica los datos
 como RDF en un almacén SPARQL.
 
-La plataforma **no acciona la máquina**. La API no tiene ninguna ruta para
+El servidor **no acciona la máquina**. La API no tiene ninguna ruta para
 iniciar una extracción ni para mandar la bomba o el calentador; lo único que la
-placa recibe de vuelta son confirmaciones y configuraciones que ella misma valida
+máquina recibe de vuelta son confirmaciones y configuraciones que ella misma valida
 antes de aplicarlas.
 
 ## Qué hace
@@ -15,7 +15,7 @@ antes de aplicarlas.
 - Sesión por usuario, con roles de barista y de administración.
 - Catálogo de cafés y de equipos.
 - Perfiles de preparación: creación, aprobación, activación, retiro y comparación.
-- Preparación en vivo con las curvas de temperatura y presión que envía la placa,
+- Preparación en vivo con las curvas de temperatura y presión que envía la máquina,
   y registro posterior de mediciones manuales, contexto y evaluación sensorial.
 - Historial, comparación y exportación de extracciones, con trazabilidad de cada
   documento.
@@ -109,10 +109,10 @@ real hay que cambiar al menos las contraseñas y los *tokens*.
 
 ## Entrada desde la cafetera
 
-La placa envía lotes de mensajes a `POST /api/v1/sync` con un *token* de
+La máquina envía lotes de mensajes a `POST /api/v1/sync` con un *token* de
 escritura (`APP_BARISTA_TOKEN`). Los mensajes siguen el contrato de
 [`device/software/contracts/v1/`](../../device/software/contracts/v1/README.md); la
-respuesta confirma cada `messageId` recibido y la placa borra de su cola solo lo
+respuesta confirma cada `messageId` recibido y la máquina borra de su cola solo lo
 confirmado.
 
 Las muestras de telemetría que llegan durante una preparación se archivan como la
@@ -178,7 +178,7 @@ make contract
 Las unidades suponen el usuario `espresso`, el repositorio en
 `/home/espresso/espresso` y el disco de copias montado en `/mnt/datos`; cada
 archivo trae en la cabecera cómo se instala. Si el disco no está montado la
-plataforma arranca igual, pero la copia falla y la unidad queda en estado
+el servidor arranca igual, pero la copia falla y la unidad queda en estado
 `failed`. `restaurar.sh` solo restaura la base de datos; los volúmenes quedan en
 la copia como `.tar.gz`.
 
@@ -194,7 +194,7 @@ apps/web/
 ├── compose.yaml      Entorno integrado
 ├── compose.dev.yaml  Vite con recarga automática
 ├── compose.test.yaml Entorno aislado de aceptación
-├── respaldar.sh      Copia de la plataforma
+├── respaldar.sh      Copia del servidor
 ├── restaurar.sh      Restauración verificada
 └── Makefile          Atajos de construcción y pruebas
 ```

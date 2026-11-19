@@ -1,9 +1,9 @@
 # Fabricación
 
-Salidas de fabricación de las tres placas del controlador. Cada liberación vive
+Salidas de fabricación de las tres tarjetas del controlador. Cada liberación vive
 en una subcarpeta con su fecha.
 
-| Carpeta | Placa |
+| Carpeta | Tarjeta |
 |---|---|
 | [`pcb-control-2026-09-20/`](pcb-control-2026-09-20/README.md) | `PCB-CONTROL`: ESP32-S3, conversor ADS1115, báscula HX711 y conectores de sensores, mando y potencia |
 | [`pcb-mando-2026-09-20/`](pcb-mando-2026-09-20/README.md) | `PCB-MANDO`: panel con cuatro LED y los pulsadores |
@@ -21,7 +21,7 @@ Cada carpeta trae:
 Los proyectos de origen, en EasyEDA Pro (`.eprj2`), están en
 [`../easyeda/current/`](../easyeda/current/).
 
-Las tres placas se fabrican en un mismo panel, así que comparten el espesor de
+Las tres tarjetas se fabrican en un mismo panel, así que comparten el espesor de
 cobre: 1 oz.
 
 ## Plantilla de impresión
@@ -30,7 +30,7 @@ cobre: 1 oz.
 Solo usa la biblioteca estándar de Python.
 
 ```bash
-python3 plantilla_impresion.py <directorio-gerber> <salida.pdf> [nombre-placa]
+python3 plantilla_impresion.py <directorio-gerber> <salida.pdf> [nombre-tarjeta]
 ```
 
 - La cara inferior sale **espejada**, vista desde abajo, que es como se montan
