@@ -24,7 +24,7 @@ services:
       APP_ENVIRONMENT: ${APP_ENVIRONMENT:-development}
       APP_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-espresso}:${POSTGRES_PASSWORD:-espresso-development-only}@db:5432/${POSTGRES_DB:-espresso}
       APP_CORS_ORIGINS: '[]'
-      APP_SEED_DEMO: ${APP_SEED_DEMO:-true}
+      APP_SEED_DEMO: ${APP_SEED_DEMO:-false}
       APP_VIEWER_TOKEN: ${APP_VIEWER_TOKEN:-dev-viewer-token}
       APP_BARISTA_TOKEN: ${APP_BARISTA_TOKEN:-dev-barista-token}
       APP_ADMIN_TOKEN: ${APP_ADMIN_TOKEN:-dev-admin-token}

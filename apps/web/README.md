@@ -98,7 +98,7 @@ real hay que cambiar al menos las contraseñas y los *tokens*.
 | Variable | Propósito |
 |---|---|
 | `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD` | Acceso a PostgreSQL |
-| `APP_SEED_DEMO` | Carga de datos de demostración (por omisión `true`) |
+| `APP_SEED_DEMO` | Carga de datos de demostración (por omisión `false`) |
 | `APP_INITIAL_BARISTA_*`, `APP_INITIAL_ADMIN_*` | Cuentas iniciales |
 | `APP_VIEWER_TOKEN`, `APP_BARISTA_TOKEN`, `APP_ADMIN_TOKEN` | *Tokens* `Bearer` para clientes sin sesión |
 | `APP_SESSION_HOURS` | Duración de la sesión |
