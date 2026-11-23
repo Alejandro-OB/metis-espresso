@@ -1,7 +1,7 @@
-# Requisitos oficiales del sistema
+# Requisitos iniciales del sistema
 
 **Proyecto:** Sistema de adquisición y análisis de datos basado en gemelos digitales para el proceso de preparación de café espresso  
-**Estado documental:** Aprobado; fuente normativa del sistema
+**Estado documental:** Histórico. Requisitos iniciales del anteproyecto (2026-09-09). Los requisitos vigentes del sistema son los de la Tabla 4.4 de la monografía; el modelo de aprendizaje quedó fuera del alcance.
 **Fecha:** 2026-09-09
 **Fuente principal:** Contexto del anteproyecto y `Anteproyecto.pdf`
 **Alcance:** funcionamiento mínimo necesario para construir y evaluar el prototipo
