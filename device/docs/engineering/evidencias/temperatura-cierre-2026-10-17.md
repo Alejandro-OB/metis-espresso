@@ -236,8 +236,8 @@ agua sola, para que lo único que cambie sea la caldera.
 - **Cambios del operador antes del primer uso (12:30):** se pulsa a la hora
   exacta con la placa en «lista», aunque el metal esté fuera de la banda por la
   oscilación de reposo, y se anota el metal al pulsar; esperar a la banda haría
-  desigual la espera. La tara la hace Claude por la placa unos 15 s antes, y
-  Claude marca el montaje del portafiltro 60 s antes de pulsar, para que no
+  desigual la espera. La tara la hace el operador por la placa unos 15 s antes, y
+  el operador marca el montaje del portafiltro 60 s antes de pulsar, para que no
   varíe el tiempo de montaje.
 - **Criterio:** una espera alcanza si el agua a los 19 s queda dentro del
   recorrido entre usos iguales. El 15, con el portafiltro sin canastilla, el
@@ -247,7 +247,7 @@ agua sola, para que lo único que cambie sea la caldera.
 ### C bis · resultados (medido)
 
 Portafiltro sin canastilla, enjuagado y montado 60 s antes (marcado por
-Claude), tara por la placa 15 s antes, pulsado a la hora fijada.
+el operador), tara por la placa 15 s antes, pulsado a la hora fijada.
 
 | Extracción | Espera real | Metal al pulsar | Agua en 20 s | NTC máximo | NTC a 19 s |
 |---|---|---|---|---|---|

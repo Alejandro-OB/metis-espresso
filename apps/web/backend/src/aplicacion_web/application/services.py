@@ -4236,7 +4236,7 @@ class ApplicationService:
                 "marginMs": pairing.get("marginMs"),
                 "temperatureQuality": pairing.get("temperatureQuality"),
                 "sampleQuality": pairing.get("quality"),
-                # Sin origen declarado no es una medición (CLAUDE.md, invariantes).
+                # Sin origen declarado no es una medición (invariantes del proyecto).
                 "bodySource": (pairing.get("source") or "unknown")
                 if pairing.get("status") == "paired"
                 else None,

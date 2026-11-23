@@ -130,7 +130,7 @@
  * repetido cada este tiempo mientras siga corrida. El usuario no quiso un azul
  * parpadeando sin parar (2026-10-17) y eligió el recordatorio espaciado frente a
  * un solo destello, que se pierde si no se mira en ese instante. Los 15 s los
- * propuso Claude y el usuario los aceptó; no salen de una medida.
+ * fijó el equipo; no salen de una medida.
  */
 #define INDICATOR_TARE_REMINDER_PERIOD_MS 15000U
 
