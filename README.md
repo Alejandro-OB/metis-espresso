@@ -130,9 +130,12 @@ repository; those mentions are left as plain text.
 
 ## Licence and citation
 
-Source code under the [MIT licence](LICENSE). The ontology, data, documentation
-and hardware designs under CC BY 4.0. To cite this work, see
-[`CITATION.cff`](CITATION.cff).
+The source code (`firmware/`, `platform/`, `model/` and the scripts in
+`ontology/`) is released under the [MIT licence](LICENSE). The EKO ontology and
+its shapes (`ontology/owl/`), the tasting data (`data/`), the documentation and
+the hardware designs (`hardware/`) are released under the
+[Creative Commons Attribution 4.0 International licence](https://creativecommons.org/licenses/by/4.0/)
+(CC BY 4.0). To cite this work, see [`CITATION.cff`](CITATION.cff).
 
 ## En español
 
