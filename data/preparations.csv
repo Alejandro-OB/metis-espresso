@@ -1,0 +1,13 @@
+run,id,grind_clicks,dose_g,time_set_s,time_pump_s,water_set_C,water_est_C,beverage_g,tds_pct,yield_pct,liking,accepted,decision_and_defects
+1,sim-00000571,38,13.0,20,19.983,92.0,,38.0,7.157,20.919,4,0,"Reject, acidity"
+2,sim-00000573,36,13.0,20,19.958,92.0,91.48,35.3,7.273,19.75,5,0,"Reject, acidity"
+3,sim-00000575,34,13.0,20,19.998,92.0,91.38,34.6,6.95,18.498,5,0,"Reject, acidity"
+4,sim-00000577,32,13.0,25,24.983,92.0,90.96,45.1,5.34,18.526,4,0,"Reject, acidity and astringency"
+5,sim-00000579,32,13.0,20,19.958,92.0,92.42,35.3,6.377,17.315,6,1,"Accept, none"
+6,sim-00000581,38,13.0,25,24.998,92.0,91.91,43.5,6.585,22.034,2,0,"Reject, acidity and astringency"
+7,sim-00000583,41,13.0,23,22.998,92.0,91.88,39.5,7.197,21.867,6,1,"Accept, none"
+8,sim-00000585,45,13.0,23,22.958,92.0,91.65,37.7,8.04,23.316,6,1,"Accept, none"
+9,sim-00000587,45,13.0,23,22.973,92.0,91.04,37.2,7.647,21.881,6,1,"Accept, none"
+10,sim-00000589,45,13.0,23,22.998,92.0,91.63,37.8,7.897,22.961,6,1,"Accept, none"
+11,sim-00000592,45,13.0,27,26.998,92.0,91.16,45.2,7.103,24.698,4,0,"Reject, bitterness, astringency, vegetal flavor"
+12,sim-00000594,45,13.0,23,22.973,86.0,85.47,38.6,7.573,22.487,4,0,"Reject, acidity, astringency, vegetal flavor"

@@ -1,0 +1,155 @@
+name: aplicacion-web
+services:
+  db:
+    image: postgres:17.6-bookworm
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-espresso}
+      POSTGRES_USER: ${POSTGRES_USER:-espresso}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-espresso-development-only}
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+
+  migrate:
+    build:
+      context: ../..
+      dockerfile: platform/web/backend/Dockerfile
+      target: runtime
+    environment: &api-environment
+      APP_ENVIRONMENT: ${APP_ENVIRONMENT:-development}
+      APP_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-espresso}:${POSTGRES_PASSWORD:-espresso-development-only}@db:5432/${POSTGRES_DB:-espresso}
+      APP_CORS_ORIGINS: '[]'
+      APP_SEED_DEMO: ${APP_SEED_DEMO:-false}
+      APP_VIEWER_TOKEN: ${APP_VIEWER_TOKEN:-dev-viewer-token}
+      APP_BARISTA_TOKEN: ${APP_BARISTA_TOKEN:-dev-barista-token}
+      APP_ADMIN_TOKEN: ${APP_ADMIN_TOKEN:-dev-admin-token}
+      APP_SESSION_HOURS: ${APP_SESSION_HOURS:-12}
+      APP_INITIAL_BARISTA_USERNAME: ${APP_INITIAL_BARISTA_USERNAME:-barista}
+      APP_INITIAL_BARISTA_PASSWORD: ${APP_INITIAL_BARISTA_PASSWORD:-espresso-barista}
+      APP_INITIAL_BARISTA_NAME: ${APP_INITIAL_BARISTA_NAME:-Barista de laboratorio}
+      APP_INITIAL_ADMIN_USERNAME: ${APP_INITIAL_ADMIN_USERNAME:-admin}
+      APP_INITIAL_ADMIN_PASSWORD: ${APP_INITIAL_ADMIN_PASSWORD:-espresso-admin}
+      APP_INITIAL_ADMIN_NAME: ${APP_INITIAL_ADMIN_NAME:-Administración}
+      APP_PROJECT_ROOT: /workspace
+      APP_SIMULATION_ARTIFACT_ROOT: /data/simulations
+      APP_FUSEKI_DATASET_URL: http://rdf-store:3030/espresso
+      APP_FUSEKI_USER: admin
+      APP_FUSEKI_PASSWORD: ${RDF_ADMIN_PASSWORD:-semantic-development-only}
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    build:
+      context: ../..
+      dockerfile: platform/web/backend/Dockerfile
+      target: runtime
+    environment: *api-environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+    volumes:
+      - simulation-data:/data/simulations:ro
+
+  simulation-worker:
+    build:
+      context: ../..
+      dockerfile: platform/web/backend/Dockerfile
+      target: runtime
+    command: ["python", "-m", "aplicacion_web.workers.simulation"]
+    environment: *api-environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - simulation-data:/data/simulations
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./frontend
+      target: runtime
+    ports:
+      - "${WEB_PORT:-8080}:8080"
+    depends_on:
+      api:
+        condition: service_healthy
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+      - /var/run
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+
+  rdf-store:
+    build:
+      context: ./rdf-store
+    profiles: ["semantic"]
+    environment:
+      ADMIN_PASSWORD: ${RDF_ADMIN_PASSWORD:-semantic-development-only}
+      # ADR-010: la memoria dinámica se declara aquí. Sin este límite la máquina
+      # virtual lo deduce del hardware y el consumo deja de ser comparable.
+      JDK_JAVA_OPTIONS: ${RDF_JAVA_OPTIONS:--Xmx512m}
+    volumes:
+      - rdf-data:/fuseki
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:3030/$$/ping >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+  semantic-worker:
+    profiles: ["semantic"]
+    build:
+      context: ../..
+      dockerfile: platform/web/backend/Dockerfile
+      target: runtime
+    command: ["python", "-m", "aplicacion_web.workers.semantic"]
+    environment: *api-environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      rdf-store:
+        condition: service_healthy
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
+
+volumes:
+  database-data:
+  rdf-data:
+  simulation-data:

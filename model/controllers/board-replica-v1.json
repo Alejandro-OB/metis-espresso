@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "1.0",
+  "controllerId": "board-replica",
+  "controllerVersion": "1.0.0",
+  "deterministic": true,
+  "inputs": [
+    "temperatureC",
+    "pressureBar",
+    "boilerSetpointC",
+    "pressureSetpointBar"
+  ],
+  "outputs": [
+    "heaterCommand",
+    "pumpCommand"
+  ],
+  "requires": {
+    "temperatureQuantity": "boiler-body-temperature",
+    "replicates": true
+  },
+  "provenance": {
+    "firmware": "firmware/main/: pi_controller.c, control_tuning.c, control_filter.c, control_runtime.c, pressure_preinfusion.c, heater_feedforward.c, psm_scheduler.c, heater_modulator.c",
+    "temperature": "docs/engineering/actas/acta-temperatura-20261019.json (v7): plant, tuning, feedforward y water_reference; generado en commissioned/temperature_plant.h",
+    "pressure": "docs/engineering/actas/acta-presion-20261012.json (v1): plant, tuning y preinfusion; generado en commissioned/pressure_plant.h",
+    "temperature.feedforward.riseLimitC": "ready_tolerance_c de process_limits_default (process_supervisor.c), la tolerancia con que heater_feedforward_step corta la aportación; no es del acta",
+    "temperature.initialState.ambientC": "conditions.ambient_c del acta v7, solo cuando la preparación no declara ambiente; es también el T_ambiente por omisión de la FMU v2 (296,83 K)",
+    "periods": "20 ms la presión y 200 ms la temperatura (control_runtime.c; ADR-007 § 3.3, ADR-009 § 3.6): arquitectura del lazo, fijados en board_controller.py"
+  },
+  "configuration": {
+    "temperature": {
+      "acta": "acta-temperatura-20261019",
+      "actaVersion": 7,
+      "identifier": "acta-temperatura-20261019-v7",
+      "actaSha256": "6df72220e9a8565f1812631d503a7b84276e6635453004eb4161e4a5281cce00",
+      "plant": {
+        "gain": 32.58,
+        "timeConstantS": 2076.0,
+        "deadTimeS": 44.0
+      },
+      "tuning": {
+        "lambdaS": 45.0,
+        "filterTimeConstantS": 0.5,
+        "setpointRate": 0.5,
+        "outputMaximum": 10.0
+      },
+      "feedforward": {
+        "gain": 0.75,
+        "riseLimitC": 0.5
+      },
+      "waterReference": {
+        "gain": 0.8063,
+        "offsetC": 9.84,
+        "boilerMinimumC": 88.6,
+        "boilerMaximumC": 102.49
+      },
+      "initialState": {
+        "ambientC": 23.7
+      }
+    },
+    "pressure": {
+      "acta": "acta-presion-20261012",
+      "actaVersion": 1,
+      "identifier": "acta-presion-20261012-v1",
+      "actaSha256": "5531c38045288eebee23fb43b9faf0b269d0327386b90b90c8b9e3e4eb415918",
+      "plant": {
+        "gain": 0.06,
+        "timeConstantS": 0.1,
+        "deadTimeS": 0.1
+      },
+      "tuning": {
+        "lambdaS": 1.0,
+        "filterTimeConstantS": 0.02,
+        "setpointRate": 3.0,
+        "outputMaximum": 75.0
+      },
+      "preinfusion": {
+        "marginBar": 0.5,
+        "filterTimeConstantS": 0.3,
+        "integralStartPercent": 15.0
+      }
+    }
+  },
+  "configurationSha256": "f0240838b5cb9a74157a87b5754b2eb183f83064607dc3713af6dc0b953c5d64"
+}

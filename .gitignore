@@ -38,7 +38,7 @@ Thumbs.db
 *.tmp
 
 # EasyEDA (copias de respaldo autogeneradas)
-device/hardware/easyeda/**/*_backup/
+hardware/easyeda/**/*_backup/
 *.epro2
 
 # Ajustes locales de KiCad, generados por la herramienta y no versionables
@@ -84,4 +84,4 @@ docs/monografia/compilado/
 docs/articulo/compilado/
 
 # Salida de las pruebas de anfitrión
-device/tests/build/
+firmware/tests/build/

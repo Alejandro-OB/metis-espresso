@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this software, data or ontology, please cite it as below."
+title: "Metis: data acquisition and analysis system based on digital twins for espresso preparation"
+type: software
+authors:
+  - family-names: "Ortega Benavides"
+    given-names: "José Alejandro"
+    orcid: "https://orcid.org/0009-0005-7085-6044"
+    affiliation: "Universidad del Cauca"
+  - family-names: "Vallejo Kueconamuy"
+    given-names: "Brayan Omar"
+    orcid: "https://orcid.org/0009-0008-0477-5678"
+    affiliation: "Universidad del Cauca"
+repository-code: "https://github.com/Alejandro-OB/metis-espresso"
+license: MIT
+date-released: 2026-11-26
+keywords:
+  - digital twin
+  - espresso
+  - ontology
+  - data acquisition
+  - Modelica
+  - ESP32
+references:
+  - type: data
+    title: "EKO: Espresso Knowledge Ontology"
+    authors:
+      - family-names: "Ortega Benavides"
+        given-names: "José Alejandro"
+      - family-names: "Vallejo Kueconamuy"
+        given-names: "Brayan Omar"
+    doi: "10.5281/zenodo.24561370"
+    license: CC-BY-4.0

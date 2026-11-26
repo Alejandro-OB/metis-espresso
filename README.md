@@ -1,137 +1,152 @@
-# Metis: sombra digital de una cafetera espresso
+# Metis: a digital shadow of an espresso machine
 
-Sistema de adquisición y análisis de datos para la preparación de café espresso,
-construido sobre una cafetera doméstica de bomba vibratoria. El prototipo se llama
-Metis. Un controlador en la máquina regula la temperatura de la caldera y la presión
-de extracción. Un servidor local junto a la máquina guarda cada preparación, la simula con un modelo físico, compara lo
-simulado con lo medido, representa todo en la ontología EKO y propone ajustes. La
-decisión sobre cada ajuste es siempre del barista.
+Data acquisition and analysis system for espresso preparation, built on a
+household vibratory-pump espresso machine. The prototype is called Metis.
 
-Proyecto de grado del programa de Ingeniería Electrónica y Telecomunicaciones de la
-Universidad del Cauca.
+- **Metis.** A controller inside the machine regulates the boiler temperature
+  and the extraction pressure, and records both during every preparation.
+- **Local server.** A server next to the machine stores each preparation and
+  simulates it with a physical model. It compares the simulation with the
+  measurements and describes everything with the EKO ontology.
+- **The barista.** The decision about what to change in the next preparation
+  always belongs to the barista.
 
-## Contenido
+Undergraduate thesis project, Electronics and Telecommunications Engineering,
+Universidad del Cauca, Colombia. A Spanish summary is at the
+[end of this page](#en-español).
+
+## Repository layout
+
+The folders follow the parts of the system described in the article.
 
 ```text
 .
-├── device/
-│   ├── firmware/esp32-s3-single-mcu/   Firmware del controlador (ESP-IDF 6.1, ESP32-S3)
-│   ├── tests/host/                     Pruebas de los módulos del firmware en el computador
-│   ├── hardware/easyeda/current/       Proyectos de las tres tarjetas en EasyEDA
-│   ├── hardware/fabrication/           Gerber, esquemáticos y plantillas de fabricación
-│   ├── software/                       Contratos de mensajes y modelo de referencia
-│   └── docs/                           Requisitos, decisiones de diseño (ADR) y actas de puesta en servicio
-├── apps/web/                           Servidor local: API, interfaz, trabajadores y almacén RDF
-├── packages/                           Lógica de simulación, semántica, perfiles y estabilidad
-├── knowledge/ontology/                 Ontología EKO (OWL 2), formas SHACL, consultas y razonador
-├── models/modelica/                    Modelo físico en Modelica, FMU y contratos del modelo
-└── contracts/simulation/               Contrato de la simulación entre el servidor y el modelo
+├── firmware/    Metis controller (ESP-IDF 6.1, ESP32-S3) and its host tests
+├── hardware/    The three boards: EasyEDA projects and fabrication files
+├── platform/    Local server: API, web interface, workers, RDF store,
+│                shared Python packages and message contracts
+├── model/       Physical model in Modelica and the FMU the server runs
+├── ontology/    EKO ontology (OWL 2), SHACL shapes, competency questions, reasoner
+├── data/        Tasting data: the twelve preparations of the evaluation
+└── docs/        Requirements, design decisions (ADR) and commissioning records
 ```
 
-## Arquitectura
+## Architecture
 
-El sistema sigue KAFE, una arquitectura basada en MAPE-K que incorpora al barista en
-las decisiones, repartida en dos equipos.
+The system follows KAFE (*Knowledge-Assisted Feedback for Espresso*), an
+architecture based on MAPE-K that keeps the barista in the loop. It runs on two
+devices.
 
-| Equipo | Funciones | Ritmo |
+| Device | Role | Rate |
 |---|---|---|
-| Controlador ESP32-S3, en la máquina | Adquisición, regulación de temperatura y presión, máquina de estados y enclavamiento de seguridad | 20 ms (presión) y 200 ms (temperatura) |
-| Raspberry Pi 5, junto a la máquina | Historial, simulación del modelo, comparación físico-virtual, ontología y recomendaciones | Entre preparaciones |
+| ESP32-S3 controller, inside the machine | Acquisition, temperature and pressure control, state machine and safety interlock | 20 ms (pressure), 200 ms (temperature) |
+| Raspberry Pi 5, next to the machine | History, model simulation, measured-versus-simulated comparison, ontology | Between preparations |
 
-El controlador no depende de la red para regular ni para proteger la máquina. Ningún
-resultado del servidor llega a la bomba ni a la resistencia calefactora sin pasar
-por la revisión del controlador.
+The controller does not depend on the network to regulate or to protect the
+machine. No result from the server reaches the pump or the heater without
+passing through the controller.
 
-## Seguridad del firmware
+## Firmware safety
 
-Las salidas de potencia, la bomba y la resistencia calefactora, pasan por un guardián
-de actuación que decide antes que cualquier controlador. Cada lazo solo actúa si el
-firmware se compiló con su planta identificada (`main/commissioned/`). Sin esos
-archivos, el guardián mantiene las salidas cortadas.
+The power outputs, pump and heater, go through an actuation guard that decides
+before any controller. Each loop acts only if the firmware was built with its
+identified plant (`firmware/main/commissioned/`); without those files the guard
+keeps the outputs off.
 
-Este firmware está ajustado a una máquina concreta. Cargarlo en otra máquina sin
-identificar de nuevo sus plantas acciona una bomba y una resistencia de red eléctrica
-con números que no le corresponden.
+This firmware is tuned to one specific machine. Loading it on another machine
+without identifying its plants again drives a mains-powered pump and heater with
+numbers that do not belong to it.
 
-## Firmware
+## Getting started
 
-Requiere ESP-IDF 6.1. El script `idf.sh` usa `IDF_PATH` o, si no está definida,
-`~/esp/esp-idf-v6.1`.
+**Firmware** (requires ESP-IDF 6.1; `idf.sh` uses `IDF_PATH` or
+`~/esp/esp-idf-v6.1`):
 
 ```sh
-cd device/firmware/esp32-s3-single-mcu
+cd firmware
 ./idf.sh build
 ./idf.sh -b 921600 monitor
 ```
 
-La consola va a 921600 baudios. La red, la dirección del servidor y el
-identificador del equipo se configuran con `./idf.sh menuconfig`, y quedan en
-`sdkconfig`, que no se versiona.
+Wi-Fi, server address and device identifier are set with `./idf.sh menuconfig`
+and stored in `sdkconfig`, which is not versioned.
 
-Pruebas de los módulos en el computador (C17, `-Wall -Wextra -Werror -pedantic`):
-
-```sh
-for s in device/tests/host/run_*.sh; do "$s" || break; done
-```
-
-## Servidor local
-
-Requiere Docker con Compose. Los valores por omisión del archivo `compose.yaml` son
-de desarrollo. En un despliegue real, las contraseñas y los tokens se definen en un
-archivo `.env` junto a `compose.yaml`.
+**Local server** (requires Docker Compose; the defaults in `compose.yaml` are
+for development, and a real deployment sets passwords and tokens in a `.env`
+file):
 
 ```sh
-cd apps/web
+cd platform/web
 docker compose up --build
 ```
 
-La interfaz queda en `http://localhost:8080`. Pruebas:
+The interface is served at `http://localhost:8080`.
+
+**Physical model** (requires OpenModelica to regenerate the FMU):
 
 ```sh
-cd apps/web/backend && python -m pytest tests -q
-PYTHONPATH=packages python -m pytest packages -q
+cd model && ./exportar_fmu_adapter_v21.sh
 ```
 
-## Ontología
+## Tests
 
-La ontología EKO tiene tres módulos: el núcleo del dominio (`espresso-dt.ttl`), la adquisición
-(`espresso-acquisition.ttl`) y la simulación (`espresso-simulation.ttl`), cada uno con
-sus formas SHACL. Las preguntas de competencia están en `knowledge/ontology/queries/`.
+```sh
+for s in firmware/tests/host/run_*.sh; do "$s" || break; done      # firmware modules (C17)
+(cd platform/web/backend && python -m pytest tests -q)              # server
+PYTHONPATH=platform/packages python -m pytest platform/packages -q  # shared packages
+python ontology/tests/validate.py                                   # EKO
+```
+
+## EKO ontology
+
+EKO has a domain core (`espresso-dt.ttl`), an acquisition module
+(`espresso-acquisition.ttl`) and a simulation module
+(`espresso-simulation.ttl`), each with its SHACL shapes, in `ontology/owl/`.
+Labels and definitions are in Spanish and English.
 
 | | |
 |---|---|
-| Documentación | https://alejandro-ob.github.io/metis-espresso/ |
-| Dirección permanente | https://w3id.org/espresso-dt (solicitud en revisión en w3id.org) |
-| DOI (todas las versiones) | [10.5281/zenodo.24561370](https://doi.org/10.5281/zenodo.24561370) |
-| DOI de la versión 3.5.0 | [10.5281/zenodo.24561371](https://doi.org/10.5281/zenodo.24561371) |
+| Documentation | https://alejandro-ob.github.io/metis-espresso/ |
+| Permanent IRI | https://w3id.org/espresso-dt (request under review at w3id.org) |
+| DOI (all versions) | [10.5281/zenodo.24561370](https://doi.org/10.5281/zenodo.24561370) |
+| DOI (version 3.5.0) | [10.5281/zenodo.24561371](https://doi.org/10.5281/zenodo.24561371) |
+| AgroPortal | https://agroportal.eu/ontologies/EKO |
 
-```sh
-python knowledge/ontology/tests/validate.py
-```
+## Documentation
 
-## Modelo físico
+The code cites the origin of each decision and each number. Those documents are
+in `docs/`, in Spanish:
 
-El paquete `models/modelica/GemeloDigitalPreparacionCafe` describe la caldera, la
-bomba y el recorrido del agua. El servidor usa la FMU de `models/modelica/dist/`,
-declarada en `model-registry-v1.json`. Para regenerarla hace falta OpenModelica:
+- `requisitos/requisitos_sistema.md`: functional and non-functional requirements.
+- `arquitectura/decisiones/`: the design decisions (ADR) cited by the code.
+- `engineering/actas/`: the commissioning records from which the plants and
+  tunings compiled into the firmware come; the tests check that every number
+  matches its record.
+- `engineering/evidencias/` and `engineering/protocolo-catacion.md`: the tests
+  and the tasting protocol cited by the model, the server and the interface.
 
-```sh
-cd models/modelica && ./exportar_fmu_adapter_v21.sh
-```
+Some documents mention internal project reports that are not part of this
+repository; those mentions are left as plain text.
 
-## Documentación
+## Licence and citation
 
-El código cita el origen de cada decisión y de cada número. Esos documentos están en
-`device/docs/`:
+Source code under the [MIT licence](LICENSE). The ontology, data, documentation
+and hardware designs under CC BY 4.0. To cite this work, see
+[`CITATION.cff`](CITATION.cff).
 
-- `requisitos/requisitos_sistema.md`: los requisitos funcionales y no funcionales.
-- `arquitectura/decisiones/`: las decisiones de diseño (ADR) que citan los
-  comentarios del código.
-- `engineering/actas/`: las actas de puesta en servicio de las que salen las plantas
-  y las sintonías compiladas en el firmware; las pruebas comprueban que cada número
-  coincide con su acta.
-- `engineering/evidencias/` y `engineering/protocolo-catacion.md`: los ensayos y el
-  protocolo de catación que citan el modelo, el servidor y la interfaz.
+## En español
 
-Algunos documentos mencionan informes internos del proyecto que no forman parte de
-este repositorio; esas menciones quedan como texto, sin enlace.
+Metis es un sistema de adquisición y análisis de datos para la preparación de
+café espresso, construido sobre una cafetera doméstica de bomba vibratoria. Un
+controlador en la máquina regula la temperatura de la caldera y la presión de
+extracción y registra cada preparación. Un servidor local la simula con un
+modelo físico, compara lo simulado con lo medido y lo representa en la
+ontología EKO. La decisión sobre cada ajuste es siempre del barista.
+
+Cada carpeta corresponde a una parte del sistema: `firmware/` (controlador),
+`hardware/` (tarjetas), `platform/` (servidor local), `model/` (modelo físico),
+`ontology/` (EKO), `data/` (datos de la cata) y `docs/` (requisitos, decisiones
+de diseño y actas, en español).
+
+Trabajo de grado del programa de Ingeniería Electrónica y Telecomunicaciones de
+la Universidad del Cauca.

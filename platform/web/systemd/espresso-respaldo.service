@@ -1,0 +1,25 @@
+# Copia diaria de la plataforma al disco externo (ADR-015 § 4.3).
+#
+# Corre respaldar.sh: volcado lógico de la base, archivos del grafo y de las
+# simulaciones, inventario y sumas. Si el disco no está montado el guion termina
+# con error y la unidad queda «failed» (`systemctl --failed`): la falta de copia
+# tiene que verse (ADR-015 § 4.5). La plataforma no depende de esta unidad.
+#
+# Instalación (como root), junto con espresso-respaldo.timer:
+#   install -m 644 espresso-respaldo.service espresso-respaldo.timer /etc/systemd/system/
+#   systemctl daemon-reload && systemctl enable --now espresso-respaldo.timer
+
+[Unit]
+Description=Copia diaria de la plataforma al disco externo (ADR-015)
+Requires=docker.service
+After=docker.service espresso-plataforma.service
+
+[Service]
+Type=oneshot
+User=espresso
+Group=docker
+WorkingDirectory=/home/espresso/espresso/platform/web
+ExecStart=/home/espresso/espresso/platform/web/respaldar.sh /mnt/datos/respaldos
+TimeoutStartSec=1800
+Nice=10
+IOSchedulingClass=idle
