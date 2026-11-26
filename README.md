@@ -98,6 +98,13 @@ La ontología EKO tiene tres módulos: el núcleo del dominio (`espresso-dt.ttl`
 (`espresso-acquisition.ttl`) y la simulación (`espresso-simulation.ttl`), cada uno con
 sus formas SHACL. Las preguntas de competencia están en `knowledge/ontology/queries/`.
 
+| | |
+|---|---|
+| Documentación | https://alejandro-ob.github.io/metis-espresso/ |
+| Dirección permanente | https://w3id.org/espresso-dt (solicitud en revisión en w3id.org) |
+| DOI (todas las versiones) | [10.5281/zenodo.24561370](https://doi.org/10.5281/zenodo.24561370) |
+| DOI de la versión 3.5.0 | [10.5281/zenodo.24561371](https://doi.org/10.5281/zenodo.24561371) |
+
 ```sh
 python knowledge/ontology/tests/validate.py
 ```
