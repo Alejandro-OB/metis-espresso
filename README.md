@@ -107,7 +107,7 @@ Labels and definitions are in Spanish and English.
 | | |
 |---|---|
 | Documentation | https://alejandro-ob.github.io/metis-espresso/ |
-| Permanent IRI | https://w3id.org/espresso-dt (request under review at w3id.org) |
+| Permanent IRI | https://w3id.org/espresso-dt |
 | DOI (all versions) | [10.5281/zenodo.24561370](https://doi.org/10.5281/zenodo.24561370) |
 | DOI (version 3.5.0) | [10.5281/zenodo.24561371](https://doi.org/10.5281/zenodo.24561371) |
 | AgroPortal | https://agroportal.eu/ontologies/EKO |
