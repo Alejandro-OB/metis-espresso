@@ -53,7 +53,7 @@ CONFIG_ESP_WIFI_NVS_ENABLED=n
 # resolución de sobra y `vTaskDelayUntil` mantiene la cadencia.
 CONFIG_FREERTOS_HZ=1000
 
-# Vigilancia de tarea detenida (RF-011). Las tareas críticas se suscriben
+# Vigilancia de tarea detenida. Las tareas críticas se suscriben
 # explícitamente; el tiempo es holgado frente a sus periodos de 10 y 50 ms, de
 # modo que solo salta ante una detención real y no ante un ciclo largo.
 CONFIG_ESP_TASK_WDT_INIT=y

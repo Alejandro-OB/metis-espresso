@@ -16,7 +16,7 @@
  *
  * La orden llega por el puerto físico y no por la red. Eso no es un detalle de
  * comodidad: cambiar a dónde envía el dispositivo su evidencia por una vía
- * remota sería una forma de desviarla, y RD-002 mantiene fuera de la red toda
+ * remota sería una forma de desviarla, y el diseño mantiene fuera de la red toda
  * autoridad sobre el dispositivo.
  *
  * Este módulo **no valida que la dirección exista ni que la credencial sirva**.

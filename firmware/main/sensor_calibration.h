@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * Calibración de las cadenas de medida (RNF-004, ADR-020 § 4.1).
+ * Calibración de las cadenas de medida (ADR-020 § 4.1).
  *
  * Cada medición debe poder decir qué calibración usó. Los coeficientes de
  * partida son los nominales del esquema; la calibración de la cadena real los

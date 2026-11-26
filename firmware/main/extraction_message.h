@@ -44,7 +44,7 @@ typedef struct {
      */
     uint64_t epoch_ms_at_start;
     /*
-     * Con qué se midió (RF-014): la calibración vigente y la versión del
+     * Con qué se midió: la calibración vigente y la versión del
      * firmware. Sin ellas una medida archivada no puede reinterpretarse cuando
      * la calibración cambie. NULL se serializa como null: no se inventa una
      * versión que nadie declaró.

@@ -7,8 +7,8 @@
  * Este módulo existe porque esa decisión vivía dentro de la planta simulada, de
  * modo que la supervisión solo funcionaba mientras el proceso fuera ficticio: al
  * conectar los sensores, la máquina de estados habría dejado de recibir la
- * parada por tiempo máximo que exige RF-005. Separar modelar de supervisar
- * también respeta RD-004, que mantiene el gemelo digital fuera del lazo: un
+ * parada por tiempo máximo. Separar modelar de supervisar
+ * también mantiene el gemelo digital fuera del lazo: un
  * modelo no puede ser quien decida cuándo detener la máquina real.
  *
  * El supervisor recibe una observación —números y su aptitud— y nunca sabe si

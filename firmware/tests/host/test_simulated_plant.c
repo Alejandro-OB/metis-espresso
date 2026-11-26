@@ -184,8 +184,8 @@ static void test_fault_injection(void)
  * Regresión de H-05: la supervisión debe funcionar sin planta simulada.
  *
  * Antes, el tiempo máximo lo producía el modelo, de modo que al conectar los
- * sensores la máquina habría dejado de recibirlo y RF-005 habría dejado de
- * cumplirse sin que nada lo señalara. Esta prueba no instancia ningún modelo:
+ * sensores la máquina habría dejado de recibirlo y la parada por tiempo
+ * máximo habría dejado de cumplirse sin que nada lo señalara. Esta prueba no instancia ningún modelo:
  * entrega observaciones como las que produce la adquisición real.
  */
 static void test_supervision_without_plant(void)

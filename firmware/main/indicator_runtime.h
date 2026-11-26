@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * Tarea que enciende los LED del mando (RF-011).
+ * Tarea que enciende los LED del mando.
  *
  * Es la envoltura de hardware de `indicator_panel`: pregunta al supervisor cuál
  * es el estado y qué veredicto tiene cada salida, se lo pasa al módulo puro y

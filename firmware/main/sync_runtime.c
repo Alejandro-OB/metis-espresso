@@ -181,7 +181,7 @@ static esp_err_t post_body(const char *body, char *response, size_t response_siz
  *
  * La plataforma propone y la máquina dispone: el firmware valida contra sus
  * propios límites y rechaza con causa tipificada. Aceptarla no inicia nada —una
- * preparación solo empieza por el mando físico (RD-002)—: queda como
+ * preparación solo empieza por el mando físico—: queda como
  * configuración efectiva para la siguiente.
  */
 static void apply_proposed_profile(const char *response)

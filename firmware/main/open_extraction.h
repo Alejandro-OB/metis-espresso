@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * Marca de preparación abierta (ADR-005 § 3, RNF-006).
+ * Marca de preparación abierta (ADR-005 § 3).
  *
  * La preparación vive en RAM hasta que se cierra y solo entonces va a la cola
  * persistente. Un corte de energía a mitad de ella la borraba sin dejar rastro:

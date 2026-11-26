@@ -14,7 +14,7 @@
 /*
  * La configuración efectiva sobrevive a un reinicio: sin ella el dispositivo
  * volvería siempre al perfil de arranque y perdería la referencia con la que
- * se ejecutó la última preparación (RF-001 y RF-015).
+ * se ejecutó la última preparación.
  */
 #define PROFILE_STORAGE_NAMESPACE "eko_profile"
 #define PROFILE_STORAGE_KEY "effective"

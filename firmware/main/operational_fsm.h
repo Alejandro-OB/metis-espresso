@@ -41,7 +41,7 @@ typedef enum {
     /*
      * La máquina de estados nunca la produce: nadie ve el corte desde dentro.
      * La asigna el arranque siguiente a la preparación que encontró abierta
-     * (ADR-005 § 3, RNF-006). Ver `open_extraction.h`.
+     * (ADR-005 § 3). Ver `open_extraction.h`.
      */
     OP_TERMINATION_UNEXPECTED_POWER_LOSS,
 } extraction_termination_t;

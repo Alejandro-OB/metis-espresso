@@ -714,7 +714,7 @@ void app_main(void)
      * Los indicadores arrancan **después** de la prueba visual, o las dos cosas
      * se disputarían los mismos pines y la secuencia de comprobación no se
      * vería. A partir de aquí los LED dejan de ser una prueba y pasan a informar
-     * del estado de la máquina, que es lo que exige RF-011.
+     * del estado de la máquina, como el barista necesita.
      */
     const esp_err_t indicator_result = indicator_runtime_start();
     log_check("indicadores del mando", indicator_result == ESP_OK,
@@ -742,7 +742,7 @@ void app_main(void)
 
 #if CONFIG_CAFE_SYNC
     /* El enlace solo entrega registros y obtiene la hora: no abre ninguna vía
-     * capaz de iniciar una preparación ni de accionar salidas (RD-002). */
+     * capaz de iniciar una preparación ni de accionar salidas. */
     const esp_err_t sync_result = outbox_ok ? sync_runtime_start(&s_outbox)
                                             : ESP_ERR_INVALID_STATE;
     log_check("enlace con la plataforma", sync_result == ESP_OK,

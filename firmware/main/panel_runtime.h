@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * Lectura del mando físico del barista (RF-003, RF-004).
+ * Lectura del mando físico del barista.
  *
  * Es la envoltura de hardware de `button_debounce`: muestrea los cuatro
  * pulsadores, les aplica el antirrebote y publica los eventos que la máquina de

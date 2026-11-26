@@ -97,7 +97,7 @@ static void test_builds_an_envelope_that_fits_the_queue_entry(void)
 }
 
 /*
- * Con qué se midió viaja con la preparación (RF-014). Sin calibración ni versión
+ * Con qué se midió viaja con la preparación. Sin calibración ni versión
  * declaradas se escribe null, no un valor plausible; y con los identificadores
  * más largos que admiten la calibración y una versión de git, el mensaje sigue
  * cabiendo en una entrada de la cola.

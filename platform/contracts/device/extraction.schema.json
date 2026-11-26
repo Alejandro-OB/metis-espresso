@@ -5,7 +5,7 @@
   "type": "object",
   "additionalProperties": false,
   "required": ["id", "source", "profile", "startedAt", "finishedAt", "durationMs", "termination", "sampleCount", "statistics"],
-  "$comment": "Los instantes y la duración solo pueden faltar cuando la preparación se cortó por falta de energía (ADR-005 § 3 y § 8 punto 10, RNF-006): el dispositivo la cierra al rearrancar y no sabe cuándo terminó. En cualquier otra terminación un nulo afirmaría que no consta algo que el dispositivo sí midió.",
+  "$comment": "Los instantes y la duración solo pueden faltar cuando la preparación se cortó por falta de energía (ADR-005 § 3 y § 8 punto 10): el dispositivo la cierra al rearrancar y no sabe cuándo terminó. En cualquier otra terminación un nulo afirmaría que no consta algo que el dispositivo sí midió.",
   "if": {"required": ["termination"], "properties": {"termination": {"const": "unexpected-power-loss"}}},
   "else": {
     "properties": {
@@ -27,7 +27,7 @@
     "sampleCount": {"type": "integer", "minimum": 0},
     "seriesRef": {"type": ["string", "null"]},
     "calibration": {
-      "description": "Calibración vigente con la que se midió (RF-014); null si el dispositivo no la declara",
+      "description": "Calibración vigente con la que se midió; null si el dispositivo no la declara",
       "type": ["object", "null"],
       "additionalProperties": false,
       "required": ["id", "version"],
@@ -42,7 +42,7 @@
       "minimum": 0
     },
     "firmwareVersion": {
-      "description": "Versión del firmware que midió (RF-014); null si no se declara",
+      "description": "Versión del firmware que midió; null si no se declara",
       "type": ["string", "null"],
       "maxLength": 63
     },

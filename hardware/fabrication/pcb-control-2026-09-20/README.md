@@ -30,7 +30,7 @@ La lista de materiales está en
 
 ## Orientación del ADS1115
 
-Es el punto de montaje que más cuesta equivocar. Montado al revés, `+3V3` entra
+Es el error de montaje más costoso de esta tarjeta. Montado al revés, `+3V3` entra
 por `AIN3` y el conversor se destruye sin aviso; girar el módulo no sirve, porque
 su cuerpo invadiría la ESP32.
 
@@ -50,7 +50,7 @@ módulo:
 | 9 | 1500 | — |
 | 10 | 1600 | — |
 
-Antes de pedirla, conviene comprobar sobre la plantilla impresa que el módulo
+Antes de pedir la tarjeta se comprueba sobre la plantilla impresa que el módulo
 apoya con `VDD` sobre el pad cuadrado.
 
 ## Al leer el trazado

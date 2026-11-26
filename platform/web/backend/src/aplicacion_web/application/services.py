@@ -82,7 +82,7 @@ from .reachability import answers_ping
 from .revisions import apply_revisions, revisions_by_resource, revisions_of, with_revisions
 from .room_temperature import assumed_room_c
 
-#: Evaluaciones de conformidad guardadas, una por cambio (RF-020).
+#: Evaluaciones de conformidad guardadas, una por cambio.
 CONFORMITY_KIND = "conformity-assessment"
 #: Sin telemetría en este tiempo la señal se da por perdida. La placa envía una
 #: por segundo y la sincroniza en tandas; medio minuto deja margen a una tanda
@@ -1925,7 +1925,7 @@ class ApplicationService:
             return self._interrupted_result(extraction)
         assessment = self._stored_conformity(extraction)
         # La caldera al pulsar se lee en agua. Se añade al leer y no al guardar:
-        # las evaluaciones guardadas son la evidencia de lo que se juzgó (RF-020)
+        # las evaluaciones guardadas son la evidencia de lo que se juzgó
         # y las anteriores al 26-oct-2026 también tienen que verse así.
         # Sin recta que conste no se traduce: no se sabe qué agua daba esa caldera.
         line, metal_line = line_of(extraction), metal_line_of(extraction)
@@ -2083,7 +2083,7 @@ class ApplicationService:
         return items[-1] if items else None
 
     def record_conformity(self, extraction_id: str, trigger: str) -> dict[str, Any] | None:
-        """Guarda la evaluación de la preparación si cambió (RF-020).
+        """Guarda la evaluación de la preparación si cambió.
 
         Una evaluación nueva **no sustituye** a la anterior: se añade con el
         número siguiente, para que se vea qué se concluía antes de, por ejemplo,
@@ -4663,7 +4663,7 @@ class ApplicationService:
         extraction = self.get("extraction", extraction_id)
         evidence = self.semantics.evidence_for(extraction_id)
         # Solo una preparación medida y completa dice algo de la máquina
-        # (RD-004): con las demás la fuente recibe nada y se abstiene.
+        #: con las demás la fuente recibe nada y se abstiene.
         # Una pasada de agua archivada tampoco: no hubo café que juzgar.
         reasonable = (
             extraction.get("source") == "measured"

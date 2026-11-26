@@ -751,8 +751,8 @@ static void record_process_sample(void)
 }
 
 /*
- * Publica los avisos de condición que no nacen de un cambio de estado. RF-011
- * obliga a informar de una condición insegura, y el guardián puede cortar las
+ * Publica los avisos de condición que no nacen de un cambio de estado. El sistema
+ * debe informar de una condición insegura, y el guardián puede cortar las
  * salidas sin que la máquina de estados se mueva: un sensor que se suelta en
  * reposo no produce transición alguna.
  *

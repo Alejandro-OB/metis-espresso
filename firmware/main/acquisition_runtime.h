@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * Adquisición periódica de temperatura y presión (RF-007, RF-008).
+ * Adquisición periódica de temperatura y presión.
  *
  * Cada medida se publica con su unidad, su instante y su estado de calidad. Una
  * lectura no apta no se corrige ni se sustituye por la anterior: se marca, y el
@@ -21,7 +21,7 @@ typedef struct {
     float raw_value;           /* magnitud antes de filtrar, para diagnóstico */
     float volts;               /* tensión leída */
     int16_t counts;            /* código del convertidor */
-    const char *unit;          /* unidad de `value`, nunca implícita (RNF-004) */
+    const char *unit;          /* unidad de `value`, nunca implícita */
     const char *calibration_id;/* calibración con la que se convirtió */
     uint64_t acquired_ms;      /* instante monótono de esta lectura concreta */
     signal_quality_t quality;

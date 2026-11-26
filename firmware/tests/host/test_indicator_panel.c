@@ -1,5 +1,5 @@
 /*
- * Pruebas del panel de indicadores (RF-011).
+ * Pruebas del panel de indicadores.
  *
  * Un LED mal asignado no rompe nada: el firmware sigue funcionando, las pruebas
  * de los demás módulos siguen pasando, y el error solo se descubre el día en que
@@ -9,7 +9,7 @@
  * Dos propiedades importan más que la tabla:
  *
  * **Que un aviso de avería llegue aunque la máquina de estados no dispare.** Es
- * literalmente lo que pide RF-011, y el caso que lo motiva —un sensor que se
+ * el aviso que el barista necesita, y el caso que lo motiva —un sensor que se
  * suelta con la cafetera en `READY`— no produce ninguna transición.
  *
  * **Que lo que no es una avería no encienda la alarma.** Hoy el control no está
@@ -110,7 +110,7 @@ static void test_no_state_blinks_fast(void)
 /*
  * El aviso llega aunque la máquina de estados no haya disparado.
  *
- * Es el caso que motiva RF-011: un sensor que se suelta con la cafetera en
+ * Es el caso que motiva el aviso: un sensor que se suelta con la cafetera en
  * `READY` corta las salidas por la ruta del guardián y deja el estado intacto.
  */
 static void test_a_fault_warns_even_while_the_state_machine_is_calm(void)

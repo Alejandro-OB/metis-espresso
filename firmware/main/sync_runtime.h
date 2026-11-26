@@ -5,7 +5,7 @@
  * los registros pendientes de la cola persistente.
  *
  * Nada de lo que llega por este canal puede iniciar una preparación ni actuar
- * sobre las salidas de potencia (RD-002).
+ * sobre las salidas de potencia.
  */
 
 #include <stdbool.h>

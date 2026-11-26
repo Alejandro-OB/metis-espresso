@@ -1,6 +1,6 @@
 """El contrato de una preparación cortada por falta de energía.
 
-ADR-005 § 3 y § 8 punto 10 y RNF-006: al rearrancar, el dispositivo cierra la
+ADR-005 § 3 y § 8 punto 10: al rearrancar, el dispositivo cierra la
 preparación que nunca terminó y la envía como cualquier otra. No sabe cuándo
 acabó ni cuánto duró, y si no tenía hora de pared tampoco sabe cuándo empezó.
 Esos tres campos pueden faltar en ese caso y solo en ese: en cualquier otra

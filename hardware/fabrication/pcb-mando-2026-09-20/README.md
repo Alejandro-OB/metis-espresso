@@ -35,7 +35,7 @@ El esquemático agrupa los pulsadores por la función que rotula la serigrafía
 | `LED3` | amarillo | `LED_BREW` |
 | `LED4` | rojo | `LED_ALARM` |
 
-El firmware da a cada color un significado, que ya no es el del nombre de la red:
+El firmware da a cada color un significado que no coincide con el nombre de la red:
 amarillo, calentando; verde, lista; azul, preparando café o purgando; rojo,
 alarma. La tabla completa está en
 [`indicator_panel.h`](../../../firmware/main/indicator_panel.h).
@@ -45,7 +45,7 @@ alarma. La tabla completa está en
 La huella `LED-TH_BD5.0-P2.54_K1` lleva el **cátodo en el pin 1**, que no es la
 convención habitual. En la serigrafía, el lado plano de la brida y el pad del
 cátodo (a `GND_ISO`) quedan del mismo lado, y el signo `+` junto al ánodo. Antes
-de pedirla, conviene comprobar sobre la plantilla impresa que el lado plano de
+de pedir la tarjeta se comprueba sobre la plantilla impresa que el lado plano de
 cada LED cae sobre el lado plano dibujado.
 
 ## Pulsadores

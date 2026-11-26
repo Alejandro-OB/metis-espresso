@@ -1,4 +1,4 @@
-# Sistema de diseño web v1
+# Sistema de diseño de la interfaz
 
 La dirección es **verde profundo sobre papel claro**, con la precisión de un
 instrumento de laboratorio. El verde de marca manda en la navegación y en la
@@ -9,17 +9,16 @@ identificadores. Las fuentes se empaquetan como WOFF2 desde dependencias
 bloqueadas de Fontsource, por lo que la PWA no solicita fuentes externas.
 
 Los colores, escalas tipográficas, espacios, radios, sombras, movimiento,
-anchos y capas viven en `src/shared/styles/tokens.css`. **Ningún color se
+anchos y capas viven en `frontend/src/shared/styles/tokens.css`. **Ningún color se
 escribe a mano fuera de ese archivo**, incluidas las superficies oscuras —barra
 lateral, panel de acceso, panel de simulación— y el texto que va encima, que
 tienen token propio. Esa regla no es de estilo: un color suelto en una hoja de
 componente sobrevive a un cambio de paleta y deja una pantalla con la identidad
 anterior sin que nadie lo note.
 
-El contraste de texto se mantiene con tinta oscura sobre superficies claras;
-estados y orígenes añaden texto a la señal cromática, lo que importa más aquí
-que con una marca cálida, porque el verde de marca y el verde de «conforme»
-conviven en la misma pantalla. El foco visible usa un azul independiente de la
+El contraste de texto se mantiene con tinta oscura sobre superficies claras.
+Los estados y los orígenes añaden texto a la señal cromática, porque el verde de
+marca y el verde de «conforme» conviven en la misma pantalla. El foco visible usa un azul independiente de la
 marca: sobre una interfaz verde, un contorno verde se confunde con el estado
 seleccionado.
 
@@ -38,7 +37,8 @@ enlaces desde ninguna página. Si el destino actual está entre los desplegados,
 el botón queda marcado. Los objetivos táctiles miden al menos 44 CSS px y se
 respetan `safe-area-inset-*` y `100dvh`.
 
-`DataTable<T>` define semántica, columnas, orden, selección, carga, vacío y error.
+`DataTable<T>` (`frontend/src/shared/ui/data-table.tsx`) define la semántica,
+las columnas, el orden, la selección y los estados de carga, vacío y error.
 En móvil genera registros apilados con las mismas etiquetas. Ninguna tabla de
 dominio reimplementa encabezados o selección. Las columnas pueden señalar qué
 datos secundarios omitir en la tarjeta, pero origen, unidades y estado crítico
@@ -46,5 +46,6 @@ permanecen visibles.
 
 Los componentes cubren acciones, campos, selección, capas, retroalimentación,
 navegación, datos y vocabulario del dominio. Storybook documenta el inventario
-esencial y ejecuta accesibilidad como error. Todo movimiento usa transformaciones
-y opacidad, y `prefers-reduced-motion` reduce la duración global.
+esencial y trata los fallos de accesibilidad como errores; se abre con
+`npm run storybook` desde `frontend/`. Todo movimiento usa transformaciones y
+opacidad, y `prefers-reduced-motion` reduce la duración global.

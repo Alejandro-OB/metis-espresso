@@ -222,7 +222,7 @@ static void panel_task(void *argument)
             supervisor_runtime_request_alarm_clear();
             break;
         case PANEL_GESTURE_RESTART:
-            /* Las salidas de potencia arrancan apagadas (RNF-002), así que el
+            /* Las salidas de potencia arrancan apagadas, así que el
              * reinicio deja la máquina en reposo. La pausa solo deja salir esta
              * línea por la consola antes de cortar. */
             ESP_LOGW(TAG, "Encendido y tara sostenidos: reinicio de la placa pedido desde el mando");

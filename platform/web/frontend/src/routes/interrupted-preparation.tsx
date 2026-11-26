@@ -1,5 +1,5 @@
 /* Una preparación que un corte de energía dejó abierta (ADR-005 § 3 y § 8
-   punto 10, RNF-006). El dispositivo la cierra al volver a arrancar y no vio el
+   punto 10). El dispositivo la cierra al volver a arrancar y no vio el
    final: no hay serie, indicadores ni duración, y si no tenía hora de pared
    tampoco hay inicio. La pantalla la presenta como incompleta y dice qué falta,
    en lugar de dejar huecos que se lean como ceros o como un fallo de carga.

@@ -3262,7 +3262,7 @@ def test_a_preparation_resent_with_another_message_is_a_duplicate(client, barist
 def test_a_preparation_keeps_the_calibration_and_firmware_it_was_measured_with(
     client, barista_headers
 ):
-    """RF-014: la preparación conserva con qué se midió, tal como lo declaró el dispositivo."""
+    """La preparación conserva con qué se midió, tal como lo declaró el dispositivo."""
     message = {
         "schemaVersion": "1.0",
         "messageId": "msg-con-calibracion",

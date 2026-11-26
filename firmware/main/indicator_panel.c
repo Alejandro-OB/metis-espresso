@@ -85,7 +85,7 @@ indicator_panel_t indicator_panel_evaluate(const indicator_request_t *request)
     /*
      * El aviso de avería se superpone al estado.
      *
-     * RF-011 obliga a informar de una condición insegura, y esa condición puede
+     * El sistema debe informar de una condición insegura, y esa condición puede
      * darse sin que la máquina de estados haya disparado: un sensor que se
      * suelta con la cafetera en `READY` corta las salidas por la ruta del
      * guardián y deja el estado intacto. Sin esta superposición, el barista

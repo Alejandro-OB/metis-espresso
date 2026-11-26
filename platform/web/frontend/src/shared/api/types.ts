@@ -102,7 +102,7 @@ export interface Extraction {
   id: string
   source: 'measured' | 'simulation'
   deviceId?: string
-  /** Con qué se midió (RF-014); ausente o null si el dispositivo no lo declaró. */
+  /** Con qué se midió; ausente o null si el dispositivo no lo declaró. */
   calibration?: { id: string; version: number } | null
   firmwareVersion?: string | null
   /** Subida de caldera del primer uso que la placa aplicó en esta preparación (ADR-018 § 12). */

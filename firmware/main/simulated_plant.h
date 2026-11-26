@@ -7,7 +7,7 @@
  * La supervisión vivía aquí y se trasladó a `process_supervisor`, porque un
  * modelo que decide cuándo detener la máquina solo funciona mientras el
  * proceso sea ficticio, y además pone al gemelo digital dentro del lazo, que es
- * justo lo que RD-004 prohíbe.
+ * justo lo que el diseño prohíbe.
  */
 
 #include <stdbool.h>

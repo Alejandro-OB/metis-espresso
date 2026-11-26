@@ -1,6 +1,6 @@
-"""Desviación de una propiedad frente a lo que pidió el perfil (RF-020).
+"""Desviación de una propiedad frente a lo que pidió el perfil.
 
-RF-020 pide identificar las desviaciones y conservar sus valores, tolerancias,
+El sistema debe identificar las desviaciones y conservar sus valores, tolerancias,
 instantes y procedencia. Este módulo decide la desviación de **una** propiedad;
 quién la guarda y cuándo es la plataforma.
 

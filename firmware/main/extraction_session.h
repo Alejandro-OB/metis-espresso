@@ -11,8 +11,8 @@
 #define EXTRACTION_MAX_SAMPLES 1200U
 
 /*
- * Tramo sobre el que se calculan los indicadores de estabilidad (RF-019,
- * RNF-005). Empieza cuando la presión entra por primera vez en su tolerancia y
+ * Tramo sobre el que se calculan los indicadores de estabilidad.
+ * Empieza cuando la presión entra por primera vez en su tolerancia y
  * llega hasta el final: la subida inicial es una desviación esperada y contarla
  * castigaba a una máquina que no había fallado. Se descartó ignorar un número
  * fijo de segundos porque esa cifra no sale de ninguna medida. Si la presión
@@ -88,8 +88,8 @@ typedef struct {
      * El minuto previo a pulsar, con instantes negativos (enmienda del
      * 2026-10-19 a ADR-012 § 4.1). Va aparte de `samples` y no cuenta en
      * `summary.sample_count` ni en los indicadores: es la máquina lista antes
-     * de la preparación, no la preparación, y la ventana de estabilidad de
-     * RF-019 no debe verla. Se copia aquí, y no se lee del anillo al cerrar,
+     * de la preparación, no la preparación, y la ventana de estabilidad no
+     * debe verla. Se copia aquí, y no se lee del anillo al cerrar,
      * para que la evidencia de una preparación no dependa del estado vivo de
      * otra fase en el momento de serializarla.
      */

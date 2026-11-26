@@ -3,7 +3,7 @@
 /*
  * Detección de condiciones que deben comunicarse al historial.
  *
- * RF-011 obliga a informar de sobretemperatura, sensor crítico inválido, tarea
+ * El sistema debe informar de sobretemperatura, sensor crítico inválido, tarea
  * detenida o condición insegura. Ninguna de ellas produce necesariamente una
  * transición de la máquina de estados: un sensor puede soltarse con la cafetera
  * en reposo, el guardián corta las salidas por su propia ruta y el estado

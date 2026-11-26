@@ -141,8 +141,9 @@ python3 -m venv .venv
 .venv/bin/python -m ruff check src tests
 ```
 
-`pyproject.toml` añade `src` y `../../packages` a la ruta de importación, de
-modo que las pruebas usan los paquetes compartidos del repositorio.
+`pyproject.toml` añade `src` y `../../packages` (es decir, `platform/packages/`)
+a la ruta de importación, de modo que las pruebas usan los paquetes compartidos
+del repositorio.
 
 Paquetes compartidos, desde la raíz del repositorio:
 
@@ -159,11 +160,19 @@ npm run test
 npm run build
 ```
 
-Coherencia entre la API y los tipos de TypeScript, desde `platform/web/` (necesita el
-entorno del backend y las dependencias de la interfaz):
+Coherencia entre la API y los tipos de TypeScript, desde `platform/web/` (necesita
+el entorno del backend y las dependencias de la interfaz):
 
 ```bash
 make contract
+```
+
+Pruebas de aceptación en un entorno aislado, con Playwright y un simulador del
+modelo de lenguaje, desde `platform/web/`:
+
+```bash
+make compose-test
+make clean-test
 ```
 
 ## Despliegue en la Raspberry Pi
@@ -177,8 +186,8 @@ make contract
 
 Las unidades suponen el usuario `espresso`, el repositorio en
 `/home/espresso/espresso` y el disco de copias montado en `/mnt/datos`; cada
-archivo trae en la cabecera cómo se instala. Si el disco no está montado la
-el servidor arranca igual, pero la copia falla y la unidad queda en estado
+archivo trae en la cabecera cómo se instala. Si el disco no está montado, el
+servidor arranca igual, pero la copia falla y la unidad queda en estado
 `failed`. `restaurar.sh` solo restaura la base de datos; los volúmenes quedan en
 la copia como `.tar.gz`.
 

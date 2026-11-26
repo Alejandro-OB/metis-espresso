@@ -1,7 +1,7 @@
 """Indicadores de estabilidad térmica y de presión de una preparación.
 
-RF-019 pide indicadores de estabilidad y RNF-005 que se evalúen «con tolerancias
-definidas». Tres decisiones del 2026-10-10 fijan cómo:
+Los indicadores de estabilidad se evalúan con tolerancias definidas. Tres
+decisiones del 2026-10-10 fijan cómo:
 
 **La ventana empieza cuando la presión entra por primera vez en su rango** y
 llega hasta el final de la preparación. Antes de eso la presión todavía sube, y

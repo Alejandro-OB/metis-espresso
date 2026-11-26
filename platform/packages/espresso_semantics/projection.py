@@ -156,7 +156,7 @@ def _add_comparison(
     Emite `esim:canBeComparedWith`, que es la declaración que habilita la
     comparación: compartir perfil no basta para afirmar equivalencia. Solo se
     publican métricas agregadas; las muestras alineadas permanecen en el
-    artefacto de series, conforme a RD-005.
+    artefacto de series: el grafo guarda hechos, no cada muestra.
     """
     comparison = run.get("comparison")
     if not comparison or comparison.get("status") != "succeeded":

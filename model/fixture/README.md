@@ -29,7 +29,7 @@ la cafetera.
 
 ## Exportar la FMU
 
-Con OpenModelica (`omc`) instalado:
+Con OpenModelica (`omc`) instalado, desde `model/fixture/`:
 
 ```bash
 ./export_fmu.sh
@@ -57,7 +57,7 @@ Desde la raíz del repositorio, con la tarjeta de control conectada por USB:
 PYTHONPATH=platform/packages:model/fixture python model/fixture/fmu_hil_bridge.py --port /dev/ttyACM0 --steps 100
 ```
 
-Avanza la FMU, envía a la tarjeta de control tramas `I,…` y escribe la respuesta `O,…` en
-`hil_fmu_run.csv`. El puente abre el puerto a 115200 baudios y la consola del
+Avanza la FMU, envía a la tarjeta de control tramas `I,…` y escribe la respuesta
+`O,…` en `hil_fmu_run.csv` (opción `--csv`). El puente abre el puerto a 115200 baudios y la consola del
 firmware va a 921600: hay que igualar la velocidad antes de usarlo. Es un modo de
 prueba; las salidas de potencia deben estar desconectadas.

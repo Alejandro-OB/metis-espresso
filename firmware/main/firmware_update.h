@@ -9,7 +9,7 @@
  * alguien delante de la máquina**, con un gesto del mando (`panel_gesture`).
  * Ningún mensaje de red puede pedir una actualización: igual que la
  * configuración del enlace (`config_command`), toda autoridad sobre el
- * dispositivo se queda fuera de la red (RD-002).
+ * dispositivo se queda fuera de la red.
  *
  * ## Por qué solo con la máquina apagada
  *

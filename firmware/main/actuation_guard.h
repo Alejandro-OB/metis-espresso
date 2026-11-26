@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * Guardián de las salidas de potencia (RF-012, ADR-007 § 3.5).
+ * Guardián de las salidas de potencia (ADR-007 § 3.5).
  *
  * Decide, en cada ciclo y con independencia de cualquier controlador, si la
  * bomba y el calentador pueden energizarse. Su respuesta no es un permiso que
@@ -164,7 +164,7 @@ const char *actuation_verdict_name(actuation_verdict_t verdict);
  * que la señal no sea apta, que se supere el límite duro, que la adquisición
  * incumpla su plazo o que se pierda el sincronismo de red describe algo roto.
  *
- * La distinción existe porque RF-011 obliga a **informar al barista** de las
+ * La distinción existe porque el sistema debe **informar al barista** de las
  * condiciones inseguras, y un aviso que estuviera encendido siempre no informa
  * de nada. Hoy `commissioned` es falso y seguirá siéndolo durante toda la puesta
  * en marcha: tratar esa causa como avería dejaría la alarma encendida durante

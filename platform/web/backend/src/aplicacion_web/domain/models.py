@@ -58,7 +58,7 @@ POWER_LOSS_TERMINATION = "unexpected-power-loss"
 def interrupted_by_power_loss(extraction: dict[str, Any]) -> bool:
     """Si la preparación la cerró el dispositivo al rearrancar tras un corte.
 
-    El dispositivo no vio el final (ADR-005 § 3 y § 8 punto 10, RNF-006): no hay
+    El dispositivo no vio el final (ADR-005 § 3 y § 8 punto 10): no hay
     serie, ni indicadores, ni duración, y a veces tampoco inicio. Nada de lo que
     se juzga sobre una preparación puede juzgarse sobre esta, y quien la consuma
     tiene que saberlo en lugar de encontrar un hueco.

@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * Clasificación de la calidad de una medida antes de usarla (RF-008).
+ * Clasificación de la calidad de una medida antes de usarla.
  *
  * Una señal no apta no se corrige ni se sustituye: se marca, y quien la consuma
  * decide. El control no puede regular con una lectura inválida y el registro no

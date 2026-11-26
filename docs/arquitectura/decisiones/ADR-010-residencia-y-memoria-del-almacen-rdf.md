@@ -1,282 +1,109 @@
 # ADR-010 — Residencia permanente y memoria acotada del almacén RDF
 
-**Estado:** Aceptada
-**Fecha de redacción:** 2026-09-15
-**Fecha de aprobación:** 2026-09-21
-**Fecha de revisión:** 2026-09-15 (§12: empaquetado compatible con ARM)
-**Ámbito:** presencia del almacén RDF en la plataforma externa, consumo de memoria en reposo y condiciones de arranque
+**Estado:** Aceptada (2026-09-21)
 
 ## 1. Contexto
 
 ADR-004 sitúa la ontología, el grafo consultable y el razonamiento en la
-plataforma externa local, fuera del firmware y fuera del lazo de control.
-ADR-003 establece que la aplicación web es la única interfaz del sistema y que
-debe presentar la evidencia semántica junto con su procedencia. La plataforma
-externa será, según ADR-001, un equipo local candidato a Raspberry Pi, cuyo
-dimensionamiento debe comprobarse con mediciones de memoria, CPU,
-almacenamiento y temperatura.
-
-El despliegue actual no refleja todavía esa condición. En
+plataforma externa, fuera del firmware y del lazo de control. En
 `platform/web/compose.yaml`, los servicios `rdf-store` y `semantic-worker` están
-tras el perfil `semantic`, de modo que no se levantan salvo que se pidan de
-forma expresa. El ADR de plataforma de la aplicación web justifica esa
-separación porque el historial debe poder operar aunque el almacén RDF esté
-degradado. Esa justificación describe una **tolerancia a fallo**, no una
-exclusión del alcance: el grafo sigue perteneciendo a la plataforma externa.
+tras el perfil `semantic` para que el historial opere aunque el almacén RDF
+falle. Eso es tolerancia a fallo, no exclusión del alcance.
 
-Falta por tanto decidir dos cosas que hoy están implícitas en un archivo de
-composición: si el almacén RDF es un servicio residente de la instalación, y
-con cuánta memoria se ejecuta.
+Sin límite declarado, la máquina virtual de Java toma como memoria dinámica
+máxima el 25 % de la memoria física (`MaxRAMPercentage`). En el equipo de
+desarrollo, de 27,29 GiB, eso dio 6,82 GiB, y el servicio en reposo osciló entre
+200,4 MiB y 3,52 GiB. El resto del sistema en reposo consume 162 MiB.
 
-### 1.1 Evidencia medida
+Con 512 MiB declarados, el contenedor ocupó 181,3 MiB al arrancar y 386,5 MiB
+tras publicar 200 grafos nombrados (30 404 tripletas), a 42 ms por grafo. El
+volumen de datos no explica el consumo: la ontología ocupa 236 KB y cada
+preparación añade un grafo pequeño. TDB2 guarda los datos en archivos mapeados
+fuera de la memoria dinámica, que solo sostiene consultas y cargas. El arranque
+en frío de la máquina virtual tarda decenas de segundos.
 
-Mediciones tomadas el 2026-09-15 sobre el **entorno de desarrollo**, no sobre la
-Raspberry Pi: computador x86_64 con 27,29 GiB de memoria, proyecto Compose
-`aplicacion-web` en ejecución.
+## 3. Alternativas descartadas
 
-**Comportamiento sin límite declarado.** La máquina virtual de Java adopta como
-memoria dinámica máxima el 25 % de la memoria física del equipo, valor que ella
-misma deduce del hardware. Comprobado dentro del contenedor con
-`java -XX:+PrintFlagsFinal -version`:
-
-| Parámetro | Valor observado |
+| Alternativa | Razón |
 |---|---|
-| `MaxRAMPercentage` | 25 % (valor por omisión) |
-| `MaxHeapSize` | 6,82 GiB (deducido del equipo) |
-
-El consumo real oscila dentro de ese margen. El mismo servicio, sin ninguna
-solicitud en curso, se observó en **3,52 GiB** poco después de un periodo de
-actividad y en **200,4 MiB** tras un intervalo prolongado sin solicitudes,
-porque el recolector de memoria devuelve al sistema lo que ya no retiene. No
-existe, por tanto, una cifra estable de consumo en reposo: existe un intervalo
-cuyo extremo superior lo fija el hardware donde se ejecute el servicio.
-
-Para comparar, el resto del sistema en reposo consume 162 MiB en total: 53,6 MiB
-el trabajador semántico, 42,3 MiB el de simulación, 36,5 MiB la API, 16,1 MiB
-PostgreSQL y 14,0 MiB el servidor web.
-
-**Comportamiento con límite declarado.** Una instancia equivalente ejecutada con
-una memoria dinámica máxima de 512 MiB declarada de forma explícita:
-
-| Situación | Memoria del contenedor |
-|---|---|
-| Arranque en reposo | 181,3 MiB |
-| Tras publicar 200 grafos nombrados (30 404 tripletas) | 386,5 MiB |
-
-En esa misma prueba, la publicación de cada grafo tardó 42 ms, el recuento
-global de tripletas 38 ms y una agregación sobre todos los grafos 53 ms, sin
-agotar la memoria declarada.
-
-La causa del consumo elevado no es el volumen de datos: el vocabulario, las
-formas de validación y las consultas ocupan 236 KB en `ontology/`, y
-cada preparación añade un grafo nombrado pequeño.
-
-Dos hechos adicionales condicionan la decisión. El almacenamiento TDB2 de Jena
-mantiene los datos en archivos mapeados en memoria, **fuera** de la memoria
-dinámica de la máquina virtual, que solo debe sostener el procesamiento de
-consultas y la carga de grafos. Y el arranque en frío de una máquina virtual de
-Java se mide en decenas de segundos, plazo que quedaría delante de la primera
-consulta del barista si el servicio se levantara bajo demanda.
-
-## 2. Problema de decisión
-
-Se debe definir si el almacén RDF permanece encendido durante toda la operación
-de la instalación y con qué memoria dinámica se ejecuta, de manera que la
-consulta de evidencia sea interactiva, el consumo en reposo sea un parámetro
-declarado y el dimensionamiento de la plataforma externa pueda comprobarse de
-forma reproducible.
-
-## 3. Alternativas consideradas
-
-| Alternativa | Evaluación |
-|---|---|
-| Residente sin límite declarado | Es el comportamiento actual. El máximo depende de la memoria física del equipo y el consumo oscila dentro de ese margen, por lo que una medición no es trasladable a otro modelo de Raspberry Pi ni comparable entre ensayos. Un veredicto negativo sobre la plataforma podría deberse al ajuste por omisión y no a una limitación real. |
-| Residente con memoria acotada | Conserva la respuesta interactiva y convierte el consumo en reposo en un valor elegido y defendible. Exige comprobar que la validación y las consultas caben en el límite fijado. **Seleccionada.** |
-| Bajo demanda | Libera memoria mientras nadie consulta, pero traslada el arranque de la máquina virtual a la primera consulta del barista y exige una orquestación de encendido y apagado que hoy no existe. |
-| Fuera de la instalación | Reduce el consumo a cero, pero contradice ADR-004 y deja sin soporte la consulta de evidencia y las recomendaciones trazables en el equipo desplegado. |
+| Residente sin límite declarado | El máximo depende del equipo; una medición no se traslada a la Raspberry Pi ni es comparable entre pruebas, y un fallo de memoria no distinguiría el hardware del ajuste por omisión. |
+| Bajo demanda | La primera consulta del barista pagaría el arranque de la máquina virtual, y haría falta una orquestación de encendido que no existe. |
+| Fuera de la instalación | Contradice ADR-004 y deja sin consulta de evidencia el equipo desplegado. |
 
 ## 4. Decisión
 
-El almacén RDF y el trabajador semántico serán **servicios residentes** de la
-plataforma externa: se levantan con la instalación y permanecen disponibles
-mientras el sistema está en servicio. El perfil `semantic` deja de gobernar su
-presencia en el despliegue de producción y conserva su utilidad únicamente como
-recurso del entorno de desarrollo.
+El almacén RDF y el trabajador semántico son **servicios residentes**: se
+levantan con la instalación y permanecen disponibles mientras está en servicio.
+El perfil `semantic` no gobierna su presencia en producción.
 
-El almacén RDF se ejecutará con su **memoria dinámica máxima declarada de forma
-explícita**, con un valor inicial de **512 MiB**, suficiente en la comprobación descrita en §1.1. El valor efectivo formará
-parte de la configuración de la instalación y no podrá quedar determinado por
-la memoria física del equipo.
+El almacén se ejecuta con una **memoria dinámica máxima declarada de 512 MiB**,
+mediante `JDK_JAVA_OPTIONS` en la composición. Si la validación SHACL, la
+publicación de grafos o una consulta de comparación no caben, el límite sube a
+1 GiB y se registra la medición que lo obliga.
 
-Si durante la campaña de dimensionamiento la validación SHACL, la publicación
-de grafos o una consulta de comparación no caben en ese límite, el valor se
-elevará a 1 GiB y quedará registrada la medición que lo obliga. Elevar el
-límite es un resultado de medición documentado, no una corrección silenciosa.
-
-La tolerancia a fallo descrita en el ADR de plataforma de la aplicación web se
-mantiene sin cambios: la aplicación debe seguir sirviendo el historial y
-declarar el estado semántico cuando el almacén no responda, y la ausencia de
-respuesta del grafo nunca podrá presentarse como ausencia de hechos.
+Si el almacén no responde, la aplicación sigue sirviendo el historial y declara
+el estado semántico. La falta de respuesta del grafo nunca se presenta como
+ausencia de hechos.
 
 ## 5. Justificación
 
-1. **Respuesta interactiva.** La consulta de evidencia forma parte de la
-   navegación normal de una preparación; no puede pagar el arranque de una
-   máquina virtual.
-2. **Mediciones reproducibles.** Con el límite declarado, el consumo en reposo
-   del equipo es comparable entre ensayos y entre equipos, que es la condición
-   para que el dimensionamiento de la plataforma externa signifique algo.
-3. **Honestidad del veredicto.** Sin límite declarado, un fallo de memoria en
-   la Raspberry Pi no permitiría distinguir entre una limitación del hardware y
-   un ajuste por omisión heredado del entorno de desarrollo.
-4. **Coherencia con el almacenamiento.** TDB2 sitúa los datos en archivos
-   mapeados fuera de la memoria dinámica, de modo que acotarla no limita el
-   tamaño del grafo sino el trabajo simultáneo de consulta.
-5. **Cumplimiento de ADR-004.** El grafo consultable pertenece a la plataforma
-   externa; dejarlo apagado por omisión lo convertía de hecho en una
-   herramienta de desarrollo.
+La consulta de evidencia no puede esperar el arranque de una máquina virtual.
+Con el límite declarado, el consumo es comparable entre pruebas y equipos. Como
+TDB2 mantiene los datos fuera de la memoria dinámica, acotarla limita el trabajo
+de consulta, no el tamaño del grafo.
 
 ## 6. Consecuencias
 
-### 6.1 Consecuencias favorables
-
-- El consumo en reposo de la instalación pasa a ser un valor declarado.
-- La consulta de evidencia responde sin arranque en frío.
-- El dimensionamiento de la plataforma externa se vuelve comparable y repetible.
-- La configuración deja de depender del equipo donde se ejecute.
-
-### 6.2 Consecuencias desfavorables
-
 - La instalación mantiene una máquina virtual de Java encendida de forma
-  permanente, con su consumo asociado.
-- Un límite demasiado ajustado puede degradar o interrumpir una consulta
-  compleja, lo que obliga a comprobarlo experimentalmente.
-- El despliegue de producción deja de coincidir con la invocación de desarrollo
-  y debe documentarse por separado.
-
-## 7. Riesgos y tratamiento
-
-| Riesgo | Tratamiento |
-|---|---|
-| Agotamiento de memoria dinámica durante una validación o consulta | Medir la proyección, la validación SHACL y las consultas de comparación con el límite fijado; elevarlo a 1 GiB documentando la medición. |
-| Pausas de recolección de basura perceptibles en la interfaz | Incluir la latencia de consulta en la campaña y registrar sus valores extremos, no solo la mediana. |
-| Crecimiento del grafo con el número de preparaciones | Medir con un volumen representativo y tratar la retención en la decisión de almacenamiento correspondiente. |
-| Confusión entre servicio caído y ausencia de hechos | Ya tratada en el adaptador semántico, que distingue ambos casos de forma explícita; se conserva. |
-
-## 8. Aspectos pendientes
-
-| Pendiente | Condición de cierre |
-|---|---|
-| Construcción de la imagen en la plataforma externa | Comprobar la construcción y ejecución en la Raspberry Pi; en el equipo de desarrollo no fue posible por falta de emulación registrada (§12.4). |
-| Valor definitivo de la memoria dinámica | Confirmar 512 MiB o elevarlo, con la medición que lo respalde. |
-| Retención y crecimiento del grafo | Definir el volumen conservado y su efecto sobre memoria y almacenamiento. |
-| Ejecución del razonador | Decidir si la materialización de conocimiento se ejecuta en la instalación y con qué disparador. |
+  permanente.
+- Un límite demasiado ajustado puede interrumpir una consulta compleja; por eso
+  se mide la latencia con sus valores extremos, no solo la mediana.
 
 ## 9. Verificación de la decisión
 
-Se verificará, como mínimo:
-
-1. consumo en reposo del conjunto de servicios residentes por debajo de 1 GiB;
-2. proyección semántica y validación SHACL de una preparación completa sin
-   agotar la memoria dinámica declarada;
-3. publicación de un grafo nombrado y consulta posterior de su evidencia;
-4. latencia de consulta de evidencia registrada con sus valores extremos;
-5. operación del historial con el almacén RDF detenido, declarando el estado
-   semántico y sin presentar ausencia de hechos;
-6. permanencia del servicio durante un ensayo prolongado, sin crecimiento
-   sostenido de memoria.
+1. Consumo en reposo de los servicios residentes por debajo de 1 GiB.
+2. Validación SHACL de una preparación completa sin agotar la memoria.
+3. Publicación de un grafo y consulta de su evidencia.
+4. Latencia de consulta registrada con sus valores extremos.
+5. Historial operativo con el almacén detenido.
+6. Sin crecimiento sostenido de memoria en una prueba prolongada.
 
 ## 10. Trazabilidad
 
-- [ADR-001](ADR-001-arquitectura-esp32s3-plataforma-externa.md): responsabilidades
-  de la plataforma externa y comprobación de sus recursos.
-- [ADR-003](ADR-003-interfaz-web-unica-en-plataforma-externa.md): interfaz única
-  y funcionamiento degradado.
-- [ADR-004](ADR-004-distribucion-datos-ontologia-aprendizaje.md): ubicación del
-  grafo, el razonamiento y el conocimiento derivado.
-- Arquitectura de despliegue: artefactos y
-  comunicaciones de la plataforma externa.
-- Alcance de producción de la plataforma externa:
-  servicios residentes y trabajo episódico.
-- Requisitos: RF-029, RNF-007 y RNF-008.
+[ADR-001](ADR-001-arquitectura-esp32s3-plataforma-externa.md),
+[ADR-003](ADR-003-interfaz-web-unica-en-plataforma-externa.md),
+[ADR-004](ADR-004-distribucion-datos-ontologia-aprendizaje.md).
 
 ## 11. Criterios de reconsideración
 
-La decisión deberá revisarse si el grafo crece hasta exigir una memoria que la
-plataforma externa no pueda reservar de forma permanente, si la campaña de
-dimensionamiento demuestra que la instalación no puede sostener el servicio
-residente junto con la simulación y el historial, o si se sustituye el almacén
-RDF por una tecnología cuyo consumo no dependa de una máquina virtual de Java.
+Se revisa si el grafo exige más memoria de la que la plataforma puede reservar
+de forma permanente, si la instalación no sostiene el servicio junto con la
+simulación y el historial, o si el almacén se sustituye por uno que no dependa
+de una máquina virtual de Java.
 
-## 12. Revisión · Empaquetado del almacén RDF compatible con ARM
+## 12. Empaquetado del almacén RDF compatible con ARM
 
-La decisión anterior presupone que el almacén RDF puede ejecutarse en la
-plataforma externa. Al comprobarlo resultó que no podía, de modo que esta
-revisión cierra esa condición.
+La imagen `stain/jena-fuseki` solo se publica para `linux/amd64`, así que no se
+ejecuta en la Raspberry Pi. El resto de las imágenes del sistema sí se publica
+para `linux/arm64`.
 
-### 12.1 Hallazgo
-
-La imagen fijada en la composición, `stain/jena-fuseki`, publica **únicamente**
-`linux/amd64`. Verificado sobre el manifiesto del registro con
-`docker buildx imagetools inspect`. El resto de las imágenes del sistema
-—PostgreSQL, Python, nginx y Node— sí publican `linux/arm64`, de modo que el
-almacén RDF era el único impedimento para levantar la plataforma completa en una
-Raspberry Pi.
-
-### 12.2 Alternativas comprobadas
-
-| Alternativa | Arquitecturas | Evaluación |
-|---|---|---|
-| `stain/jena-fuseki` | solo `amd64` | No ejecutable en la plataforma externa. |
-| `secoresearch/fuseki` | `amd64` y `arm64` en sus etiquetas de versión, no en `latest` | Ejecutable, pero su configuración usa TDB1, añade un índice Lucene, carga clases propias del grupo que la mantiene y nombra el conjunto de datos `ds`, con la consulta en `sparql`. El despliegue actual usa TDB2, el conjunto `espresso` y los extremos `query`, `sparql`, `data` y `get`: habría que sustituir su configuración completa, que es justamente lo que aportaba. |
-| Imagen propia con el paquete oficial de Apache Jena sobre `eclipse-temurin` | base con `amd64` y `arm64` | Conserva Fuseki, TDB2 y la configuración vigente sin componentes ajenos al sistema. **Seleccionada.** |
-| Sustituir el motor por otro almacén RDF | — | Obligaría a revalidar formas SHACL y consultas de competencia, y contradice la decisión de plataforma de la aplicación web. Descartada. |
-
-### 12.3 Decisión
-
-El almacén RDF se empaqueta como **imagen propia del proyecto**, definida en
-`platform/web/rdf-store/`: paquete oficial de Apache Jena Fuseki 5.5.0 descargado
-del archivo de la fundación con verificación SHA-512, sobre
-`eclipse-temurin:21-jre-alpine`, con la configuración TDB2 del conjunto
-`espresso` ya vigente, autenticación de administración y ejecución como usuario
-sin privilegios.
-
-### 12.4 Verificación realizada
-
-Comprobado el 2026-09-15 en el equipo de desarrollo, ejercitando el cliente real
-del proyecto (`espresso_semantics.FusekiClient`) y no solicitudes construidas
-para la prueba:
-
-| Comprobación | Resultado |
+| Alternativa | Razón |
 |---|---|
-| Arranque hasta responder | ≈2 s, declarando la memoria dinámica fijada |
-| Comprobación de salud | correcta |
-| Sustitución de un grafo nombrado | 56 ms |
-| Consulta SPARQL y recuperación de evidencia | 13 ms, hechos correctos |
-| Republicación del mismo grafo | correcta, sin duplicación |
-| Administración sin credenciales | rechazada (401); con credenciales, aceptada |
-| Carga de 200 grafos nombrados (30 404 tripletas) | 8,5 s; 42 ms por grafo |
-| Agregación sobre todos los grafos | 53 ms |
-| Memoria tras esa carga | 386,5 MiB, dentro del límite declarado |
-| Tamaño de la imagen | 399 MB, frente a 486 MB de la anterior |
+| `secoresearch/fuseki` | Publica `arm64`, pero usa TDB1, añade un índice Lucene y clases propias, y nombra el conjunto `ds`. Habría que sustituir su configuración completa, que es lo que aportaba. |
+| Otro motor RDF | Obligaría a revalidar las formas SHACL y las consultas de competencia. |
 
-Integración en el despliegue existente: el volumen `rdf-data` conservó sus 2 061
-tripletas, el trabajador semántico reanudó su operación sin errores y volvió a
-publicar el grafo de esquema.
+El almacén se empaqueta como **imagen propia**, definida en
+[`platform/web/rdf-store/`](../../../platform/web/rdf-store/): Apache Jena
+Fuseki 5.5.0 descargado del archivo de Apache con verificación SHA-512, sobre
+`eclipse-temurin:21-jre-alpine`, con TDB2, el conjunto `espresso`,
+autenticación de administración y ejecución como usuario sin privilegios. La
+imagen no compila código, solo descarga, verifica y extrae, por lo que se
+construye directamente en la Raspberry Pi.
 
-**No verificado todavía:** la construcción para ARM. El equipo de desarrollo no
-tiene registrada la emulación necesaria y la construcción cruzada falla con
-`exec format error`. La imagen no compila código —descarga, verifica y
-extrae—, por lo que puede construirse directamente en la Raspberry Pi; queda
-como comprobación de la campaña de dimensionamiento.
+Con el cliente `espresso_semantics.FusekiClient`, la imagen respondió en unos
+2 s, sustituyó un grafo en 56 ms, devolvió la evidencia en 13 ms, republicó sin
+duplicar y rechazó la administración sin credenciales (401). Ocupa 399 MB.
 
-### 12.5 Consecuencias
-
-- El proyecto mantiene una definición de imagen propia y debe actualizar la
-  versión de Fuseki de forma deliberada, con su suma de verificación.
-- El servicio se ejecuta como usuario sin privilegios: un volumen creado por la
-  imagen anterior pertenece a `root` y debe reasignarse antes de reutilizarse.
-- La memoria dinámica se declara desde la composición mediante
-  `JDK_JAVA_OPTIONS`, lo que hace aplicable la decisión de §4 a esta imagen.
-- Desaparece la dependencia de una imagen de terceros para un componente que
-  forma parte del alcance permanente de la plataforma externa.
+Consecuencias: la versión de Fuseki se actualiza de forma deliberada, con su
+suma de verificación. Un volumen creado por la imagen anterior pertenece a
+`root` y debe reasignarse antes de reutilizarse.

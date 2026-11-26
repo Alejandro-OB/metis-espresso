@@ -28,7 +28,7 @@ The folders follow the parts of the system described in the article.
 ├── model/       Physical model in Modelica and the FMU the server runs
 ├── ontology/    EKO ontology (OWL 2), SHACL shapes, competency questions, reasoner
 ├── data/        Tasting data: the twelve preparations of the evaluation
-└── docs/        Requirements, design decisions (ADR) and commissioning records
+└── docs/        Design decisions (ADR), commissioning records and test reports
 ```
 
 ## Architecture
@@ -117,11 +117,10 @@ Labels and definitions are in Spanish and English.
 The code cites the origin of each decision and each number. Those documents are
 in `docs/`, in Spanish:
 
-- `requisitos/requisitos_sistema.md`: functional and non-functional requirements.
 - `arquitectura/decisiones/`: the design decisions (ADR) cited by the code.
 - `engineering/actas/`: the commissioning records from which the plants and
   tunings compiled into the firmware come; the tests check that every number
-  matches its record.
+  matches its record. Its README summarises each record.
 - `engineering/evidencias/` and `engineering/protocolo-catacion.md`: the tests
   and the tasting protocol cited by the model, the server and the interface.
 
@@ -148,8 +147,8 @@ ontología EKO. La decisión sobre cada ajuste es siempre del barista.
 
 Cada carpeta corresponde a una parte del sistema: `firmware/` (controlador),
 `hardware/` (tarjetas), `platform/` (servidor local), `model/` (modelo físico),
-`ontology/` (EKO), `data/` (datos de la cata) y `docs/` (requisitos, decisiones
-de diseño y actas, en español).
+`ontology/` (EKO), `data/` (datos de la cata) y `docs/` (decisiones de diseño,
+actas e informes de pruebas, en español).
 
 Trabajo de grado del programa de Ingeniería Electrónica y Telecomunicaciones de
 la Universidad del Cauca.

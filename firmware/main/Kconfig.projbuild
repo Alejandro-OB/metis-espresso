@@ -35,8 +35,7 @@ config CAFE_REPORT_INTERRUPTED_EXTRACTIONS
     default y
     help
         Al arrancar, una preparación que quedó abierta se envía como cerrada
-        por `unexpected-power-loss`, sin fin ni duración (ADR-005 § 3,
-        RNF-006). Exige una plataforma con el contrato del 2026-10-12, que
+        por `unexpected-power-loss`, sin fin ni duración (ADR-005 § 3). Exige una plataforma con el contrato del 2026-10-12, que
         admite esos nulos: la cola se entrega por lotes y una plataforma
         anterior rechazaría el lote entero y la bloquearía. Desactivado, la
         marca se guarda y se borra igual, y solo se anota.

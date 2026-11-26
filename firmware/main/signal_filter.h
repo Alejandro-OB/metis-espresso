@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * Filtrado de la señal ya validada (RF-008).
+ * Filtrado de la señal ya validada.
  *
  * Se emplea una mediana móvil y no una media: el ruido que sobrevive al filtro
  * físico es principalmente impulsivo —conmutación de cargas, rizado residual de

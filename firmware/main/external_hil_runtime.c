@@ -54,7 +54,7 @@ static TaskHandle_t s_task;
  * que ADR-012 § 4.4 decide evitar.
  *
  * Va por el puerto físico y no por la red a propósito. Desviar a dónde envía el
- * dispositivo su evidencia es una forma de perderla, y RD-002 mantiene fuera de
+ * dispositivo su evidencia es una forma de perderla, y el diseño mantiene fuera de
  * la red toda autoridad sobre el dispositivo. Tampoco inicia ninguna
  * preparación ni toca las salidas de potencia.
  *
@@ -309,7 +309,7 @@ static void external_hil_task(void *argument)
          * `V,<evento>` inyecta un evento en la máquina de estados desde el banco
          * de pruebas, por el puerto USB y con las salidas de potencia aisladas.
          * Sustituye al mando físico mientras no exista (F-04) y permite
-         * ejercitar el ciclo completo de registro. No es una ruta de red: RD-002
+         * ejercitar el ciclo completo de registro. No es una ruta de red: el diseño
          * sigue impidiendo que la API, un temporizador o un servicio externo
          * inicien una preparación.
          */

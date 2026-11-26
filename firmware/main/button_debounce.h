@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * Antirrebote de los pulsadores del mando (RF-003, RF-004).
+ * Antirrebote de los pulsadores del mando.
  *
  * Un contacto mecánico no cambia de estado una vez: rebota durante unos
  * milisegundos, y cada rebote leído como pulsación distinta produciría una

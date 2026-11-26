@@ -1,5 +1,5 @@
 /*
- * Pruebas del antirrebote de los pulsadores (RF-003, RF-004).
+ * Pruebas del antirrebote de los pulsadores.
  *
  * La propiedad que justifica que este módulo exista es que **un rebote no
  * produzca una orden**. Sobre una máquina cuyo botón de café inicia una

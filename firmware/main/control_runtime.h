@@ -30,7 +30,7 @@
  * mientras la salida estaba cortada.
  *
  * Tampoco elige referencias ni inicia procesos: las toma del supervisor, que las
- * toma del perfil efectivo ya validado (RD-002).
+ * toma del perfil efectivo ya validado.
  *
  * ## El lazo de banco
  *

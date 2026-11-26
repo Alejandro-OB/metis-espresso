@@ -1,5 +1,5 @@
 /*
- * Marca de preparación abierta (ADR-005 § 3, RNF-006).
+ * Marca de preparación abierta (ADR-005 § 3).
  *
  * La propiedad que importa: una preparación cortada a la mitad reaparece al
  * arrancar como registro cerrado por `unexpected-power-loss`, con lo que había

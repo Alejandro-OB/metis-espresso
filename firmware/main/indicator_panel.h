@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * Qué enciende cada LED del mando (RF-011).
+ * Qué enciende cada LED del mando.
  *
  * El requisito no pide un adorno: obliga a **informar al barista** cuando el
  * sistema detecte sobretemperatura, sensor crítico inválido, tarea crítica
@@ -75,7 +75,7 @@
  *
  * El rojo también parpadea **cuando el guardián inhibe por avería
  * aunque la máquina de estados no haya disparado**: un sensor que se suelta
- * mientras la máquina está lista es exactamente el caso que RF-011 describe, y
+ * mientras la máquina está lista es exactamente el caso que hay que avisar, y
  * el estado operativo puede tardar en reflejarlo o no reflejarlo nunca.
  *
  * Fijo y parpadeante se distinguen a propósito. Fijo es una alarma declarada,

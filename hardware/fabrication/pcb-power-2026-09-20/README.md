@@ -20,7 +20,7 @@ calentador por un `2N2222` y conexión al dimmer de la bomba, que además entreg
 
 El esquemático sigue el recorrido de la corriente en seis zonas rotuladas. La
 sexta, la única con recuadro **verde**, reúne lo que no toca los 120 V: la
-conexión a `PCB-CONTROL`, el driver del SSR y los conectores de mando `SSR-DC` y
+conexión a `PCB-CONTROL`, el transistor de mando del SSR y los conectores de mando `SSR-DC` y
 `DIM-LOG`. Así se ve de un vistazo qué se puede tocar con la máquina enchufada.
 
 ## Datos de la tarjeta
@@ -109,7 +109,7 @@ rectangular marca el **emisor**, no el pin 1.
 
 Un transistor mal orientado puede dejar el SSR, y con él el calentador,
 **encendido de forma permanente** sin que el firmware lo gobierne. Antes de
-pedirla, conviene comprobar sobre la plantilla impresa que el emisor apoya sobre
+pedir la tarjeta se comprueba sobre la plantilla impresa que el emisor apoya sobre
 el pad cuadrado.
 
 ### Fuente HLK-10M05
@@ -146,7 +146,7 @@ Cómo se monta:
 Se comprueba a simple vista: los dos cuerpos tienen que estar unidos.
 
 Un varistor termoprotegido (TMOV) resolvería esto en una sola pieza, pero no se
-consiguió; el conjunto atado es la solución adoptada.
+consiguió; por eso se adoptó el conjunto atado.
 
 La serigrafía dice 98 °C; en la unidad construida se montó un termofusible de
 110 °C.

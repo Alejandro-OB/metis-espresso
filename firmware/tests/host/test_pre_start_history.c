@@ -206,7 +206,7 @@ static void test_the_session_takes_it_at_opening(void)
     assert(session.pre_start[taken - 1U].elapsed_ms == -500);
 
     /* El minuto previo no es la preparación: ni cuenta muestras ni abre la
-       ventana de estabilidad de RF-019, aunque su presión fuera la pedida. */
+       ventana de estabilidad, aunque su presión fuera la pedida. */
     assert(session.summary.sample_count == 0U);
     const extraction_sample_t sample = {
         .elapsed_ms = 0U,
