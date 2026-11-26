@@ -15,7 +15,7 @@ El firmware se genera en el computador de desarrollo, no en la plataforma.
 |---|---|
 | La plataforma ordena la actualización | Le daría poder sobre el programa que decide el guardián, contra ADR-001 § 6. Descartada. |
 | Servidor web en la placa | Cualquiera en la red podría empujar código. Descartada. |
-| Conector USB en la carcasa | Se consideró primero y no se adoptó. |
+| Conector USB en la carcasa | No toca el firmware y daría acceso a los registros, pero sigue dependiendo del enlace USB, que cerca del vapor llegó a caerse (§ 1). Descartada. |
 | Gesto en el mando y descarga desde el computador | **Seleccionada.** |
 | `factory` más dos copias | Si ambas fallaran, arrancaría una imagen vieja con un acta que ya no rige. Descartada. |
 | Solo la verificación de `esp_ota_end` | No distingue un binario viejo del publicado. Descartada. |

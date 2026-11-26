@@ -1,6 +1,11 @@
 # ADR-019 — Temperatura del agua mediante una transformación medida
 
-**Estado:** Aceptada (2026-09-30)
+**Estado:** Aceptada (2026-09-30), reemplazada en parte. Desde el 2026-10-18
+la relación entre el agua y la caldera la fija el acta de temperatura y la
+aplica el firmware (ADR-009, enmienda del 2026-10-18). La corrección después de
+cada café, la única que usaba la transformación con café, se retiró el
+2026-10-22 (ADR-018 § 13). Sigue vigente el registro de lecturas de referencia
+emparejadas con la temperatura del cuerpo (§ 4.3).
 
 ## 1. Contexto
 
@@ -93,8 +98,8 @@ fuera del lazo.
   sella el instante al recibir la lectura, y el dispositivo toma la hora de la
   plataforma (ADR-013). Con 1 s de margen, el desfase del navegador bastaría
   para emparejar mal; su hora se guarda aparte.
-- El sostenimiento debe pedir la condición de café, no la de «después» sin
-  canastilla.
+- La transformación con café no llegó a ajustarse: la corrección después de
+  cada café, que era su único uso, se retiró antes (ADR-018 § 13).
 
 ## 9. Verificación de la decisión
 
