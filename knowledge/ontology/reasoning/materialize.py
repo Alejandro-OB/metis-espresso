@@ -61,7 +61,13 @@ def set_description(g, node, text):
 
 
 def label(g, node):
-    value = next(g.objects(node, RDFS.label), None)
+    # Las explicaciones se redactan en español, y desde que EKO publica también
+    # sus etiquetas en inglés un término tiene dos: tomar la primera que
+    # devuelva el grafo mezclaría los idiomas según el orden de carga.
+    values = list(g.objects(node, RDFS.label))
+    value = next((v for v in values if getattr(v, "language", None) == "es"), None)
+    if value is None:
+        value = next((v for v in values if getattr(v, "language", None) is None), None)
     return str(value) if value is not None else local_name(node)
 
 

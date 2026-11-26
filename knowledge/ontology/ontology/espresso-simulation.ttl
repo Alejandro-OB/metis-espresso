@@ -5,44 +5,51 @@
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/espresso-dt/simulation> a owl:Ontology ;
     owl:versionIRI <https://w3id.org/espresso-dt/simulation/1.1.4> ;
     owl:versionInfo "1.1.4" ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:creator <https://orcid.org/0009-0005-7085-6044>, <https://orcid.org/0009-0008-0477-5678> ;
+    dcterms:contributor <https://orcid.org/0000-0003-3695-3578>, <https://orcid.org/0000-0002-5608-9097> ;
+    dcterms:publisher "Universidad del Cauca" ;
+    vann:preferredNamespacePrefix "esim" ;
+    vann:preferredNamespaceUri "https://w3id.org/espresso-dt/simulation#" ;
     owl:imports <https://w3id.org/espresso-dt/3.5.0> ;
-    dcterms:title "Módulo de simulación de EKO"@es ;
-    dcterms:description "Procedencia y resultados de ejecuciones FMI sin autoridad física."@es .
+    dcterms:title "Módulo de simulación de EKO"@es, "EKO simulation module"@en ;
+    dcterms:description "Procedencia y resultados de ejecuciones FMI sin autoridad física."@es, "Provenance and results of FMI runs without physical authority."@en .
 
 esim:SimulationRun a owl:Class ;
     rdfs:subClassOf prov:Activity ;
-    rdfs:label "ejecución de simulación"@es .
+    rdfs:label "ejecución de simulación"@es, "simulation run"@en .
 
 esim:VirtualExtraction a owl:Class ;
     rdfs:subClassOf edt:ProcessEntity, prov:Entity ;
     owl:disjointWith edt:EspressoExtraction ;
-    rdfs:label "extracción virtual"@es .
+    rdfs:label "extracción virtual"@es, "virtual extraction"@en .
 
 esim:FmuModelArtifact a owl:Class ;
     rdfs:subClassOf edt:InformationEntity, prov:Entity ;
-    rdfs:label "artefacto de modelo FMU"@es .
+    rdfs:label "artefacto de modelo FMU"@es, "FMU model artifact"@en .
 
 esim:SimulationScenario a owl:Class ;
     rdfs:subClassOf edt:InformationEntity, prov:Entity ;
-    rdfs:label "escenario de simulación"@es .
+    rdfs:label "escenario de simulación"@es, "simulation scenario"@en .
 
 esim:SimulationSeries a owl:Class ;
     rdfs:subClassOf edt:ObservationSeries, prov:Entity ;
-    rdfs:label "serie simulada"@es .
+    rdfs:label "serie simulada"@es, "simulated series"@en .
 
 esim:SimulatedObservation a owl:Class ;
     rdfs:subClassOf edt:QuantitativeObservation, prov:Entity ;
     owl:disjointWith edt:MeasuredObservation ;
-    rdfs:label "observación simulada"@es .
+    rdfs:label "observación simulada"@es, "simulated observation"@en .
 
 esim:SimulationExecutor a owl:Class ;
     rdfs:subClassOf edt:SoftwareAgent, prov:SoftwareAgent ;
-    rdfs:label "ejecutor de simulación"@es .
+    rdfs:label "ejecutor de simulación"@es, "simulation executor"@en .
 
 esim:usedModel a owl:ObjectProperty ;
     rdfs:subPropertyOf prov:used ;
@@ -92,39 +99,39 @@ esim:semanticSchemaVersion a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs
 
 esim:PhysicalVirtualComparison a owl:Class ;
     rdfs:subClassOf edt:InformationEntity, prov:Entity ;
-    rdfs:label "comparación físico-virtual"@es ;
-    skos:definition "Contraste trazable entre las observaciones de una preparación y las de su réplica simulada, con su cobertura y su procedencia. No afirma causa ni autoriza actuación."@es .
+    rdfs:label "comparación físico-virtual"@es, "physical-virtual comparison"@en ;
+    skos:definition "Contraste trazable entre las observaciones de una preparación y las de su réplica simulada, con su cobertura y su procedencia. No afirma causa ni autoriza actuación."@es, "Traceable contrast between the observations of a preparation and those of its simulated replica, with its coverage and provenance. It asserts no cause and authorizes no actuation."@en .
 
 esim:ChannelDifference a owl:Class ;
     rdfs:subClassOf edt:InformationEntity ;
-    rdfs:label "diferencia por canal"@es ;
-    skos:definition "Resumen de la diferencia observada en una propiedad entre la preparación medida y su réplica simulada."@es .
+    rdfs:label "diferencia por canal"@es, "channel difference"@en ;
+    skos:definition "Resumen de la diferencia observada en una propiedad entre la preparación medida y su réplica simulada."@es, "Summary of the difference observed in one property between the measured preparation and its simulated replica."@en .
 
 esim:comparesVirtualExtraction a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain esim:PhysicalVirtualComparison ;
     rdfs:range esim:VirtualExtraction ;
-    rdfs:label "compara la extracción virtual"@es .
+    rdfs:label "compara la extracción virtual"@es, "compares virtual extraction"@en .
 
 esim:comparesMeasuredExtraction a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain esim:PhysicalVirtualComparison ;
     rdfs:range edt:EspressoExtraction ;
-    rdfs:label "compara la extracción medida"@es .
+    rdfs:label "compara la extracción medida"@es, "compares measured extraction"@en .
 
 esim:hasChannelDifference a owl:ObjectProperty ;
     rdfs:domain esim:PhysicalVirtualComparison ;
     rdfs:range esim:ChannelDifference ;
-    rdfs:label "tiene diferencia por canal"@es .
+    rdfs:label "tiene diferencia por canal"@es, "has channel difference"@en .
 
 esim:meanSignedDifference a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:range xsd:decimal ;
-    rdfs:label "diferencia media con signo"@es ;
-    skos:definition "Media de simulado menos medido; un valor positivo indica que el modelo predice por encima de lo observado."@es .
+    rdfs:label "diferencia media con signo"@es, "mean signed difference"@en ;
+    skos:definition "Media de simulado menos medido; un valor positivo indica que el modelo predice por encima de lo observado."@es, "Mean of simulated minus measured; a positive value indicates that the model predicts above what was observed."@en .
 esim:meanAbsoluteDifference a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:range xsd:decimal .
 esim:rootMeanSquareDifference a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:range xsd:decimal .
 esim:maxAbsoluteDifference a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:range xsd:decimal .
 esim:comparedSampleCount a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:range xsd:integer .
 esim:coverageRatio a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:range xsd:decimal ;
-    skos:definition "Fracción de muestras medidas que pudo compararse; las ausentes no se imputan."@es .
+    skos:definition "Fracción de muestras medidas que pudo compararse; las ausentes no se imputan."@es, "Fraction of measured samples that could be compared; missing ones are not imputed."@en .
 esim:modelTolerance a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:range xsd:decimal .
 esim:comparisonVerdict a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:range xsd:string .
 esim:modelLimitation a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:range xsd:string ;
-    skos:definition "Limitación declarada del modelo para este canal; su presencia excluye la diferencia del veredicto."@es .
+    skos:definition "Limitación declarada del modelo para este canal; su presencia excluye la diferencia del veredicto."@es, "Declared limitation of the model for this channel; its presence excludes the difference from the verdict."@en .

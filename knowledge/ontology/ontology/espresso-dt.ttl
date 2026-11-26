@@ -5,50 +5,46 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/espresso-dt> a owl:Ontology ;
     owl:versionIRI <https://w3id.org/espresso-dt/3.5.0> ;
     owl:versionInfo "3.5.0" ;
     owl:priorVersion <https://w3id.org/espresso-dt/3.4.0> ;
-    dcterms:title "Ontología del proceso de extracción de café espresso"@es ;
-    dcterms:description "Representa perfiles de extracción, extracciones, equipos, observaciones, calidad, conocimiento, decisiones de ajuste, conformidad técnica, aceptación sensorial y evaluaciones trazables del resultado observado después de un ajuste. Puede utilizarse como base de conocimiento de sistemas externos."@es ;
+    dcterms:title "Ontología del proceso de extracción de café espresso"@es, "Espresso Knowledge Ontology (EKO) for the espresso coffee extraction process"@en ;
+    dcterms:description "Representa perfiles de extracción, extracciones, equipos, observaciones, calidad, conocimiento, decisiones de ajuste, conformidad técnica, aceptación sensorial y evaluaciones trazables del resultado observado después de un ajuste. Puede utilizarse como base de conocimiento de sistemas externos."@es, "Represents extraction profiles, extractions, equipment, observations, quality, knowledge, adjustment decisions, technical conformance, sensory acceptance and traceable assessments of the outcome observed after an adjustment. It can be used as the knowledge base of external systems."@en ;
     dcterms:created "2026-08-05"^^xsd:date ;
-    dcterms:modified "2026-10-23"^^xsd:date ;
+    dcterms:modified "2026-11-26"^^xsd:date ;
     dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
-    dcterms:source "Anteproyecto.pdf"@es,
-        "Metodología para la construcción de la ontología.md"@es,
-        "An approach based on the SDN NFV ecosystem for mobility management in IoT (1).pdf"@en,
-        "A Semantic and Knowledge-Based Approach for Handover Management"@en,
-        "Entrevista N.º 1.md"@es,
-        "Entrevista N.º 2.md"@es,
-        "docs/transcripcion_barista_depurada.md"@es,
-        "transcripcion_literal_depurada.md"@es,
-        "Fuentes de Conocimiento – Reunión con el Director del Proyecto.md"@es,
-        "ADR-005 — Regulación permanente, autoridad de interacción y seguridad operacional"@es,
-        <https://worldcoffeeresearch.org/resources/sensory-lexicon>,
+    dcterms:creator <https://orcid.org/0009-0005-7085-6044>, <https://orcid.org/0009-0008-0477-5678> ;
+    dcterms:contributor <https://orcid.org/0000-0003-3695-3578>, <https://orcid.org/0000-0002-5608-9097> ;
+    dcterms:publisher "Universidad del Cauca" ;
+    vann:preferredNamespacePrefix "edt" ;
+    vann:preferredNamespaceUri "https://w3id.org/espresso-dt#" ;
+    dcterms:source <https://worldcoffeeresearch.org/resources/sensory-lexicon>,
         <https://sca.coffee/value-assessment>,
         <https://www.w3.org/TR/prov-o/> ;
-    rdfs:comment "Los individuos de ejemplo son datos sintéticos para verificar la estructura y no constituyen recomendaciones universales."@es .
+    rdfs:comment "Los individuos de ejemplo son datos sintéticos para verificar la estructura y no constituyen recomendaciones universales."@es, "The example individuals are synthetic data for verifying the structure and are not universal recommendations."@en .
 
 #################################################################
 # Annotation properties
 #################################################################
 
-edt:competencyQuestion a owl:AnnotationProperty ; rdfs:label "pregunta de competencia"@es .
+edt:competencyQuestion a owl:AnnotationProperty ; rdfs:label "pregunta de competencia"@es, "competency question"@en .
 
 #################################################################
 # Upper classes
 #################################################################
 
-edt:EspressoEntity a owl:Class ; rdfs:label "entidad de espresso"@es .
-edt:ProcessEntity a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "entidad de proceso"@es .
-edt:MaterialEntity a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "entidad material"@es .
-edt:EquipmentEntity a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "equipo"@es .
-edt:InformationEntity a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "entidad de información"@es .
-edt:QualityEntity a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "entidad de cualidad"@es .
-edt:KnowledgeEntity a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "entidad de conocimiento"@es .
-edt:Agent a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "agente"@es .
+edt:EspressoEntity a owl:Class ; rdfs:label "entidad de espresso"@es, "espresso entity"@en .
+edt:ProcessEntity a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "entidad de proceso"@es, "process entity"@en .
+edt:MaterialEntity a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "entidad material"@es, "material entity"@en .
+edt:EquipmentEntity a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "equipo"@es, "equipment"@en .
+edt:InformationEntity a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "entidad de información"@es, "information entity"@en .
+edt:QualityEntity a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "entidad de cualidad"@es, "quality entity"@en .
+edt:KnowledgeEntity a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "entidad de conocimiento"@es, "knowledge entity"@en .
+edt:Agent a owl:Class ; rdfs:subClassOf edt:EspressoEntity ; rdfs:label "agente"@es, "agent"@en .
 
 [] a owl:AllDisjointClasses ; owl:members (
     edt:ProcessEntity edt:MaterialEntity edt:EquipmentEntity edt:InformationEntity
@@ -63,242 +59,242 @@ edt:EspressoExtraction a owl:Class ;
     rdfs:subClassOf edt:ProcessEntity,
         [ a owl:Restriction ; owl:onProperty edt:usesProfile ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:ExtractionProfile ],
         [ a owl:Restriction ; owl:onProperty edt:producesBeverage ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:EspressoBeverage ] ;
-    rdfs:label "extracción de espresso"@es ;
-    skos:definition "Ejecución fechada del proceso físico que produce una bebida espresso."@es .
+    rdfs:label "extracción de espresso"@es, "espresso extraction"@en ;
+    skos:definition "Ejecución fechada del proceso físico que produce una bebida espresso."@es, "Dated execution of the physical process that produces an espresso beverage."@en .
 
 
 edt:EspressoCalibration a owl:Class ;
     rdfs:subClassOf edt:ProcessEntity,
         [ a owl:Restriction ; owl:onProperty edt:performedBy ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Barista ],
         [ a owl:Restriction ; owl:onProperty edt:hasTrialExtraction ; owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:EspressoExtraction ] ;
-    rdfs:label "calibración de espresso"@es ;
-    skos:definition "Proceso realizado por un barista para encontrar, verificar o actualizar una configuración adecuada de extracción bajo un contexto determinado."@es .
+    rdfs:label "calibración de espresso"@es, "espresso calibration"@en ;
+    skos:definition "Proceso realizado por un barista para encontrar, verificar o actualizar una configuración adecuada de extracción bajo un contexto determinado."@es, "Process carried out by a barista to find, verify or update a suitable extraction setting under a given context."@en .
 
 edt:ParameterAdjustment a owl:Class ;
     rdfs:subClassOf edt:ProcessEntity,
         [ a owl:Restriction ; owl:onProperty edt:changesProperty ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:ObservableProperty ],
         [ a owl:Restriction ; owl:onProperty edt:performedBy ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Agent ] ;
-    rdfs:label "ajuste de parámetro"@es ;
-    skos:definition "Modificación puntual de un parámetro que puede ocurrir dentro de una calibración o de manera independiente."@es .
+    rdfs:label "ajuste de parámetro"@es, "parameter adjustment"@en ;
+    skos:definition "Modificación puntual de un parámetro que puede ocurrir dentro de una calibración o de manera independiente."@es, "Single change of a parameter that may occur within a calibration or independently."@en .
 
 edt:ManualParameterAdjustment a owl:Class ;
     rdfs:subClassOf edt:ParameterAdjustment,
         [ a owl:Restriction ; owl:onProperty edt:performedBy ; owl:someValuesFrom edt:Barista ] ;
-    rdfs:label "ajuste manual de parámetro"@es .
+    rdfs:label "ajuste manual de parámetro"@es, "manual parameter adjustment"@en .
 edt:AutomaticParameterAdjustment a owl:Class ;
     rdfs:subClassOf edt:ParameterAdjustment,
         [ a owl:Restriction ; owl:onProperty edt:performedBy ; owl:someValuesFrom edt:SoftwareAgent ] ;
-    rdfs:label "ajuste automático de parámetro"@es .
+    rdfs:label "ajuste automático de parámetro"@es, "automatic parameter adjustment"@en .
 edt:ManualParameterAdjustment owl:disjointWith edt:AutomaticParameterAdjustment .
 
-edt:CoffeeMaterial a owl:Class ; rdfs:subClassOf edt:MaterialEntity ; rdfs:label "café"@es ;
-    skos:definition "Material de café procesado empleado en una extracción. Puede caracterizarse opcionalmente mediante identificadores de lote, bolsa o referencia comercial, fecha de tueste, variedad, proceso poscosecha, nivel de tueste y terroir."@es .
-edt:CoffeeDose a owl:Class ; rdfs:subClassOf edt:CoffeeMaterial ; rdfs:label "dosis de café"@es .
-edt:EspressoBeverage a owl:Class ; rdfs:subClassOf edt:MaterialEntity ; rdfs:label "bebida espresso"@es .
+edt:CoffeeMaterial a owl:Class ; rdfs:subClassOf edt:MaterialEntity ; rdfs:label "café"@es, "coffee"@en ;
+    skos:definition "Material de café procesado empleado en una extracción. Puede caracterizarse opcionalmente mediante identificadores de lote, bolsa o referencia comercial, fecha de tueste, variedad, proceso poscosecha, nivel de tueste y terroir."@es, "Processed coffee material used in an extraction. It may optionally be characterized by lot, bag or commercial identifiers, roast date, variety, post-harvest process, roast level and terroir."@en .
+edt:CoffeeDose a owl:Class ; rdfs:subClassOf edt:CoffeeMaterial ; rdfs:label "dosis de café"@es, "coffee dose"@en .
+edt:EspressoBeverage a owl:Class ; rdfs:subClassOf edt:MaterialEntity ; rdfs:label "bebida espresso"@es, "espresso beverage"@en .
 
 #################################################################
 # Equipment and agents
 #################################################################
 
-edt:EspressoMachine a owl:Class ; rdfs:subClassOf edt:EquipmentEntity ; rdfs:label "máquina de espresso"@es .
-edt:Grinder a owl:Class ; rdfs:subClassOf edt:EquipmentEntity ; rdfs:label "molino"@es .
-edt:Barista a owl:Class ; rdfs:subClassOf edt:Agent ; rdfs:label "barista"@es .
-edt:SoftwareAgent a owl:Class ; rdfs:subClassOf edt:Agent ; rdfs:label "agente de software"@es .
+edt:EspressoMachine a owl:Class ; rdfs:subClassOf edt:EquipmentEntity ; rdfs:label "máquina de espresso"@es, "espresso machine"@en .
+edt:Grinder a owl:Class ; rdfs:subClassOf edt:EquipmentEntity ; rdfs:label "molino"@es, "grinder"@en .
+edt:Barista a owl:Class ; rdfs:subClassOf edt:Agent ; rdfs:label "barista"@es, "barista"@en .
+edt:SoftwareAgent a owl:Class ; rdfs:subClassOf edt:Agent ; rdfs:label "agente de software"@es, "software agent"@en .
 
 #################################################################
 # Information and observations
 #################################################################
 
-edt:ExtractionProfile a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "perfil de extracción"@es .
+edt:ExtractionProfile a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "perfil de extracción"@es, "extraction profile"@en .
 edt:SensoryProfile a owl:Class ;
     rdfs:subClassOf edt:InformationEntity,
         [ a owl:Restriction ; owl:onProperty edt:describesCoffee ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:CoffeeMaterial ],
         [ a owl:Restriction ; owl:onProperty edt:hasSensoryDescriptor ; owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:SensoryDescriptor ] ;
-    rdfs:label "perfil sensorial"@es ;
-    skos:definition "Conjunto identificado de descriptores usado como referencia declarada u objetivo; no constituye una observación de una bebida."@es .
+    rdfs:label "perfil sensorial"@es, "sensory profile"@en ;
+    skos:definition "Conjunto identificado de descriptores usado como referencia declarada u objetivo; no constituye una observación de una bebida."@es, "Identified set of descriptors used as a declared reference or target; it is not an observation of a beverage."@en .
 edt:DeclaredSensoryProfile a owl:Class ;
     rdfs:subClassOf edt:SensoryProfile,
         [ a owl:Restriction ; owl:onProperty edt:declaredBy ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Agent ],
         [ a owl:Restriction ; owl:onProperty edt:sensoryDescriptionText ; owl:cardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ; owl:onProperty dcterms:source ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] ;
-    rdfs:label "perfil sensorial declarado"@es ;
-    skos:definition "Descripción atribuida a una fuente, como productor, tostador, empaque o ficha técnica. Es una declaración de referencia y no garantiza que sus descriptores aparezcan en una extracción."@es .
+    rdfs:label "perfil sensorial declarado"@es, "declared sensory profile"@en ;
+    skos:definition "Descripción atribuida a una fuente, como productor, tostador, empaque o ficha técnica. Es una declaración de referencia y no garantiza que sus descriptores aparezcan en una extracción."@es, "Description attributed to a source, such as a producer, roaster, package or data sheet. It is a reference statement and does not guarantee that its descriptors appear in an extraction."@en .
 edt:TargetSensoryProfile a owl:Class ;
     rdfs:subClassOf edt:SensoryProfile,
         [ a owl:Restriction ; owl:onProperty edt:sensoryTargetDefinedBy ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Agent ] ;
-    rdfs:label "perfil sensorial objetivo"@es ;
-    skos:definition "Resultado sensorial que un barista pretende buscar con un perfil de extracción; expresa intención, no un resultado observado ni una regla de control."@es .
+    rdfs:label "perfil sensorial objetivo"@es, "target sensory profile"@en ;
+    skos:definition "Resultado sensorial que un barista pretende buscar con un perfil de extracción; expresa intención, no un resultado observado ni una regla de control."@es, "Sensory result that a barista intends to pursue with an extraction profile; it expresses intent, not an observed result or a control rule."@en .
 edt:DeclaredSensoryProfile owl:disjointWith edt:TargetSensoryProfile .
-edt:TerminationCause a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "causa de finalización"@es ;
-    skos:definition "Evento que la máquina de estados registró como causa real de término de una extracción."@es .
-edt:Terroir a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "terroir"@es ;
-    skos:definition "Descripción declarada del entorno geográfico y edáfico asociado con un café. Puede incluir región, altitud, características del suelo y composición mineral."@es .
+edt:TerminationCause a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "causa de finalización"@es, "termination cause"@en ;
+    skos:definition "Evento que la máquina de estados registró como causa real de término de una extracción."@es, "Event that the state machine recorded as the actual cause for ending an extraction."@en .
+edt:Terroir a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "terroir"@es, "terroir"@en ;
+    skos:definition "Descripción declarada del entorno geográfico y edáfico asociado con un café. Puede incluir región, altitud, características del suelo y composición mineral."@es, "Declared description of the geographic and soil environment associated with a coffee. It may include region, altitude, soil characteristics and mineral composition."@en .
 edt:AltitudeSpecification a owl:Class ;
     rdfs:subClassOf edt:InformationEntity,
         [ a owl:Restriction ; owl:onProperty edt:quantityValue ; owl:cardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ; owl:onProperty edt:hasUnit ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Unit ] ;
-    rdfs:label "especificación de altitud"@es ;
-    skos:definition "Valor de altitud declarado con una unidad explícita."@es .
+    rdfs:label "especificación de altitud"@es, "altitude specification"@en ;
+    skos:definition "Valor de altitud declarado con una unidad explícita."@es, "Declared altitude value with an explicit unit."@en .
 edt:ProfileParameterSpecification a owl:Class ;
     rdfs:subClassOf edt:InformationEntity,
         [ a owl:Restriction ; owl:onProperty edt:forProperty ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:ObservableProperty ],
         [ a owl:Restriction ; owl:onProperty edt:hasUnit ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Unit ] ;
-    rdfs:label "especificación de parámetro de perfil"@es .
+    rdfs:label "especificación de parámetro de perfil"@es, "profile parameter specification"@en .
 
-edt:ObservedDifference a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "diferencia observada"@es .
+edt:ObservedDifference a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "diferencia observada"@es, "observed difference"@en .
 edt:ExplanationAssertion a owl:Class ;
     rdfs:subClassOf edt:InformationEntity,
         [ a owl:Restriction ; owl:onProperty edt:explains ; owl:cardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ; owl:onProperty edt:hasEvidence ; owl:minCardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ; owl:onProperty edt:generatedBy ; owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Agent ],
         [ a owl:Restriction ; owl:onProperty edt:description ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] ;
-    rdfs:label "explicación"@es .
+    rdfs:label "explicación"@es, "explanation"@en .
 
 edt:Observation a owl:Class ;
     rdfs:subClassOf edt:InformationEntity,
         [ a owl:Restriction ; owl:onProperty edt:observedProperty ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:ObservableProperty ],
         [ a owl:Restriction ; owl:onProperty edt:featureOfInterest ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:EspressoEntity ],
         [ a owl:Restriction ; owl:onProperty edt:resultTime ; owl:cardinality "1"^^xsd:nonNegativeInteger ] ;
-    rdfs:label "observación"@es .
+    rdfs:label "observación"@es, "observation"@en .
 
 edt:QualitativeObservation a owl:Class ;
     rdfs:subClassOf edt:Observation ;
-    rdfs:label "observación cualitativa"@es ;
-    skos:definition "Observación cuyo resultado se expresa mediante texto o un valor cualitativo, sin una magnitud numérica."@es .
+    rdfs:label "observación cualitativa"@es, "qualitative observation"@en ;
+    skos:definition "Observación cuyo resultado se expresa mediante texto o un valor cualitativo, sin una magnitud numérica."@es, "Observation whose result is expressed as text or a qualitative value, without a numeric magnitude."@en .
 
 edt:QuantitativeObservation a owl:Class ;
     rdfs:subClassOf edt:Observation,
         [ a owl:Restriction ; owl:onProperty edt:numericValue ; owl:cardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ; owl:onProperty edt:hasUnit ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Unit ] ;
-    rdfs:label "observación cuantitativa"@es .
+    rdfs:label "observación cuantitativa"@es, "quantitative observation"@en .
 
-edt:CalculatedObservation a owl:Class ; rdfs:subClassOf edt:QuantitativeObservation ; rdfs:label "observación calculada"@es .
-edt:MeasuredObservation a owl:Class ; rdfs:subClassOf edt:QuantitativeObservation ; rdfs:label "observación medida"@es .
+edt:CalculatedObservation a owl:Class ; rdfs:subClassOf edt:QuantitativeObservation ; rdfs:label "observación calculada"@es, "calculated observation"@en .
+edt:MeasuredObservation a owl:Class ; rdfs:subClassOf edt:QuantitativeObservation ; rdfs:label "observación medida"@es, "measured observation"@en .
 edt:EstimatedObservation a owl:Class ;
     rdfs:subClassOf edt:CalculatedObservation ;
     owl:disjointWith edt:MeasuredObservation ;
-    rdfs:label "observación estimada"@es ;
-    skos:definition "Valor de una propiedad que ningún sensor midió y que un modelo o una transformación calibrada deriva de otras observaciones, como la temperatura del agua sobre el café a partir del cuerpo de la caldera. Declara su método y nunca se juzga como si fuera una medida: no produce desviación técnica frente al perfil."@es .
-edt:QualityIndicatorObservation a owl:Class ; rdfs:subClassOf edt:QuantitativeObservation ; rdfs:label "observación de indicador de calidad"@es .
-edt:TDSObservation a owl:Class ; rdfs:subClassOf edt:QualityIndicatorObservation, edt:MeasuredObservation ; rdfs:label "observación de TDS"@es .
-edt:ExtractionYieldObservation a owl:Class ; rdfs:subClassOf edt:QualityIndicatorObservation, edt:CalculatedObservation ; rdfs:label "observación de rendimiento de extracción"@es .
-edt:ObservationSeries a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "serie de observación"@es ;
-    skos:definition "Referencia semántica a una serie temporal almacenada fuera de RDF; identifica propiedad, unidad y recurso de datos."@es .
+    rdfs:label "observación estimada"@es, "estimated observation"@en ;
+    skos:definition "Valor de una propiedad que ningún sensor midió y que un modelo o una transformación calibrada deriva de otras observaciones, como la temperatura del agua sobre el café a partir del cuerpo de la caldera. Declara su método y nunca se juzga como si fuera una medida: no produce desviación técnica frente al perfil."@es, "Value of a property that no sensor measured and that a model or a calibrated transformation derives from other observations, such as the water temperature over the coffee from the boiler body temperature. It declares its method and is never judged as if it were a measurement: it produces no technical deviation against the profile."@en .
+edt:QualityIndicatorObservation a owl:Class ; rdfs:subClassOf edt:QuantitativeObservation ; rdfs:label "observación de indicador de calidad"@es, "quality indicator observation"@en .
+edt:TDSObservation a owl:Class ; rdfs:subClassOf edt:QualityIndicatorObservation, edt:MeasuredObservation ; rdfs:label "observación de TDS"@es, "TDS observation"@en .
+edt:ExtractionYieldObservation a owl:Class ; rdfs:subClassOf edt:QualityIndicatorObservation, edt:CalculatedObservation ; rdfs:label "observación de rendimiento de extracción"@es, "extraction yield observation"@en .
+edt:ObservationSeries a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "serie de observación"@es, "observation series"@en ;
+    skos:definition "Referencia semántica a una serie temporal almacenada fuera de RDF; identifica propiedad, unidad y recurso de datos."@es, "Semantic reference to a time series stored outside RDF; it identifies the property, unit and data resource."@en .
 
 edt:SensoryEvaluation a owl:Class ;
     rdfs:subClassOf edt:InformationEntity,
         [ a owl:Restriction ; owl:onProperty edt:evaluatedBy ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Agent ],
         [ a owl:Restriction ; owl:onProperty edt:evaluatesBeverage ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:EspressoBeverage ],
         [ a owl:Restriction ; owl:onProperty edt:hasSensoryScore ; owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:SensoryScore ] ;
-    rdfs:label "evaluación sensorial"@es .
+    rdfs:label "evaluación sensorial"@es, "sensory evaluation"@en .
 edt:SensoryScore a owl:Class ;
     rdfs:subClassOf edt:InformationEntity,
         [ a owl:Restriction ; owl:onProperty edt:forSensoryAttribute ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:SensoryAttribute ],
         [ a owl:Restriction ; owl:onProperty edt:measuresDimension ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:SensoryDimension ] ;
-    rdfs:label "puntuación sensorial"@es .
-edt:PerceivedIntensityScore a owl:Class ; rdfs:subClassOf edt:SensoryScore ; rdfs:label "puntuación de intensidad percibida"@es .
-edt:HedonicLikingScore a owl:Class ; rdfs:subClassOf edt:SensoryScore ; rdfs:label "puntuación de agrado"@es .
+    rdfs:label "puntuación sensorial"@es, "sensory score"@en .
+edt:PerceivedIntensityScore a owl:Class ; rdfs:subClassOf edt:SensoryScore ; rdfs:label "puntuación de intensidad percibida"@es, "perceived intensity score"@en .
+edt:HedonicLikingScore a owl:Class ; rdfs:subClassOf edt:SensoryScore ; rdfs:label "puntuación de agrado"@es, "hedonic liking score"@en .
 
 #################################################################
 # Properties, units and sensory attributes
 #################################################################
 
-edt:ObservableProperty a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "propiedad observable"@es .
-edt:QualityIndicator a owl:Class ; rdfs:subClassOf edt:ObservableProperty ; rdfs:label "indicador de calidad"@es .
-edt:SensoryAttribute a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "atributo sensorial"@es .
-edt:SensoryDimension a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "dimensión sensorial"@es .
-edt:SensoryDescriptor a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "descriptor sensorial"@es .
-edt:FruityDescriptor a owl:Class ; rdfs:subClassOf edt:SensoryDescriptor ; rdfs:label "descriptor frutal"@es .
-edt:SweetDescriptor a owl:Class ; rdfs:subClassOf edt:SensoryDescriptor ; rdfs:label "descriptor dulce"@es .
-edt:FloralDescriptor a owl:Class ; rdfs:subClassOf edt:SensoryDescriptor ; rdfs:label "descriptor floral"@es .
-edt:OtherSensoryDescriptor a owl:Class ; rdfs:subClassOf edt:SensoryDescriptor ; rdfs:label "otro descriptor sensorial"@es .
-edt:SensoryDefect a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "defecto sensorial"@es .
+edt:ObservableProperty a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "propiedad observable"@es, "observable property"@en .
+edt:QualityIndicator a owl:Class ; rdfs:subClassOf edt:ObservableProperty ; rdfs:label "indicador de calidad"@es, "quality indicator"@en .
+edt:SensoryAttribute a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "atributo sensorial"@es, "sensory attribute"@en .
+edt:SensoryDimension a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "dimensión sensorial"@es, "sensory dimension"@en .
+edt:SensoryDescriptor a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "descriptor sensorial"@es, "sensory descriptor"@en .
+edt:FruityDescriptor a owl:Class ; rdfs:subClassOf edt:SensoryDescriptor ; rdfs:label "descriptor frutal"@es, "fruity descriptor"@en .
+edt:SweetDescriptor a owl:Class ; rdfs:subClassOf edt:SensoryDescriptor ; rdfs:label "descriptor dulce"@es, "sweet descriptor"@en .
+edt:FloralDescriptor a owl:Class ; rdfs:subClassOf edt:SensoryDescriptor ; rdfs:label "descriptor floral"@es, "floral descriptor"@en .
+edt:OtherSensoryDescriptor a owl:Class ; rdfs:subClassOf edt:SensoryDescriptor ; rdfs:label "otro descriptor sensorial"@es, "other sensory descriptor"@en .
+edt:SensoryDefect a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "defecto sensorial"@es, "sensory defect"@en .
 # Lo que la ficha CVA de la SCA marca aparte de los descriptores (EKO 3.5.0):
 # los sabores básicos que dominan y el tipo de sensación en boca. Se marcan,
 # no se califican, y la ficha admite hasta dos de cada uno.
-edt:BasicTaste a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "sabor básico"@es .
-edt:MouthfeelTexture a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "tipo de sensación en boca"@es .
-edt:DesiredSensoryChange a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "cambio sensorial deseado"@es .
-edt:DesiredChangeDirection a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "dirección de cambio sensorial"@es .
-edt:AdjustmentDirection a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "dirección de ajuste"@es .
-edt:CoffeeVariety a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "variedad de café"@es .
-edt:PostHarvestProcessType a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "tipo de proceso poscosecha"@es .
-edt:RoastLevel a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "nivel de tueste"@es .
-edt:GrindCoarsenessCategory a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "categoría de molienda"@es .
-edt:ProfileStatus a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "estado de perfil"@es .
-edt:ValidationStatus a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "estado de validación"@es .
-edt:AdjustmentOutcomeCategory a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "categoría de resultado de ajuste"@es ;
-    skos:definition "Vocabulario controlado que clasifica lo observado durante la evaluación contextual de un ajuste."@es .
-edt:TechnicalConformanceCategory a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "categoría de conformidad técnica"@es ;
-    skos:definition "Vocabulario controlado que clasifica la conformidad de una extracción frente a todas las especificaciones de su perfil."@es .
-edt:SensoryAcceptanceStatus a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "estado de aceptación sensorial"@es ;
-    skos:definition "Decisión explícita del barista sobre la aceptación sensorial de la bebida evaluada; no se infiere de puntuaciones ni de la ausencia de defectos."@es .
-edt:Unit a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "unidad de medida"@es .
+edt:BasicTaste a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "sabor básico"@es, "basic taste"@en .
+edt:MouthfeelTexture a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "tipo de sensación en boca"@es, "mouthfeel texture"@en .
+edt:DesiredSensoryChange a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "cambio sensorial deseado"@es, "desired sensory change"@en .
+edt:DesiredChangeDirection a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "dirección de cambio sensorial"@es, "sensory change direction"@en .
+edt:AdjustmentDirection a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "dirección de ajuste"@es, "adjustment direction"@en .
+edt:CoffeeVariety a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "variedad de café"@es, "coffee variety"@en .
+edt:PostHarvestProcessType a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "tipo de proceso poscosecha"@es, "post-harvest process type"@en .
+edt:RoastLevel a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "nivel de tueste"@es, "roast level"@en .
+edt:GrindCoarsenessCategory a owl:Class ; rdfs:subClassOf edt:QualityEntity ; rdfs:label "categoría de molienda"@es, "grind coarseness category"@en .
+edt:ProfileStatus a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "estado de perfil"@es, "profile status"@en .
+edt:ValidationStatus a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "estado de validación"@es, "validation status"@en .
+edt:AdjustmentOutcomeCategory a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "categoría de resultado de ajuste"@es, "adjustment outcome category"@en ;
+    skos:definition "Vocabulario controlado que clasifica lo observado durante la evaluación contextual de un ajuste."@es, "Controlled vocabulary that classifies what was observed during the contextual assessment of an adjustment."@en .
+edt:TechnicalConformanceCategory a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "categoría de conformidad técnica"@es, "technical conformance category"@en ;
+    skos:definition "Vocabulario controlado que clasifica la conformidad de una extracción frente a todas las especificaciones de su perfil."@es, "Controlled vocabulary that classifies the conformance of an extraction against all the specifications of its profile."@en .
+edt:SensoryAcceptanceStatus a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "estado de aceptación sensorial"@es, "sensory acceptance status"@en ;
+    skos:definition "Decisión explícita del barista sobre la aceptación sensorial de la bebida evaluada; no se infiere de puntuaciones ni de la ausencia de defectos."@es, "Explicit decision by the barista on the sensory acceptance of the evaluated beverage; it is not inferred from scores or from the absence of defects."@en .
+edt:Unit a owl:Class ; rdfs:subClassOf edt:InformationEntity ; rdfs:label "unidad de medida"@es, "unit of measure"@en .
 
 #################################################################
 # Knowledge
 #################################################################
 
-edt:ContextAssertion a owl:Class ; rdfs:subClassOf edt:KnowledgeEntity ; rdfs:label "aserción de contexto"@es .
-edt:StaticContextAssertion a owl:Class ; rdfs:subClassOf edt:ContextAssertion ; rdfs:label "contexto estático"@es .
-edt:DynamicContextAssertion a owl:Class ; rdfs:subClassOf edt:ContextAssertion ; rdfs:label "contexto dinámico"@es .
+edt:ContextAssertion a owl:Class ; rdfs:subClassOf edt:KnowledgeEntity ; rdfs:label "aserción de contexto"@es, "context assertion"@en .
+edt:StaticContextAssertion a owl:Class ; rdfs:subClassOf edt:ContextAssertion ; rdfs:label "contexto estático"@es, "static context"@en .
+edt:DynamicContextAssertion a owl:Class ; rdfs:subClassOf edt:ContextAssertion ; rdfs:label "contexto dinámico"@es, "dynamic context"@en .
 edt:StaticContextAssertion owl:disjointWith edt:DynamicContextAssertion .
-edt:EnvironmentalCondition a owl:Class ; rdfs:subClassOf edt:DynamicContextAssertion ; rdfs:label "condición ambiental"@es ;
-    skos:definition "Condición ambiental identificable y temporalmente válida bajo la cual puede ocurrir una calibración o extracción."@es .
-edt:KnowledgeProfile a owl:Class ; rdfs:subClassOf edt:KnowledgeEntity ; rdfs:label "perfil de conocimiento"@es .
-edt:LocalKnowledgeProfile a owl:Class ; rdfs:subClassOf edt:KnowledgeProfile ; rdfs:label "perfil de conocimiento local"@es .
-edt:GlobalKnowledgeProfile a owl:Class ; rdfs:subClassOf edt:KnowledgeProfile ; rdfs:label "perfil de conocimiento global"@es .
+edt:EnvironmentalCondition a owl:Class ; rdfs:subClassOf edt:DynamicContextAssertion ; rdfs:label "condición ambiental"@es, "environmental condition"@en ;
+    skos:definition "Condición ambiental identificable y temporalmente válida bajo la cual puede ocurrir una calibración o extracción."@es, "Identifiable, temporally valid environmental condition under which a calibration or extraction may take place."@en .
+edt:KnowledgeProfile a owl:Class ; rdfs:subClassOf edt:KnowledgeEntity ; rdfs:label "perfil de conocimiento"@es, "knowledge profile"@en .
+edt:LocalKnowledgeProfile a owl:Class ; rdfs:subClassOf edt:KnowledgeProfile ; rdfs:label "perfil de conocimiento local"@es, "local knowledge profile"@en .
+edt:GlobalKnowledgeProfile a owl:Class ; rdfs:subClassOf edt:KnowledgeProfile ; rdfs:label "perfil de conocimiento global"@es, "global knowledge profile"@en .
 edt:LocalKnowledgeProfile owl:disjointWith edt:GlobalKnowledgeProfile .
 edt:GuidanceKnowledge a owl:Class ;
     rdfs:subClassOf edt:KnowledgeEntity ;
-    rdfs:label "conocimiento orientador"@es ;
-    skos:definition "Conocimiento reutilizable que sirve de base para evaluar, interpretar, recomendar o validar sin sustituir la evidencia de una extracción concreta."@es .
+    rdfs:label "conocimiento orientador"@es, "guidance knowledge"@en ;
+    skos:definition "Conocimiento reutilizable que sirve de base para evaluar, interpretar, recomendar o validar sin sustituir la evidencia de una extracción concreta."@es, "Reusable knowledge that serves as a basis for evaluating, interpreting, recommending or validating without replacing the evidence of a specific extraction."@en .
 edt:EvaluationCriterion a owl:Class ;
     rdfs:subClassOf edt:GuidanceKnowledge ;
-    rdfs:label "criterio de evaluación"@es ;
-    skos:definition "Condición explícita usada para evaluar evidencia sin afirmar una relación causal."@es .
+    rdfs:label "criterio de evaluación"@es, "evaluation criterion"@en ;
+    skos:definition "Condición explícita usada para evaluar evidencia sin afirmar una relación causal."@es, "Explicit condition used to evaluate evidence without asserting a causal relation."@en .
 edt:ExpertHeuristic a owl:Class ;
     rdfs:subClassOf edt:GuidanceKnowledge ;
-    rdfs:label "heurística experta"@es ;
-    skos:definition "Orientación práctica contextual aportada por una fuente experta y sujeta a comprobación en una extracción posterior."@es .
+    rdfs:label "heurística experta"@es, "expert heuristic"@en ;
+    skos:definition "Orientación práctica contextual aportada por una fuente experta y sujeta a comprobación en una extracción posterior."@es, "Contextual practical guidance provided by an expert source and subject to verification in a later extraction."@en .
 edt:DiagnosticHeuristic a owl:Class ;
     rdfs:subClassOf edt:ExpertHeuristic ;
-    rdfs:label "heurística diagnóstica"@es ;
-    skos:definition "Heurística que permite proponer una interpretación probable cuando concurren evidencias compatibles."@es .
+    rdfs:label "heurística diagnóstica"@es, "diagnostic heuristic"@en ;
+    skos:definition "Heurística que permite proponer una interpretación probable cuando concurren evidencias compatibles."@es, "Heuristic that allows a probable interpretation to be proposed when compatible evidence occurs together."@en .
 edt:Procedure a owl:Class ;
     rdfs:subClassOf edt:GuidanceKnowledge ;
-    rdfs:label "procedimiento"@es ;
-    skos:definition "Secuencia documentada de actividades o comprobaciones."@es .
+    rdfs:label "procedimiento"@es, "procedure"@en ;
+    skos:definition "Secuencia documentada de actividades o comprobaciones."@es, "Documented sequence of activities or checks."@en .
 edt:DiagnosticProcedure a owl:Class ;
     rdfs:subClassOf edt:Procedure ;
-    rdfs:label "procedimiento diagnóstico"@es ;
-    skos:definition "Procedimiento para revisar evidencia antes de aceptar una interpretación."@es .
+    rdfs:label "procedimiento diagnóstico"@es, "diagnostic procedure"@en ;
+    skos:definition "Procedimiento para revisar evidencia antes de aceptar una interpretación."@es, "Procedure for reviewing evidence before accepting an interpretation."@en .
 edt:CalibrationProcedure a owl:Class ;
     rdfs:subClassOf edt:Procedure ;
-    rdfs:label "procedimiento de calibración"@es ;
-    skos:definition "Procedimiento iterativo para probar, comparar y evaluar ajustes de preparación."@es .
+    rdfs:label "procedimiento de calibración"@es, "calibration procedure"@en ;
+    skos:definition "Procedimiento iterativo para probar, comparar y evaluar ajustes de preparación."@es, "Iterative procedure for testing, comparing and evaluating brewing adjustments."@en .
 edt:ContextualEvidencePattern a owl:Class ;
     rdfs:subClassOf edt:GuidanceKnowledge ;
-    rdfs:label "patrón de evidencia contextual"@es ;
-    skos:definition "Asociación documentada entre hechos que puede apoyar una interpretación dentro de un alcance declarado, sin constituir una ley causal universal."@es .
+    rdfs:label "patrón de evidencia contextual"@es, "contextual evidence pattern"@en ;
+    skos:definition "Asociación documentada entre hechos que puede apoyar una interpretación dentro de un alcance declarado, sin constituir una ley causal universal."@es, "Documented association between facts that may support an interpretation within a declared scope, without constituting a universal causal law."@en .
 edt:ValidationPolicy a owl:Class ;
     rdfs:subClassOf edt:GuidanceKnowledge ;
-    rdfs:label "política de validación"@es ;
-    skos:definition "Condición de gobernanza que establece cómo debe revisarse o comprobarse una recomendación."@es .
+    rdfs:label "política de validación"@es, "validation policy"@en ;
+    skos:definition "Condición de gobernanza que establece cómo debe revisarse o comprobarse una recomendación."@es, "Governance condition that establishes how a recommendation must be reviewed or verified."@en .
 
 # Término conservado únicamente para leer datos 2.7.1 durante la migración.
 edt:Rule a owl:Class ;
     rdfs:subClassOf edt:KnowledgeEntity ;
-    rdfs:label "regla (obsoleta)"@es ;
+    rdfs:label "regla (obsoleta)"@es, "rule (deprecated)"@en ;
     owl:deprecated true ;
-    skos:note "Obsoleta desde EKO 3.0.0. Utilice el tipo específico de GuidanceKnowledge que corresponda."@es .
+    skos:note "Obsoleta desde EKO 3.0.0. Utilice el tipo específico de GuidanceKnowledge que corresponda."@es, "Deprecated since EKO 3.0.0. Use the specific GuidanceKnowledge type that applies."@en .
 edt:TechnicalDeviation a owl:Class ;
     rdfs:subClassOf edt:KnowledgeEntity,
         [ a owl:Restriction ; owl:onProperty edt:derivedFrom ; owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Observation ],
         [ a owl:Restriction ; owl:onProperty edt:derivedFrom ; owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:ProfileParameterSpecification ],
         [ a owl:Restriction ; owl:onProperty edt:basedOnCriterion ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:EvaluationCriterion ] ;
-    rdfs:label "desviación técnica"@es ;
-    skos:definition "Resultado de comparar externamente una observación con la especificación correspondiente del perfil, sin interpretar todavía su causa."@es .
+    rdfs:label "desviación técnica"@es, "technical deviation"@en ;
+    skos:definition "Resultado de comparar externamente una observación con la especificación correspondiente del perfil, sin interpretar todavía su causa."@es, "Result of externally comparing an observation with the corresponding profile specification, without yet interpreting its cause."@en .
 edt:TechnicalConformanceAssessment a owl:Class ;
     rdfs:subClassOf edt:KnowledgeEntity,
         [ a owl:Restriction ; owl:onProperty edt:assessesExtraction ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:EspressoExtraction ],
@@ -308,268 +304,268 @@ edt:TechnicalConformanceAssessment a owl:Class ;
         [ a owl:Restriction ; owl:onProperty edt:generatedBy ; owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Agent ],
         [ a owl:Restriction ; owl:onProperty edt:assessmentTime ; owl:cardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ; owl:onProperty edt:description ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] ;
-    rdfs:label "evaluación de conformidad técnica"@es ;
-    skos:definition "Evaluación agregada y trazable de una extracción frente a todas las especificaciones de su perfil: una desviación confirma no conformidad, la cobertura completa sin desviaciones confirma conformidad y la cobertura incompleta produce un resultado inconcluso."@es .
+    rdfs:label "evaluación de conformidad técnica"@es, "technical conformance assessment"@en ;
+    skos:definition "Evaluación agregada y trazable de una extracción frente a todas las especificaciones de su perfil: una desviación confirma no conformidad, la cobertura completa sin desviaciones confirma conformidad y la cobertura incompleta produce un resultado inconcluso."@es, "Aggregated, traceable assessment of an extraction against all the specifications of its profile: one deviation confirms non-conformance, full coverage without deviations confirms conformance, and incomplete coverage yields an inconclusive result."@en .
 edt:Diagnosis a owl:Class ;
     rdfs:subClassOf edt:KnowledgeEntity,
         [ a owl:Restriction ; owl:onProperty edt:derivedFrom ; owl:minCardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ; owl:onProperty edt:isDiagnosisOf ; owl:minCardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ; owl:onProperty edt:generatedBy ; owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Agent ],
         [ a owl:Restriction ; owl:onProperty edt:description ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] ;
-    rdfs:label "diagnóstico"@es .
+    rdfs:label "diagnóstico"@es, "diagnosis"@en .
 edt:UnderExtractionDiagnosis a owl:Class ;
     rdfs:subClassOf edt:Diagnosis ;
-    rdfs:label "diagnóstico de subextracción"@es ;
-    skos:definition "Diagnóstico probable que integra evidencia de una extracción insuficiente, como tiempo, TDS y rendimiento por debajo del perfil, junto con el resultado sensorial y el contexto registrado; no constituye por sí solo una causa universal."@es .
+    rdfs:label "diagnóstico de subextracción"@es, "under-extraction diagnosis"@en ;
+    skos:definition "Diagnóstico probable que integra evidencia de una extracción insuficiente, como tiempo, TDS y rendimiento por debajo del perfil, junto con el resultado sensorial y el contexto registrado; no constituye por sí solo una causa universal."@es, "Probable diagnosis that combines evidence of insufficient extraction, such as time, TDS and yield below the profile, with the sensory result and the recorded context; on its own it does not constitute a universal cause."@en .
 edt:AdjustmentOutcomeAssessment a owl:Class ;
     rdfs:subClassOf edt:Diagnosis,
         [ a owl:Restriction ; owl:onProperty edt:assessesAdjustment ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:ParameterAdjustment ],
         [ a owl:Restriction ; owl:onProperty edt:hasOutcomeCategory ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:AdjustmentOutcomeCategory ],
         [ a owl:Restriction ; owl:onProperty edt:derivedFrom ; owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:ObservedDifference ] ;
-    rdfs:label "evaluación del resultado de un ajuste"@es ;
-    skos:definition "Diagnóstico contextual que interpreta una comparación entre extracciones para evaluar el resultado observado después de un ajuste, sin afirmar por ello causalidad universal."@es .
-edt:DemonstratedCause a owl:Class ; rdfs:subClassOf edt:KnowledgeEntity ; rdfs:label "causa demostrada"@es .
+    rdfs:label "evaluación del resultado de un ajuste"@es, "adjustment outcome assessment"@en ;
+    skos:definition "Diagnóstico contextual que interpreta una comparación entre extracciones para evaluar el resultado observado después de un ajuste, sin afirmar por ello causalidad universal."@es, "Contextual diagnosis that interprets a comparison between extractions to assess the outcome observed after an adjustment, without asserting universal causality."@en .
+edt:DemonstratedCause a owl:Class ; rdfs:subClassOf edt:KnowledgeEntity ; rdfs:label "causa demostrada"@es, "demonstrated cause"@en .
 edt:AdjustmentAction a owl:Class ;
     rdfs:subClassOf edt:KnowledgeEntity,
         [ a owl:Restriction ; owl:onProperty edt:respondsTo ; owl:cardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ; owl:onProperty edt:adjustsProperty ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:ObservableProperty ] ;
-    rdfs:label "directiva de ajuste"@es ;
-    skos:definition "Entidad de conocimiento que describe un ajuste propuesto y todavía no ejecutado; su evidencia, base de conocimiento y agente generador se representan por separado, y su ejecución real mediante ParameterAdjustment."@es .
+    rdfs:label "directiva de ajuste"@es, "adjustment directive"@en ;
+    skos:definition "Entidad de conocimiento que describe un ajuste propuesto y todavía no ejecutado; su evidencia, base de conocimiento y agente generador se representan por separado, y su ejecución real mediante ParameterAdjustment."@es, "Knowledge entity that describes a proposed adjustment not yet carried out; its evidence, knowledge basis and generating agent are represented separately, and its actual execution through ParameterAdjustment."@en .
 edt:RecommendedAction a owl:Class ;
     rdfs:subClassOf edt:AdjustmentAction,
         [ a owl:Restriction ; owl:onProperty edt:generatedBy ; owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass edt:Agent ],
         [ a owl:Restriction ; owl:onProperty edt:description ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] ;
-    rdfs:label "acción recomendada"@es .
+    rdfs:label "acción recomendada"@es, "recommended action"@en .
 
 #################################################################
 # Object properties
 #################################################################
 
-edt:usesProfile a owl:ObjectProperty ; rdfs:range edt:ExtractionProfile ; rdfs:label "usa perfil"@es .
-edt:definedBy a owl:ObjectProperty ; rdfs:domain edt:ExtractionProfile ; rdfs:range edt:Agent ; rdfs:label "definido por"@es ; skos:definition "Agente que aportó o formalizó los parámetros del perfil de extracción."@es .
-edt:validatedBy a owl:ObjectProperty ; rdfs:range edt:Barista ; rdfs:label "validado por"@es .
-edt:applicableToCoffee a owl:ObjectProperty ; rdfs:domain edt:ExtractionProfile ; rdfs:range edt:CoffeeMaterial ; rdfs:label "aplicable a café"@es .
+edt:usesProfile a owl:ObjectProperty ; rdfs:range edt:ExtractionProfile ; rdfs:label "usa perfil"@es, "uses profile"@en .
+edt:definedBy a owl:ObjectProperty ; rdfs:domain edt:ExtractionProfile ; rdfs:range edt:Agent ; rdfs:label "definido por"@es, "defined by"@en ; skos:definition "Agente que aportó o formalizó los parámetros del perfil de extracción."@es, "Agent that provided or formalized the parameters of the extraction profile."@en .
+edt:validatedBy a owl:ObjectProperty ; rdfs:range edt:Barista ; rdfs:label "validado por"@es, "validated by"@en .
+edt:applicableToCoffee a owl:ObjectProperty ; rdfs:domain edt:ExtractionProfile ; rdfs:range edt:CoffeeMaterial ; rdfs:label "aplicable a café"@es, "applicable to coffee"@en .
 edt:hasDeclaredSensoryProfile a owl:ObjectProperty ;
     rdfs:domain edt:CoffeeMaterial ; rdfs:range edt:DeclaredSensoryProfile ;
-    rdfs:label "tiene perfil sensorial declarado"@es .
+    rdfs:label "tiene perfil sensorial declarado"@es, "has declared sensory profile"@en .
 edt:hasTargetSensoryProfile a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:ExtractionProfile ; rdfs:range edt:TargetSensoryProfile ;
-    rdfs:label "tiene perfil sensorial objetivo"@es .
+    rdfs:label "tiene perfil sensorial objetivo"@es, "has target sensory profile"@en .
 edt:describesCoffee a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:SensoryProfile ; rdfs:range edt:CoffeeMaterial ;
-    rdfs:label "describe café"@es .
+    rdfs:label "describe café"@es, "describes coffee"@en .
 edt:declaredBy a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:DeclaredSensoryProfile ; rdfs:range edt:Agent ;
-    rdfs:subPropertyOf prov:wasAttributedTo ; rdfs:label "declarado por"@es .
+    rdfs:subPropertyOf prov:wasAttributedTo ; rdfs:label "declarado por"@es, "declared by"@en .
 edt:sensoryTargetDefinedBy a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:TargetSensoryProfile ; rdfs:range edt:Agent ;
-    rdfs:subPropertyOf prov:wasAttributedTo ; rdfs:label "objetivo sensorial definido por"@es .
-edt:supportedBy a owl:ObjectProperty ; rdfs:domain edt:ExtractionProfile ; rdfs:range edt:EspressoExtraction ; rdfs:label "respaldado por"@es .
-edt:revisionOf a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:ExtractionProfile ; rdfs:range edt:ExtractionProfile ; rdfs:label "revisión de"@es .
-edt:hasProfileStatus a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:ExtractionProfile ; rdfs:range edt:ProfileStatus ; rdfs:label "tiene estado de perfil"@es .
-edt:hasTerminationCause a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:TerminationCause ; rdfs:label "tiene causa de finalización"@es ;
-    skos:definition "Causa aceptada y registrada durante la ejecución; no debe inferirse retrospectivamente solo porque un valor observado alcance un límite."@es .
-edt:producesBeverage a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:EspressoBeverage ; owl:inverseOf edt:producedByExtraction ; rdfs:label "produce bebida"@es .
-edt:producedByExtraction a owl:ObjectProperty, owl:InverseFunctionalProperty ; rdfs:domain edt:EspressoBeverage ; rdfs:range edt:EspressoExtraction ; rdfs:label "producida por extracción"@es .
-edt:performedBy a owl:ObjectProperty ; rdfs:domain edt:ProcessEntity ; rdfs:range edt:Agent ; rdfs:label "realizada por"@es .
-edt:usesEquipment a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:EquipmentEntity ; rdfs:label "usa equipo"@es .
-edt:usesMaterial a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:MaterialEntity ; rdfs:label "usa material"@es .
-edt:hasObservation a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:Observation ; rdfs:label "tiene observación"@es .
-edt:hasObservationSeries a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:ObservationSeries ; rdfs:label "tiene serie de observación"@es .
-edt:seriesForProperty a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:ObservationSeries ; rdfs:range edt:ObservableProperty ; rdfs:label "serie para propiedad"@es .
-edt:derivedFromSeries a owl:ObjectProperty ; rdfs:range edt:ObservationSeries ; rdfs:label "derivado de serie"@es .
-edt:observedProperty a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:Observation ; rdfs:range edt:ObservableProperty ; rdfs:label "propiedad observada"@es .
-edt:featureOfInterest a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:Observation ; rdfs:range edt:EspressoEntity ; rdfs:label "entidad de interés"@es .
-edt:recordedBy a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:Observation ; rdfs:range edt:Agent ; rdfs:label "registrada manualmente por"@es ;
-    skos:definition "Agente que introdujo manualmente en el sistema el resultado obtenido con un instrumento externo; no identifica al sensor que produjo la medición."@es .
-edt:hasUnit a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:range edt:Unit ; rdfs:label "tiene unidad"@es .
-edt:hasParameterSpecification a owl:ObjectProperty ; rdfs:domain edt:ExtractionProfile ; rdfs:range edt:ProfileParameterSpecification ; rdfs:label "tiene especificación de parámetro"@es .
-edt:forProperty a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:ProfileParameterSpecification ; rdfs:range edt:ObservableProperty ; rdfs:label "para propiedad"@es .
+    rdfs:subPropertyOf prov:wasAttributedTo ; rdfs:label "objetivo sensorial definido por"@es, "sensory target defined by"@en .
+edt:supportedBy a owl:ObjectProperty ; rdfs:domain edt:ExtractionProfile ; rdfs:range edt:EspressoExtraction ; rdfs:label "respaldado por"@es, "supported by"@en .
+edt:revisionOf a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:ExtractionProfile ; rdfs:range edt:ExtractionProfile ; rdfs:label "revisión de"@es, "revision of"@en .
+edt:hasProfileStatus a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:ExtractionProfile ; rdfs:range edt:ProfileStatus ; rdfs:label "tiene estado de perfil"@es, "has profile status"@en .
+edt:hasTerminationCause a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:TerminationCause ; rdfs:label "tiene causa de finalización"@es, "has termination cause"@en ;
+    skos:definition "Causa aceptada y registrada durante la ejecución; no debe inferirse retrospectivamente solo porque un valor observado alcance un límite."@es, "Cause accepted and recorded during execution; it must not be inferred retrospectively only because an observed value reaches a limit."@en .
+edt:producesBeverage a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:EspressoBeverage ; owl:inverseOf edt:producedByExtraction ; rdfs:label "produce bebida"@es, "produces beverage"@en .
+edt:producedByExtraction a owl:ObjectProperty, owl:InverseFunctionalProperty ; rdfs:domain edt:EspressoBeverage ; rdfs:range edt:EspressoExtraction ; rdfs:label "producida por extracción"@es, "produced by extraction"@en .
+edt:performedBy a owl:ObjectProperty ; rdfs:domain edt:ProcessEntity ; rdfs:range edt:Agent ; rdfs:label "realizada por"@es, "performed by"@en .
+edt:usesEquipment a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:EquipmentEntity ; rdfs:label "usa equipo"@es, "uses equipment"@en .
+edt:usesMaterial a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:MaterialEntity ; rdfs:label "usa material"@es, "uses material"@en .
+edt:hasObservation a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:Observation ; rdfs:label "tiene observación"@es, "has observation"@en .
+edt:hasObservationSeries a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:ObservationSeries ; rdfs:label "tiene serie de observación"@es, "has observation series"@en .
+edt:seriesForProperty a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:ObservationSeries ; rdfs:range edt:ObservableProperty ; rdfs:label "serie para propiedad"@es, "series for property"@en .
+edt:derivedFromSeries a owl:ObjectProperty ; rdfs:range edt:ObservationSeries ; rdfs:label "derivado de serie"@es, "derived from series"@en .
+edt:observedProperty a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:Observation ; rdfs:range edt:ObservableProperty ; rdfs:label "propiedad observada"@es, "observed property"@en .
+edt:featureOfInterest a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:Observation ; rdfs:range edt:EspressoEntity ; rdfs:label "entidad de interés"@es, "feature of interest"@en .
+edt:recordedBy a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:Observation ; rdfs:range edt:Agent ; rdfs:label "registrada manualmente por"@es, "manually recorded by"@en ;
+    skos:definition "Agente que introdujo manualmente en el sistema el resultado obtenido con un instrumento externo; no identifica al sensor que produjo la medición."@es, "Agent that manually entered into the system the result obtained with an external instrument; it does not identify the sensor that produced the measurement."@en .
+edt:hasUnit a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:range edt:Unit ; rdfs:label "tiene unidad"@es, "has unit"@en .
+edt:hasParameterSpecification a owl:ObjectProperty ; rdfs:domain edt:ExtractionProfile ; rdfs:range edt:ProfileParameterSpecification ; rdfs:label "tiene especificación de parámetro"@es, "has parameter specification"@en .
+edt:forProperty a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:ProfileParameterSpecification ; rdfs:range edt:ObservableProperty ; rdfs:label "para propiedad"@es, "for property"@en .
 edt:derivedFromSpecification a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:ProfileParameterSpecification ;
     rdfs:range edt:ProfileParameterSpecification ;
-    rdfs:label "derivada de la especificación"@es ;
-    skos:definition "Enlaza una especificación con la que la origina por una transformación declarada, como la de caldera que se deriva del agua con la recta del acta de temperatura. La especificación de origen se juzga a través de la derivada y no exige una medida propia."@es .
-edt:hasSensoryEvaluation a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:SensoryEvaluation ; rdfs:label "tiene evaluación sensorial"@es .
+    rdfs:label "derivada de la especificación"@es, "derived from specification"@en ;
+    skos:definition "Enlaza una especificación con la que la origina por una transformación declarada, como la de caldera que se deriva del agua con la recta del acta de temperatura. La especificación de origen se juzga a través de la derivada y no exige una medida propia."@es, "Links a specification to the one it originates from through a declared transformation, such as the boiler specification derived from the water specification with the temperature calibration line. The source specification is judged through the derived one and does not require its own measurement."@en .
+edt:hasSensoryEvaluation a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:SensoryEvaluation ; rdfs:label "tiene evaluación sensorial"@es, "has sensory evaluation"@en .
 edt:comparesWithSensoryProfile a owl:ObjectProperty ;
     rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:SensoryProfile ;
-    rdfs:label "compara con perfil sensorial"@es ;
-    skos:definition "Indica la referencia usada al interpretar una evaluación observada sin afirmar coincidencia, calidad ni causalidad."@es .
-edt:evaluatesBeverage a owl:ObjectProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:EspressoBeverage ; rdfs:label "evalúa bebida"@es .
-edt:evaluatedBy a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:Agent ; rdfs:label "evaluada por"@es .
-edt:hasSensoryScore a owl:ObjectProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:SensoryScore ; rdfs:label "tiene puntuación sensorial"@es .
-edt:forSensoryAttribute a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:SensoryScore ; rdfs:range edt:SensoryAttribute ; rdfs:label "para atributo sensorial"@es .
-edt:measuresDimension a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:SensoryScore ; rdfs:range edt:SensoryDimension ; rdfs:label "mide dimensión"@es .
-edt:derivedFrom a owl:ObjectProperty ; rdfs:range owl:Thing ; rdfs:label "derivado de"@es ;
-    skos:definition "Relaciona conocimiento materializado con los hechos o resultados de los que procede."@es .
+    rdfs:label "compara con perfil sensorial"@es, "compares with sensory profile"@en ;
+    skos:definition "Indica la referencia usada al interpretar una evaluación observada sin afirmar coincidencia, calidad ni causalidad."@es, "Indicates the reference used when interpreting an observed evaluation, without asserting agreement, quality or causality."@en .
+edt:evaluatesBeverage a owl:ObjectProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:EspressoBeverage ; rdfs:label "evalúa bebida"@es, "evaluates beverage"@en .
+edt:evaluatedBy a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:Agent ; rdfs:label "evaluada por"@es, "evaluated by"@en .
+edt:hasSensoryScore a owl:ObjectProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:SensoryScore ; rdfs:label "tiene puntuación sensorial"@es, "has sensory score"@en .
+edt:forSensoryAttribute a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:SensoryScore ; rdfs:range edt:SensoryAttribute ; rdfs:label "para atributo sensorial"@es, "for sensory attribute"@en .
+edt:measuresDimension a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:SensoryScore ; rdfs:range edt:SensoryDimension ; rdfs:label "mide dimensión"@es, "measures dimension"@en .
+edt:derivedFrom a owl:ObjectProperty ; rdfs:range owl:Thing ; rdfs:label "derivado de"@es, "derived from"@en ;
+    skos:definition "Relaciona conocimiento materializado con los hechos o resultados de los que procede."@es, "Relates materialized knowledge to the facts or results it comes from."@en .
 edt:isDiagnosisOf a owl:ObjectProperty ;
     rdfs:domain edt:Diagnosis ;
     rdfs:range [ a owl:Class ; owl:unionOf (edt:SensoryDefect edt:TechnicalDeviation edt:ObservedDifference) ] ;
-    rdfs:label "es diagnóstico de"@es .
-edt:computedFrom a owl:ObjectProperty ; rdfs:domain edt:CalculatedObservation ; rdfs:range edt:Observation ; rdfs:label "calculada a partir de"@es .
+    rdfs:label "es diagnóstico de"@es, "is diagnosis of"@en .
+edt:computedFrom a owl:ObjectProperty ; rdfs:domain edt:CalculatedObservation ; rdfs:range edt:Observation ; rdfs:label "calculada a partir de"@es, "computed from"@en .
 edt:respondsTo a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:AdjustmentAction ;
     rdfs:range [ a owl:Class ; owl:unionOf (edt:Diagnosis edt:TechnicalDeviation edt:ObservedDifference edt:SensoryDefect) ] ;
-    rdfs:label "responde a"@es .
+    rdfs:label "responde a"@es, "responds to"@en .
 edt:hasKnowledgeBasis a owl:ObjectProperty ;
     rdfs:range edt:GuidanceKnowledge ;
-    rdfs:label "tiene base de conocimiento"@es ;
-    skos:definition "Relaciona una conclusión o recomendación con el conocimiento orientador que la sustenta, sin sustituir la evidencia del caso ni identificar al agente generador."@es .
+    rdfs:label "tiene base de conocimiento"@es, "has knowledge basis"@en ;
+    skos:definition "Relaciona una conclusión o recomendación con el conocimiento orientador que la sustenta, sin sustituir la evidencia del caso ni identificar al agente generador."@es, "Relates a conclusion or recommendation to the guidance knowledge that supports it, without replacing the evidence of the case or identifying the generating agent."@en .
 edt:basedOnCriterion a owl:ObjectProperty ;
     rdfs:subPropertyOf edt:hasKnowledgeBasis ;
     rdfs:range edt:EvaluationCriterion ;
-    rdfs:label "basada en criterio"@es .
+    rdfs:label "basada en criterio"@es, "based on criterion"@en .
 edt:supportedByHeuristic a owl:ObjectProperty ;
     rdfs:subPropertyOf edt:hasKnowledgeBasis ;
     rdfs:range edt:ExpertHeuristic ;
-    rdfs:label "respaldada por heurística"@es .
+    rdfs:label "respaldada por heurística"@es, "supported by heuristic"@en .
 edt:followsProcedure a owl:ObjectProperty ;
     rdfs:subPropertyOf edt:hasKnowledgeBasis ;
     rdfs:range edt:Procedure ;
-    rdfs:label "sigue procedimiento"@es .
+    rdfs:label "sigue procedimiento"@es, "follows procedure"@en .
 edt:supportedByEvidencePattern a owl:ObjectProperty ;
     rdfs:subPropertyOf edt:hasKnowledgeBasis ;
     rdfs:range edt:ContextualEvidencePattern ;
-    rdfs:label "respaldada por patrón de evidencia"@es .
+    rdfs:label "respaldada por patrón de evidencia"@es, "supported by evidence pattern"@en .
 edt:governedByPolicy a owl:ObjectProperty ;
     rdfs:subPropertyOf edt:hasKnowledgeBasis ;
     rdfs:range edt:ValidationPolicy ;
-    rdfs:label "regida por política"@es .
+    rdfs:label "regida por política"@es, "governed by policy"@en .
 edt:recommendedByRule a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:AdjustmentAction ;
     rdfs:range edt:Rule ;
-    rdfs:label "recomendada por regla (obsoleta)"@es ;
+    rdfs:label "recomendada por regla (obsoleta)"@es, "recommended by rule (deprecated)"@en ;
     owl:deprecated true ;
-    skos:note "Obsoleta desde EKO 3.0.0. Migre a la subpropiedad específica de hasKnowledgeBasis."@es .
-edt:adjustsProperty a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:AdjustmentAction ; rdfs:range edt:ObservableProperty ; rdfs:label "ajusta propiedad"@es .
-edt:hasRecommendedAction a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:RecommendedAction ; rdfs:label "tiene acción recomendada"@es .
-edt:hasWithheldRecommendation a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:Diagnosis ; rdfs:label "sin recomendación por"@es ; skos:definition "Enlaza una extracción con el diagnóstico tras el cual el razonador no formula recomendación, porque ninguna variable que la máquina comprueba aísla una causa."@es .
-edt:assertsKnowledge a owl:ObjectProperty ; rdfs:domain edt:KnowledgeProfile ; rdfs:range edt:KnowledgeEntity ; rdfs:label "afirma conocimiento"@es .
-edt:generatedBy a owl:ObjectProperty ; rdfs:range edt:Agent ; rdfs:subPropertyOf prov:wasAttributedTo ; rdfs:label "generado por"@es .
-edt:hasTrialExtraction a owl:ObjectProperty ; rdfs:domain edt:EspressoCalibration ; rdfs:range edt:EspressoExtraction ; rdfs:label "tiene extracción de prueba"@es .
-edt:hasParameterAdjustment a owl:ObjectProperty ; rdfs:domain edt:EspressoCalibration ; rdfs:range edt:ParameterAdjustment ; owl:inverseOf edt:partOfCalibration ; rdfs:label "tiene ajuste de parámetro"@es .
-edt:partOfCalibration a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:ParameterAdjustment ; rdfs:range edt:EspressoCalibration ; rdfs:label "forma parte de calibración"@es .
-edt:validatesProfile a owl:ObjectProperty ; rdfs:domain edt:EspressoCalibration ; rdfs:range edt:ExtractionProfile ; rdfs:label "valida perfil"@es .
-edt:producesProfile a owl:ObjectProperty ; rdfs:domain edt:EspressoCalibration ; rdfs:range edt:ExtractionProfile ; rdfs:label "produce perfil"@es .
-edt:occurredUnder a owl:ObjectProperty ; rdfs:domain edt:ProcessEntity ; rdfs:range edt:EnvironmentalCondition ; rdfs:label "ocurrió bajo"@es ;
-    skos:definition "Relaciona neutralmente un proceso con la condición ambiental vigente, sin afirmar causalidad."@es .
-edt:changesProperty a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:ParameterAdjustment ; rdfs:range edt:ObservableProperty ; rdfs:label "modifica propiedad"@es .
+    skos:note "Obsoleta desde EKO 3.0.0. Migre a la subpropiedad específica de hasKnowledgeBasis."@es, "Deprecated since EKO 3.0.0. Migrate to the specific subproperty of hasKnowledgeBasis."@en .
+edt:adjustsProperty a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:AdjustmentAction ; rdfs:range edt:ObservableProperty ; rdfs:label "ajusta propiedad"@es, "adjusts property"@en .
+edt:hasRecommendedAction a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:RecommendedAction ; rdfs:label "tiene acción recomendada"@es, "has recommended action"@en .
+edt:hasWithheldRecommendation a owl:ObjectProperty ; rdfs:domain edt:EspressoExtraction ; rdfs:range edt:Diagnosis ; rdfs:label "sin recomendación por"@es, "has withheld recommendation"@en ; skos:definition "Enlaza una extracción con el diagnóstico tras el cual el razonador no formula recomendación, porque ninguna variable que la máquina comprueba aísla una causa."@es, "Links an extraction to the diagnosis after which the reasoner makes no recommendation, because no variable that the machine checks isolates a cause."@en .
+edt:assertsKnowledge a owl:ObjectProperty ; rdfs:domain edt:KnowledgeProfile ; rdfs:range edt:KnowledgeEntity ; rdfs:label "afirma conocimiento"@es, "asserts knowledge"@en .
+edt:generatedBy a owl:ObjectProperty ; rdfs:range edt:Agent ; rdfs:subPropertyOf prov:wasAttributedTo ; rdfs:label "generado por"@es, "generated by"@en .
+edt:hasTrialExtraction a owl:ObjectProperty ; rdfs:domain edt:EspressoCalibration ; rdfs:range edt:EspressoExtraction ; rdfs:label "tiene extracción de prueba"@es, "has trial extraction"@en .
+edt:hasParameterAdjustment a owl:ObjectProperty ; rdfs:domain edt:EspressoCalibration ; rdfs:range edt:ParameterAdjustment ; owl:inverseOf edt:partOfCalibration ; rdfs:label "tiene ajuste de parámetro"@es, "has parameter adjustment"@en .
+edt:partOfCalibration a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:ParameterAdjustment ; rdfs:range edt:EspressoCalibration ; rdfs:label "forma parte de calibración"@es, "part of calibration"@en .
+edt:validatesProfile a owl:ObjectProperty ; rdfs:domain edt:EspressoCalibration ; rdfs:range edt:ExtractionProfile ; rdfs:label "valida perfil"@es, "validates profile"@en .
+edt:producesProfile a owl:ObjectProperty ; rdfs:domain edt:EspressoCalibration ; rdfs:range edt:ExtractionProfile ; rdfs:label "produce perfil"@es, "produces profile"@en .
+edt:occurredUnder a owl:ObjectProperty ; rdfs:domain edt:ProcessEntity ; rdfs:range edt:EnvironmentalCondition ; rdfs:label "ocurrió bajo"@es, "occurred under"@en ;
+    skos:definition "Relaciona neutralmente un proceso con la condición ambiental vigente, sin afirmar causalidad."@es, "Neutrally relates a process to the prevailing environmental condition, without asserting causality."@en .
+edt:changesProperty a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:ParameterAdjustment ; rdfs:range edt:ObservableProperty ; rdfs:label "modifica propiedad"@es, "changes property"@en .
 edt:targetsOutcome a owl:ObjectProperty ;
     rdfs:domain edt:ParameterAdjustment ;
     rdfs:range [ a owl:Class ; owl:unionOf (edt:ObservableProperty edt:SensoryDefect) ] ;
-    rdfs:label "se dirige al resultado"@es ;
-    skos:definition "Declara la propiedad observable o el defecto sensorial que un ajuste pretende corregir. Expresa intención y no afirma que el resultado haya sido causado ni corregido por el ajuste."@es .
-edt:basedOnRecommendation a owl:ObjectProperty ; rdfs:domain edt:ParameterAdjustment ; rdfs:range edt:RecommendedAction ; rdfs:label "basado en recomendación"@es .
+    rdfs:label "se dirige al resultado"@es, "targets outcome"@en ;
+    skos:definition "Declara la propiedad observable o el defecto sensorial que un ajuste pretende corregir. Expresa intención y no afirma que el resultado haya sido causado ni corregido por el ajuste."@es, "Declares the observable property or sensory defect that an adjustment intends to correct. It expresses intent and does not assert that the outcome was caused or corrected by the adjustment."@en .
+edt:basedOnRecommendation a owl:ObjectProperty ; rdfs:domain edt:ParameterAdjustment ; rdfs:range edt:RecommendedAction ; rdfs:label "basado en recomendación"@es, "based on recommendation"@en .
 edt:evaluatesOutcomeOf a owl:ObjectProperty ;
     rdfs:domain edt:EspressoExtraction ; rdfs:range edt:ParameterAdjustment ;
-    rdfs:label "evalúa resultado de"@es ;
-    skos:definition "Indica que una extracción posterior fue designada para evaluar el resultado observado después de un ajuste; no afirma que el ajuste haya causado ese resultado."@es .
+    rdfs:label "evalúa resultado de"@es, "evaluates outcome of"@en ;
+    skos:definition "Indica que una extracción posterior fue designada para evaluar el resultado observado después de un ajuste; no afirma que el ajuste haya causado ese resultado."@es, "Indicates that a later extraction was designated to evaluate the outcome observed after an adjustment; it does not assert that the adjustment caused that outcome."@en .
 edt:assessesAdjustment a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:AdjustmentOutcomeAssessment ; rdfs:range edt:ParameterAdjustment ;
-    rdfs:label "evalúa ajuste"@es .
+    rdfs:label "evalúa ajuste"@es, "assesses adjustment"@en .
 edt:hasOutcomeCategory a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:AdjustmentOutcomeAssessment ; rdfs:range edt:AdjustmentOutcomeCategory ;
-    rdfs:label "tiene categoría de resultado"@es .
+    rdfs:label "tiene categoría de resultado"@es, "has outcome category"@en .
 edt:assessesExtraction a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:TechnicalConformanceAssessment ; rdfs:range edt:EspressoExtraction ;
-    rdfs:label "evalúa extracción"@es .
+    rdfs:label "evalúa extracción"@es, "assesses extraction"@en .
 edt:againstProfile a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:TechnicalConformanceAssessment ; rdfs:range edt:ExtractionProfile ;
-    rdfs:label "contra perfil"@es .
+    rdfs:label "contra perfil"@es, "against profile"@en .
 edt:hasTechnicalConformance a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:TechnicalConformanceAssessment ; rdfs:range edt:TechnicalConformanceCategory ;
-    rdfs:label "tiene conformidad técnica"@es .
+    rdfs:label "tiene conformidad técnica"@es, "has technical conformance"@en .
 edt:hasSensoryAcceptanceStatus a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:SensoryAcceptanceStatus ;
-    rdfs:label "tiene estado de aceptación sensorial"@es .
-edt:hasValidationStatus a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:range edt:ValidationStatus ; rdfs:label "tiene estado de validación"@es .
-edt:allowsManualAdjustmentOf a owl:ObjectProperty ; rdfs:domain edt:EquipmentEntity ; rdfs:range edt:ObservableProperty ; rdfs:label "permite ajuste manual de"@es .
-edt:allowsAutomaticAdjustmentOf a owl:ObjectProperty ; rdfs:domain edt:EquipmentEntity ; rdfs:range edt:ObservableProperty ; rdfs:label "permite ajuste automático de"@es .
-edt:precedes a owl:ObjectProperty ; rdfs:domain edt:ProcessEntity ; rdfs:range edt:ProcessEntity ; rdfs:label "precede"@es ; skos:definition "Indica sucesión temporal sin afirmar causalidad."@es .
-edt:hasEvidence a owl:ObjectProperty ; rdfs:range owl:Thing ; rdfs:label "tiene evidencia"@es .
+    rdfs:label "tiene estado de aceptación sensorial"@es, "has sensory acceptance status"@en .
+edt:hasValidationStatus a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:range edt:ValidationStatus ; rdfs:label "tiene estado de validación"@es, "has validation status"@en .
+edt:allowsManualAdjustmentOf a owl:ObjectProperty ; rdfs:domain edt:EquipmentEntity ; rdfs:range edt:ObservableProperty ; rdfs:label "permite ajuste manual de"@es, "allows manual adjustment of"@en .
+edt:allowsAutomaticAdjustmentOf a owl:ObjectProperty ; rdfs:domain edt:EquipmentEntity ; rdfs:range edt:ObservableProperty ; rdfs:label "permite ajuste automático de"@es, "allows automatic adjustment of"@en .
+edt:precedes a owl:ObjectProperty ; rdfs:domain edt:ProcessEntity ; rdfs:range edt:ProcessEntity ; rdfs:label "precede"@es, "precedes"@en ; skos:definition "Indica sucesión temporal sin afirmar causalidad."@es, "Indicates temporal succession without asserting causality."@en .
+edt:hasEvidence a owl:ObjectProperty ; rdfs:range owl:Thing ; rdfs:label "tiene evidencia"@es, "has evidence"@en .
 edt:explains a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain edt:ExplanationAssertion ;
     rdfs:range [ a owl:Class ; owl:unionOf (edt:Diagnosis edt:ObservedDifference) ] ;
-    rdfs:label "explica"@es .
+    rdfs:label "explica"@es, "explains"@en .
 edt:generatedByRule a owl:ObjectProperty ;
     rdfs:range edt:Rule ;
-    rdfs:label "generado por regla (obsoleta)"@es ;
+    rdfs:label "generado por regla (obsoleta)"@es, "generated by rule (deprecated)"@en ;
     owl:deprecated true ;
-    skos:note "Obsoleta desde EKO 3.0.0. Use basedOnCriterion, supportedByHeuristic, followsProcedure o supportedByEvidencePattern según el significado."@es .
-edt:comparesExtraction a owl:ObjectProperty ; rdfs:domain edt:ObservedDifference ; rdfs:range edt:EspressoExtraction ; rdfs:label "compara extracción"@es .
+    skos:note "Obsoleta desde EKO 3.0.0. Use basedOnCriterion, supportedByHeuristic, followsProcedure o supportedByEvidencePattern según el significado."@es, "Deprecated since EKO 3.0.0. Use basedOnCriterion, supportedByHeuristic, followsProcedure or supportedByEvidencePattern according to the meaning."@en .
+edt:comparesExtraction a owl:ObjectProperty ; rdfs:domain edt:ObservedDifference ; rdfs:range edt:EspressoExtraction ; rdfs:label "compara extracción"@es, "compares extraction"@en .
 edt:hasSensoryDescriptor a owl:ObjectProperty ;
     rdfs:domain [ a owl:Class ; owl:unionOf (edt:SensoryEvaluation edt:SensoryProfile) ] ;
-    rdfs:range edt:SensoryDescriptor ; rdfs:label "tiene descriptor sensorial"@es .
-edt:hasPerceivedDefect a owl:ObjectProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:SensoryDefect ; rdfs:label "tiene defecto percibido"@es .
+    rdfs:range edt:SensoryDescriptor ; rdfs:label "tiene descriptor sensorial"@es, "has sensory descriptor"@en .
+edt:hasPerceivedDefect a owl:ObjectProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:SensoryDefect ; rdfs:label "tiene defecto percibido"@es, "has perceived defect"@en .
 # Lo que el barista dijo y la lista no tiene, tal cual (EKO 3.5.0). Es texto,
 # no vocabulario: las reglas no lo leen y no cuenta como descriptor. Sirve para
 # que las consultas devuelvan todo lo que se dijo y para ver qué le falta a la
 # lista; la ficha CVA hace lo mismo con su campo de notas.
 edt:writtenDescriptor a owl:DatatypeProperty ;
     rdfs:domain [ a owl:Class ; owl:unionOf (edt:SensoryEvaluation edt:SensoryProfile) ] ;
-    rdfs:range rdf:langString ; rdfs:label "descriptor escrito"@es .
-edt:hasMainTaste a owl:ObjectProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:BasicTaste ; rdfs:label "tiene sabor básico principal"@es .
-edt:hasMouthfeelTexture a owl:ObjectProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:MouthfeelTexture ; rdfs:label "tiene tipo de sensación en boca"@es .
-edt:hasDesiredSensoryChange a owl:ObjectProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:DesiredSensoryChange ; rdfs:label "tiene cambio sensorial deseado"@es .
-edt:targetsSensoryAttribute a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:DesiredSensoryChange ; rdfs:range edt:SensoryAttribute ; rdfs:label "se dirige al atributo sensorial"@es .
-edt:desiredDirection a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:DesiredSensoryChange ; rdfs:range edt:DesiredChangeDirection ; rdfs:label "dirección deseada"@es .
-edt:recommendedDirection a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:RecommendedAction ; rdfs:range edt:AdjustmentDirection ; rdfs:label "dirección recomendada"@es .
-edt:hasVariety a owl:ObjectProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range edt:CoffeeVariety ; rdfs:label "tiene variedad"@es .
-edt:hasPostHarvestProcess a owl:ObjectProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range edt:PostHarvestProcessType ; rdfs:label "tiene proceso poscosecha"@es .
-edt:hasRoastLevel a owl:ObjectProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range edt:RoastLevel ; rdfs:label "tiene nivel de tueste"@es .
-edt:hasTerroir a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range edt:Terroir ; rdfs:label "tiene terroir"@es .
-edt:hasAltitude a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:Terroir ; rdfs:range edt:AltitudeSpecification ; rdfs:label "tiene altitud"@es .
-edt:hasGrindCoarsenessCategory a owl:ObjectProperty ; rdfs:domain edt:CoffeeDose ; rdfs:range edt:GrindCoarsenessCategory ; rdfs:label "tiene categoría de molienda"@es .
+    rdfs:range rdf:langString ; rdfs:label "descriptor escrito"@es, "written descriptor"@en .
+edt:hasMainTaste a owl:ObjectProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:BasicTaste ; rdfs:label "tiene sabor básico principal"@es, "has main basic taste"@en .
+edt:hasMouthfeelTexture a owl:ObjectProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:MouthfeelTexture ; rdfs:label "tiene tipo de sensación en boca"@es, "has mouthfeel texture"@en .
+edt:hasDesiredSensoryChange a owl:ObjectProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range edt:DesiredSensoryChange ; rdfs:label "tiene cambio sensorial deseado"@es, "has desired sensory change"@en .
+edt:targetsSensoryAttribute a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:DesiredSensoryChange ; rdfs:range edt:SensoryAttribute ; rdfs:label "se dirige al atributo sensorial"@es, "targets sensory attribute"@en .
+edt:desiredDirection a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:DesiredSensoryChange ; rdfs:range edt:DesiredChangeDirection ; rdfs:label "dirección deseada"@es, "desired direction"@en .
+edt:recommendedDirection a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:RecommendedAction ; rdfs:range edt:AdjustmentDirection ; rdfs:label "dirección recomendada"@es, "recommended direction"@en .
+edt:hasVariety a owl:ObjectProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range edt:CoffeeVariety ; rdfs:label "tiene variedad"@es, "has variety"@en .
+edt:hasPostHarvestProcess a owl:ObjectProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range edt:PostHarvestProcessType ; rdfs:label "tiene proceso poscosecha"@es, "has post-harvest process"@en .
+edt:hasRoastLevel a owl:ObjectProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range edt:RoastLevel ; rdfs:label "tiene nivel de tueste"@es, "has roast level"@en .
+edt:hasTerroir a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range edt:Terroir ; rdfs:label "tiene terroir"@es, "has terroir"@en .
+edt:hasAltitude a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain edt:Terroir ; rdfs:range edt:AltitudeSpecification ; rdfs:label "tiene altitud"@es, "has altitude"@en .
+edt:hasGrindCoarsenessCategory a owl:ObjectProperty ; rdfs:domain edt:CoffeeDose ; rdfs:range edt:GrindCoarsenessCategory ; rdfs:label "tiene categoría de molienda"@es, "has grind coarseness category"@en .
 
 #################################################################
 # Datatype properties
 #################################################################
 
-edt:numericValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:QuantitativeObservation ; rdfs:range xsd:decimal ; rdfs:label "valor numérico"@es .
+edt:numericValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:QuantitativeObservation ; rdfs:range xsd:decimal ; rdfs:label "valor numérico"@es, "numeric value"@en .
 edt:targetValue a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:domain edt:ProfileParameterSpecification ; rdfs:range xsd:decimal ;
-    rdfs:label "valor objetivo"@es ;
-    skos:definition "Valor esperado de una especificación. Con toleranceValue define el intervalo cerrado targetValue ± toleranceValue. Sin toleranceValue no define límites: la especificación no puede juzgarse y queda sin cubrir, porque un margen de cero sería una tolerancia que nadie decidió."@es .
-edt:minimumValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ProfileParameterSpecification ; rdfs:range xsd:decimal ; rdfs:label "valor mínimo"@es .
-edt:maximumValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ProfileParameterSpecification ; rdfs:range xsd:decimal ; rdfs:label "valor máximo"@es .
-edt:toleranceValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ProfileParameterSpecification ; rdfs:range xsd:decimal ; rdfs:label "tolerancia"@es .
-edt:scoreValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:SensoryScore ; rdfs:range xsd:integer ; rdfs:label "puntuación"@es .
-edt:evaluationTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de evaluación"@es .
-edt:resultTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:Observation ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de resultado"@es .
-edt:startTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ProcessEntity ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de inicio"@es .
-edt:endTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ProcessEntity ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de fin"@es .
-edt:validFrom a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:EnvironmentalCondition ; rdfs:range xsd:dateTime ; rdfs:label "válida desde"@es .
-edt:validUntil a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:EnvironmentalCondition ; rdfs:range xsd:dateTime ; rdfs:label "válida hasta"@es .
-edt:textValue a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "valor textual"@es .
-edt:statusCode a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "código de estado"@es .
-edt:description a owl:DatatypeProperty ; rdfs:range rdf:langString ; rdfs:label "descripción"@es .
-edt:previousNumericValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ParameterAdjustment ; rdfs:range xsd:decimal ; rdfs:label "valor numérico anterior"@es .
-edt:newNumericValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ParameterAdjustment ; rdfs:range xsd:decimal ; rdfs:label "valor numérico nuevo"@es .
-edt:dataReference a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ObservationSeries ; rdfs:range xsd:anyURI ; rdfs:label "referencia de datos"@es .
-edt:calculationMethodReference a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:range xsd:anyURI ; rdfs:label "referencia del método de cálculo"@es .
-edt:lotIdentifier a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range xsd:string ; rdfs:label "identificador de lote"@es ;
-    skos:definition "Código de lote declarado para el café."@es .
-edt:bagIdentifier a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range xsd:string ; rdfs:label "identificador de bolsa"@es ;
-    skos:definition "Código que identifica la bolsa o empaque del que procede el café."@es .
-edt:commercialReference a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range xsd:string ; rdfs:label "referencia comercial"@es ;
-    skos:definition "Nombre o código comercial declarado para el café."@es .
-edt:roastDate a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range xsd:dateTime ; rdfs:label "fecha de tueste"@es ;
-    skos:definition "Fecha de tueste representada como fecha y hora para conservar compatibilidad con el mapa de tipos de datos de OWL 2."@es .
-edt:regionName a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:Terroir ; rdfs:range xsd:string ; rdfs:label "nombre de región"@es .
-edt:quantityValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:AltitudeSpecification ; rdfs:range xsd:decimal ; rdfs:label "valor de cantidad"@es .
-edt:soilCharacteristics a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:Terroir ; rdfs:range xsd:string ; rdfs:label "características del suelo"@es .
-edt:mineralComposition a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:Terroir ; rdfs:range xsd:string ; rdfs:label "composición mineral"@es ;
-    skos:definition "Composición mineral declarada; solo debe registrarse cuando se conoce la fuente de la información."@es .
-edt:validationTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:RecommendedAction ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de validación"@es .
-edt:validationRationale a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:RecommendedAction ; rdfs:range rdf:langString ; rdfs:label "justificación de validación"@es .
-edt:assessmentTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:TechnicalConformanceAssessment ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de evaluación técnica"@es ;
-    skos:definition "Instante en que estuvo disponible la evidencia más reciente utilizada por la evaluación técnica."@es .
-edt:acceptanceRationale a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range rdf:langString ; rdfs:label "justificación de aceptación sensorial"@es .
+    rdfs:label "valor objetivo"@es, "target value"@en ;
+    skos:definition "Valor esperado de una especificación. Con toleranceValue define el intervalo cerrado targetValue ± toleranceValue. Sin toleranceValue no define límites: la especificación no puede juzgarse y queda sin cubrir, porque un margen de cero sería una tolerancia que nadie decidió."@es, "Expected value of a specification. With toleranceValue it defines the closed interval targetValue ± toleranceValue. Without toleranceValue it defines no limits: the specification cannot be judged and remains uncovered, because a zero margin would be a tolerance that nobody decided."@en .
+edt:minimumValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ProfileParameterSpecification ; rdfs:range xsd:decimal ; rdfs:label "valor mínimo"@es, "minimum value"@en .
+edt:maximumValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ProfileParameterSpecification ; rdfs:range xsd:decimal ; rdfs:label "valor máximo"@es, "maximum value"@en .
+edt:toleranceValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ProfileParameterSpecification ; rdfs:range xsd:decimal ; rdfs:label "tolerancia"@es, "tolerance"@en .
+edt:scoreValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:SensoryScore ; rdfs:range xsd:integer ; rdfs:label "puntuación"@es, "score"@en .
+edt:evaluationTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de evaluación"@es, "evaluation time"@en .
+edt:resultTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:Observation ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de resultado"@es, "result time"@en .
+edt:startTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ProcessEntity ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de inicio"@es, "start time"@en .
+edt:endTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ProcessEntity ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de fin"@es, "end time"@en .
+edt:validFrom a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:EnvironmentalCondition ; rdfs:range xsd:dateTime ; rdfs:label "válida desde"@es, "valid from"@en .
+edt:validUntil a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:EnvironmentalCondition ; rdfs:range xsd:dateTime ; rdfs:label "válida hasta"@es, "valid until"@en .
+edt:textValue a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "valor textual"@es, "text value"@en .
+edt:statusCode a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "código de estado"@es, "status code"@en .
+edt:description a owl:DatatypeProperty ; rdfs:range rdf:langString ; rdfs:label "descripción"@es, "description"@en .
+edt:previousNumericValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ParameterAdjustment ; rdfs:range xsd:decimal ; rdfs:label "valor numérico anterior"@es, "previous numeric value"@en .
+edt:newNumericValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ParameterAdjustment ; rdfs:range xsd:decimal ; rdfs:label "valor numérico nuevo"@es, "new numeric value"@en .
+edt:dataReference a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:ObservationSeries ; rdfs:range xsd:anyURI ; rdfs:label "referencia de datos"@es, "data reference"@en .
+edt:calculationMethodReference a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:range xsd:anyURI ; rdfs:label "referencia del método de cálculo"@es, "calculation method reference"@en .
+edt:lotIdentifier a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range xsd:string ; rdfs:label "identificador de lote"@es, "lot identifier"@en ;
+    skos:definition "Código de lote declarado para el café."@es, "Lot code declared for the coffee."@en .
+edt:bagIdentifier a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range xsd:string ; rdfs:label "identificador de bolsa"@es, "bag identifier"@en ;
+    skos:definition "Código que identifica la bolsa o empaque del que procede el café."@es, "Code that identifies the bag or package the coffee comes from."@en .
+edt:commercialReference a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range xsd:string ; rdfs:label "referencia comercial"@es, "commercial reference"@en ;
+    skos:definition "Nombre o código comercial declarado para el café."@es, "Commercial name or code declared for the coffee."@en .
+edt:roastDate a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:CoffeeMaterial ; rdfs:range xsd:dateTime ; rdfs:label "fecha de tueste"@es, "roast date"@en ;
+    skos:definition "Fecha de tueste representada como fecha y hora para conservar compatibilidad con el mapa de tipos de datos de OWL 2."@es, "Roast date represented as date and time to remain compatible with the OWL 2 datatype map."@en .
+edt:regionName a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:Terroir ; rdfs:range xsd:string ; rdfs:label "nombre de región"@es, "region name"@en .
+edt:quantityValue a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:AltitudeSpecification ; rdfs:range xsd:decimal ; rdfs:label "valor de cantidad"@es, "quantity value"@en .
+edt:soilCharacteristics a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:Terroir ; rdfs:range xsd:string ; rdfs:label "características del suelo"@es, "soil characteristics"@en .
+edt:mineralComposition a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:Terroir ; rdfs:range xsd:string ; rdfs:label "composición mineral"@es, "mineral composition"@en ;
+    skos:definition "Composición mineral declarada; solo debe registrarse cuando se conoce la fuente de la información."@es, "Declared mineral composition; it should only be recorded when the source of the information is known."@en .
+edt:validationTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:RecommendedAction ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de validación"@es, "validation time"@en .
+edt:validationRationale a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:RecommendedAction ; rdfs:range rdf:langString ; rdfs:label "justificación de validación"@es, "validation rationale"@en .
+edt:assessmentTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:TechnicalConformanceAssessment ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de evaluación técnica"@es, "technical assessment time"@en ;
+    skos:definition "Instante en que estuvo disponible la evidencia más reciente utilizada por la evaluación técnica."@es, "Instant at which the most recent evidence used by the technical assessment became available."@en .
+edt:acceptanceRationale a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:SensoryEvaluation ; rdfs:range rdf:langString ; rdfs:label "justificación de aceptación sensorial"@es, "sensory acceptance rationale"@en .
 edt:sensoryDescriptionText a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:domain edt:DeclaredSensoryProfile ; rdfs:range rdf:langString ;
-    rdfs:label "texto sensorial declarado"@es ;
-    skos:definition "Transcripción del texto sensorial de la fuente, conservada además de los descriptores normalizados."@es .
-edt:recordingTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:Observation ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de registro manual"@es .
+    rdfs:label "texto sensorial declarado"@es, "declared sensory text"@en ;
+    skos:definition "Transcripción del texto sensorial de la fuente, conservada además de los descriptores normalizados."@es, "Transcription of the source's sensory text, kept in addition to the normalized descriptors."@en .
+edt:recordingTime a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain edt:Observation ; rdfs:range xsd:dateTime ; rdfs:label "tiempo de registro manual"@es, "manual recording time"@en .
 
 #################################################################
 # Controlled vocabulary

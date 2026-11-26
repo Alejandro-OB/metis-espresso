@@ -1,0 +1,61 @@
+# Publica la documentación de EKO en GitHub Pages.
+#
+# La página se genera aquí, a partir de los .ttl del repositorio, y no se
+# guarda como HTML en el árbol: una copia generada a mano se desactualizaría
+# la primera vez que cambie la ontología. Junto a cada página van los .ttl,
+# para que w3id.org pueda dirigir a la documentación o al archivo según lo
+# que pida quien consulta.
+name: Documentación de EKO
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "knowledge/ontology/ontology/**"
+      - ".github/workflows/eko-docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar pyLODE
+        run: pip install pylode==3.6.1
+      - name: Generar las páginas
+        run: |
+          set -e
+          src=knowledge/ontology/ontology
+          mkdir -p site/acquisition site/simulation
+          pylode "$src/espresso-dt.ttl" -o site/index.html
+          pylode "$src/espresso-acquisition.ttl" -o site/acquisition/index.html
+          pylode "$src/espresso-simulation.ttl" -o site/simulation/index.html
+          cp "$src/espresso-dt.ttl" site/espresso-dt.ttl
+          cp "$src/espresso-acquisition.ttl" site/acquisition/espresso-acquisition.ttl
+          cp "$src/espresso-simulation.ttl" site/simulation/espresso-simulation.ttl
+          touch site/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

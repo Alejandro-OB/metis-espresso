@@ -14,7 +14,7 @@ from pyshacl import validate as shacl_validate
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from reasoning.materialize import materialize, materialize_profile_deviations  # noqa: E402
+from reasoning.materialize import label as term_label, materialize, materialize_profile_deviations  # noqa: E402
 
 
 ONTOLOGY = ROOT / "ontology" / "espresso-dt.ttl"
@@ -1460,6 +1460,20 @@ def main():
     if not all(fragment in first_text for fragment in ("temperatura del agua", "insuficiente", "acidez excesiva")):
         return fail("la conclusión del primer ajuste del caso 4 no nombra el parámetro, el defecto y la insuficiencia")
     print("OK: el caso 4 muestra que subir el agua 92,0→92,5 °C no corrigió la acidez (insuficiente) y que 92,5→93,5 °C sí, con aceptación explícita del barista")
+
+    # EKO se publica para lectores de fuera: cada término con etiqueta en español
+    # la lleva también en inglés, y las explicaciones del razonador siguen en
+    # español aunque el término tenga las dos.
+    terms = set()
+    for kind in (OWL.Class, OWL.ObjectProperty, OWL.DatatypeProperty, OWL.AnnotationProperty):
+        terms.update(s for s in graph.subjects(RDF.type, kind) if isinstance(s, URIRef))
+    for term in sorted(terms):
+        langs = {v.language for v in graph.objects(term, RDFS.label)}
+        if "es" in langs and "en" not in langs:
+            return fail(f"{term} tiene etiqueta en español y no en inglés")
+    if term_label(graph, EDT.targetValue) != "valor objetivo":
+        return fail("las explicaciones del razonador no tomaron la etiqueta en español")
+    print("OK: los términos de EKO tienen etiqueta en español y en inglés, y el razonador explica en español")
 
     print("PASS: EKO 3.5.0 y el módulo opcional de adquisición verificados sin mezclar responsabilidades")
     return 0
