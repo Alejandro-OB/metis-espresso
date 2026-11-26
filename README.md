@@ -134,7 +134,9 @@ The source code (`firmware/`, `platform/`, `model/` and the scripts in
 its shapes (`ontology/owl/`), the tasting data (`data/`), the documentation and
 the hardware designs (`hardware/`) are released under the
 [Creative Commons Attribution 4.0 International licence](https://creativecommons.org/licenses/by/4.0/)
-(CC BY 4.0). To cite this work, see [`CITATION.cff`](CITATION.cff).
+(CC BY 4.0). To cite this work, use the DOI
+[10.5281/zenodo.24565331](https://doi.org/10.5281/zenodo.24565331) (all versions)
+or see [`CITATION.cff`](CITATION.cff).
 
 ## En español
 
